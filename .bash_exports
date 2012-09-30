@@ -1,0 +1,225 @@
+#!/bin/bash
+#
+# Exported Shell Variables
+# ------------------------
+#
+# @author paolodedios
+#
+########################################################################################
+
+########################################################################################
+# Identify OS and Machine
+########################################################################################
+
+export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
+export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export PLATFORM="$MACHINE-$OS-$OSVERSION"
+
+######################################################################################
+# Configure default editor
+######################################################################################
+
+# Make vim the default editor
+export EDITOR="vim"
+
+######################################################################################
+# Config file editing aliases
+######################################################################################
+
+# Put list of remote hosts in ~/.hosts
+export SYS_HOSTFILE=/etc/hosts   
+export MY_HOSTFILE=$HOME/.hosts
+
+alias hostedit='sudo vim ${SYS_HOSTFILE}'
+alias myhostedit='vim ${MY_HOSTFILE}'
+
+######################################################################################
+# Command history customization
+######################################################################################
+
+export HISTSIZE=32768
+export HISTFILESIZE=$HISTSIZE
+
+# Avoid succesive duplicates in the bash command history
+export HISTCONTROL=ignoredups
+
+# Make some commands not show up in history
+export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
+ 
+# Force bash to re-read the history file and then append commands to the history
+# every time a prompt is shown, instead of after closing the session.
+PROMPT_COMMAND='history -a'
+
+# Don’t clear the screen after quitting a manual page
+export MANPAGER="less -X"
+
+# Highlight section titles in manual pages
+export LESS_TERMCAP_md="$ORANGE"
+
+######################################################################################
+# Declare platform specific applications
+######################################################################################
+
+function setupWorkDevEnvironment()
+{
+    # Declare platform agnostic applications
+    if [ -d $LOCAL_APP_HOME ]; then
+        # Declare platform agnostic applications
+        export PLAY_FRAMEWORK_VERSION=play-1.2.5
+    fi
+    
+    # Add local applications to PATH
+    if [ -d $LOCAL_APP_HOME/bin ]; then
+
+        # Create Play! Framework PATH variable
+        if [ -d $LOCAL_BIN_PATH/$PLAY_FRAMEWORK_VERSION ]; then
+            export PLAY_FRAMEWORK_HOME=$LOCAL_BIN_PATH/$PLAY_FRAMEWORK_VERSION
+        fi
+
+        # Append platform agnostic tools to PATH
+        export PATH=$PLAY_FRAMEWORK_HOME:$PATH  
+    fi
+}
+
+function setupLocalDevEnvironment()
+{
+    # Declare platform agnostic applications
+    if [ -d $LOCAL_APP_HOME ]; then
+        # Declare platform agnostic applications
+        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
+        export CSVKIT_VERSION=csvkit-0.4.4
+        export VISUALVM_VERSION=visualvm-1.3.4
+
+        if [ "$OS" = "darwin" ]; then
+            # Declare OS X specific applications
+            export MYSQL_DB_VERSION=mysql-5.5.21-osx-x86_64
+        else
+            # Default to linux version
+            export MYSQL_DB_VERSION=mysql-5.5.21-linux-x86_64
+        fi
+        
+    fi
+    
+    # Add local applications to PATH
+    if [ -d $LOCAL_APP_HOME/bin ]; then
+
+         # Create local bin PATH variable
+        export LOCAL_BIN_PATH=$LOCAL_APP_HOME/bin
+
+        # Create EC2 PATH variable
+        if [ -d $LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION ]; then
+            export EC2_HOME=$LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION
+        fi
+    
+        # Create CSVkit PATH variable
+        if [ -d $LOCAL_BIN_PATH/$CSVKIT_VERSION ]; then
+            export CSVKIT_HOME=$LOCAL_BIN_PATH/$CSVKIT_VERSION
+        fi
+        
+        # Create VisualVM PATH variable
+        if [ -d $LOCAL_BIN_PATH/$VISUALVM_VERSION ]; then
+            export VISUALVM_HOME=$LOCAL_BIN_PATH/$VISUALVM_VERSION
+        fi
+
+        # Create local MySQL database tool PATH variable
+        if [ -d $LOCAL_BIN_PATH/$MYSQL_DB_VERSION ]; then
+            export MYSQL_DB_HOME=$LOCAL_BIN_PATH/$MYSQL_DB_VERSION
+        fi
+
+        # Append platform agnostic tools to PATH
+        export PATH=$LOCAL_BIN_PATH:$EC2_HOME/bin:$CSVKIT_HOME:$VISUALVM_HOME/bin:$MYSQL_DB_HOME/bin:$PATH  
+    fi
+
+
+
+    # Add local data and log folder to the path, if you have it.
+    if [ -d $LOCAL_APP_HOME/var ]; then
+        export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
+        export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
+    fi
+
+    # Personal projects directory
+    if [ -d $HOME/$LOCAL_PROJECTS ]; then
+        export PROJECT_HOME=$HOME/$LOCAL_PROJECTS
+    fi
+}
+
+function setupPythonVirtualEnv()
+{
+    # Python virtual environment
+    if [ -e `type -p virtualenvwrapper.sh` ]; then
+
+        # virtualenv working directory
+        export WORKON_HOME=$HOME/.virtualenvs
+
+        # make pip use the same directory for virtualenvs as virtualenvwrapper
+        export PIP_VIRTUALENV_BASE=$WORKON_HOME
+
+        # makes pip detect an active virtualenv and install to it, without
+        # having to pass it the -E parameter
+        export PIP_RESPECT_VIRTUALENV=true
+
+        # ensure that all new environments are isolated from the system
+        # site-packages directory by passing "no-site-packages" as the default
+        # argument for virtualenv
+        export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+
+        # load virtualenv wrapper functions
+        source virtualenvwrapper.sh > /dev/null 2>&1
+    fi
+}
+
+if [ "$OS" = "darwin" ]; then
+
+    # MacPorts versions take precedence
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    
+    # Locally configured, user-specific binaries
+    export LOCAL_APP_HOME=~/Applications
+
+    # Project directory
+    export LOCAL_PROJECTS=~/Projects
+    
+    # Override XCode4/gcc tendency to use arch=PPC when building libraries
+    export ARCHFLAGS="-arch i386 -arch x86_64"
+    
+    # Create command alias for lsregister
+    export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
+    export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
+    export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
+
+    # Add tab completion for `defaults read|write NSGlobalDomain`
+    # You could just use `-g` instead, but I like being explicit
+    complete -W "NSGlobalDomain" defaults
+
+    # Set up local python virtualenv variables
+    setupPythonVirtualEnv
+
+    # Set up local dev environment
+    setupLocalDevEnvironment
+
+    # Set up local dev environment
+    setupWorkDevEnvironment
+
+else
+
+    # Local packages take precedence
+    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    
+    # Locally configured, user-specific binaries
+    export LOCAL_APP_HOME=~/apps
+
+    # Project directory
+    export LOCAL_PROJECTS=~/projects
+
+    # Set up local python virtualenv variables
+    setupPythonVirtualEnv
+    
+    # Set up local dev environment
+    setupLocalDevEnvironment
+
+    # Set up local dev environment
+    setupWorkDevEnvironment
+
+fi
