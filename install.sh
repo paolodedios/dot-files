@@ -68,6 +68,12 @@ function updateHome()
     fi
 }
 
+# Update home directory
+function backupHome()
+{
+    check_list "Backup complete"
+}
+
 ######################################################################################
 # Initialize bootstrap
 ######################################################################################
@@ -114,11 +120,14 @@ fi
 # Install scripts
 ######################################################################################
 
-notice "Synchronizing configuration files"
-
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
+    notice "Synchronizing configuration files"
     updateHome
+elif [ "$1" == "--backup" -o "$1" == "-b" ]; then
+    notice "Backing up configuration files"
+    backupHome
 else
+    notice "Synchronizing configuration files"
 	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
