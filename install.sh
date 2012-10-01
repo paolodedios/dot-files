@@ -60,27 +60,51 @@ function dep()
     fi
 }
 
+# Update emacs configuration files
+function updateEmacs()
+{
+    check_list "Synchronizing Emacs configuration file [~/.emacs]"
+    rsync --exclude ".git/" --exclude ".hg/" --exclude ".DS_Store" -av .emacs ~
+
+    # Delete files that do not exist in the source repo
+    check_list "Synchronizing Emacs configuration directory [~/.emacs.d]"
+    rsync --exclude ".git/" --exclude ".hg/" --exclude ".DS_Store" --delete-after -av .emacs.d ~
+    
+    if [ "$OS" = "darwin" ]; then
+        check_list "Copying Emacs configuration to Aquamacs preferences [~/Library/Preferences/Aquamacs Emacs/Preferences.el]"
+        cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el
+    fi
+}
+
 # Update home directory
 function updateHome()
 {
-	rsync --exclude ".git/" --exclude ".hg/" --exclude ".DS_Store" --exclude "install.sh" --exclude "README.md" -av . ~
+    notice "Synchronizing configuration files"
+    
+	rsync --exclude ".git/"        \
+          --exclude ".hg/"         \
+          --exclude ".DS_Store"    \
+          --exclude "install.sh"   \
+          --exclude "README.md"    \
+          --exclude ".emacs*"      \
+          -av . ~
+
     echo
-    check_list "Synchronize complete"
 
     if [ -f ~/.profile ]; then
         check_list "Removing obsolete file [.profile]"
         rm -f ~/.profile
     fi
 
-    if [ "$OS" = "darwin" ]; then
-        check_list "Copying Aquamacs configuration file [~/.emacs]"
-        cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el
-    fi
+    updateEmacs
+
+    check_list "Synchronize complete"
 }
 
 # Update home directory
 function backupHome()
 {
+    notice "Backing up configuration files"
     check_list "Backup complete"
 }
 
@@ -131,13 +155,12 @@ fi
 ######################################################################################
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-    notice "Synchronizing configuration files"
     updateHome
+elif [ "$1" == "--emacs" -o "$1" == "-e" ]; then
+    updateEmacs
 elif [ "$1" == "--backup" -o "$1" == "-b" ]; then
-    notice "Backing up configuration files"
     backupHome
 else
-    notice "Synchronizing configuration files"
 	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -148,7 +171,9 @@ else
     fi
 fi
 
+unset backupHome
 unset updateHome
+unset updateEmacs
 
 cd $current_pwd
 
