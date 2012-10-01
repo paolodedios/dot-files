@@ -44,6 +44,9 @@ alias libpath='echo -e ${LD_LIBRARY_PATH//:/\\n}'
 
 alias cd..='cd ..'
 alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 alias .='echo $PWD'
 
 alias rm='rm -i'
@@ -121,6 +124,10 @@ alias lr='ls -lR'                   # recursive ls
 alias ping='ping -c 10'
 alias openports='netstat -nap tcp'
 alias ns='netstat -alnp tcp | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
+
+alias httpdump="sudo tcpdump -i en0 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+alias publicip="curl -s http://checkip.dyndns.com/ | sed 's/[^0-9\.]//g'"
+alias localip="ipconfig getifaddr en0"
 
 ######################################################################################
 # Aliases for python and gcc version selection via MacPorts
