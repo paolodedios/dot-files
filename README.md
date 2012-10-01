@@ -10,6 +10,7 @@ Bynens's dotfile repo](https://github.com/mathiasbynens/dotfiles/).
 * `.ackrc`          - for ack (better than grep)
 * `.inputrc`        - config for bash readline
 * `.tmux.conf`      - tmux environment configuration
+* `.wgetrc`         - wget configuration
 
 #### shell environement
 * `.bashrc`
@@ -25,6 +26,15 @@ Bynens's dotfile repo](https://github.com/mathiasbynens/dotfiles/).
 
 #### mercurial
 * `.hgignore_global`
+
+#### editor configurations
+* `.vimrc`
+* `.vim/`
+* `.emacs`
+* `.emacs.d/`
+
+#### installer
+* `install.sh`
 
 
 ## Installation
