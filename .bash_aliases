@@ -31,7 +31,7 @@ alias git-pull-upstream='git pull upstream master'
 # Basic command aliases
 #######################################################################################
 
-alias reload-bash='source ~/.profile'
+alias reload-bash='source ~/.bash_profile'
 
 alias jj='jobs -l'
 
@@ -61,6 +61,12 @@ alias systail='tail -f /var/log/system.log'
 
 alias untar='tar xvzf'
 alias objectdump='od'
+
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
+# Gzip-enabled `curl`
+alias gurl="curl --compressed"
 
 # Make grep more user friendly by highlighting matches and exclude grepping
 # through git folders.
@@ -106,16 +112,28 @@ alias mkdir='mkdir -p'
 # The 'ls' family (this assumes you use a recent GNU ls)
 #######################################################################################
 
-alias la='ls -lAxh'                 # show all, including hidden files
-alias ll='ls -l'                    # show all, exclude hidden files
+# Detect which `ls` flavor is in use
+if ls --color > /dev/null 2>&1; then 
+	colorflag="--color"                     # GNU `ls`
+else 
+	colorflag="-G"                          # OS X `ls`
+fi
 
-alias lx='ls -lxB'                  # sort by extension
-alias lk='ls -lSr'                  # sort by size, biggest last
-alias lc='ls -ltcr'                 # sort by and show change time, most recent last
-alias lu='ls -ltur'                 # sort by and show access time, most recent last
-alias lt='ls -ltr'                  # sort by date, most recent last
-alias lm='ls -al |more'             # pipe through 'more'
-alias lr='ls -lR'                   # recursive ls
+
+alias l="ls -l ${colorflag}"                # List all files colorized in long format
+alias lsd='ls -l ${colorflag} | grep "^d"'  # List only directories
+alias ls="command ls ${colorflag}"          # Always use color output for `ls`
+
+alias la='ls -lAxh'                         # show all, including hidden files
+alias ll='ls -l'                            # show all, exclude hidden files
+
+alias lx='ls -lxB'                          # sort by extension
+alias lk='ls -lSr'                          # sort by size, biggest last
+alias lc='ls -ltcr'                         # sort by and show change time, most recent last
+alias lu='ls -ltur'                         # sort by and show access time, most recent last
+alias lt='ls -ltr'                          # sort by date, most recent last
+alias lm='ls -al |more'                     # pipe through 'more'
+alias lr='ls -lR'                           # recursive ls
 
 #######################################################################################
 # Networking related aliases
@@ -125,9 +143,12 @@ alias ping='ping -c 10'
 alias openports='netstat -nap tcp'
 alias ns='netstat -alnp tcp | grep -v CLOSE_WAIT | cut -c-6,21-94 | tail +2'
 
-alias httpdump="sudo tcpdump -i en0 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 alias publicip="curl -s http://checkip.dyndns.com/ | sed 's/[^0-9\.]//g'"
-alias localip="ipconfig getifaddr en0"
+alias localip="ipconfig getifaddr $NETIF"
+
+# View HTTP traffic
+alias sniff="sudo ngrep -d '$NETIF' -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -i $NETIF -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 ######################################################################################
 # Aliases for python and gcc version selection via MacPorts
@@ -186,6 +207,9 @@ if [ "$OS" = "darwin" ]; then
     # Cleanup Resource Forks
     alias cleanresforks='find . -name \*._*|xargs \rm'
 
+    # Flush Directory Service cache
+    alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+
     # Octave CLI
     alias octave="exec '/Applications/Octave.app/Contents/Resources/bin/octave'"
 
@@ -197,4 +221,26 @@ if [ "$OS" = "darwin" ]; then
 
     # Open file in the current Aquamacs window
     alias openwithaquamacs='open -a /Applications/Aquamacs.app $1'
+
+    # Canonical hex dump; some systems have this symlinked
+    command -v hd > /dev/null || alias hd="hexdump -C"
+
+    # OS X has no `md5sum`, so use `md5` as a fallback
+    command -v md5sum > /dev/null || alias md5sum="md5"
+
+    # OS X has no `sha1sum`, so use `shasum` as a fallback
+    command -v sha1sum > /dev/null || alias sha1sum="shasum"
+
+    # ROT13-encode text. Works for decoding also
+    alias rot13='tr a-zA-Z n-za-mN-ZA-M'
+
+    # Hide/show all desktop icons (useful when presenting)
+    alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+    alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+    # Disable Spotlight
+    alias spotoff="sudo mdutil -a -i off"
+
+    # Enable Spotlight
+    alias spoton="sudo mdutil -a -i on"
 fi
