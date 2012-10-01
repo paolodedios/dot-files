@@ -16,9 +16,9 @@
 ;; or press the escape key and then x. 
 ;;
 ;; Buffers
-;; C-x b : changes to a different buffer
-;; C-x k : kills the current buffer or type in the name of a buffer
-;; that you want killed
+;; C-x b  changes to a different buffer
+;; C-x k  kills the current buffer or type in the name of a buffer
+;;        that you want killed
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
