@@ -7,6 +7,10 @@
 ######################################################################################
 
 
+OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
+MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+
 ######################################################################################
 # Define helper functions
 ######################################################################################
@@ -60,11 +64,17 @@ function dep()
 function updateHome()
 {
 	rsync --exclude ".git/" --exclude ".hg/" --exclude ".DS_Store" --exclude "install.sh" --exclude "README.md" -av . ~
+    echo
     check_list "Synchronize complete"
 
     if [ -f ~/.profile ]; then
         check_list "Removing obsolete file [.profile]"
         rm -f ~/.profile
+    fi
+
+    if [ "$OS" = "darwin" ]; then
+        check_list "Copying Aquamacs configuration file [~/.emacs]"
+        cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el
     fi
 }
 
