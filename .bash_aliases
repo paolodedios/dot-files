@@ -172,7 +172,7 @@ alias pylsenvpkgs='lssitepackages'
 # Platform specific aliases
 ######################################################################################
 
-if [ "$OS" = "darwin" ] ; then
+if [ "$OS" = "darwin" ]; then
     
     alias rebuild-menu='$LS_REGISTER_PATH/lsregister -kill -r -domain local -domain system -domain user'
 
@@ -186,7 +186,7 @@ if [ "$OS" = "darwin" ] ; then
     alias refreshaquamacsconfig='cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el'
 
     # Multiprocess Aquamacs Alias
-    alias aquamacs='/Applications/Aquamacs.app/Contents/MacOS/Aquamacs'
+    alias aquamacs="exec '/Applications/Aquamacs.app/Contents/MacOS/Aquamacs'"
 
     # Open file in the current Aquamacs window
     alias openwithaquamacs='open -a /Applications/Aquamacs.app $1'
