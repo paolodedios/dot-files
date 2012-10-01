@@ -318,17 +318,19 @@
       (message "This is the minimum value for transparency")))
  
   ;; keybinding for transparency manipulation
-  (global-set-key (kbd "C-?") 'transparency-set-value)
+  (define-key global-map (kbd "C-?") 'transparency-set-value)
 
   ;; bind transparency control
-  (global-set-key (kbd "C->") 'transparency-increase)
-  (global-set-key (kbd "C-<") 'transparency-decrease)
+  (define-key global-map (kbd "C->") 'transparency-increase)
+  (define-key global-map (kbd "C-<") 'transparency-decrease)
  
   ;; Set initial frame transparency
   (setq transparency-level 100)
   (transparency-set-value transparency-level)
   (add-hook 'after-make-frame-functions (lambda (selected-frame) (set-frame-parameter selected-frame 'alpha transparency-level)))
 
+  ;; DISABLED because of osx-key-mode
+  ;;
   ;; Set the mac keyboard up for sane emacs usage.
   ;; [Ctrl][Option][Command/Alt]
   ;;
@@ -337,13 +339,13 @@
   ;;   "Meta/M-"  is mapped to the "Alt" button
   ;;   "Ctrl/C-"  is mapped to the "Ctrl" button (stays the same)
   ;;
-  ;;(setq mac-command-modifier 'meta)
-  ;;(setq mac-option-modifier  'alt)
-  ;;(setq mac-control-modifier 'ctrl)
+  ;; (setq mac-command-modifier 'meta)
+  ;; (setq mac-option-modifier  'alt)
+  ;; (setq mac-control-modifier 'ctrl)
 
   ;; make C-v, M-v maintain the mark
-  (global-set-key "\C-v" 'scroll-up)
-  (global-set-key "\M-v" 'scroll-down)
+  (define-key global-map "\C-v" 'scroll-up)
+  (define-key global-map "\M-v" 'scroll-down)
 
   ;; copy .emacs to Preferences.el
   (defun copy-dot-emacs-to-prefs ()
@@ -1051,10 +1053,10 @@
 
 (require 'whitespace)
 
-(global-set-key "\C-c_w" 'whitespace-mode)
-(global-set-key "\C-c_t" 'whitespace-toggle-options)
-(global-set-key "\C-c=w" 'global-whitespace-mode)
-(global-set-key "\C-c=t" 'global-whitespace-toggle-options)
+(define-key global-map "\C-c_w" 'whitespace-mode)
+(define-key global-map "\C-c_t" 'whitespace-toggle-options)
+(define-key global-map "\C-c=w" 'global-whitespace-mode)
+(define-key global-map "\C-c=t" 'global-whitespace-toggle-options)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Go to matching parenthesis
@@ -2235,30 +2237,30 @@
 ;; Key Bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key [f2]               'reload-dot-emacs            )
-(global-set-key [f3]               'edit-dot-emacs              )
-(global-set-key [f4]               'cut-ctrlM                   )
-(global-set-key [f5]               'save-buffer                 )
+(define-key global-map [f2]               'reload-dot-emacs            )
+(define-key global-map [f3]               'edit-dot-emacs              )
+(define-key global-map [f4]               'cut-ctrlM                   )
+(define-key global-map [f5]               'save-buffer                 )
 
-(global-set-key [f6]               'replace-string              )
-(global-set-key [f7]               'query-replace               )
-(global-set-key [f8]               'query-replace-regexp        )
-(global-set-key [f9]               'refresh-file                )
-(global-set-key [f12]              'goto-line                   ) 
+(define-key global-map [f6]               'replace-string              )
+(define-key global-map [f7]               'query-replace               )
+(define-key global-map [f8]               'query-replace-regexp        )
+(define-key global-map [f9]               'refresh-file                )
+(define-key global-map [f12]              'goto-line                   ) 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Electric Buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key "\C-x\C-b"         'electric-buffer-list )
-(global-set-key "\C-xb"            'bs-show              )
+(define-key global-map "\C-x\C-b"         'electric-buffer-list )
+(define-key global-map "\C-xb"            'bs-show              )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Comment out a region.  To uncomment, just undo "\C-u"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key "\C-q"             'comment-region       )
-(global-set-key "\C-u"             'undo                 )
+(define-key global-map "\C-q"             'comment-region       )
+(define-key global-map "\C-u"             'undo                 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Here is some Emacs Lisp that will make the % key show the matching
@@ -2266,23 +2268,23 @@
 ;; parenthesis, it simply inserts a % like normal.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key "%"                'match-paren         )
+(define-key global-map "%"                'match-paren         )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Home End and Delete keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key [(control home)]   'beginning-of-line   )
-(global-set-key [(control end)]    'end-of-line         )
+(define-key global-map [(control home)]   'beginning-of-line   )
+(define-key global-map [(control end)]    'end-of-line         )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings to automatically paste copyright notice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-set-key [(alt f1)]         'paste-atsl-copyright            )
-(global-set-key [(alt f2)]         'paste-atsl-mpl-copyright-html   )
-(global-set-key [(alt f3)]         'paste-atsl-mpl-copyright        )
-(global-set-key [(alt f4)]         'paste-mpl-copyright             )
+(define-key global-map [(alt f1)]         'paste-atsl-copyright            )
+(define-key global-map [(alt f2)]         'paste-atsl-mpl-copyright-html   )
+(define-key global-map [(alt f3)]         'paste-atsl-mpl-copyright        )
+(define-key global-map [(alt f4)]         'paste-mpl-copyright             )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
