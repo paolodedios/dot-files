@@ -1833,6 +1833,7 @@
                 ("\\.tcl$"      . tcl-mode          )
                 ("\\.csh$"      . csh-mode          )
                 ("\\.sh$"       . sh-mode           )
+                ("\\.bash$"     . sh-mode           )
                 ("\\.bashrc$"   . sh-mode           )
                 ("\\.profile$"  . sh-mode           )
                 ("\\.py$"       . python-mode       )
