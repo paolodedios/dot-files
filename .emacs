@@ -494,7 +494,7 @@
 ;;
 ;; This is the default Mac OS X fixed width font.
 ;;
-;; (set-default-font "-apple-monaco*-medium-r-normal--12-*-*-*-*-*-fontset-monaco12")
+;; (set-default-font "-apple-monaco-medium-r-normal--12-*-*-*-*-*-fontset-monaco12")
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -660,6 +660,9 @@
 
 (require 'paredit)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Disable printing
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'lisp-mode-hook 
           (lambda ()
             (paredit-mode +1)))
@@ -857,15 +860,15 @@
  '(font-lock-warning-face       ((((class color) (min-colors 88) (background light)) (:foreground "pink" :weight bold))))
  '(text-mode-default ((t 
                        (:inherit autoface-default
-                                 :background    "black"
-                                 :foreground    "wheat"
-                                 :strike-through nil
-                                 :underline      nil
-                                 :slant          normal
-                                 :weight         normal
-                                 :height         120
-                                 :width          normal
-                                 :family        "monaco"))) t)
+                        :background    "black"
+                        :foreground    "wheat"
+                        :strike-through nil
+                        :underline      nil
+                        :slant          normal
+                        :weight         normal
+                        :height         120
+                        :width          normal
+                        :family        "monaco"))) t)
  )
 
 (defun my-common-font-lock()
