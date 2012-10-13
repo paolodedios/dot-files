@@ -63,13 +63,6 @@ function dep()
 # Update emacs configuration files
 function updateEmacs()
 {
-    # Copy top-level .emacs config file to $HOME
-    check_list "Synchronizing Emacs configuration file [~/.emacs]"
-    rsync --exclude ".git/"        \
-          --exclude ".hg/"         \
-          --exclude ".DS_Store"    \
-          -av .emacs ~
-
     # Delete files that do not exist in the source repo
     check_list "Synchronizing Emacs configuration directory [~/.emacs.d]"
     rsync --exclude ".git/"        \
@@ -79,8 +72,9 @@ function updateEmacs()
           -av .emacs.d ~
     
     if [ "$OS" = "darwin" ]; then
-        check_list "Copying Emacs configuration to Aquamacs preferences [~/Library/Preferences/Aquamacs Emacs/Preferences.el]"
-        cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el
+        check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/init.el => ~/.emacs]"
+        rm ~/.emacs
+        ln -s ~/.emacs.d/init.el ~/.emacs
     fi
 }
 
