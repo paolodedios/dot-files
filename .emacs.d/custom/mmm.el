@@ -9,7 +9,7 @@
 ;; Load the updated mmm-library locally
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'mmm-mode)
+(require 'mmm-auto)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load the multi-mode library
@@ -17,7 +17,8 @@
 
 (autoload 'multi-mode "multi-mode" "Allowing multiple major modes in a buffer" t)
 
-(setq mmm-global-mode 'maybe)
+(setq mmm-global-mode               'auto)
+(setq mmm-submode-decoration-level      2)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set up a multi major mode group for each markup type
