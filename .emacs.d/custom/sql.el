@@ -1,0 +1,38 @@
+;; -*-emacs-lisp-*-
+;;
+;; SQL mode
+;;
+;; Paolo de Dios <paolodedios@gmail.com>
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load sql-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(load-vendor 'sql)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SQL hook section, called on entry of SQL mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(eval-after-load "sql" '(load-library "~/.emacs.d/vendor/sql/sql-indent"))
+
+(add-hook 'sql-mode-hook
+          (function 
+           (lambda () (local-set-key "\C-cu" 'sql-to-update)))
+          'turn-on-font-lock)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Turn on font-lock
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'sql-mode-hook          'turn-on-font-lock)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; File associations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq auto-mode-alist (append '(("\\.sql$"      . sql-mode          )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.plsql$"    . sql-mode          )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.mysql$"    . sql-mode          )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.epl$"      . sql-mode          )) auto-mode-alist))
