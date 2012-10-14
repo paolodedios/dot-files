@@ -293,6 +293,17 @@
     ;; Abbrev mode
     abbrev-mode
     local-abbrev-table
+    ;; nxml-mode makes these local
+    adaptive-fill-mode
+    forward-sexp-function
+    indent-line-function
+    fill-paragraph-function
+    comment-indent-function
+    comment-start
+    comment-start-skip
+    comment-end
+    comment-end-skip
+    comment-line-break-function
     ;; And finally the syntax table and local map.
     ((syntax-table . set-syntax-table))
     ((current-local-map . use-local-map) buffer)
