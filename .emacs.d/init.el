@@ -4,7 +4,7 @@
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;
-;; M-x load-file RET .emacs RET 
+;; M-x load-file RET .emacs RET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (message "Loading customization file [init.el]")
@@ -30,11 +30,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; By default Emacs doesn't include subdirectories of a directory in the
-;; load-path. 
+;; load-path.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
-        (let* 
+        (let*
             ((my-elisp-dir "~/.emacs.d") (default-directory my-elisp-dir))
           (setq load-path (cons my-elisp-dir load-path))
           (normal-top-level-add-subdirs-to-load-path)

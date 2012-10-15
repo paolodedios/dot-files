@@ -25,7 +25,7 @@
 ;; M-x set-variable RET debug-on-error  RET t RET
 ;; M-x set-variable RET debug-on-signal RET t RET
 ;;
-;; This should give a backtrace the next time the error happens, which may show 
+;; This should give a backtrace the next time the error happens, which may show
 ;; where the real problem lies.
 ;;
 ;; elisp byte compiler

@@ -28,15 +28,15 @@
 ;; Default to 8-bit clean utf-8 encoding
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-default-coding-systems    'utf-8-unix) 
-(set-buffer-file-coding-system 'utf-8-unix) 
+(set-default-coding-systems    'utf-8-unix)
+(set-buffer-file-coding-system 'utf-8-unix)
 
-(prefer-coding-system          'utf-8     ) 
-(setq locale-coding-system     'utf-8     ) 
-(set-terminal-coding-system    'utf-8     ) 
-(set-keyboard-coding-system    'utf-8     ) 
-(set-selection-coding-system   'utf-8     ) 
-(set-language-environment      "UTF-8"    ) 
+(prefer-coding-system          'utf-8     )
+(setq locale-coding-system     'utf-8     )
+(set-terminal-coding-system    'utf-8     )
+(set-keyboard-coding-system    'utf-8     )
+(set-selection-coding-system   'utf-8     )
+(set-language-environment      "UTF-8"    )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set file associations for automatic charset conversions
@@ -107,7 +107,7 @@
 (size-indication-mode                         t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; show time on the bar 
+;; show time on the bar
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (display-time)
@@ -185,16 +185,16 @@
 ;; disable line wrap by default. enable only through specific mode hooks
 (setq default-truncate-lines               nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Make selected region visible
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (transient-mark-mode                         1)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rebinds C-a, C-e, and C-k to commands that operate by visual lines
 ;; instead of logical lines.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;   
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-visual-line-mode                     1)
 
@@ -226,7 +226,7 @@
 ;; Auto-indentation mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq c-toggle-auto-state                    1)   
+(setq c-toggle-auto-state                    1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Hungry delete key
@@ -261,6 +261,6 @@
 (require 'saveplace)
 
 (setq save-place-file     "~/.emacs.saveplace")
-(setq-default save-place  t                   ) 
+(setq-default save-place  t                   )
 
 
