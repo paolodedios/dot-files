@@ -18,18 +18,6 @@
 (define-key emacs-lisp-mode-map (kbd "A-r") 'eval-buffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Wwhitespace-mode is a minor mode to visualize blanks
-;; http://www.emacswiki.org/emacs/WhiteSpace
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'whitespace)
-
-(define-key global-map "\C-c_w"   'whitespace-mode                 )
-(define-key global-map "\C-c_t"   'whitespace-toggle-options       )
-(define-key global-map "\C-c=w"   'global-whitespace-mode          )
-(define-key global-map "\C-c=t"   'global-whitespace-toggle-options)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set default comment column
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -43,16 +31,6 @@
 (setq-default c-basic-offset          4)
 (setq-default tab-width               4)
 (setq espresso-indent-level           4)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Textmade shortcut minor mode
-;; @see http://ozmm.org/posts/textmate_minor_mode.html
-;; @see https://github.com/defunkt/textmate.el
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'textmate)
-
-(textmate-mode  t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load other major modes in order

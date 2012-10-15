@@ -6,12 +6,34 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Whitespace-mode is a minor mode to visualize blanks
+;; http://www.emacswiki.org/emacs/WhiteSpace
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'whitespace)
+
+(define-key global-map "\C-c_w"   'whitespace-mode                 )
+(define-key global-map "\C-c_t"   'whitespace-toggle-options       )
+(define-key global-map "\C-c=w"   'global-whitespace-mode          )
+(define-key global-map "\C-c=t"   'global-whitespace-toggle-options)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Textmade shortcut minor mode
+;; @see http://ozmm.org/posts/textmate_minor_mode.html
+;; @see https://github.com/defunkt/textmate.el
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'textmate)
+
+(textmate-mode  t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Text mode hook section, called on entry of Text mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'text-mode-hook 
+(add-hook 'text-mode-hook
           '(lambda ()
-             (auto-fill-mode                              1)    
+             (auto-fill-mode                              1)
              (setq fill-column                           80)
              (setq tab-width                              4)
              (local-set-key "^C-^t"   'ispell-complete-word)
