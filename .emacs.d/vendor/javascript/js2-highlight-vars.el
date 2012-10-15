@@ -19,12 +19,6 @@
 
 (require 'js2-mode)
 
-(defmacro js2-deflocal (name value &optional comment)
-  "Define a buffer-local variable NAME with VALUE and COMMENT."
-  `(progn
-     (defvar ,name ,value ,comment)
-     (make-variable-buffer-local ',name)))
-
 (js2-deflocal js2-highlight-vars-mode nil)
 
 (defface js2-highlight-vars-face
