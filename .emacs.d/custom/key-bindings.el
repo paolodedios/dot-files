@@ -143,6 +143,7 @@
 ;; @see http://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(define-key global-map [f2]               'find-file                   )
 (define-key global-map [f3]               'reload-dot-emacs            )
 (define-key global-map [f4]               'cut-ctrlM                   )
 (define-key global-map [f5]               'save-buffer                 )
