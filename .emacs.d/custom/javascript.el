@@ -13,8 +13,19 @@
 (require 'json)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; js2-mode imenu support
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(eval-after-load 'js2-mode
+  '(progn
+     (require 'js2-imenu-extras)
+     (js2-imenu-extras-setup)
+     )
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Minor mode on top of js2-mode which highlights all occurrences of the variable
-;; under the cursor within its defining scope.  
+;; under the cursor within its defining scope.
 ;; When variables are highlighted, you can use the following key bindings:
 ;;
 ;;  M-n or C-<down> - move to the next occurrence
@@ -31,7 +42,7 @@
 
 (defconst my-javascript-mode-programming-style
   ;; hanging brace setup
-  '((c-hanging-braces-alist .             
+  '((c-hanging-braces-alist .
                             ((brace-list-open                  after)
                              (brace-entry-open                 after)
                              (substatement-open               before)
@@ -41,14 +52,14 @@
                              (inexpr-class-close              before)
                              ))
     ;; cleanup shortcuts
-    (c-cleanup-list         .      
+    (c-cleanup-list         .
                             ((brace-else-brace                      )
                              (brace-elseif-brace                    )
                              (brace-catch-brace                     )
                              (list-close-comma                      )
                              ))
-    ;; indentation offsets 
-    (c-offsets-alist        .      
+    ;; indentation offsets
+    (c-offsets-alist        .
                             ((access-label                       . 0)
                              (inline-open                        . 0)
                              (substatement-open                  . 0)
@@ -68,9 +79,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;; With regular JS2-mode, pressing TAB at the beginning of a line won't move the 
+;; With regular JS2-mode, pressing TAB at the beginning of a line won't move the
 ;; caret to the first non-space character if the line is already properly. This
-;; indentation function fixes that. 
+;; indentation function fixes that.
 
 (defun my-js2-indent-function ()
   (interactive)
@@ -107,7 +118,7 @@
     )
   )
 
-;; With c-mode there is a key binding M-C-q which indents the block starting with 
+;; With c-mode there is a key binding M-C-q which indents the block starting with
 ;; the paren under the cursor.  The following function implements this generically
 ;; and can be used in js2-mode
 ;;
@@ -148,7 +159,7 @@
 ;; Javascript hook section, called on entry of js2-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'js2-mode-hook 
+(add-hook 'js2-mode-hook
           '(lambda ()
              (require 'js)
              (setq indent-tabs-mode    nil)
@@ -158,7 +169,7 @@
              (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
              (define-key js2-mode-map [(meta control |)]      'cperl-lineup          )
 
-             (define-key js2-mode-map [(meta control \;)] 
+             (define-key js2-mode-map [(meta control \;)]
                '(lambda()
                   (interactive)
                   (insert "/* -----[ ")
@@ -240,7 +251,7 @@
 ;; Javascript hook section, called on entry of javascript-mode in MMM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'javascript-mode-hook 
+(add-hook 'javascript-mode-hook
           '(lambda ()
              (require 'js)
              (setq indent-tabs-mode         nil)
