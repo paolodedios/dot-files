@@ -15,12 +15,12 @@
 ;; SQL hook section, called on entry of SQL mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(eval-after-load "sql" '(load-library "~/.emacs.d/vendor/sql/sql-indent"))
+(eval-after-load "sql" '(load-library "sql-indent"))
 
 (add-hook 'sql-mode-hook
-          (function 
+          (function
            (lambda () (local-set-key "\C-cu" 'sql-to-update)))
-          'turn-on-font-lock)
+          )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock
