@@ -109,11 +109,11 @@
 ;; Usage: M-x cut-ctrlM
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun cut-ctrlM () 
-  "Eliminate all visible ^M characters. " 
-  (interactive) 
+(defun cut-ctrlM ()
+  "Eliminate all visible ^M characters. "
+  (interactive)
   (save-excursion
-    (goto-char (point-min)) 
+    (goto-char (point-min))
     (while (search-forward "\r" nil t)
       (replace-match "" nil t))))
 
@@ -138,14 +138,14 @@
 ;; trim trailing whitespace from the buffer before going to EOL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun trim-end-of-line () 
-  "Trim trailing whitespace before going to EOL." 
+(defun trim-end-of-line ()
+  "Trim trailing whitespace before going to EOL."
   (interactive)
   (if buffer-read-only
-      (end-of-line)                 ; can't modify it, do it normally 
+      (end-of-line)
     (progn
       (trim-trailing-spaces)
-      (end-of-line))                    ; end of trimmed line
+      (end-of-line))
     )
   )
 
@@ -170,7 +170,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; You can also use CTRL-x CTRL-v to do a “Find alternative file” and choose 
+;; You can also use CTRL-x CTRL-v to do a “Find alternative file” and choose
 ;; the same file that you are currently editing.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -203,14 +203,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun turn-linum-on ()
-  "Turn line-number column ON. " 
-  (interactive) 
+  "Turn line-number column ON. "
+  (interactive)
   (unless (minibufferp)
     (linum-mode 1)))
 
 (defun turn-linum-off ()
-  "Turn line-number column OFF. " 
-  (interactive) 
+  "Turn line-number column OFF. "
+  (interactive)
   (unless (minibufferp)
     (linum-mode 1)))
 
@@ -243,7 +243,7 @@
 (defun paste-atsl-copyright ()
   "Insert AfterText Proprietary Copyright Text. "
   (interactive)
-  (insert 
+  (insert
 "/*
  * Version 1.0 ATSL
  *
@@ -257,7 +257,7 @@
  * (\"ATSL\")
  *
  * The Initial Developer of the Original Code is AfterText, Inc. Portions
- * created by AfterText are Copyright (C) 2010 AfterText, Inc.  All Rights 
+ * created by AfterText are Copyright (C) 2010 AfterText, Inc.  All Rights
  * Reserved.
  */
 ")
@@ -265,80 +265,80 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ATSL copyright information to be used in open-sourced 
+;; ATSL copyright information to be used in open-sourced
 ;; code under the terms of the MPL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun paste-atsl-mpl-copyright-html ()
   "Insert AfterText Copyright Text. "
   (interactive)
-  (insert 
+  (insert
 "<!-- Version 1.1 MPL
-   -   
-   - The contents of this file are subject to the Mozilla Public 
-   - License Version 1.1 (the \"License\").  You may not use this 
-   - file except in compliance with the License. You may obtain a 
-   - copy of the License at http://www.mozilla.org/MPL/ 
    -
-   - Software distributed under the License is distributed on an 
-   - \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express  
-   - or implied. See the License for the specific language governing 
+   - The contents of this file are subject to the Mozilla Public
+   - License Version 1.1 (the \"License\").  You may not use this
+   - file except in compliance with the License. You may obtain a
+   - copy of the License at http://www.mozilla.org/MPL/
+   -
+   - Software distributed under the License is distributed on an
+   - \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
+   - or implied. See the License for the specific language governing
    - rights and limitations under the License.
    -
    - The Original Code is AfterText.
-   - 
-   - The Initial Developer of the Original Code is AfterText, Inc. 
-   - Portions created by AfterText, Inc are Copyright (C) 2010 
+   -
+   - The Initial Developer of the Original Code is AfterText, Inc.
+   - Portions created by AfterText, Inc are Copyright (C) 2010
    - AfterText, Inc.  All Rights Reserved.
-   -  
+   -
    - Redistribution of the Original Code or portions of the Original
-   - Code or software under this agreement must retain the above 
-   - copyright notice, this redistribution statement and the following 
-   - disclaimer.  Neither the name of AfterText, Inc nor the 
+   - Code or software under this agreement must retain the above
+   - copyright notice, this redistribution statement and the following
+   - disclaimer.  Neither the name of AfterText, Inc nor the
    - names of its contributors may be used to endorse or promote any
-   - products derived from this software without specific prior 
+   - products derived from this software without specific prior
    - written permission from AfterText, Inc.
-   - 
+   -
    -->
 ")
   (cut-ctrlM))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Copyright information to be used in open-sourced 
+;; Copyright information to be used in open-sourced
 ;; code under the terms of the MPL 1.1
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun paste-atsl-mpl-copyright ()
   "Insert AfterText MPL Copyright Text. "
   (interactive)
-  (insert 
+  (insert
 "/*
  * Version 1.1 MPL
  *
- * The contents of this file are subject to the Mozilla Public 
- * License Version 1.1 (the \"License\").  You may not use this 
- * file except in compliance with the License. You may obtain a 
- * copy of the License at http://www.mozilla.org/MPL/ 
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the \"License\").  You may not use this
+ * file except in compliance with the License. You may obtain a
+ * copy of the License at http://www.mozilla.org/MPL/
  *
- * Software distributed under the License is distributed on an 
- * \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express  
- * or implied. See the License for the specific language governing 
+ * Software distributed under the License is distributed on an
+ * \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
- * The Initial Developer of the Original Code is Aftertext, Inc. 
- * Portions created by AfterText, Inc are Copyright (C) 2010 
- * AfterText, Inc.  All Rights Reserved.  
+ * The Initial Developer of the Original Code is Aftertext, Inc.
+ * Portions created by AfterText, Inc are Copyright (C) 2010
+ * AfterText, Inc.  All Rights Reserved.
  *
  * Redistribution of the Original Code or portions of the Original
- * Code or Software under this agreement must retain the above 
- * copyright notice, this redistribution statement and the following 
+ * Code or Software under this agreement must retain the above
+ * copyright notice, this redistribution statement and the following
  * disclaimer.  Neither the name of AfterText, Inc nor the names
  * of its contributors may be used to endorse or promote any
- * products derived from this software without specific prior 
+ * products derived from this software without specific prior
  * written permission from AfterText, Inc.
  *
- * Contributor(s): 
+ * Contributor(s):
  *   Paolo de Dios <paolodedios@aftertext.com> (original author)
  *
  */
@@ -347,36 +347,36 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Copyright information to be used in open-sourced 
+;; Copyright information to be used in open-sourced
 ;; code under the terms of the MPL 1.1
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun paste-mpl-copyright ()
   "Insert MPL Copyright Text. "
   (interactive)
-  (insert 
+  (insert
 "/*
  * Version 1.1 MPL
  *
- * The contents of this file are subject to the Mozilla Public 
- * License Version 1.1 (the \"License\").  You may not use this 
- * file except in compliance with the License. You may obtain a 
- * copy of the License at http://www.mozilla.org/MPL/ 
+ * The contents of this file are subject to the Mozilla Public
+ * License Version 1.1 (the \"License\").  You may not use this
+ * file except in compliance with the License. You may obtain a
+ * copy of the License at http://www.mozilla.org/MPL/
  *
- * Software distributed under the License is distributed on an 
- * \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express  
- * or implied. See the License for the specific language governing 
+ * Software distributed under the License is distributed on an
+ * \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
  * rights and limitations under the License.
  *
- * The Initial Developer of the Original Code is Paolo de Dios. 
- * Portions Copyright (C) 2010 Paolo de Dios.  All Rights Reserved.  
+ * The Initial Developer of the Original Code is Paolo de Dios.
+ * Portions Copyright (C) 2010 Paolo de Dios.  All Rights Reserved.
  *
  * Redistribution of the Original Code or portions of the Original
- * Code or Software under this agreement must retain the above 
- * copyright notice, this redistribution statement and the following 
+ * Code or Software under this agreement must retain the above
+ * copyright notice, this redistribution statement and the following
  * disclaimer.
  *
- * Contributor(s): 
+ * Contributor(s):
  *   Paolo de Dios <paolodedios@gmail.com> (original author)
  *
  */
