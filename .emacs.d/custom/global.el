@@ -9,13 +9,13 @@
 ;; Initial window frame settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-frame-height (selected-frame)      90)
-(set-frame-width  (selected-frame)     150)
+(set-frame-height (selected-frame)           90)
+(set-frame-width  (selected-frame)          150)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the title displayed in the title-bar "filename (path)"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq frame-title-format       "%b (%f)"  )
+(setq frame-title-format              "%b (%f)")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the buffer file coding system to the appropriate character set.
@@ -28,15 +28,15 @@
 ;; Default to 8-bit clean utf-8 encoding
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-default-coding-systems    'utf-8-unix)
-(set-buffer-file-coding-system 'utf-8-unix)
+(set-default-coding-systems         'utf-8-unix)
+(set-buffer-file-coding-system      'utf-8-unix)
 
-(prefer-coding-system          'utf-8     )
-(setq locale-coding-system     'utf-8     )
-(set-terminal-coding-system    'utf-8     )
-(set-keyboard-coding-system    'utf-8     )
-(set-selection-coding-system   'utf-8     )
-(set-language-environment      "UTF-8"    )
+(prefer-coding-system               'utf-8     )
+(setq locale-coding-system          'utf-8     )
+(set-terminal-coding-system         'utf-8     )
+(set-keyboard-coding-system         'utf-8     )
+(set-selection-coding-system        'utf-8     )
+(set-language-environment           "UTF-8"    )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set file associations for automatic charset conversions
@@ -75,7 +75,7 @@
 ;; style files will be displayed with the `^M' characters visible in the buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq inhibit-eol-conversion           nil)
+(setq inhibit-eol-conversion                nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Backwards compatibility; default-buffer-file-coding-system is deprecated in 23.2.
@@ -83,7 +83,8 @@
 
 (if (boundp 'buffer-file-coding-system)
     (setq-default buffer-file-coding-system 'utf-8)
-  (setq default-buffer-file-coding-system 'utf-8))
+  (setq default-buffer-file-coding-system 'utf-8)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
@@ -170,81 +171,81 @@
 
 (require 'uniquify)
 
-(setq uniquify-buffer-name-style      'reverse)
-(setq uniquify-separator              "|"     )
-(setq uniquify-after-kill-buffer-p t          )
-(setq uniquify-ignore-buffers-re      "^\\*"  )
+(setq uniquify-buffer-name-style       'reverse)
+(setq uniquify-separator               "|"     )
+(setq uniquify-after-kill-buffer-p t           )
+(setq uniquify-ignore-buffers-re       "^\\*"  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Line wrapping behavior
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; don't allow text to exceed 80 columns before line wrapping
-(setq fill-column                           80)
+(setq fill-column                            80)
 
 ;; disable line wrap by default. enable only through specific mode hooks
-(setq default-truncate-lines               nil)
+(setq default-truncate-lines                nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Make selected region visible
+;; Make selected region visible via highlighting
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(transient-mark-mode                         1)
+(transient-mark-mode                          1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rebinds C-a, C-e, and C-k to commands that operate by visual lines
 ;; instead of logical lines.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-visual-line-mode                     1)
+(global-visual-line-mode                      1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Underline highlighted region
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-face-underline-p                'region t)
+(set-face-underline-p                 'region t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Move (1) line when at bottom of screen
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq scroll-step                            1)
+(setq scroll-step                             1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Replace highlighted text with keystroke
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(delete-selection-mode                       t)
+(delete-selection-mode                        t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Automatic newline
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq c-auto-newline                         t)
+(setq c-auto-newline                          t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto-indentation mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq c-toggle-auto-state                    1)
+(setq c-toggle-auto-state                     1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Hungry delete key
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq c-toggle-hungry-state                  1)
+(setq c-toggle-hungry-state                   1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set default mode to text
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq default-major-mode            'text-mode)
+(setq default-major-mode             'text-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Remove tabs from the idents/use spaces instead of tab characters
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq-default indent-tabs-mode             nil)
+(setq-default indent-tabs-mode              nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable line highlighting
@@ -252,7 +253,7 @@
 
 (require 'highlight-current-line)
 
-(highlight-current-line-on                   t)
+(highlight-current-line-on                    t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Save cursor place for all files
@@ -260,7 +261,7 @@
 
 (require 'saveplace)
 
-(setq save-place-file     "~/.emacs.saveplace")
-(setq-default save-place  t                   )
+(setq save-place-file      "~/.emacs.saveplace")
+(setq-default save-place   t                   )
 
 
