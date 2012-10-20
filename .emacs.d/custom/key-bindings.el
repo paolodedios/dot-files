@@ -6,66 +6,123 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Standard Keyboard shortcuts
+;; Standard Keyboard Commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Notation:
-;; C-x means press the control key with for example the x key
-;; M-x means press the alt key with for example the x key,
-;; or press the escape key and then x.
+;;     C-x    means press the control key with for example the x key
+;;     M-x    means press the alt key with for example the x key,
+;;            or press the escape key and then x.
 ;;
 ;; Buffers
-;; C-x b  changes to a different buffer
-;; C-x k  kills the current buffer or type in the name of a buffer
-;;        that you want killed
+;;     C-x b  changes to a different buffer
+;;     C-x k  kills the current buffer or type in the name of a buffer
+;;            that you want killed
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Emacs Windows
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; A window is a division of the current window
+;;
+;; To create a new window from the current window
+;;     C-x 2  (horizontally splits the window)
+;;     C-x 3  (vertically splits the window)
+;;
+;; To destroy the window where the current point is
+;;     C-x 0
+;;
+;; To destroy all windows EXCEPT where the current point is
+;;     C-x 1
+;;
+;; To switch between windows
+;;     C-x o (Think of the command as (o)ther window)
+;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Emacs Frames
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Frames are generally what most operating systems consider as windows. In
+;; general frame operation commands start with a "5"
+;;
+;; To switch to a buffer by opening it in a new frame
+;;     C-x 5 b
+;;
+;; To close the current frame
+;;     C-x 5 0
+;;
+;; To open a file in a new frame
+;;     C-x 5 f
+;;
+;; To switch between frames
+;;     C-x 5 o
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Moving About
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; To move about the current buffer in emacs use the cursor keys.
-;; A selection of other keys:
+;; To move about the current buffer in emacs use the cursor keys.  In emacs
+;; the cursor is called the "point"
 ;;
-;; C-p    previous line
-;; C-n    next line
-;; C-b    back one character
-;; M-b    back one word
-;; C-f    forward one character
-;; M-f    forward one word
-;; C-home beginning of line
-;; C-end  end of line
-;; C-v    page down
-;; M-v    page up
+;;     C-p    previous line
+;;     C-n    next line
+;;     C-b    back one character
+;;     M-b    back one word
+;;     C-f    forward one character
+;;     M-f    forward one word
+;;     C-home beginning of line
+;;     C-end  end of line
+;;     C-a    beginning of line
+;;     C-e    end of line
+;;     C-v    page down
+;;     M-v    page up
+;;     M-<    beginning of buffer
+;;     M->    end of buffer
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Other commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; C-s    locate (search within file)
-;; C-r    search backwards
-;; C-u    undo
-;; C-y    yank from kill buffer
+;;     C-s    locate (search within file)
+;;     C-r    search backwards
+;;     C-u    undo
+;;     C-y    yank from kill buffer
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Go to a specific line number
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; C-M
-;; type goto-line and press return
-;; type in the line number and press return.
+;;     Type goto-line and press return
+;;     Type in the line number and press return.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Selecting and Copying Text
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;; Selecting text involves using the emacs "mark".  The "mark" is an invisible
+;; location that you set in the text.  In conjunction with the "point" it defines
+;; a region or "selection" of text.  It can be used to store a position in the
+;; text that you can quickly jump back to.
+;;
+;; The mark is set by
+;;     C-spacebar
+;;
+;; To jump back to where the mark was set from wherever the point may be
+;;     C-x C-x   (Works best when transient-mark-mode is nil)
+;;
 ;; To select a block of text:
 ;;     Go to the start of the block
 ;;     Press C-spacebar
 ;;     Go to the end of the block
-;; To cut (wipe) out the block:
-;;     C-w
+;;
 ;; To copy without cutting out the block:
 ;;     M-w
+;;
+;; To cut (wipe) out the block:
+;;     C-w
+;;
 ;; To paste (yank) the block again:
 ;;     C-y (you can do this as many times as you want)
 ;;
@@ -112,28 +169,33 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Go to the section of the document where you want the search and replace to start
-;; Press the escape key and then press
-;; Type in the text you wish to search for and press return
-;; Type in the text that should replace the match and press return
+;;     Press the escape key and then...
+;;     Type in the text you wish to search for and press return
+;;     Type in the text that should replace the match and press return
+;;
 ;; EMACS now goes through the document looking for matches
-;; Press Y to replace each time a match is made,
-;; N to ingore that match and,
-;; ! goes through the rest of the document, changing all matches without asking you.
+;;     Press Y to replace each time a match is made,
+;;     Press N to ingore that match and,
+;;     Press ! to go through the rest of the document, changing all matches
+;;     without asking you.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell Checking
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Press M-x
-;; Type ispell-buffer and press return
+;; To enable the spell checker
+;;     Press M-x
+;;     Type ispell-buffer and press return
+;;
 ;; EMACS then spells checks the current buffer from start to finish
+;;
 ;; Possible replacements are given at the top of the document
-;; (press the number or character in square brackets to use that suggestion)
+;;     Press the number or character in square brackets to use that suggestion
+;;
 ;; The commands you can use are given at the bottom (press ? for more options)
-;; e.g.
-;; r to replace the word
-;; i to insert the word into your personal dictionary
-;; x to exit the spell check program.
+;;     Press r to replace the word
+;;     Press i to insert the word into your personal dictionary
+;;     Press x to exit the spell check program.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -143,30 +205,30 @@
 ;; @see http://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map [f2]               'find-file                   )
-(define-key global-map [f3]               'reload-dot-emacs            )
-(define-key global-map [f4]               'cut-ctrlM                   )
-(define-key global-map [f5]               'save-buffer                 )
+(define-key global-map [f2]               'ido-find-file                   )
+(define-key global-map [f3]               'reload-dot-emacs                )
+(define-key global-map [f4]               'cut-ctrlM                       )
+(define-key global-map [f5]               'save-buffer                     )
 
-(define-key global-map [f6]               'replace-string              )
-(define-key global-map [f7]               'query-replace               )
-(define-key global-map [f8]               'query-replace-regexp        )
-(define-key global-map [f9]               'refresh-file                )
-(define-key global-map [f12]              'goto-line                   )
+(define-key global-map [f6]               'replace-string                  )
+(define-key global-map [f7]               'query-replace                   )
+(define-key global-map [f8]               'query-replace-regexp            )
+(define-key global-map [f9]               'refresh-file                    )
+(define-key global-map [f12]              'goto-line                       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Electric Buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map "\C-x\C-b"         'electric-buffer-list )
-(define-key global-map "\C-xb"            'bs-show              )
+(define-key global-map "\C-x\C-b"         'electric-buffer-list            )
+(define-key global-map "\C-xb"            'bs-show                         )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Comment out a region.  To uncomment, just undo "\C-u"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map "\C-q"             'comment-region       )
-(define-key global-map "\C-u"             'undo                 )
+(define-key global-map "\C-q"             'comment-region                  )
+(define-key global-map "\C-u"             'undo                            )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Here is some Emacs Lisp that will make the % key show the matching
@@ -174,14 +236,14 @@
 ;; parenthesis, it simply inserts a % like normal.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map "%"                'match-paren         )
+(define-key global-map "%"                'match-paren                     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Home End and Delete keys
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map [(control home)]   'beginning-of-line   )
-(define-key global-map [(control end)]    'end-of-line         )
+(define-key global-map [(control home)]   'beginning-of-line               )
+(define-key global-map [(control end)]    'end-of-line                     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings to automatically paste copyright notice
@@ -199,11 +261,13 @@
 
 (when (boundp 'osx-key-mode-map)
   (define-key osx-key-mode-map (kbd "A-P")
-    '(lambda () (interactive) (message "noop"))))
+    '(lambda () (interactive) (message "noop"))
+    )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Disable email bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-unset-key (kbd "C-x m"))
-(global-unset-key "\C-z")
+(global-unset-key  (kbd "C-x m")       )
+(global-unset-key  "\C-z"              )
