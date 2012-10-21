@@ -119,28 +119,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'linum)
+(require 'linum-off)
 
-;; Enable linum for all modes except those on this list
-(setq linum-disabled-modes-list
-      '(eshell-mode
-        wl-summary-mode
-        compilation-mode
-        )
-      )
-
-(defun linum-on ()
-  (unless (or (minibufferp) (member major-mode linum-disabled-modes-list))
-    (linum-mode 1)
-    )
+(if (equal linum-mode nil)
+    (global-linum-mode)
+    ;; Enable linum for all modes except those on this list
+    (linum-on)
   )
 
 (column-number-mode                           t)
-
-;; enable global linum-mode if not already toggled on
-(if (equal linum-mode nil)
-    (global-linum-mode)
-  )
-
 (fringe-mode                                  0)
 
 ;; Set linum-format to pad for up to 4 digit line numbers, followed by a space
