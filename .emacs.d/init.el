@@ -1,6 +1,6 @@
 ;; -*-emacs-lisp-*-
 ;;
-;; Emacs configuration file
+;; Emacs configuration file. Configured for Emacs 23.X and later.
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;
