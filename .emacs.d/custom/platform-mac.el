@@ -104,4 +104,3 @@
   (define-key global-map "\C-v" 'scroll-up)
   (define-key global-map "\M-v" 'scroll-down)
   )
-
