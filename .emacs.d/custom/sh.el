@@ -6,12 +6,36 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Interactive Emacs Shell hooks
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'shell-mode-hook                 'ansi-color-for-comint-mode-on)
+(add-hook 'comint-output-filter-functions  'comint-strip-ctrl-m          )
+
+(eval-after-load 'shell
+  '(progn
+     (define-key shell-mode-map [up]    'comint-previous-input)
+     (define-key shell-mode-map [down]  'comint-next-input    )
+     (define-key shell-mode-map "\C-p"  'comint-previous-input)
+     (define-key shell-mode-map "\C-n"  'comint-next-input    )
+     )
+  )
+
+;; Define shell mode to use ansi-term via bash
+(defun sh ()
+  (interactive)
+  (ansi-term "/bin/bash")
+  )
+
+(global-set-key "\C-x\C-z"  'sh)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Shell hook section, called on entry of Shell mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'sh-mode-hook
           '(lambda ()
-             (auto-fill-mode                              1)    
+             (auto-fill-mode                              1)
              (setq fill-column                           80)
              (setq tab-width                              4)
              (local-set-key [return]    'newline-and-indent)
