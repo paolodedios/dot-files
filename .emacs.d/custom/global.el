@@ -132,7 +132,35 @@
 
 ;; Set linum-format to pad for up to 4 digit line numbers, followed by a space
 ;; then a solid '|' character and then another space
-(setq linum-format                "%4d \u2502 ")
+;;
+;; Normally, the following would be sufficient
+;; (setq linum-format                "%4d \u2502 ")
+;;
+;; But with whitespace mode enabled, linum-mode must use Unicode x2007 character,
+;; FIGURE SPACE, a space that always has the same width as a digit to ensure
+;; that whitespace-mode does not pickup any formatting from linum-mode
+;;
+(add-hook 'linum-before-numbering-hook
+          (lambda ()
+            (let ((w (length (number-to-string (count-lines (point-min) (point-max))))))
+              (setq linum-format
+                    `(lambda (line)
+                       (propertize (concat
+                                    "\u2007"
+                                    (truncate-string-to-width
+                                     "" (- ,w (length (number-to-string line)))
+                                     nil ?\x2007)
+                                    (number-to-string line)
+                                    "\u2007"
+                                    "\u2502"
+                                    "\u2007"
+                                    )
+                                   'face 'linum)
+                       )
+                    )
+              )
+            )
+          )
 
 ;; Select lines by click dragging on the margin
 (defvar *linum-mdown-line* nil)
