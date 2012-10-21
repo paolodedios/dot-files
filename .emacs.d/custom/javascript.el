@@ -126,7 +126,6 @@
 ;; a paren.  It looks up the innermost block using (syntax-ppss) which is a neat function
 ;; provided by Emacs, and reindents it.  It also highlights the block for half a second.
 
-
 (defun my-js2-indent-sexp ()
   (interactive)
   (save-restriction
@@ -209,6 +208,9 @@
 
 (setq auto-mode-alist (append '(("\\.js$"       . js2-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.json$"     . json-mode         )) auto-mode-alist))
+
+;; add node-js to interpreter list
+(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load the javacsript-mode package (for mmm-mode)
