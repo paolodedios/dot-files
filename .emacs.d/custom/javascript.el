@@ -165,7 +165,6 @@
              (setq indent-tabs-mode    nil)
              (c-toggle-auto-state        0)
              (c-toggle-hungry-state      1)
-
              (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
              (define-key js2-mode-map [(meta control |)]      'cperl-lineup          )
 
@@ -190,6 +189,8 @@
 
 (add-hook 'js2-mode-hook
           '(lambda ()
+             ;; Force c-mode so that Emacs allows c-set-style
+             (c-mode)
              (c-add-style "my-javascript-programming-style" my-javascript-mode-programming-style t)
              (c-set-style "my-javascript-programming-style")
              )
@@ -264,6 +265,8 @@
 
 (add-hook 'javascript-mode-hook
           '(lambda ()
+             ;; Force c-mode so that Emacs allows c-set-style
+             (c-mode)
              (c-add-style "my-javascript-programming-style" my-javascript-mode-programming-style t)
              (c-set-style "my-javascript-programming-style")
              )
