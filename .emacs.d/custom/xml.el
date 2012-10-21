@@ -52,28 +52,28 @@
 
 
 ;; Disable auto fill mode for all markup major/minor modes
-(add-hook 'html-mode-hook 
+(add-hook 'html-mode-hook
           '(lambda ()
              (auto-fill-mode     nil)
              (setq tab-width     2)
              )
           )
 
-(add-hook 'psgml-mode-hook 
+(add-hook 'psgml-mode-hook
           '(lambda ()
              (auto-fill-mode     nil)
              (setq tab-width     2)
              )
           )
 
-(add-hook 'sgml-mode-hook 
+(add-hook 'sgml-mode-hook
           '(lambda ()
              (auto-fill-mode     nil)
              (setq tab-width     2)
              )
           )
 
-(add-hook 'xml-mode-hook 
+(add-hook 'xml-mode-hook
           '(lambda ()
              (auto-fill-mode     nil)
              (setq tab-width     2)
@@ -158,4 +158,4 @@
 (setq auto-mode-alist (append '(("\\.rdf$"      . xml-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.xsd$"      . xml-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.xsl$"      . xml-mode          )) auto-mode-alist))
-
+(setq auto-mode-alist (append '(("\\.yml$"      . yaml-mode         )) auto-mode-alist))
