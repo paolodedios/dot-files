@@ -6,6 +6,34 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Platform Tweaks
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Menu bar is not annoying in OSX
+(menu-bar-mode 1)
+
+;; Make ido-mode ignore .DS_Store files
+(add-to-list 'ido-ignore-files "\\.DS_Store")
+
+;; Make the browser the OS X default
+(setq browse-url-browser-function 'browse-url-default-macosx-browser)
+
+;; In dired, move deletions to trash
+(setq delete-by-moving-to-trash t)
+
+(defun finder ()
+  "Opens file directory in Finder."
+  (interactive)
+  (let ((file (buffer-file-name)))
+    (if file
+        (shell-command
+         (format "%s %s" (executable-find "open") (file-name-directory file)))
+      (error "Buffer is not attached to any file."))
+    )
+  )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Aquamacs specific window settings
 ;; see http://www.emacswiki.org/emacs/CustomizeAquamacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -20,7 +48,7 @@
     (interactive)
     (if (equal (frame-parameter nil 'alpha) nil)
         (set-frame-parameter nil 'alpha 100)))
- 
+
   (defun transparency-set-value (numb)
     "Set level of transparency for the current frame"
     (interactive "Enter transparency level in range 0-100: ")
@@ -29,7 +57,7 @@
       (if (< numb 0)
           (message "Error. The minimum value for transparency is 0.")
         (set-frame-parameter nil 'alpha numb))))
- 
+
   (defun transparency-increase ()
     "Increase level of transparency for the current frame"
     (interactive)
@@ -37,7 +65,7 @@
     (if (> (frame-parameter nil 'alpha) 0)
         (set-frame-parameter nil 'alpha (+ (frame-parameter nil 'alpha) -1))
       (message "This is the minimum value for transparency")))
- 
+
   (defun transparency-decrease ()
     "Decrease level of transparency for the current frame"
     (interactive)
@@ -45,14 +73,14 @@
     (if (< (frame-parameter nil 'alpha) 100)
         (set-frame-parameter nil 'alpha (+ (frame-parameter nil 'alpha) +1))
       (message "This is the minimum value for transparency")))
- 
+
   ;; keybinding for transparency manipulation
   (define-key global-map (kbd "C-?") 'transparency-set-value)
 
   ;; bind transparency control
   (define-key global-map (kbd "C->") 'transparency-increase)
   (define-key global-map (kbd "C-<") 'transparency-decrease)
- 
+
   ;; Set initial frame transparency
   (setq transparency-level 100)
   (transparency-set-value transparency-level)
