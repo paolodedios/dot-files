@@ -26,7 +26,7 @@
 
 
 (add-hook 'coffee-mode-hook
-  '(lambda() 
+  '(lambda()
 
      ;; *Messages* spam
      (setq coffee-debug-mode                           t)
@@ -35,12 +35,14 @@
      (set (make-local-variable 'tab-width)             2)
 
      ;; Use JS2 mode for viewing compiled coffeescript
-     (setq coffee-js-mode                      'js2-mode              )
+     (setq coffee-js-mode                      'js2-mode                 )
+     (setq coffee-cleanup-whitespace           nil                       )
 
      ;; If you don't want your compiled files to be wrapped
-     (setq coffee-args-compile                 '("-c" "--bare")       )
+     (setq coffee-args-compile                 '("-c" "--bare")          )
 
-     (define-key coffee-mode-map [(meta r)]    'coffee-compile-buffer )
+     (define-key coffee-mode-map (kbd "C-j")   'coffee-newline-and-indent)
+     (define-key coffee-mode-map [(meta r)]    'coffee-compile-buffer    )
      (setq coffee-command "coffee")
      )
   )
