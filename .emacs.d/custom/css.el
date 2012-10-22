@@ -34,8 +34,8 @@
      )
     )
 )
- 
-(defun hexcolor-add-to-font-lock () 
+
+(defun hexcolor-add-to-font-lock ()
   (font-lock-add-keywords nil hexcolor-keywords)
   )
 
