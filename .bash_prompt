@@ -9,7 +9,7 @@
 
 
 ########################################################################################
-# Set Prompt
+# Set terminal variable
 ########################################################################################
 
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
@@ -41,7 +41,7 @@ if tput setaf 1 &> /dev/null; then
 		PURPLE=$(tput setaf 1)
 		WHITE=$(tput setaf 7)
 	fi
-    
+
 	BOLD=$(tput bold)
 	RESET=$(tput sgr0)
 
