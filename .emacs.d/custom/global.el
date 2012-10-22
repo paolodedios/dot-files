@@ -274,3 +274,15 @@
   )
 
 (add-hook 'electric-buffer-menu-mode-hook 'buffer-menu-custom-font-lock)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Mode line customization
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; get-scroll-bar-mode is not available in emacs 23.2
+(if (not (functionp 'get-scroll-bar-mode))
+    (defun get-scroll-bar-mode () scroll-bar-mode)
+  )
+
+(require 'powerline)
+;; (powerline-default)
