@@ -18,7 +18,9 @@
 (define-key global-map "\C-c=t"   'global-whitespace-toggle-options)
 
 ;; make whitespace-mode use just basic coloring
-(setq whitespace-style   '(spaces tabs newline space-mark tab-mark newline-mark))
+(setq whitespace-style
+      '(spaces tabs newline space-mark tab-mark newline-mark empty trailing)
+      )
 
 (setq whitespace-display-mappings
       ;; all numbers are unicode codepoint in decimal. e.g. (insert-char 182 1)
@@ -29,8 +31,11 @@
         )
       )
 
-;; enable automatic white space cleanup when buffer is written
-(setq whitespace-action  '(auto-cleanup))
+;; enable automatic white space cleanup when buffer is written while in whitespace mode
+(setq whitespace-action '(auto-cleanup))
+
+;; enable white space cleanup to global write hook
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Textmade shortcut minor mode
@@ -73,5 +78,3 @@
 (setq auto-mode-alist (append '(("README$"      . text-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '((".*READ\\.ME$" . text-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.doc$"      . text-mode         )) auto-mode-alist))
-
-

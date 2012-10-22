@@ -98,6 +98,3 @@
 (global-set-key (kbd "<left-margin> <down-mouse-1>")  'md-select-linum)
 (global-set-key (kbd "<left-margin> <mouse-1>")       'mu-select-linum)
 (global-set-key (kbd "<left-margin> <drag-mouse-1>")  'mu-select-linum)
-
-
-
