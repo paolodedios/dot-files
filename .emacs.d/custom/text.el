@@ -18,22 +18,19 @@
 (define-key global-map "\C-c=t"   'global-whitespace-toggle-options)
 
 ;; make whitespace-mode use just basic coloring
-(setq whitespace-style (quote (spaces tabs newline space-mark tab-mark newline-mark)))
+(setq whitespace-style   '(spaces tabs newline space-mark tab-mark newline-mark))
 
 (setq whitespace-display-mappings
       ;; all numbers are unicode codepoint in decimal. e.g. (insert-char 182 1)
       '(
-        (space-mark 32 [183] [46])     ; 32 SPACE 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
-        (newline-mark 10 [182 10])     ; 10 LINE FEED
-        (tab-mark 9 [9655 9] [92 9])   ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+        (space-mark    32 [183] [46]    )  ; 32 SPACE 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
+        (newline-mark  10 [182 10]      )  ; 10 LINE FEED
+        (tab-mark      9 [9655 9] [92 9])   ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
         )
       )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Cleanup white spaces in all major and minor modes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'before-save-hook      'delete-trailing-whitespace)
+;; enable automatic white space cleanup when buffer is written
+(setq whitespace-action  '(auto-cleanup))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Textmade shortcut minor mode
