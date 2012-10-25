@@ -26,12 +26,26 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Globally enable automatic new line and indent for all CC modes
+;; and derivatives
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq c-toggle-auto-state                     1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Hungry delete key
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq c-toggle-hungry-state                   1)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C/C++ mode style
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst my-cc-mode-programming-style
   ;; hanging brace setup
-  '((c-hanging-braces-alist .             
+  '((c-hanging-braces-alist .
                             ((brace-list-open                  after)
                              (brace-entry-open                 after)
                              (substatement-open               before)
@@ -41,15 +55,15 @@
                              (inexpr-class-close              before)
                              ))
     ;; cleanup shortcuts
-    (c-cleanup-list         .      
+    (c-cleanup-list         .
                             ((brace-else-brace                      )
                              (brace-elseif-brace                    )
                              (brace-catch-brace                     )
                              (list-close-comma                      )
                              ))
 
-    ;; indentation offsets 
-    (c-offsets-alist        .      
+    ;; indentation offsets
+    (c-offsets-alist        .
                             ((access-label                      . -2)
                              (inline-open                       .  0)
                              (substatement-open                 .  0)
@@ -85,7 +99,7 @@
 
 (add-hook 'c-mode-hook
           '(lambda ()
-             (auto-fill-mode                         1)    
+             (auto-fill-mode                         1)
              (setq fill-column                      80)
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
@@ -101,7 +115,7 @@
 
 (add-hook 'objc-mode-hook
           '(lambda ()
-             (auto-fill-mode                         1)    
+             (auto-fill-mode                         1)
              (setq fill-column                      80)
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
@@ -120,76 +134,76 @@
 (setq c-font-lock-extra-types
       (append
        '("nsresult"
-         "PRStatus"  
-         "PRBool" 
-         "PRPackedBool" 
-         "PRFloat64" 
+         "PRStatus"
+         "PRBool"
+         "PRPackedBool"
+         "PRFloat64"
          "PRIntn"
          "PRUWord"
-         "PRInt8" 
-         "PRInt16" 
-         "PRInt32" 
+         "PRInt8"
+         "PRInt16"
+         "PRInt32"
          "PRInt64"
          "PRUint"
-         "PRUint8" 
-         "PRUint16" 
-         "PRUnichar" 
-         "PRUint32" 
+         "PRUint8"
+         "PRUint16"
+         "PRUnichar"
+         "PRUint32"
          "PRUint64"
          "PLOptStatus"
          "PLOptState"
-         "PRThread" 
-         "PRThreadType" 
-         "PRThreadScope" 
-         "PRThreadState" 
-         "PRThreadPriority" 
-         "PRLock" 
-         "PRCondVar" 
+         "PRThread"
+         "PRThreadType"
+         "PRThreadScope"
+         "PRThreadState"
+         "PRThreadPriority"
+         "PRLock"
+         "PRCondVar"
          "PRMonitor"
          "PRRWLock"
-         "PRDir" 
+         "PRDir"
          "PRPollDesc"
-         "PRFileDesc" 
-         "PRIOMethods" 
-         "PRFilePrivate" 
-         "PRDescIdentity" 
-         "PRFileInfo" 
-         "PRFileInfo64" 
-         "PRFileType" 
-         "PRNetAddr" 
-         "PRIPv6Addr" 
-         "PRSocketOptionData" 
-         "PRSockOption" 
-         "PRLinger" 
+         "PRFileDesc"
+         "PRIOMethods"
+         "PRFilePrivate"
+         "PRDescIdentity"
+         "PRFileInfo"
+         "PRFileInfo64"
+         "PRFileType"
+         "PRNetAddr"
+         "PRIPv6Addr"
+         "PRSocketOptionData"
+         "PRSockOption"
+         "PRLinger"
          "PRMcastRequest"
-         "PRFileMap" 
-         "PRHostEnt" 
-         "PRProtoEnt" 
-         "PRIntervalTime" 
-         "PRTime" 
-         "PRTimeParameters" 
-         "PRExplodedTime" 
-         "prbitmap_t" 
-         "PRCList" 
-         "PRLibrary" 
-         "PRStaticLinkTable" 
-         "PRProcess" 
-         "PRProcessAttr" 
-         "PRSysInfo" 
-         "PRCounterHandle" 
-         "PRJobIoDesc" 
-         "PRJobFn" 
-         "PRThreadPool" 
-         "PRJob" 
-         "PLHashEntry" 
-         "PLHashTable" 
-         "PLHashNumber" 
-         "PLHashFunction" 
-         "PLHashComparator" 
-         "PLHashEnumerator" 
-         "PLHashAllocOps" 
+         "PRFileMap"
+         "PRHostEnt"
+         "PRProtoEnt"
+         "PRIntervalTime"
+         "PRTime"
+         "PRTimeParameters"
+         "PRExplodedTime"
+         "prbitmap_t"
+         "PRCList"
+         "PRLibrary"
+         "PRStaticLinkTable"
+         "PRProcess"
+         "PRProcessAttr"
+         "PRSysInfo"
+         "PRCounterHandle"
+         "PRJobIoDesc"
+         "PRJobFn"
+         "PRThreadPool"
+         "PRJob"
+         "PLHashEntry"
+         "PLHashTable"
+         "PLHashNumber"
+         "PLHashFunction"
+         "PLHashComparator"
+         "PLHashEnumerator"
+         "PLHashAllocOps"
          "PRCallOnceType"
-         )       
+         )
        c-font-lock-extra-types)
       )
 
@@ -200,23 +214,23 @@
 (setq c-font-lock-extra-types
       (append
        '("LPC?\\(W\\|T\\|OLE\\)?\\STR" "HRESULT"
-         "BOOL" 
-         "BYTE" 
-         "DWORD" 
-         "SOCKET" 
+         "BOOL"
+         "BYTE"
+         "DWORD"
+         "SOCKET"
          "idl_char"
-         "idl_boolean" 
-         "idl_byte" 
+         "idl_boolean"
+         "idl_byte"
          "idl_\\(short\\|long\\)_float"
          "idl_u?\\(small\\|short\\|long\\)_int"
-         "boolean32" 
+         "boolean32"
          "unsigned\\(32\\|16\\)"
-         "SAFEARRAY" 
-         "boolean" 
-         "UINT" 
-         "ULONG" 
+         "SAFEARRAY"
+         "boolean"
+         "UINT"
+         "ULONG"
          "VARIANT"
-         )  
+         )
        c-font-lock-extra-types)
       )
 
