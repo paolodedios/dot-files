@@ -161,9 +161,9 @@
 (add-hook 'js2-mode-hook
           '(lambda ()
              (require 'js)
-             (setq indent-tabs-mode    nil)
-             (c-toggle-auto-state        0)
-             (c-toggle-hungry-state      1)
+             (setq indent-tabs-mode         nil)
+             (c-toggle-auto-state             0)
+             (c-toggle-hungry-state           1)
              (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
              (define-key js2-mode-map [(meta control |)]      'cperl-lineup          )
 
@@ -175,8 +175,8 @@
                     (insert " ]----- */"))
                   ))
 
-             (define-key js2-mode-map [(return)]           'newline-and-indent       )
-             (define-key js2-mode-map [(backspace)]        'c-electric-backspace     )
+             (define-key js2-mode-map [return]             'newline-and-indent       )
+             (define-key js2-mode-map [backspace]          'c-electric-backspace     )
              (define-key js2-mode-map [(control d)]        'c-electric-delete-forward)
              (define-key js2-mode-map [(control meta q)]   'my-js2-indent-sexp       )
              (if (featurep 'js2-highlight-vars)
