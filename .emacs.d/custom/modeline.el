@@ -60,9 +60,9 @@
 
 ;; reset global mode line string
 (setq global-mode-string
-      (append '(" Lines: " buffer-count-lines
-                " Words: " buffer-count-words
-                " Chars: " buffer-count-chars
+      (append '(" L: " buffer-count-lines
+                " W: " buffer-count-words
+                " C: " buffer-count-chars
                 " ")
               )
       )
@@ -81,7 +81,9 @@
                         ;; left hand mode line layout
                         (lhs (list
                               (powerline-raw                  "%*" nil 'l)
+                              (powerline-raw                         "[ ")
                               (powerline-buffer-size               nil 'l)
+                              (powerline-raw                         " ]")
                               (powerline-buffer-id                 nil 'l)
                               (powerline-raw                          " ")
                               (powerline-arrow-right            nil face1)
