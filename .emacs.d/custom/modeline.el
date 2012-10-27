@@ -16,8 +16,6 @@
     (defun get-scroll-bar-mode () scroll-bar-mode)
   )
 
-(custom-set-faces
- )
 
 (defvar buffer-count-chars
   nil
@@ -34,6 +32,7 @@
   "*Number of words in the buffer."
   )
 
+;; buffer count function
 (defun buffer-count(expression)
   (how-many expression (point-min) (point-max))
   )
@@ -53,11 +52,13 @@
   (force-mode-line-update)
   )
 
+;; buffer count timer
 (unless buffer-count-lines
-  (run-with-idle-timer 1 t 'buffer-update-mode-line)
+  (run-with-idle-timer  1 t 'buffer-update-mode-line)
   (buffer-update-mode-line)
   )
 
+;; reset global mode line string
 (setq global-mode-string
       (append '(" Lines: " buffer-count-lines
                 " Words: " buffer-count-words
@@ -66,12 +67,18 @@
               )
       )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Power line layouyt customization
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq-default mode-line-format
               '("%e"
                 (:eval
                  (let* ((active (eq (frame-selected-window) (selected-window)) )
                         (face1  (if active 'powerline-inactive1 'powerline-inactive1))
                         (face2  (if active 'powerline-inactive2 'powerline-inactive2))
+
+                        ;; left hand mode line layout
                         (lhs (list
                               (powerline-raw                  "%*" nil 'l)
                               (powerline-buffer-size               nil 'l)
@@ -84,6 +91,7 @@
                               (powerline-vc                         face1)
                               ))
 
+                        ;; center mode line layoyt
                         (center (list
                                  (powerline-raw                 " " face1)
                                  (powerline-arrow-right       face1 face2)
@@ -94,6 +102,7 @@
                                  (powerline-arrow-left        face2 face1)
                                  ))
 
+                        ;; right hand mode line layout
                         (rhs (list
                               (powerline-raw  global-mode-string face1 'l)
 
@@ -108,6 +117,7 @@
                               ))
                         )
 
+                   ;; construct power line
                    (concat
                     (powerline-render                                            lhs)
                     (powerline-fill-center    face1 (/ (powerline-width center) 2.0))
@@ -119,4 +129,3 @@
                  )
                 )
               )
-
