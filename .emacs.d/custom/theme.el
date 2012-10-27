@@ -17,22 +17,21 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
- '(default-frame-alist (quote (
-                               (tool-bar-lines         .        0)
-                               (menu-bar-lines         .        1)
-                               (foreground-color       .  "wheat")
-                               (background-color       .  "black")
-                               (cursor-type            .      box)
-                               (cursor-color           . "purple")
-                               (vertical-scroll-bars   .    right)
-                               (internal-border-width  .        0)
-                               )
-                              )
+ '(default-frame-alist '(
+                         (tool-bar-lines         .        0)
+                         (menu-bar-lines         .        1)
+                         (foreground-color       .  "wheat")
+                         (background-color       .  "black")
+                         (cursor-type            .      box)
+                         (cursor-color           . "yellow")
+                         (vertical-scroll-bars   .    right)
+                         (internal-border-width  .        0)
+                         )
     )
  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set custom color theme and font
+;; Set default color theme and font
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-faces
@@ -56,23 +55,19 @@
  ;; line number column custom face
  '(linum ((t (:inherit (shadow default) :background "gray10" :foreground "dimgray"))))
 
- ;; custom font-lock settings
- '(font-lock-builtin-face       ((((class color) (min-colors 88) (background light)) (:foreground "lightsteelblue"   ))))
- '(font-lock-comment-face       ((((class color) (min-colors 88) (background light)) (:foreground "orangered"        ))))
- '(font-lock-doc-face           ((((class color) (min-colors 88) (background light)) (:foreground "orangered"        ))))
- '(font-lock-constant-face      ((((class color) (min-colors 88) (background light)) (:foreground "aquamarine"       ))))
- '(font-lock-function-name-face ((((class color) (min-colors 88) (background light)) (:foreground "lightblue"        ))))
- '(font-lock-keyword-face       ((((class color) (min-colors 88) (background light)) (:foreground "turquoise"        ))))
- '(font-lock-string-face        ((((class color) (min-colors 88) (background light)) (:foreground "tan"              ))))
- '(font-lock-type-face          ((((class color) (min-colors 88) (background light)) (:foreground "palegreen"        ))))
- '(font-lock-variable-name-face ((((class color) (min-colors 88) (background light)) (:foreground "khaki"            ))))
- '(font-lock-warning-face       ((((class color) (min-colors 88) (background light)) (:foreground "pink" :weight bold))))
+ ;; mode line active face
+ '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+
+ ;; mode line inactive face
+ '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))
  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Global font lock and color decorations
+;; Set common font lock and color decorations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'font-lock)
 
 (defun my-common-font-lock()
   "font-lock settings"
@@ -84,6 +79,7 @@
    font-lock-mode-enable-list                          nil
    font-lock-mode-disable-list                         nil
    )
+
   ;; set-font-lock color scheme
   (set-face-foreground 'font-lock-builtin-face         "lightsteelblue")
   (set-face-foreground 'font-lock-comment-face         "orangered"     )
@@ -99,40 +95,30 @@
 
 (cond ((fboundp 'global-font-lock-mode)
        ;; Turn on font-lock in all modes that support it
-       (global-font-lock-mode        t)
-       (my-common-font-lock           )
-       ;; default color scheme
-       (set-background-color             "black"    )
-       (set-foreground-color             "wheat"    )
-       (set-cursor-color                 "purple"   )
-       (set-face-foreground 'modeline    "firebrick")
-       (set-face-background 'modeline    "wheat"    )
-       
+       (global-font-lock-mode           t)
+       (my-common-font-lock              )
+
        ;; Maximum colors
        (setq font-lock-maximum-decoration
-             '((java-mode          . t)
-               (c++-mode           . t)
-               (c-mode             . t)
-               (objc-mode          . t)
-               (javascript-mode    . t)
-               (js2-mode           . t)
-               (coffee-mode        . t)
-               (css-mode           . t)
-               (scala-mode         . t)
-               (clojure-mode       . t)
-               (python-mode        . t)
-               (sql-mode           . t)
-               (R-mode             . t)
-               (emacs-lisp-mode    . t)
-               (t                  . 1))
+             '((java-mode             . t)
+               (c++-mode              . t)
+               (c-mode                . t)
+               (objc-mode             . t)
+               (javascript-mode       . t)
+               (js2-mode              . t)
+               (coffee-mode           . t)
+               (css-mode              . t)
+               (scala-mode            . t)
+               (clojure-mode          . t)
+               (python-mode           . t)
+               (sql-mode              . t)
+               (R-mode                . t)
+               (emacs-lisp-mode       . t)
+               (lisp-mode             . t)
+               (t                     . 1)
+               )
              ))
       )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Global font lock settings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'font-lock)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs 22.X and later use the new jit-lock package for fontification
