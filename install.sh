@@ -53,7 +53,7 @@ function dep()
     else
         local msg="Missing $1"
     fi
-  
+
     # Save if dep not met
     if ! $i || [ -n "$msg" ] ; then
         missing+=($msg)
@@ -70,7 +70,7 @@ function updateEmacs()
           --exclude ".DS_Store"    \
           --delete-after           \
           -av .emacs.d ~
-    
+
     if [ "$OS" = "darwin" ]; then
         check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/init.el => ~/.emacs]"
         rm ~/.emacs
@@ -82,7 +82,7 @@ function updateEmacs()
 function updateHome()
 {
     notice "Synchronizing configuration files"
-    
+
 	rsync --exclude ".git/"        \
           --exclude ".hg/"         \
           --exclude ".DS_Store"    \
