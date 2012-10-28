@@ -60,14 +60,15 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-            (paredit-mode t)
+            (setq tab-width                         4)
+            (show-paren-mode                        t)
+            (paredit-mode                           t)
             (turn-on-eldoc-mode)
             (eldoc-add-command
              'paredit-backward-delete
              'paredit-close-round)
-            (local-set-key (kbd "RET") 'electrify-return-if-match)
             (eldoc-add-command 'electrify-return-if-match)
-            (show-paren-mode t)
+            (local-set-key (kbd "RET") 'electrify-return-if-match)
             )
           )
 
