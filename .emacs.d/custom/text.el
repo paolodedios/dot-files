@@ -27,7 +27,7 @@
       '(
         (space-mark    32 [183] [46]    )  ; 32 SPACE 「 」, 183 MIDDLE DOT 「·」, 46 FULL STOP 「.」
         (newline-mark  10 [182 10]      )  ; 10 LINE FEED
-        (tab-mark      9 [9655 9] [92 9])   ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+        (tab-mark      9 [9655 9] [92 9])  ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
         )
       )
 
@@ -53,9 +53,9 @@
 
 (add-hook 'text-mode-hook
           '(lambda ()
-             (auto-fill-mode                              1)
-             (setq fill-column                           80)
-             (setq tab-width                              4)
+             (auto-fill-mode                         1)
+             (setq fill-column                      80)
+             (setq tab-width                         4)
              (local-set-key "^C-^t"   'ispell-complete-word)
              )
           )
