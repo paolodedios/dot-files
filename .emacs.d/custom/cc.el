@@ -7,6 +7,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C/C++ mode. Esp for identation settings, require CC-mode
+;; Uses latest cc-mode in vendor/cc
+;; @see http://cc-mode.sourceforge.net/index.php
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'cc-mode)
@@ -25,19 +27,6 @@
 ;; explicit declaration of all syntactic attributes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Globally enable/disable automatic new line and indent for all CC modes
-;; and derivatives
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(c-toggle-auto-state                     0)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Hungry delete key
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(c-toggle-hungry-state                   0)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C/C++ mode style
@@ -46,32 +35,49 @@
 (defconst my-cc-mode-programming-style
   ;; hanging brace setup
   '((c-hanging-braces-alist .
-                            ((brace-list-open                  after)
-                             (brace-entry-open                 after)
-                             (substatement-open               before)
-                             (block-close          . c-snug-do-while)
-                             (extern-lang-open                 after)
-                             (inexpr-class-open                after)
-                             (inexpr-class-close              before)
+                            ((brace-list-open                    after)
+                             (brace-entry-open                   after)
+                             (substatement-open                 before)
+                             (block-close            . c-snug-do-while)
+                             (extern-lang-open                   after)
+                             (inexpr-class-open                  after)
+                             (inexpr-class-close                before)
                              ))
     ;; cleanup shortcuts
     (c-cleanup-list         .
-                            ((brace-else-brace                      )
-                             (brace-elseif-brace                    )
-                             (brace-catch-brace                     )
-                             (list-close-comma                      )
+                            ((brace-else-brace                        )
+                             (brace-elseif-brace                      )
+                             (brace-catch-brace                       )
+                             (list-close-comma                        )
                              ))
 
     ;; indentation offsets
+    ;; +   'c-basic-offset' times    1
+    ;; -   'c-basic-offset' times   -1
+    ;; ++  'c-basic-offset' times    2
+    ;; --  'c-basic-offset' times   -2
+    ;; *   'c-basic-offset' times  0.5
+    ;; /   'c-basic-offset' times -0.5
     (c-offsets-alist        .
-                            ((access-label                      . -2)
-                             (inline-open                       .  0)
-                             (substatement-open                 .  0)
-                             (statement-block-intro             .  +)
-                             (block-close                       .  0)
-                             (do-while-closure                  .  0)
-                             (case-label                        .  *)
-                             (statement-case-intro              .  +)
+                            ((access-label                        . -2)
+                             (inline-open                         .  0)
+                             (substatement-open                   .  0)
+                             (statement-block-intro               .  +)
+                             (block-close                         .  0)
+                             (do-while-closure                    .  0)
+                             (case-label                          .  *)
+                             (statement-case-intro                .  +)
+                             (statement-cont c-lineup-cascaded-calls +)
+                             (stream-op                           . c-lineup-streamop)
+                             ;; Don't indent inside namespaces, extern, etc
+                             (incomposition                        . 0)
+                             (inextern-lang                        . 0)
+                             (inmodule                             . 0)
+                             (innamespace                          . 0)
+                             ;; Preprocessor macros
+                             (cpp-define-intro                  c-lineup-cpp-define +)
+                             (cpp-macro                            . [ 0 ])
+                             (cpp-macro-cont                       . +)
                              ))
     (c-lineup-math                   1)
     (c-lineup-inexpr-block           1)
@@ -83,11 +89,32 @@
 ;; C++ mode hook section, called on entry of C++ mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; function to lineup stream operators in c++
+(defun c-lineup-streamop (langelem)
+  (save-excursion
+    (goto-char (cdr langelem))
+    (re-search-forward "<<\\|>>" (c-point 'eol) 'move)
+    (goto-char (match-beginning 0))
+    (vector (current-column))
+    )
+  )
+
 (add-hook 'c++-mode-hook
           '(lambda ()
+             ;; toggle major mode editor options
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
+             (auto-fill-mode                         1)
+             (show-paren-mode                        t)
+             (setq fill-column                      80)
+             (setq c-basic-offset                    4)
+             (setq tab-width                         4)
+             (setq indent-tabs-mode                nil)
+             ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
              (local-set-key (quote [C-f11]) (quote gdb))
+             ;; set programming style
              (c-add-style "my-cc-mode-programming-style" my-cc-mode-programming-style t)
              (c-set-style "my-cc-mode-programming-style")
              )
@@ -99,11 +126,20 @@
 
 (add-hook 'c-mode-hook
           '(lambda ()
+             ;; toggle major mode editor options
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
              (auto-fill-mode                         1)
+             (show-paren-mode                        t)
              (setq fill-column                      80)
+             (setq c-basic-offset                    4)
+             (setq tab-width                         4)
+             (setq indent-tabs-mode                nil)
+             ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
              (local-set-key (quote [C-f11]) (quote gdb))
+             ;; set programming style
              (c-add-style "my-cc-mode-programming-style" my-cc-mode-programming-style t)
              (c-set-style "my-cc-mode-programming-style")
              )
@@ -115,11 +151,20 @@
 
 (add-hook 'objc-mode-hook
           '(lambda ()
+             ;; toggle major mode editor options
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
              (auto-fill-mode                         1)
+             (show-paren-mode                        t)
              (setq fill-column                      80)
+             (setq c-basic-offset                    4)
+             (setq tab-width                         4)
+             (setq indent-tabs-mode                nil)
+             ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
              (local-set-key (quote [C-f11]) (quote gdb))
+             ;; set programming style
              (c-add-style "my-cc-mode-programming-style" my-cc-mode-programming-style t)
              (c-set-style "my-cc-mode-programming-style")
              )
