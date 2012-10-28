@@ -31,31 +31,46 @@
 (defconst my-java-mode-programming-style
   ;; hanging brace setup
   '((c-hanging-braces-alist .
-                            ((brace-list-open                  after)
-                             (brace-entry-open                 after)
-                             (substatement-open               before)
-                             (block-close          . c-snug-do-while)
-                             (extern-lang-open                 after)
-                             (inexpr-class-open                after)
-                             (inexpr-class-close              before)
+                            ((brace-list-open                    after)
+                             (brace-entry-open                   after)
+                             (substatement-open                  after)
+                             (block-close            . c-snug-do-while)
+                             (extern-lang-open                   after)
+                             (inexpr-class-open                  after)
+                             (inexpr-class-close                before)
+
+                             (defun-open                         after)
+                             (defun-close                        after)
+                             (class-open                         after)
+                             (class-close                        after)
+                             (inline-open                        after)
+                             (inline-close                       after)
                              ))
     ;; cleanup shortcuts
     (c-cleanup-list         .
-                            ((brace-else-brace                      )
-                             (brace-elseif-brace                    )
-                             (brace-catch-brace                     )
-                             (list-close-comma                      )
+                            ((brace-else-brace                        )
+                             (brace-elseif-brace                      )
+                             (brace-catch-brace                       )
+                             (list-close-comma                        )
                              ))
     ;; indentation offsets
+    ;; +   'c-basic-offset' times    1
+    ;; -   'c-basic-offset' times   -1
+    ;; ++  'c-basic-offset' times    2
+    ;; --  'c-basic-offset' times   -2
+    ;; *   'c-basic-offset' times  0.5
+    ;; /   'c-basic-offset' times -0.5
     (c-offsets-alist        .
-                            ((access-label                       . 0)
-                             (inline-open                        . 0)
-                             (substatement-open                  . 0)
-                             (statement-block-intro              . +)
-                             (block-close                        . 0)
-                             (do-while-closure                   . 0)
-                             (case-label                         . *)
-                             (statement-case-intro               . +)
+                            ((access-label                         . 0)
+                             (inline-open                          . 0)
+                             (substatement-open                    . 0)
+                             (statement-block-intro                . +)
+                             (block-close                          . 0)
+                             (do-while-closure                     . 0)
+                             (case-label                           . *)
+                             (statement-case-intro                 . +)
+                             (statement-cont c-lineup-cascaded-calls +)
+                             (stream-op                            . c-lineup-streamop)
                              ))
     (c-lineup-math                   1)
     (c-lineup-inexpr-block           1)
@@ -67,29 +82,77 @@
 ;; Java mode hack to get a little better Java 5+ style support
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(let* ((java-keywords
-  (eval-when-compile
-    (regexp-opt
-     '("catch" "do" "else" "super" "this" "finally" "for" "if"
-       "implements" "extends" "throws" "instanceof" "new"
-       "interface" "return" "switch" "throw" "try" "while"))))
-       ;; Classes immediately followed by an object name.
+(let* (
+       ;; declare keywords
+       (java-keywords
+        (eval-when-compile
+          (regexp-opt
+           '("catch"
+             "do"
+             "else"
+             "super"
+             "this"
+             "finally"
+             "for"
+             "if"
+             "implements"
+             "extends"
+             "throws"
+             "instanceof"
+             "new"
+             "interface"
+             "return"
+             "switch"
+             "throw"
+             "try"
+             "while")
+           )
+          )
+        )
+       ;; classes immediately followed by an object name.
        (java-type-names
         `(mapconcat 'identity
                     (cons
                      ,(eval-when-compile
-                        (regexp-opt '("boolean" "char" "byte" "short" "int" "long"
-                                      "float" "double" "void")))
+                        (regexp-opt '("boolean"
+                                      "char"
+                                      "byte"
+                                      "short"
+                                      "int"
+                                      "long"
+                                      "float"
+                                      "double"
+                                      "void"
+                                      )
+                                    )
+                        )
                      java-font-lock-extra-types)
-                    "\\|"))
+                    "\\|"
+                    )
+        )
        (java-type-names-depth `(regexp-opt-depth ,java-type-names))
+
        ;; These are eventually followed by an object name.
        (java-type-specs
         (eval-when-compile
           (regexp-opt
-           '("abstract" "const" "final" "synchronized" "transient" "static"
-             "volatile" "public" "private" "protected" "native"
-             "strictfp"))))
+           '("abstract"
+             "const"
+             "final"
+             "synchronized"
+             "transient"
+             "static"
+             "volatile"
+             "enum"
+             "public"
+             "private"
+             "protected"
+             "native"
+             "strictfp"
+             )
+           )
+          )
+        )
        )
 
   (setq java-font-lock-keywords-3
@@ -106,7 +169,10 @@
              (1 (if (and (equal (char-after (match-end 0)) ?\.)
                          (not (equal (char-after (+ (match-end 0) 1)) ?\*)))
                     'jde-java-font-lock-package-face
-                  'font-lock-type-face))))
+                  'font-lock-type-face)
+                )
+             )
+            )
           )
 
          java-font-lock-keywords-2
@@ -117,7 +183,9 @@
           ;; Fontify class names with ellipses
           `(eval .
                  (cons (concat "\\<\\(" ,java-type-names "\\)\\>\\.\\.\\.[^.]")
-                       '(1 font-lock-type-face)))
+                       '(1 font-lock-type-face)
+                       )
+                 )
           ;; Fontify random types immediately followed by an item or items.
           `(eval .
                  (list (concat "\\<\\(\\(?:" ,java-type-names "\\)"
@@ -134,7 +202,11 @@
                              ;; Fontify as a variable or function name.
                              '(1 (if (match-beginning 2)
                                      font-lock-function-name-face
-                                   font-lock-variable-name-face)))))
+                                   font-lock-variable-name-face)
+                                 )
+                             )
+                       )
+                 )
           ;; Fontify those that are eventually followed by an item or items.
           (list (concat "\\<\\(" java-type-specs "\\)\\>"
                         "\\([ \t]+\\sw+\\>"
@@ -149,7 +221,11 @@
                   ;; Fontify as a variable or function name.
                   (1 (if (match-beginning 2)
                          font-lock-function-name-face
-                       font-lock-variable-name-face))))
+                       font-lock-variable-name-face
+                       )
+                     )
+                  )
+                )
           )
          )
         )
@@ -162,8 +238,16 @@
 
 (add-hook 'java-mode-hook
           '(lambda ()
+             ;; toggle major mode editor options
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
              (auto-fill-mode                         1)
+             (show-paren-mode                        t)
              (setq fill-column                      80)
+             (setq c-basic-offset                    4)
+             (setq tab-width                         4)
+             (setq indent-tabs-mode                nil)
+             ;; set programming style
              (c-add-style "my-java-mode-programming-style" my-java-mode-programming-style t)
              (c-set-style "my-java-mode-programming-style")
              )
@@ -180,5 +264,3 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq auto-mode-alist (append '(("\\.java$"     . java-mode         )) auto-mode-alist))
-
-
