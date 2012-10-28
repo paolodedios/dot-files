@@ -7,9 +7,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; js2-mode package for .js file editing.
+;l @see https://github.com/mooz/js2-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'js2-mode)
+(autoload 'js2-mode "js2-mode" nil t)
 (require 'json)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -43,31 +44,33 @@
 (defconst my-javascript-mode-programming-style
   ;; hanging brace setup
   '((c-hanging-braces-alist .
-                            ((brace-list-open                  after)
-                             (brace-entry-open                 after)
-                             (substatement-open               before)
-                             (block-close          . c-snug-do-while)
-                             (extern-lang-open                 after)
-                             (inexpr-class-open                after)
-                             (inexpr-class-close              before)
+                            ((brace-list-open                    after)
+                             (brace-entry-open                   after)
+                             (substatement-open                 before)
+                             (block-close            . c-snug-do-while)
+                             (extern-lang-open                   after)
+                             (inexpr-class-open                  after)
+                             (inexpr-class-close                before)
                              ))
     ;; cleanup shortcuts
     (c-cleanup-list         .
-                            ((brace-else-brace                      )
-                             (brace-elseif-brace                    )
-                             (brace-catch-brace                     )
-                             (list-close-comma                      )
+                            ((brace-else-brace                        )
+                             (brace-elseif-brace                      )
+                             (brace-catch-brace                       )
+                             (list-close-comma                        )
                              ))
     ;; indentation offsets
     (c-offsets-alist        .
-                            ((access-label                       . 0)
-                             (inline-open                        . 0)
-                             (substatement-open                  . 0)
-                             (statement-block-intro              . +)
-                             (block-close                        . 0)
-                             (do-while-closure                   . 0)
-                             (case-label                         . *)
-                             (statement-case-intro               . +)
+                            ((access-label                         . 0)
+                             (inline-open                          . 0)
+                             (substatement-open                    . 0)
+                             (statement-block-intro                . +)
+                             (block-close                          . 0)
+                             (do-while-closure                     . 0)
+                             (case-label                           . *)
+                             (statement-case-intro                 . +)
+                             (statement-cont c-lineup-cascaded-calls +)
+                             (stream-op                            . c-lineup-streamop)
                              ))
     (c-lineup-math                   1)
     (c-lineup-inexpr-block           1)
@@ -77,7 +80,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; js2-mode style
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ;; With regular JS2-mode, pressing TAB at the beginning of a line won't move the
 ;; caret to the first non-space character if the line is already properly. This
@@ -90,15 +92,17 @@
     (let* ((inhibit-point-motion-hooks t)
            (parse-status (save-excursion (syntax-ppss (point-at-bol))))
            (offset (- (current-column) (current-indentation)))
-           (indentation (espresso--proper-indentation parse-status))
-           node)
+           (indentation (js--proper-indentation parse-status))
+           node
+           )
 
       (save-excursion
 
         ;; I like to indent case and labels to half of the tab width
         (back-to-indentation)
         (if (looking-at "case\\s-")
-            (setq indentation (+ indentation (/ espresso-indent-level 2))))
+            (setq indentation (+ indentation (/ js-indent-level 2)))
+          )
 
         ;; consecutive declarations in a var statement are nice if
         ;; properly aligned, i.e:
@@ -109,7 +113,8 @@
         (when (and node
                    (= js2-NAME (js2-node-type node))
                    (= js2-VAR (js2-node-type (js2-node-parent node))))
-          (setq indentation (+ 0 indentation))))
+          (setq indentation (+ 4 indentation)))
+        )
 
       (indent-line-to indentation)
       (when (> offset 0) (forward-char offset))
@@ -161,12 +166,30 @@
 (add-hook 'js2-mode-hook
           '(lambda ()
              (require 'js)
-             (setq indent-tabs-mode         nil)
-             (c-toggle-auto-state             0)
-             (c-toggle-hungry-state           1)
-             (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
-             (define-key js2-mode-map [(meta control |)]      'cperl-lineup          )
+             ;; toggle major mode editor options
+             ;; unlike other major modes, js2-mode is not
+             ;; a cc-mode derivative
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
+             (auto-fill-mode                         1)
+             (show-paren-mode                        t)
+             (setq fill-column                      80)
+             (setq c-basic-offset                    4)
+             (setq tab-width                         4)
+             (setq indent-tabs-mode                nil)
 
+             (setq js2-use-font-lock-faces           t)
+             (setq js2-highlight-level               3)
+
+             ;; additional js2-mode indent sexp
+             ;; incompatible with js2-mode from https://github.com/mooz/js2-mode
+             ;;(set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
+
+             ;; enable highlight-vars-mode
+             (if (featurep 'js2-highlight-vars)  (js2-highlight-vars-mode))
+
+             ;; bind buffer local keys
+             (define-key js2-mode-map [(meta control |)]      'cperl-lineup          )
              (define-key js2-mode-map [(meta control \;)]
                '(lambda()
                   (interactive)
@@ -174,24 +197,10 @@
                   (save-excursion
                     (insert " ]----- */"))
                   ))
-
              (define-key js2-mode-map [return]             'newline-and-indent       )
              (define-key js2-mode-map [backspace]          'c-electric-backspace     )
              (define-key js2-mode-map [(control d)]        'c-electric-delete-forward)
              (define-key js2-mode-map [(control meta q)]   'my-js2-indent-sexp       )
-             (if (featurep 'js2-highlight-vars)
-                 (js2-highlight-vars-mode)
-               )
-             )
-          )
-
-
-(add-hook 'js2-mode-hook
-          '(lambda ()
-             ;; Force c-mode so that Emacs allows c-set-style
-             (c-mode)
-             (c-add-style "my-javascript-programming-style" my-javascript-mode-programming-style t)
-             (c-set-style "my-javascript-programming-style")
              )
           )
 
@@ -233,14 +242,14 @@
     (let* ((inhibit-point-motion-hooks t)
            (parse-status (save-excursion (syntax-ppss (point-at-bol))))
            (offset (- (current-column) (current-indentation)))
-           (indentation (espresso--proper-indentation parse-status))
+           (indentation (js--proper-indentation parse-status))
            node)
 
       (save-excursion
         ;; I like to indent case and labels to half of the tab width
         (back-to-indentation)
         (if (looking-at "case\\s-")
-            (setq indentation (+ indentation (/ espresso-indent-level 2))))
+            (setq indentation (+ indentation (/ js-indent-level 2))))
         )
 
       (indent-line-to indentation)
@@ -257,18 +266,15 @@
 (add-hook 'javascript-mode-hook
           '(lambda ()
              (require 'js)
-             (setq indent-tabs-mode         nil)
-             (c-toggle-auto-state             0)
-             (c-toggle-hungry-state           1)
+             ;; toggle major mode editor options
+             (show-paren-mode                        t)
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
+             (auto-fill-mode                         1)
+             (setq fill-column                      80)
+             (setq indent-tabs-mode                nil)
              (set (make-local-variable 'indent-line-function) 'my-javascript-mmm-indent-sexp)
-             )
-          )
-
-
-(add-hook 'javascript-mode-hook
-          '(lambda ()
-             ;; Force c-mode so that Emacs allows c-set-style
-             (c-mode)
+             ;; set programming style and force c-mode so that Emacs allows c-set-style
              (c-add-style "my-javascript-programming-style" my-javascript-mode-programming-style t)
              (c-set-style "my-javascript-programming-style")
              )
