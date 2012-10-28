@@ -17,8 +17,16 @@
 
 (add-hook 'scala-mode-hook
           '(lambda ()
-             (auto-fill-mode                         1)    
+             ;; toggle major mode editor options
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
+             (auto-fill-mode                         1)
+             (show-paren-mode                        t)
              (setq fill-column                      80)
+             (setq c-basic-offset                    4)
+             (setq tab-width                         4)
+             (setq indent-tabs-mode                nil)
+             ;; set programming style
              (c-add-style "my-scala-programming-style" my-java-mode-programming-style t)
              (c-set-style "my-scala-programming-style")
              )
@@ -35,5 +43,3 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq auto-mode-alist (append '(("\\.scala$"    . scala-mode        )) auto-mode-alist))
-
-
