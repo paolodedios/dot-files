@@ -116,6 +116,7 @@
                               (powerline-arrow-left             face1 nil)
                               (powerline-raw                          " ")
                               (powerline-raw                 "%6p" nil 'l)
+                              (powerline-raw                          " ")
                               (powerline-hud                  face2 face1)
                               ))
                         )
