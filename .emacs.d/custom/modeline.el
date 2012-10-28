@@ -7,6 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Mode line customization
+;; https://github.com/milkypostman/powerline
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'powerline)
@@ -108,7 +109,7 @@
                         (rhs (list
                               (powerline-raw  global-mode-string face1 'l)
 
-                              (powerline-raw            "[%4l  " face1 'l)
+                              (powerline-raw           "[ %4l  " face1 'l)
                               (powerline-raw                    ":" face1)
                               (powerline-raw            "%3c ] " face1 'l)
 
