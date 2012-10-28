@@ -33,6 +33,49 @@
   '((c-hanging-braces-alist .
                             ((brace-list-open                    after)
                              (brace-entry-open                   after)
+                             (substatement-open                 before)
+                             (block-close            . c-snug-do-while)
+                             (extern-lang-open                   after)
+                             (inexpr-class-open                  after)
+                             (inexpr-class-close                before)
+                             ))
+    ;; cleanup shortcuts
+    (c-cleanup-list         .
+                            ((brace-else-brace                        )
+                             (brace-elseif-brace                      )
+                             (brace-catch-brace                       )
+                             (list-close-comma                        )
+                             ))
+    ;; indentation offsets
+    ;; +   'c-basic-offset' times    1
+    ;; -   'c-basic-offset' times   -1
+    ;; ++  'c-basic-offset' times    2
+    ;; --  'c-basic-offset' times   -2
+    ;; *   'c-basic-offset' times  0.5
+    ;; /   'c-basic-offset' times -0.5
+    (c-offsets-alist        .
+                            ((access-label                         . 0)
+                             (inline-open                          . 0)
+                             (substatement-open                    . 0)
+                             (statement-block-intro                . +)
+                             (block-close                          . 0)
+                             (do-while-closure                     . 0)
+                             (case-label                           . *)
+                             (statement-case-intro                 . +)
+                             (statement-cont c-lineup-cascaded-calls +)
+                             (stream-op                            . c-lineup-streamop)
+                             ))
+    (c-lineup-math                   1)
+    (c-lineup-inexpr-block           1)
+
+    ) "My Java Programming Style")
+
+
+(defconst my-work-java-mode-programming-style
+  ;; hanging brace setup
+  '((c-hanging-braces-alist .
+                            ((brace-list-open                    after)
+                             (brace-entry-open                   after)
                              (substatement-open                  after)
                              (block-close            . c-snug-do-while)
                              (extern-lang-open                   after)
@@ -75,7 +118,7 @@
     (c-lineup-math                   1)
     (c-lineup-inexpr-block           1)
 
-    ) "My Java Programming Style")
+    ) "My Java Work Programming Style")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -248,7 +291,7 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              ;; set programming style
-             (c-add-style "my-java-mode-programming-style" my-java-mode-programming-style t)
+             (c-add-style "my-java-mode-programming-style" my-work-java-mode-programming-style t)
              (c-set-style "my-java-mode-programming-style")
              )
           )
