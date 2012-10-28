@@ -22,6 +22,7 @@
              (c-toggle-hungry-state                  1)
              (auto-fill-mode                         1)
              (show-paren-mode                        t)
+             (subword-mode                           1)
              (setq fill-column                      80)
              (setq c-basic-offset                    4)
              (setq tab-width                         4)
