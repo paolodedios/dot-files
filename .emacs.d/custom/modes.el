@@ -23,8 +23,8 @@
 
 (load "custom/dir-ed")
 (load "custom/i-do")
-(load "custom/linenum")
 (load "custom/modeline")
+(load "custom/linenum")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load major modes in order
