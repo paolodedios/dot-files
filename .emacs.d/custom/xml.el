@@ -22,6 +22,8 @@
 
 (autoload 'xxml-mode-routine "xxml")
 
+(require 'yaml-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SGML and XML global settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -79,6 +81,12 @@
              (setq tab-width     2)
              )
           )
+
+(add-hook 'yaml-mode-hook
+      '(lambda ()
+        (define-key yaml-mode-map "\C-m" 'newline-and-indent)
+        )
+      )
 
 ;; Add CSS colorization to relevant major/minor modes
 (add-hook 'html-mode-hook     'hexcolor-add-to-font-lock)
