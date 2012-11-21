@@ -73,11 +73,11 @@ function showcolors()
 function hg_dirty()
 {
     hg status 2> /dev/null \
-    | awk '$1 == "?" { unknown = 1 } 
+    | awk '$1 == "?" { unknown = 1 }
            $1 != "?" { changed = 1 }
            END {
              if (changed) printf "*"
-             else if (unknown) printf "?" 
+             else if (unknown) printf "?"
            }'
 }
 
@@ -98,7 +98,7 @@ function hg_branch()
 
 function git_dirty()
 {
-    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
 }
 
 function git_branch()
@@ -127,12 +127,12 @@ fi
 
 function select_jdk6()
 {
-    export JAVA_HOME=$(/usr/libexec/java_home -v 1.6.0) 
+    export JAVA_HOME=$(/usr/libexec/java_home -v 1.6.0)
 }
 
 function select_jdk7()
 {
-    export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0) 
+    export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0)
 }
 
 ######################################################################################
@@ -219,19 +219,19 @@ function fstr()
         return;
     fi
     find . -type f -name "${2:-*}" -print0 | \
-    xargs -0 egrep --color=always -sn ${case} "$1" 2>&- | more 
+    xargs -0 egrep --color=always -sn ${case} "$1" 2>&- | more
 
 }
 
 # cut last n lines in file, 10 by default
-function cuttail() 
+function cuttail()
 {
     nlines=${2:-10}
     sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $1
 }
 
 # move filenames to lowercase
-function lowercase()  
+function lowercase()
 {
     for file ; do
         filename=${file##*/}
@@ -252,21 +252,21 @@ function lowercase()
 
 
 # Swap 2 filenames around, if they exist
-function swap()  
-{                
-    local TMPFILE=tmp.$$ 
+function swap()
+{
+    local TMPFILE=tmp.$$
 
     [ $# -ne 2 ] && echo "swap: 2 arguments needed" && return 1
     [ ! -e $1 ] && echo "swap: $1 does not exist" && return 1
     [ ! -e $2 ] && echo "swap: $2 does not exist" && return 1
 
-    mv "$1" $TMPFILE 
+    mv "$1" $TMPFILE
     mv "$2" "$1"
     mv $TMPFILE "$2"
 }
 
 # Handy Extract command
-function extract()      
+function extract()
 {
      if [ -f $1 ] ; then
          case $1 in
@@ -380,7 +380,7 @@ function pp()
 }
 
 # Kill by process name.
-function killps()                 
+function killps()
 {
     local pid pname sig="-TERM"   # Default signal.
     if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
@@ -401,7 +401,7 @@ function killps()
 # Misc utilities
 #######################################################################################
 
-function repeat() 
+function repeat()
 {
     # Repeat n times command.
     local i max
