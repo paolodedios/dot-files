@@ -127,7 +127,6 @@ cd "$(dirname "$0")"
 notice "Checking dependencies"
 
 dep "git"   "1.7"
-dep "hg"    "2.3"
 dep "rsync" "3.0"
 
 if [ "${#missing[*]}" -gt "0" ]; then
