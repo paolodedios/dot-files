@@ -76,7 +76,7 @@ alias grep='grep --color=auto'
 # Copies folder and all sub files and folders, preserving security and dates
 #######################################################################################
 
-alias cp-folder="cp -Rpv" 
+alias cp-folder="cp -Rpv"
 
 #######################################################################################
 # Shows most used commands
@@ -84,7 +84,7 @@ alias cp-folder="cp -Rpv"
 #######################################################################################
 
 alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
- 
+
 #######################################################################################
 # Lists folders and files sizes in the current folder
 #######################################################################################
@@ -97,7 +97,6 @@ alias du1='du -h -d 1'
 #######################################################################################
 
 alias less='less.sh'
-alias more='less'
 
 #######################################################################################
 # Prevents accidentally clobbering files.
@@ -114,9 +113,9 @@ alias mkdir='mkdir -p'
 #######################################################################################
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then 
+if ls --color > /dev/null 2>&1; then
 	colorflag="--color"                     # GNU `ls`
-else 
+else
 	colorflag="-G"                          # OS X `ls`
 fi
 
@@ -202,7 +201,7 @@ alias pylsenvpkgs='lssitepackages'
 ######################################################################################
 
 if [ "$OS" = "darwin" ]; then
-    
+
     alias rebuild-menu='$LS_REGISTER_PATH/lsregister -kill -r -domain local -domain system -domain user'
 
     # Cleanup Resource Forks
