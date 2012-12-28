@@ -1,0 +1,31 @@
+#
+# Git Global Config File
+#
+###############################################################
+
+# Always use Github user ID
+[user]
+	name             = Paolo de Dios
+	email            = paolodedios@gmail.com
+
+[core]
+    autocrlf         = input
+    eol              = lf
+    filemode         = false
+    logallrefupdates = true
+    excludesfile     = /Users/paolodedios/.gitignore_global
+
+
+[difftool "Kaleidoscope"]
+[difftool]
+	prompt           = false
+[diff]
+	tool             = Kaleidoscope
+[difftool "sourcetree"]
+	cmd              = opendiff \"$LOCAL\" \"$REMOTE\"
+	path             =
+[mergetool "sourcetree"]
+	cmd              = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode    = true
+[difftool "Kaleidoscope"]
+	cmd              = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
