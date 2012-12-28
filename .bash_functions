@@ -363,6 +363,11 @@ function dataurl()
 	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
+# Scrape a URL using wget
+function getwebsite()
+{
+    wget --no-parent --recursive --level=inf --page-requisites --wait=1 $1
+}
 
 #######################################################################################
 # Process/system related functions
