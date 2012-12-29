@@ -100,6 +100,8 @@ function setupLocalDevEnvironment()
             export MYSQL_DB_VERSION=mysql-5.5.21-linux-x86_64
         fi
 
+        # Set JAVA_HOME to JDK 7
+        select_jdk7
     fi
 
     # Add local applications to PATH
