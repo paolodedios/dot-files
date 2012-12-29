@@ -88,6 +88,7 @@ function setupLocalDevEnvironment()
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
         # Declare platform agnostic applications
+        export JDK_VERSION=1.7.0
         export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
         export CSVKIT_VERSION=csvkit-0.4.4
         export VISUALVM_VERSION=visualvm-1.3.5
@@ -101,7 +102,8 @@ function setupLocalDevEnvironment()
         fi
 
         # Set JAVA_HOME to JDK 7
-        select_jdk7
+        export JAVA_HOME=$(/usr/libexec/java_home -v $JDK_VERSION)
+
     fi
 
     # Add local applications to PATH
