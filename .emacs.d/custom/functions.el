@@ -376,7 +376,7 @@ there's a region, all lines that region covers will be duplicated."
  * (\"ATSL\")
  *
  * The Initial Developer of the Original Code is AfterText, Inc. Portions
- * created by AfterText are Copyright (C) 2010 AfterText, Inc.  All Rights
+ * created by AfterText are Copyright (C) 2013 AfterText, Inc.  All Rights
  * Reserved.
  */
 ")
@@ -407,7 +407,7 @@ there's a region, all lines that region covers will be duplicated."
    - The Original Code is AfterText.
    -
    - The Initial Developer of the Original Code is AfterText, Inc.
-   - Portions created by AfterText, Inc are Copyright (C) 2010
+   - Portions created by AfterText, Inc are Copyright (C) 2013
    - AfterText, Inc.  All Rights Reserved.
    -
    - Redistribution of the Original Code or portions of the Original
@@ -446,7 +446,7 @@ there's a region, all lines that region covers will be duplicated."
  * rights and limitations under the License.
  *
  * The Initial Developer of the Original Code is Aftertext, Inc.
- * Portions created by AfterText, Inc are Copyright (C) 2010
+ * Portions created by AfterText, Inc are Copyright (C) 2013
  * AfterText, Inc.  All Rights Reserved.
  *
  * Redistribution of the Original Code or portions of the Original
@@ -488,7 +488,7 @@ there's a region, all lines that region covers will be duplicated."
  * rights and limitations under the License.
  *
  * The Initial Developer of the Original Code is Paolo de Dios.
- * Portions Copyright (C) 2010 Paolo de Dios.  All Rights Reserved.
+ * Portions Copyright (C) 2013 Paolo de Dios.  All Rights Reserved.
  *
  * Redistribution of the Original Code or portions of the Original
  * Code or Software under this agreement must retain the above
