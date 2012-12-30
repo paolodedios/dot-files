@@ -373,7 +373,14 @@ function dataurl()
 # Scrape a URL using wget
 function getwebsite()
 {
-    wget --no-parent --recursive --level=inf --page-requisites --wait=1 $1
+    wget --recursive --level=inf --page-requisites --no-parent --wait=1 $1
+}
+
+# Mirror a URL using wget
+function mirrorwebsite()
+{
+    # Equivalent to: --recursive --timestamping --level=inf --no-remove-listing
+    wget --mirror --convert-links --html-extension --page-requisites --no-parent --wait=5 $1
 }
 
 #######################################################################################
