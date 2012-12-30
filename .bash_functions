@@ -26,13 +26,13 @@ function sysinfo()
 # Notice title
 function notice()
 {
-    echo  "\033[1;32m=> $1\033[0m";
+    echo " => \033[1;32m $1\033[0m";
 }
 
 # Error title
 function error()
 {
-    echo "\033[1;31m=> Error: $1\033[0m";
+    echo " => \033[1;31m Error: $1\033[0m";
 }
 
 # List item
