@@ -20,34 +20,6 @@ function sysinfo()
 }
 
 ########################################################################################
-# Declare helper functions for shell prompt notifications
-########################################################################################
-
-# Notice title
-function notice()
-{
-    echo " => \033[1;32m $1\033[0m";
-}
-
-# Error title
-function error()
-{
-    echo " => \033[1;31m Error: $1\033[0m";
-}
-
-# List item
-function check_list()
-{
-    echo  "  \033[1;32m✔\033[0m $1";
-}
-
-# Error list item
-function error_list()
-{
-    echo  "  \033[1;31m✖\033[0m $1";
-}
-
-########################################################################################
 # Display terminal color constants
 ########################################################################################
 
