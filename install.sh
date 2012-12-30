@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Shell configuration initialization script
 #
@@ -18,13 +18,13 @@ MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklm
 # Notice title
 function notice()
 {
-    echo  "\033[1;32m=> $1\033[0m";
+    echo " => \033[1;32m $1\033[0m";
 }
 
 # Error title
 function error()
 {
-    echo "\033[1;31m=> Error: $1\033[0m";
+    echo " => \033[1;31m Error: $1\033[0m";
 }
 
 # List item
