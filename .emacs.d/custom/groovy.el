@@ -5,7 +5,6 @@
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
 (require 'groovy-electric)
 
 (autoload 'groovy-mode     "groovy-mode" "Groovy Editing Mode"   t)
@@ -17,19 +16,11 @@
 (add-hook 'groovy-mode-hook
           '(lambda ()
              (groovy-electric-mode                   1)
-             ;; toggle major mode editor options
-             (c-toggle-auto-state                    1)
-             (c-toggle-hungry-state                  1)
-             (auto-fill-mode                         1)
-             (show-paren-mode                        t)
-             (subword-mode                           1)
-             (setq fill-column                      80)
-             (setq c-basic-offset                    4)
-             (setq tab-width                         4)
-             (setq indent-tabs-mode                nil)
-             ;; set programming style
-             (c-add-style "my-groovy-programming-style" my-java-mode-programming-style t)
-             (c-set-style "my-groovy-programming-style")
+             ;; Jeremy Rayner's groovy-mode is not CC-mode based
+             ;; Russel Winder's groovy-mode is CC-mode based by font-locking is broken
+             ;; so disable set style
+             ;; (c-add-style "my-groovy-programming-style" my-java-mode-programming-style t)
+             ;; (c-set-style "my-groovy-programming-style")
              )
           )
 
