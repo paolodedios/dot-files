@@ -141,61 +141,61 @@ since CC Mode treats every identifier as an expression."
   groovy `(
            ;; Primary.
            ,@(c-lang-const c-identifier-ops)
-             
+
              (postfix-if-paren "<" ">") ; Templates.
-             
+
              (prefix "super")
-             
+
              ;; Postfix.
              (left-assoc "." "*." "?." ".&" ".@")
-             
+
              (postfix "++" "--" "[" "]" "(" ")" "<:" ":>")
-             
+
              ;; Unary.
              (prefix "++" "--" "+" "-" "!" "~" "new" "(" ")")
-             
+
              ;; Multiplicative.
              (left-assoc "*" "/" "%")
-             
+
              ;; Additive.
              (left-assoc "+" "-")
-             
+
              ;; Shift.
              (left-assoc "<<" ">>" ">>>")
-             
+
              ;; Relational.
              (left-assoc "<" ">" "<=" ">=" "instanceof" "<=>")
-             
+
              ;; Matching.
              (left-assoc "=~" "==~" )
 
              ;; Equality.
              (left-assoc "==" "!=" )
-             
+
              ;; Bitwise and.
              (left-assoc "&")
-             
+
              ;; Bitwise exclusive or.
              (left-assoc "^")
-             
+
              ;; Bitwise or.
              (left-assoc "|")
-             
+
              ;; Logical and.
              (left-assoc "&&")
-             
+
              ;; Logical or.
              (left-assoc "||")
-             
+
              ;; Conditional.
              (right-assoc-sequence "?" ":")
-             
+
              ;; Assignment.
              (right-assoc ,@(c-lang-const c-assignment-operators))
-             
+
              ;; Exception.
              ;(prefix "throw") ; Java mode didn't have this but c++ mode does.  Humm...
-             
+
              ;; Sequence.
              (left-assoc ",")
 
@@ -209,7 +209,7 @@ since CC Mode treats every identifier as an expression."
                           "&" "|" "^" "~" "<<" ">>" ">>>"
                           "==" "!=" ">" "<" ">=" "<="
                           "<=>"
-                          "=~" "==~" 
+                          "=~" "==~"
                           "++" "--" "+=" "-=" "*=" "/=" "%="
                           "&=" "|=" "^=" "~=" "<<=" ">>=" ">>>="
                           "!" "&&" "||"))
@@ -276,7 +276,7 @@ since CC Mode treats every identifier as an expression."
     (goto-char pos)
 	(back-to-indentation)
 	(not
-	 (or 
+	 (or
 	  (and (looking-at "if") ; make sure nothing else on line
 		   (progn (forward-sexp 2)
 				  (groovy-ws-or-comment-to-eol-p (point))))
@@ -418,11 +418,11 @@ need for `java-font-lock-extra-types'.")
 ;; if we are in a closure that has an argument eg ends with -> (excluding comment) then
 ;; change indent else lineup with previous one
 (defun groovy-mode-fix-closure-with-argument (langelem)
-  (save-excursion 
-	(back-to-indentation)	
+  (save-excursion
+	(back-to-indentation)
 	(c-backward-syntactic-ws)
 	(backward-char 2)
-	(if (looking-at "->")                                  ; if the line has a -> in it 
+	(if (looking-at "->")                                  ; if the line has a -> in it
 		(vector (+ (current-indentation) c-basic-offset))  ; then indent from base
 	  0)))
 
@@ -458,7 +458,7 @@ need for `java-font-lock-extra-types'.")
 (defadvice c-guess-basic-syntax (after c-guess-basic-syntax-groovy activate)
   (when (is-groovy-mode)
 	(save-excursion
-	  (let* ((ankpos (progn 
+	  (let* ((ankpos (progn
 					   (beginning-of-line)
 					   (c-backward-syntactic-ws)
 					   (beginning-of-line)
@@ -470,11 +470,11 @@ need for `java-font-lock-extra-types'.")
 		 ((eq 'statement-cont curelem)
 		  (when (groovy-at-vsemi-p) ; if there is a virtual semi there then make it a statement
 			(setq ad-return-value `((statement ,ankpos)))))
-		 
+
 		 ((eq 'topmost-intro-cont curelem)
 		  (when (groovy-at-vsemi-p) ; if there is a virtual semi there then make it a top-most-intro
 			(setq ad-return-value `((topmost-intro ,ankpos)))))
-		
+
 		 )))))
 
 ;; This disables bracelists, as most of the time in groovy they are closures
@@ -518,7 +518,7 @@ need for `java-font-lock-extra-types'.")
    "[ \t\n\r]*"                                ; whitespace
 ;   "\\(throws\\([, \t\n\r]\\|[a-zA-Z0-9_$]\\)+\\)?{"
    "\\(throws[^{;]+\\)?"                       ; optional exceptions
-   "[;{]"                                      ; ending ';' (interfaces) or '{' 
+   "[;{]"                                      ; ending ';' (interfaces) or '{'
 										       ; TODO groovy interfaces don't need to end in ;
    )
   "Matches method names in groovy code, select match 2")
@@ -568,6 +568,10 @@ Key bindings:
   ;;(easy-menu-add groovy-menu)
   (cc-imenu-init cc-imenu-groovy-generic-expression)
   (c-run-mode-hooks 'c-mode-common-hook 'groovy-mode-hook)
+
+  (if (fboundp 'run-mode-hooks)
+      (run-mode-hooks 'c-mode-common-hook 'groovy-mode-hook)
+    (run-hooks 'groovy-mode-hook))
 
   ;; quick fix for misalignment of statements with =
   (setq c-label-minimum-indentation 0)
