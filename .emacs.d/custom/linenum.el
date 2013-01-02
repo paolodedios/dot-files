@@ -14,7 +14,7 @@
 (require 'linum-off)
 
 (if (equal linum-mode nil)
-    (global-linum-mode)
+    (global-linum-mode  1)
     ;; Enable linum for all modes except those on this list
     (linum-on)
   )
