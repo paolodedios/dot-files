@@ -39,6 +39,7 @@
 (load "custom/java")
 (load "custom/scala")
 (load "custom/clojure")
+(load "custom/groovy")
 
 (load "custom/python")
 (load "custom/javascript")
