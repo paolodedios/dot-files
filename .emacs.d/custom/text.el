@@ -57,6 +57,8 @@
              (setq fill-column                      80)
              (setq tab-width                         4)
              (local-set-key "^C-^t"   'ispell-complete-word)
+             ;; For some reason, global-linum-mode does not work in text mode
+             (linum-mode                             1)
              )
           )
 
@@ -76,5 +78,6 @@
 (setq auto-mode-alist (append '(("\\.txt$"      . text-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.README$"   . text-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("README$"      . text-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '((".*READ\\.ME$" . text-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("NOTICE$"      . text-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("CHANGELOG$"   . text-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.doc$"      . text-mode         )) auto-mode-alist))
