@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Clojure mode
 ;;
@@ -31,4 +31,3 @@
 
 (setq auto-mode-alist (append '(("\\.clj$"      . clojure-mode      )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.clojure$"  . clojure-mode      )) auto-mode-alist))
-

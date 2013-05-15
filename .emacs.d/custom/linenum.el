@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; linum mode settings
 ;;

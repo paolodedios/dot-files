@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Emacs configuration file. Configured for Emacs 23.X and later.
 ;;
@@ -70,4 +70,3 @@
   (message "Loading Windows specific settings")
   (load "custom/platform-win")
  )
-

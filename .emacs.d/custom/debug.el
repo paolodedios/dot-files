@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Emacs/Elisp debugging
 ;;

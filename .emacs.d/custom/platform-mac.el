@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Mac OS X specific settings
 ;;

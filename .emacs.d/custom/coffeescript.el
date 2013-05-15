@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; CoffeeScript mode
 ;;
@@ -59,6 +59,3 @@
 
 (setq auto-mode-alist (append '(("\\.coffee$"   . coffee-mode       )) auto-mode-alist))
 (setq auto-mode-alist (append '(("Cakefile"     . coffee-mode       )) auto-mode-alist))
-
-
-

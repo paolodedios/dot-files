@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Major and minor mode settings
 ;;
@@ -40,6 +40,7 @@
 (load "custom/scala")
 (load "custom/clojure")
 (load "custom/groovy")
+(load "custom/jflex")
 
 (load "custom/python")
 (load "custom/javascript")

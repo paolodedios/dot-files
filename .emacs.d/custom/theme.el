@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Custom color theme
 ;;
@@ -100,7 +100,12 @@
 
        ;; Maximum colors
        (setq font-lock-maximum-decoration
-             '((java-mode             . t)
+             '(
+               (java-mode             . t)
+               (scala-mode            . t)
+               (clojure-mode          . t)
+               (groovy-mode           . t)
+               (jflex-mode            . t)
                (c++-mode              . t)
                (c-mode                . t)
                (objc-mode             . t)
@@ -108,13 +113,13 @@
                (js2-mode              . t)
                (coffee-mode           . t)
                (css-mode              . t)
-               (scala-mode            . t)
-               (clojure-mode          . t)
                (python-mode           . t)
+               (php-mode              . t)
                (sql-mode              . t)
                (R-mode                . t)
-               (emacs-lisp-mode       . t)
+               (matlab-mode           . t)
                (lisp-mode             . t)
+               (emacs-lisp-mode       . t)
                (t                     . 1)
                )
              ))
@@ -140,4 +145,3 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq-default font-lock-maximum-size         8388608)
-

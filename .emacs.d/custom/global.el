@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Global editor settings
 ;;
@@ -256,4 +256,3 @@
   )
 
 (add-hook 'electric-buffer-menu-mode-hook 'buffer-menu-custom-font-lock)
-

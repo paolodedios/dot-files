@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Matlab mode
 ;;
@@ -30,9 +30,9 @@
           )
 
 ;; indent function bodies
-(setq matlab-indent-function-body    t) 
-;; turn off auto-verify on save 
-(setq matlab-verify-on-save-flag   nil) 
+(setq matlab-indent-function-body    t)
+;; turn off auto-verify on save
+(setq matlab-verify-on-save-flag   nil)
 
 (defun my-matlab-shell-mode-hook () '())
 
@@ -51,4 +51,3 @@
 
 (setq auto-mode-alist (append '(("\\.matlab$"   . matlab-mode       )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.octave$"   . matlab-mode       )) auto-mode-alist))
-

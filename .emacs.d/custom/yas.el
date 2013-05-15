@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; YASnippet  mode
 ;;
@@ -81,5 +81,3 @@
 (add-hook 'sh-mode-hook
           '(lambda ()
              (yas/minor-mode-on)))
-
-

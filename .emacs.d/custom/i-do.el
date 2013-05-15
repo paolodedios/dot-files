@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; IDO mode
 ;;
@@ -22,14 +22,20 @@
 ;; ido file listing order
 (setq ido-file-extensions-order
       '(".java"
+        ".scala"
+        ".clj"
+        ".groovy"
         ".js"
+        ".coffee"
         ".css"
+        ".less"
+        ".sass"
         ".html"
         ".xml"
         ".c"
         ".cpp"
         ".h"
         ".el"
+        ".lisp"
         )
       )
-

@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Java mode
 ;; @see http://emacswiki.org/emacs/JavaDevelopmentEnvironment

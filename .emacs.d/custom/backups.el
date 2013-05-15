@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Backup file management
 ;;
@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Prevent Emacs from cluttering source directories with backup files (filenames
-;; ending in ~) and autosave files (filenames starting with #). Move backup 
+;; ending in ~) and autosave files (filenames starting with #). Move backup
 ;; elsewhere by setting backup-directory-alist and auto-save-file-name-transforms
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -32,7 +32,7 @@
       (delete-file file)))
   )
 
- 
+
 ;; Save all autosave-* backup files to this directory.
 ;; Example:
 ;; (defvar user-backup-file-directory

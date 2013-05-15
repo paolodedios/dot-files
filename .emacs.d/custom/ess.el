@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; ESS (Emacs Speaks Statistics) mode
 ;;
@@ -30,4 +30,3 @@
 (setq auto-mode-alist (append '(("\\.r$"        . R-mode            )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.S$"        . S-mode            )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.s$"        . S-mode            )) auto-mode-alist))
-

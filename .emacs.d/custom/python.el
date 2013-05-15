@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; Python mode
 ;;
@@ -27,4 +27,3 @@
 
 (setq auto-mode-alist (append '(("\\.py$"       . python-mode       )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.pyx$"      . python-mode       )) auto-mode-alist))
-

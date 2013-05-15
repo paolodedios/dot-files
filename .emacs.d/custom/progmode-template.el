@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; C/C++ mode
 ;;
@@ -34,4 +34,3 @@
 (setq auto-mode-alist (append '(("\\.cxx$"      . c++-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.C$"        . c++-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.idl$"      . c++-mode          )) auto-mode-alist))
-

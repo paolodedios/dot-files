@@ -1,4 +1,4 @@
-;; -*-emacs-lisp-*-
+;; -*- mode: emacs-lisp -*-
 ;;
 ;; MMM (Multiple Major Modes) mode
 ;;
@@ -180,7 +180,7 @@
 
 
 ;; JSP markup mode groups
-(mmm-add-group 
+(mmm-add-group
  'html-jsp
  '(
    (html-jsp
@@ -225,6 +225,3 @@
 (mmm-add-mode-ext-class  'xml-mode   "\\.xul\\'"       'xul-js   )
 (mmm-add-mode-ext-class  'xml-mode   "\\.xml\\'"       'xul-js   )
 (mmm-add-mode-ext-class  'xml-mode   "\\.xbl\\'"       'xul-js   )
-
-
-
