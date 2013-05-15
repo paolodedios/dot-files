@@ -20,8 +20,6 @@
 ;; Note - default code identation styles
 ;; gnu, k&r, bsd, stroustrup, whitesmith, ellemtel, linux, python, java
 ;;
-;; auto identation constant definition
-;; explicit declaration of all syntactic attributes
 ;; @see http://www.gnu.org/software/emacs/manual/html_node/ccmode/Indentation-Engine-Basics.html
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
