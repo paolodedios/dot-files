@@ -316,21 +316,50 @@
 (defun align-stacked-list-commas (region-begin region-end)
   "Vertically align region - used to align stacked list commas"
   (interactive "r")
-  (align-regexp region-begin region-end (concat "\\(\\s-*\\)" "\\(,\\|)\\)\\(\\s-+\\|$\\)" ) 1 1 t)
+  (align-regexp region-begin
+                region-end
+                (concat "\\(\\s-*\\)"
+                        "\\(,\\|)\\)\\(\\s-+\\|$\\)"
+                        )
+                1 1 t
+                )
   )
 
 (defun align-stacked-arglist (region-begin region-end)
   "Vertically align region - used to align arg list variables and commas"
   (interactive "r")
-  (align-regexp region-begin region-end (concat "\\(\\s-*\\)" "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(,\\|)\\)\\(\\s-*\\)" ) 1 1 t)
-  (align-regexp region-begin region-end (concat "\\(\\s-*\\)" "\\(,\\|)\\)\\(\\s-+\\|$\\)" ) 1 1 t)
+  (align-regexp region-begin
+                region-end
+                (concat "\\(\\s-*\\)"
+                        "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(,\\|)\\)\\(\\s-*\\)"
+                        )
+                1 1 t
+                )
+  (align-regexp region-begin
+                region-end
+                (concat "\\(\\s-*\\)"
+                        "\\(,\\|)\\)\\(\\s-+\\|$\\)"
+                        )
+                1 1 t
+                )
   )
 
 (defun align-stacked-assignments (region-begin region-end)
   "Vertically align region - used to align variable assignments"
   (interactive "r")
-  (align-regexp region-begin region-end (concat "\\(\\s-*\\)" "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(=\\|<-\\)\\(\\s-*\\)" ) 1 1 t)
-  (align-regexp region-begin region-end (concat "\\(\\s-*\\)" "\\(=\\|<-\\)" ) 1 1 t)
+  (align-regexp region-begin
+                region-end
+                (concat "\\(\\s-*\\)"
+                        "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(=\\|<-\\)\\(\\s-*\\)"
+                        )
+                1 1 t
+                )
+  (align-regexp region-begin
+                region-end
+                (concat "\\(\\s-*\\)"
+                        "\\(=\\|<-\\)"
+                        )
+                1 1 t)
   )
 
 
