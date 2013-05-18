@@ -17,7 +17,7 @@
           '(lambda ()
              (groovy-electric-mode                   1)
              ;; Jeremy Rayner's groovy-mode is not CC-mode based
-             ;; Russel Winder's groovy-mode is CC-mode based by font-locking is broken
+             ;; Russel Winder's groovy-mode is CC-mode based but font-locking is broken
              ;; so disable set style
              ;; (c-add-style "my-groovy-programming-style" my-java-mode-programming-style t)
              ;; (c-set-style "my-groovy-programming-style")
