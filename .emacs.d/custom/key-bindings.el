@@ -214,7 +214,7 @@
 (define-key global-map [f7]               'replace-string                  )
 (define-key global-map [f8]               'query-replace                   )
 (define-key global-map [f9]               'query-replace-regexp            )
-(define-key global-map [f10               'goto-home                       )
+(define-key global-map [f10]              'goto-home                       )
 (define-key global-map [f11]              'goto-projects                   )
 (define-key global-map [f12]              'goto-line                       )
 
@@ -254,6 +254,9 @@
 (define-key global-map [(control f1)]     'cleanup-buffer-or-region        )
 (define-key global-map [(control f2)]     'indent-buffer                   )
 (define-key global-map [(control f3)]     'cut-ctrlM                       )
+
+(define-key global-map [(control f6)]     'align-stacked-arglist           )
+(define-key global-map [(control f7)]     'align-stacked-assignments       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paste c-file-style overrides for various environments
