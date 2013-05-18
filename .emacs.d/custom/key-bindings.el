@@ -205,15 +205,17 @@
 ;; @see http://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map [f2]               'ido-find-file                   )
-(define-key global-map [f3]               'reload-dot-emacs                )
-(define-key global-map [f4]               'cut-ctrlM                       )
+(define-key global-map [f2]               'reload-dot-emacs                )
+(define-key global-map [f3]               'ido-find-file                   )
+(define-key global-map [f4]               'electric-buffer-list            )
 (define-key global-map [f5]               'save-buffer                     )
 
-(define-key global-map [f6]               'replace-string                  )
-(define-key global-map [f7]               'query-replace                   )
-(define-key global-map [f8]               'query-replace-regexp            )
-(define-key global-map [f9]               'refresh-file                    )
+(define-key global-map [f6]               'refresh-file                    )
+(define-key global-map [f7]               'replace-string                  )
+(define-key global-map [f8]               'query-replace                   )
+(define-key global-map [f9]               'query-replace-regexp            )
+(define-key global-map [f10               'goto-home                       )
+(define-key global-map [f11]              'goto-projects                   )
 (define-key global-map [f12]              'goto-line                       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -246,13 +248,27 @@
 (define-key global-map [(control end)]    'end-of-line                     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Buffer cleanup functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
+
+(define-key global-map [(control f1)]     'cleanup-buffer-or-region        )
+(define-key global-map [(control f2)]     'indent-buffer                   )
+(define-key global-map [(control f3)]     'cut-ctrlM                       )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Paste c-file-style overrides for various environments
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
+
+(define-key global-map [(alt f1)]         'paste-default-c-file-style      )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Keybindings to automatically paste copyright notice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
 
-(define-key global-map [(alt f1)]         'paste-atsl-copyright            )
-(define-key global-map [(alt f2)]         'paste-atsl-mpl-copyright-html   )
-(define-key global-map [(alt f3)]         'paste-atsl-mpl-copyright        )
-(define-key global-map [(alt f4)]         'paste-mpl-copyright             )
+(define-key global-map [(alt f2)]         'paste-atsl-copyright            )
+(define-key global-map [(alt f3)]         'paste-atsl-mpl-copyright-html   )
+(define-key global-map [(alt f4)]         'paste-atsl-mpl-copyright        )
+(define-key global-map [(alt f5)]         'paste-mpl-copyright             )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
