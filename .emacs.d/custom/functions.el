@@ -359,10 +359,10 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; COMMENT functions
+;; Commenting functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun comment-or-uncomment-current-line-or-region ()
+(defun toggle-comment-current-region ()
   "Comments or uncomments current current line or whole lines in region."
   (interactive)
   (save-excursion
