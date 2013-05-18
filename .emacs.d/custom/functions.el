@@ -412,9 +412,9 @@ there's a region, all lines that region covers will be duplicated."
   "Insert c-file-style local variable header. "
   (interactive)
   (insert
-"/* -*- c-file-style: \"dedios\" -*- */
-")
-  (cut-ctrlM))
+   "/* -*- c-file-style: \"dedios\" -*- */"
+   )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Copyright information source headers
