@@ -255,8 +255,8 @@
 (define-key global-map [(control f2)]     'indent-buffer                   )
 (define-key global-map [(control f3)]     'cut-ctrlM                       )
 
-(define-key global-map [(control f6)]     'align-stacked-arglist           )
-(define-key global-map [(control f7)]     'align-stacked-assignments       )
+(define-key global-map [(control f6)]     'align-stacked-c-arglist         )
+(define-key global-map [(control f7)]     'align-stacked-c-assignments     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paste c-file-style overrides for various environments
