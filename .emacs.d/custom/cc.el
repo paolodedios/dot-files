@@ -115,8 +115,8 @@
              (local-set-key "" (quote compile))
              (local-set-key (quote [C-f11]) (quote gdb))
              ;; set programming style
-             (c-add-style "my-cc-mode-programming-style" my-cc-mode-programming-style t)
-             (c-set-style "my-cc-mode-programming-style")
+             (c-add-style "dedios" my-cc-mode-programming-style t)
+             (c-set-style "dedios")
              )
           )
 
@@ -141,8 +141,8 @@
              (local-set-key "" (quote compile))
              (local-set-key (quote [C-f11]) (quote gdb))
              ;; set programming style
-             (c-add-style "my-cc-mode-programming-style" my-cc-mode-programming-style t)
-             (c-set-style "my-cc-mode-programming-style")
+             (c-add-style "dedios" my-cc-mode-programming-style t)
+             (c-set-style "dedios")
              )
           )
 
@@ -167,8 +167,8 @@
              (local-set-key "" (quote compile))
              (local-set-key (quote [C-f11]) (quote gdb))
              ;; set programming style
-             (c-add-style "my-cc-mode-programming-style" my-cc-mode-programming-style t)
-             (c-set-style "my-cc-mode-programming-style")
+             (c-add-style "dedios" my-cc-mode-programming-style t)
+             (c-set-style "dedios")
              )
           )
 
