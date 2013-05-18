@@ -257,6 +257,7 @@
 
 (define-key global-map [(control f6)]     'align-stacked-c-arglist         )
 (define-key global-map [(control f7)]     'align-stacked-c-assignments     )
+(define-key global-map [(control f12)]    'toggle-comment-current-region   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paste c-file-style overrides for various environments
