@@ -321,7 +321,7 @@
   )
 
 (defun align-stacked-assignments (begin end)
-  "Vertically align region - used to align arg list variables and commas"
+  "Vertically align region - used to align variable assignments"
   (interactive "r")
   (align-regexp begin end (concat "\\(\\s-*\\)" "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(=\\|<-\\)\\(\\s-*\\)" ) 1 1 t)
   (align-regexp begin end (concat "\\(\\s-*\\)" "\\(=\\|<-\\)" ) 1 1 t)
