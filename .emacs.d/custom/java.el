@@ -291,9 +291,9 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              ;; set programming style
-             (c-add-style "dedios" my-java-mode-programming-style      t)
-             (c-add-style "work"   my-work-java-mode-programming-style t)
-             (c-set-style "dedios")
+             (c-add-style "sourcery" my-java-mode-programming-style      t)
+             (c-add-style "knr13"    my-work-java-mode-programming-style t)
+             (c-set-style "sourcery")
              )
           )
 

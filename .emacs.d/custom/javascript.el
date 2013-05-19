@@ -280,7 +280,7 @@
              (setq indent-tabs-mode                nil)
              (set (make-local-variable 'indent-line-function) 'my-javascript-mmm-indent-sexp)
              ;; set programming style and force c-mode so that Emacs allows c-set-style
-             (c-add-style "dedios" my-javascript-mode-programming-style t)
-             (c-set-style "dedios")
+             (c-add-style "sourcery" my-javascript-mode-programming-style t)
+             (c-set-style "sourcery")
              )
           )
