@@ -313,11 +313,27 @@
 ;; Vertical alignment functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun align-stacked-list-commas (region-begin region-end)
+(defun current-active-region-pos ()
+  "Vertically align region - used to align arg list variables and commas"
+  (interactive)
+  (let (pos1 pos2 bds)
+    (if (region-active-p)
+        (setq pos1 (region-beginning) pos2 (region-end))
+      (progn
+        (setq bds  (bounds-of-thing-at-point 'symbol))
+        (setq pos1 (car bds) pos2 (cdr bds))))
+
+    ;; Now, pos1 and pos2 are the starting and ending positions of the
+    ;; current word, or current text selection if exist.
+    (list pos1 pos2)
+    )
+  )
+
+(defun align-stacked-list-commas (current-region-begin current-region-end)
   "Vertically align region - used to align stacked list commas"
   (interactive "r")
-  (align-regexp region-begin
-                region-end
+  (align-regexp current-region-begin
+                current-region-end
                 (concat "\\(\\s-*\\)"
                         "\\(,\\|)\\)\\(\\s-+\\|$\\)"
                         )
@@ -325,36 +341,66 @@
                 )
   )
 
-(defun align-stacked-c-arglist (region-begin region-end)
-  "Vertically align region - used to align arg list variables and commas"
+(defun align-stacked-c-argnames (current-region-begin current-region-end)
+  "Vertically align region - used to align stacked arg list param names"
   (interactive "r")
-  (align-regexp region-begin
-                region-end
+  (align-regexp current-region-begin
+                current-region-end
                 (concat "\\(\\s-*\\)"
                         "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(,\\|)\\)\\(\\s-*\\)"
                         )
                 1 1 t
                 )
-
-  (align-stacked-list-commas region-begin region-end)
   )
 
-(defun align-stacked-c-assignments (region-begin region-end)
-  "Vertically align region - used to align variable assignments"
+(defun align-stacked-c-arglist (current-region-begin current-region-end)
+  "Vertically align region - used to align arg list variables and commas"
   (interactive "r")
-  (align-regexp region-begin
-                region-end
+
+  ;; Align param names
+  (align-stacked-c-argnames current-region-begin current-region-end)
+
+  ;; Recalcualte current active region point and mark and then
+  ;; align param delimiters
+  (set 'updated-region-positions (current-active-region-pos) )
+  (align-stacked-list-commas (nth 0 updated-region-positions) (nth 1 updated-region-positions))
+  )
+
+
+(defun align-stacked-c-lvalues (current-region-begin current-region-end)
+  "Vertically align region - used to align variable l-values"
+  (interactive "r")
+  (align-regexp current-region-begin
+                current-region-end
                 (concat "\\(\\s-*\\)"
-                        "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(=\\|<-\\)\\(\\s-*\\)"
+                        "\\([a-zA-Z0-9_]+[a-zA-Z0-9_]+\\)+\\(\\s-*\\)\\(=\\|<-\\|=>\\)\\(\\s-*\\)"
                         )
                 1 1 t
                 )
-  (align-regexp region-begin
-                region-end
+  )
+
+(defun align-stacked-c-assignment-equals (current-region-begin current-region-end)
+  "Vertically align region - used to align variable assignments"
+  (interactive "r")
+  (align-regexp current-region-begin
+                current-region-end
                 (concat "\\(\\s-*\\)"
-                        "="
+                        "\\(=\\|<-\\|=>\\)"
                         )
                 1 1 t)
+  )
+
+(defun align-stacked-c-assignments (current-region-begin current-region-end)
+  "Vertically align region - used to align variable assignments"
+  (interactive "r")
+
+  ;; Align variable names
+  (align-stacked-c-lvalues current-region-begin current-region-end)
+
+  ;; Recalcualte current active region point and mark and then
+  ;; align equal signs
+  (set 'updated-region-positions (current-active-region-pos) )
+  (align-stacked-c-assignment-equals (nth 0 updated-region-positions) (nth 1 updated-region-positions))
   )
 
 
@@ -412,7 +458,15 @@ there's a region, all lines that region covers will be duplicated."
   "Insert c-file-style local variable header. "
   (interactive)
   (insert
-   "/* -*- c-file-style: \"dedios\" -*- */"
+   "/* -*- c-file-style: \"sourcery\" -*- */"
+   )
+  )
+
+(defun paste-knr-c-file-style ()
+  "Insert c-file-style local variable header. "
+  (interactive)
+  (insert
+   "/* -*- c-file-style: \"knr13\" -*- */"
    )
   )
 
