@@ -478,7 +478,8 @@ there's a region, all lines that region covers will be duplicated."
   "Insert AfterText Proprietary Copyright Text. "
   (interactive)
   (insert
-"/**
+"/* -*- c-file-style: \"sourcery\" -*- */
+/**
  * Version 1.0 ATSL
  *
  * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AFTERTEXT, INC.
@@ -547,7 +548,8 @@ there's a region, all lines that region covers will be duplicated."
   "Insert AfterText MPL Copyright Text. "
   (interactive)
   (insert
-"/**
+"/* -*- c-file-style: \"sourcery\" -*- */
+/**
  * Version 1.1 MPL
  *
  * The contents of this file are subject to the Mozilla Public
@@ -589,7 +591,8 @@ there's a region, all lines that region covers will be duplicated."
   "Insert MPL Copyright Text. "
   (interactive)
   (insert
-"/**
+"/* -*- c-file-style: \"sourcery\" -*- */
+/**
  * Version 1.1 MPL
  *
  * The contents of this file are subject to the Mozilla Public
