@@ -270,10 +270,10 @@
 ;; Keybindings to automatically paste copyright notice
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
 
-(define-key global-map [(alt f2)]         'paste-atsl-copyright            )
-(define-key global-map [(alt f3)]         'paste-atsl-mpl-copyright-html   )
-(define-key global-map [(alt f4)]         'paste-atsl-mpl-copyright        )
-(define-key global-map [(alt f5)]         'paste-mpl-copyright             )
+(define-key global-map [(alt f6)]         'paste-atsl-copyright            )
+(define-key global-map [(alt f7)]         'paste-atsl-mpl-copyright-html   )
+(define-key global-map [(alt f8)]         'paste-atsl-mpl-copyright        )
+(define-key global-map [(alt f9)]         'paste-mpl-copyright             )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
