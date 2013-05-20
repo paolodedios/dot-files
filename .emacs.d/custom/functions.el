@@ -280,7 +280,7 @@
 
 ;; (region-beginning) and (region-end) are not saved in
 ;; variables since they can change after each clean step.
-(defun cleanup-buffer-or-region ()
+(defun indent-clean-region ()
   "Untabifies, indents and deletes trailing whitespace from buffer or region."
   (interactive)
   (save-excursion
@@ -357,13 +357,14 @@
   "Vertically align region - used to align arg list variables and commas"
   (interactive "r")
 
+  ;; Properly indent region before vertically aligning names
+  (indent-clean-region)
+
   ;; Align param names
   (align-stacked-c-argnames current-region-begin current-region-end)
 
-  ;; Recalcualte current active region point and mark and then
-  ;; align param delimiters
-  (set 'updated-region-positions (current-active-region-pos) )
-  (align-stacked-list-commas (nth 0 updated-region-positions) (nth 1 updated-region-positions))
+  ;; Obtain updated active region point and mark and align param delimiters
+  (align-stacked-list-commas (region-beginning) (region-end))
   )
 
 
@@ -394,13 +395,14 @@
   "Vertically align region - used to align variable assignments"
   (interactive "r")
 
+  ;; Properly indent region before vertically aligning names
+  (indent-clean-region)
+
   ;; Align variable names
   (align-stacked-c-lvalues current-region-begin current-region-end)
 
-  ;; Recalcualte current active region point and mark and then
-  ;; align equal signs
-  (set 'updated-region-positions (current-active-region-pos) )
-  (align-stacked-c-assignment-equals (nth 0 updated-region-positions) (nth 1 updated-region-positions))
+  ;; Obtain updated active region point and mark and align equal signs
+  (align-stacked-c-assignment-equals (region-beginning) (region-end))
   )
 
 
@@ -496,48 +498,8 @@ there's a region, all lines that region covers will be duplicated."
  * Reserved.
  */
 ")
-  (cut-ctrlM))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ATSL copyright information to be used in open-sourced
-;; code under the terms of the MPL
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun paste-atsl-mpl-copyright-html ()
-  "Insert AfterText Copyright Text. "
-  (interactive)
-  (insert
-"<!-- Version 1.1 MPL
-   -
-   - The contents of this file are subject to the Mozilla Public
-   - License Version 1.1 (the \"License\").  You may not use this
-   - file except in compliance with the License. You may obtain a
-   - copy of the License at http://www.mozilla.org/MPL/
-   -
-   - Software distributed under the License is distributed on an
-   - \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
-   - or implied. See the License for the specific language governing
-   - rights and limitations under the License.
-   -
-   - The Original Code is AfterText.
-   -
-   - The Initial Developer of the Original Code is AfterText, Inc.
-   - Portions created by AfterText, Inc are Copyright (C) 2013
-   - AfterText, Inc.  All Rights Reserved.
-   -
-   - Redistribution of the Original Code or portions of the Original
-   - Code or software under this agreement must retain the above
-   - copyright notice, this redistribution statement and the following
-   - disclaimer.  Neither the name of AfterText, Inc nor the
-   - names of its contributors may be used to endorse or promote any
-   - products derived from this software without specific prior
-   - written permission from AfterText, Inc.
-   -
-   -->
-")
-  (cut-ctrlM))
-
+  (cut-ctrlM)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Copyright information to be used in open-sourced
@@ -579,7 +541,48 @@ there's a region, all lines that region covers will be duplicated."
  *
  */
 ")
-  (cut-ctrlM))
+  (cut-ctrlM)
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ATSL copyright information to be used in open-sourced
+;; code under the terms of the MPL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun paste-atsl-mpl-copyright-html ()
+  "Insert AfterText MPL Copyright Text. "
+  (interactive)
+  (insert
+"<!-- Version 1.1 MPL
+   -
+   - The contents of this file are subject to the Mozilla Public
+   - License Version 1.1 (the \"License\").  You may not use this
+   - file except in compliance with the License. You may obtain a
+   - copy of the License at http://www.mozilla.org/MPL/
+   -
+   - Software distributed under the License is distributed on an
+   - \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
+   - or implied. See the License for the specific language governing
+   - rights and limitations under the License.
+   -
+   - The Original Code is AfterText.
+   -
+   - The Initial Developer of the Original Code is AfterText, Inc.
+   - Portions created by AfterText, Inc are Copyright (C) 2013
+   - AfterText, Inc.  All Rights Reserved.
+   -
+   - Redistribution of the Original Code or portions of the Original
+   - Code or software under this agreement must retain the above
+   - copyright notice, this redistribution statement and the following
+   - disclaimer.  Neither the name of AfterText, Inc nor the
+   - names of its contributors may be used to endorse or promote any
+   - products derived from this software without specific prior
+   - written permission from AfterText, Inc.
+   -
+   -->
+")
+  (cut-ctrlM)
+  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -588,7 +591,7 @@ there's a region, all lines that region covers will be duplicated."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun paste-mpl-copyright ()
-  "Insert MPL Copyright Text. "
+  "Insert Individual Contributor MPL Copyright Text. "
   (interactive)
   (insert
 "/* -*- c-file-style: \"sourcery\" -*- */
@@ -618,4 +621,5 @@ there's a region, all lines that region covers will be duplicated."
  *
  */
 ")
-  (cut-ctrlM))
+  (cut-ctrlM)
+  )
