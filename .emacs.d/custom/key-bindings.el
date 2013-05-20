@@ -214,9 +214,44 @@
 (define-key global-map [f7]               'replace-string                  )
 (define-key global-map [f8]               'query-replace                   )
 (define-key global-map [f9]               'query-replace-regexp            )
-(define-key global-map [f10]              'goto-home                       )
-(define-key global-map [f11]              'goto-projects                   )
+(define-key global-map [f10]              'toggle-comment-current-region   )
+(define-key global-map [f11]              'duplicate-current-region        )
 (define-key global-map [f12]              'goto-line                       )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Home End and Delete keys
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-key global-map [(control home)]   'beginning-of-line               )
+(define-key global-map [(control end)]    'end-of-line                     )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Buffer cleanup, indentation and vertical alignment functions
+;;
+;; Ctrl-[f1 to f5]  are not mapped since those are mostly mapped by the OS
+;; Ctrl-[f6 to f12] are mapped to functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-key global-map [(control f6)]     'indent-clean-region             )
+(define-key global-map [(control f7)]     'align-stacked-list-commas       )
+(define-key global-map [(control f8)]     'align-stacked-c-arglist         )
+(define-key global-map [(control f9)]     'align-stacked-c-assignments     )
+(define-key global-map [(control f10)]    'indent-buffer                   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Paste c-file-style overrides and copyright notice text
+;;
+;; Alt-[f1 to f5]  are not mapped since those may be mapped by the OS
+;; Alt-[f6 to f12] are mapped to functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
+
+(define-key global-map [(alt f6)]         'paste-default-c-file-style      )
+(define-key global-map [(alt f7)]         'paste-knr-c-file-style          )
+(define-key global-map [(alt f8)]         'paste-atsl-copyright            )
+(define-key global-map [(alt f9)]         'paste-atsl-mpl-copyright        )
+(define-key global-map [(alt f10)]        'paste-atsl-mpl-copyright-html   )
+(define-key global-map [(alt f11)]        'paste-mpl-copyright             )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Electric Buffer
@@ -231,41 +266,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-key global-map "%"                'match-paren                     )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Home End and Delete keys
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define-key global-map [(control home)]   'beginning-of-line               )
-(define-key global-map [(control end)]    'end-of-line                     )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Buffer cleanup functions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
-
-(define-key global-map [(control f1)]     'cleanup-buffer-or-region        )
-(define-key global-map [(control f2)]     'indent-buffer                   )
-(define-key global-map [(control f3)]     'cut-ctrlM                       )
-
-(define-key global-map [(control f6)]     'align-stacked-c-arglist         )
-(define-key global-map [(control f7)]     'align-stacked-c-assignments     )
-(define-key global-map [(control f12)]    'toggle-comment-current-region   )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Paste c-file-style overrides for various environments
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
-
-(define-key global-map [(alt f1)]         'paste-default-c-file-style      )
-(define-key global-map [(alt f2)]         'paste-knr-c-file-style          )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Keybindings to automatically paste copyright notice
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;x
-
-(define-key global-map [(alt f6)]         'paste-atsl-copyright            )
-(define-key global-map [(alt f7)]         'paste-atsl-mpl-copyright-html   )
-(define-key global-map [(alt f8)]         'paste-atsl-mpl-copyright        )
-(define-key global-map [(alt f9)]         'paste-mpl-copyright             )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
