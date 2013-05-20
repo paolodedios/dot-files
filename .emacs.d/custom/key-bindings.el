@@ -237,7 +237,8 @@
 (define-key global-map [(control f8)]     'align-stacked-c-funcall         )
 (define-key global-map [(control f9)]     'align-stacked-c-params          )
 (define-key global-map [(control f10)]    'align-stacked-c-assignments     )
-(define-key global-map [(control f11)]    'indent-buffer                   )
+(define-key global-map [(control f12)]    'align-regexp                    )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paste c-file-style overrides and copyright notice text
