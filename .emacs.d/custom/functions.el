@@ -329,7 +329,32 @@
     )
   )
 
-(defun align-stacked-list-commas (current-region-begin current-region-end)
+(defun align-stacked-c-list (current-region-begin current-region-end)
+  "Vertically align region - used to align stacked list commas"
+  (interactive "r")
+  (align-regexp current-region-begin
+                current-region-end
+                (concat "\\(\\s-*\\)"
+                        "\\(,\\|;\\)\\(\\s-+\\|$\\)"
+                        )
+                1 1 t
+                )
+  )
+
+
+(defun align-stacked-c-funcall (current-region-begin current-region-end)
+  "Vertically align region - used to align stacked list commas"
+  (interactive "r")
+  (align-regexp current-region-begin
+                current-region-end
+                (concat "\\(\\s-*\\)"
+                        "\\(,\\|)\\)\\(;\\)?\\(\\s-+\\|$\\)"
+                        )
+                1 1 t
+                )
+  )
+
+(defun align-stacked-c-param-delimiters (current-region-begin current-region-end)
   "Vertically align region - used to align stacked list commas"
   (interactive "r")
   (align-regexp current-region-begin
@@ -341,7 +366,7 @@
                 )
   )
 
-(defun align-stacked-c-argnames (current-region-begin current-region-end)
+(defun align-stacked-c-param-names (current-region-begin current-region-end)
   "Vertically align region - used to align stacked arg list param names"
   (interactive "r")
   (align-regexp current-region-begin
@@ -353,7 +378,7 @@
                 )
   )
 
-(defun align-stacked-c-arglist (current-region-begin current-region-end)
+(defun align-stacked-c-params (current-region-begin current-region-end)
   "Vertically align region - used to align arg list variables and commas"
   (interactive "r")
 
@@ -361,10 +386,10 @@
   (indent-clean-region)
 
   ;; Align param names
-  (align-stacked-c-argnames current-region-begin current-region-end)
+  (align-stacked-c-param-names (region-beginning) (region-end))
 
   ;; Obtain updated active region point and mark and align param delimiters
-  (align-stacked-list-commas (region-beginning) (region-end))
+  (align-stacked-c-param-delimiters (region-beginning) (region-end))
   )
 
 
@@ -399,7 +424,7 @@
   (indent-clean-region)
 
   ;; Align variable names
-  (align-stacked-c-lvalues current-region-begin current-region-end)
+  (align-stacked-c-lvalues (region-beginning) (region-end))
 
   ;; Obtain updated active region point and mark and align equal signs
   (align-stacked-c-assignment-equals (region-beginning) (region-end))
