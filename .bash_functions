@@ -44,8 +44,8 @@ function showcolors()
 
 function hg_dirty()
 {
-    hg status 2> /dev/null \
-    | awk '$1 == "?" { unknown = 1 }
+    hg status 2> /dev/null | \
+      awk '$1 == "?" { unknown = 1 }
            $1 != "?" { changed = 1 }
            END {
              if (changed) printf "*"
