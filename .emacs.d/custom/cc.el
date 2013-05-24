@@ -64,7 +64,7 @@
                              (statement-block-intro               .  +)
                              (block-close                         .  0)
                              (do-while-closure                    .  0)
-                             (case-label                          .  *)
+                             (case-label                          .  +)
                              (statement-case-intro                .  +)
                              (statement-cont c-lineup-cascaded-calls +)
                              (stream-op                           . c-lineup-streamop)
