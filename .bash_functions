@@ -126,6 +126,20 @@ function jadexecv()
 }
 
 ######################################################################################
+# Sourcecolon code indexer/xref commands
+######################################################################################
+
+function runindexer()
+{
+    sh $SOURCECOLON_HOME/gradlew -p $SOURCECOLON_HOME runIndexer -Ptarget=$SOURCECOLON_SRC_ROOT
+}
+
+function runxref()
+{
+    sh $SOURCECOLON_HOME/gradlew -p $SOURCECOLON_HOME runJetty8 -Ptarget=$SOURCECOLON_SRC_ROOT
+}
+
+######################################################################################
 # File & string-related functions
 ######################################################################################
 
@@ -136,8 +150,9 @@ function md()
 }
 
 # Copy w/ progress
-function cp_p() {
-  rsync -WavP --human-readable --progress $1 $2
+function cp_p()
+{
+    rsync -WavP --human-readable --progress $1 $2
 }
 
 # Find a file with a pattern in name:
