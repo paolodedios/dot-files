@@ -360,7 +360,7 @@
   (align-regexp current-region-begin
                 current-region-end
                 (concat "\\(\\s-*\\)"
-                        "\\(,\\|)\\)\\(\\s-+\\|$\\)"
+                        "\\(,\\|)\\)\\(\\s-+\n\\|\\s-+{\\|$\\)"
                         )
                 1 1 t
                 )
