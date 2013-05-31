@@ -92,6 +92,8 @@ function setupLocalDevEnvironment()
         export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
         export CSVKIT_VERSION=csvkit-0.4.4
         export VISUALVM_VERSION=visualvm-1.3.5
+        export NEXUS_VERSION=nexus-2.4.0-09
+        export TEAMCITY_VERSION=teamcity-7.1.5
 
         if [ "$OS" = "darwin" ]; then
             # Declare OS X specific applications
@@ -132,6 +134,19 @@ function setupLocalDevEnvironment()
             export MYSQL_DB_HOME=$LOCAL_BIN_PATH/$MYSQL_DB_VERSION
         fi
 
+        if [ -d $LOCAL_BIN_PATH/$NEXUS_VERSION ]; then
+            # Create package HOME env variable for Nexus
+            export NEXUS_HOME=$LOCAL_BIN_PATH/$NEXUS_VERSION
+        fi
+
+        if [ -d $LOCAL_BIN_PATH/$TEAMCITY_VERSION ]; then
+            # Create package HOME env variable for TeamCity
+            export TEAMCITY_HOME=$LOCAL_BIN_PATH/$TEAMCITY_VERSION
+        fi
+
+        # Create package HOME env variable for sourcecolon
+        export SOURCECOLON_HOME=$LOCAL_BIN_PATH/sourcecolon
+
         # Append platform agnostic tools to PATH
         export PATH=$LOCAL_BIN_PATH:$EC2_HOME/bin:$CSVKIT_HOME:$VISUALVM_HOME/bin:$MYSQL_DB_HOME/bin:$PATH
     fi
@@ -140,8 +155,16 @@ function setupLocalDevEnvironment()
 
     # Add local data and log folder to the path, if you have it.
     if [ -d $LOCAL_APP_HOME/var ]; then
+
+        # Create local data PATH variable
         export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
         export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
+
+        # Add work directory for Nexus
+        export PLEXUS_NEXUS_WORK=$LOCAL_DATA_PATH/nexus
+
+        # Add work directory for SourceColon
+        export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/index
     fi
 
     # Personal projects directory
@@ -193,16 +216,6 @@ if [ "$OS" = "darwin" ]; then
     export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
     export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
     export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
-
-    # Create package HOME env variable for Nexus
-    export NEXUS_HOME=$LOCAL_APP_HOME/bin/nexus
-
-    # Create package HOME env variable for TeamCity
-    export TEAMCITY_HOME=$LOCAL_APP_HOME/bin/teamcity
-
-    # Create package HOME env variable for sourcecolon
-    export SOURCECOLON_HOME=$LOCAL_APP_HOME/bin/sourcecolon
-    export SOURCECOLON_SRC_ROOT=$LOCAL_PROJECTS/Index
 
     # Increase the maximum number of open file descriptors to the max OSX limit
     ulimit -n 2048
