@@ -194,12 +194,15 @@ if [ "$OS" = "darwin" ]; then
     export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
     export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
 
-    # Create command alias for sourcecolon
+    # Create package HOME env variable for Nexus
+    export NEXUS_HOME=$LOCAL_APP_HOME/bin/nexus
+
+    # Create package HOME env variable for TeamCity
+    export TEAMCITY_HOME=$LOCAL_APP_HOME/bin/teamcity
+
+    # Create package HOME env variable for sourcecolon
     export SOURCECOLON_HOME=$LOCAL_APP_HOME/bin/sourcecolon
     export SOURCECOLON_SRC_ROOT=$LOCAL_PROJECTS/Index
-
-    # Create command alias for TeamCity
-    export TEAMCITY_HOME=$LOCAL_APP_HOME/bin/teamcity
 
     # Increase the maximum number of open file descriptors to the max OSX limit
     ulimit -n 2048
