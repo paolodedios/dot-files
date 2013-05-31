@@ -153,6 +153,20 @@ function stopteamcity()
     sh $TEAMCITY_HOME/bin/runAll.sh stop
 }
 
+######################################################################################
+# Local Nexus repository server commands
+######################################################################################
+
+function startnexus()
+{
+    sh $NEXUS_HOME/bin/nexus start
+}
+
+function stopnexus()
+{
+    sh $NEXUS_HOME/bin/nexus stop
+}
+
 
 ######################################################################################
 # File & string-related functions
