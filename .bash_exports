@@ -25,15 +25,12 @@ export NETIF=en0
 export EDITOR="vim"
 
 ######################################################################################
-# Config file editing aliases
+# Host file env variables
 ######################################################################################
 
 # Put list of remote hosts in ~/.hosts
 export SYS_HOSTFILE=/etc/hosts
 export MY_HOSTFILE=$HOME/.hosts
-
-alias hostedit='sudo vim ${SYS_HOSTFILE}'
-alias myhostedit='vim ${MY_HOSTFILE}'
 
 ######################################################################################
 # Command history customization
