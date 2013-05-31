@@ -87,6 +87,7 @@ function setupLocalDevEnvironment()
 {
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
+
         # Declare platform agnostic applications
         export JDK_VERSION=1.7.0
         export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
@@ -151,8 +152,6 @@ function setupLocalDevEnvironment()
         export PATH=$LOCAL_BIN_PATH:$EC2_HOME/bin:$CSVKIT_HOME:$VISUALVM_HOME/bin:$MYSQL_DB_HOME/bin:$PATH
     fi
 
-
-
     # Add local data and log folder to the path, if you have it.
     if [ -d $LOCAL_APP_HOME/var ]; then
 
@@ -167,7 +166,7 @@ function setupLocalDevEnvironment()
         export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/index
     fi
 
-    # Personal projects directory
+    # Declare personal projects directory
     if [ -d $HOME/$LOCAL_PROJECTS ]; then
         export PROJECT_HOME=$HOME/$LOCAL_PROJECTS
     fi
