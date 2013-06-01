@@ -160,7 +160,7 @@ function setupLocalDevEnvironment()
         export PLEXUS_NEXUS_WORK=$LOCAL_DATA_PATH/nexus
 
         # Add work directory for SourceColon
-        export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/index
+        export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/sourcecolon
     fi
 
     # Declare personal projects directory
