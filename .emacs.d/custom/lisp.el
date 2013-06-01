@@ -92,3 +92,4 @@
 (setq auto-mode-alist (append '(("\\.emacs$"    . lisp-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.el$"       . lisp-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.lisp$"     . lisp-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.lsp$"      . lisp-mode         )) auto-mode-alist))
