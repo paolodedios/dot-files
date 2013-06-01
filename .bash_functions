@@ -136,7 +136,7 @@ function runindexer()
 
 function runxref()
 {
-    sh $SOURCECOLON_HOME/gradlew -p $SOURCECOLON_HOME runJetty8 -Ptarget=$SOURCECOLON_SRC_ROOT
+    sh $SOURCECOLON_HOME/gradlew -p $SOURCECOLON_HOME runJetty8 -PhttpPort=9000 -Ptarget=$SOURCECOLON_SRC_ROOT
 }
 
 ######################################################################################
