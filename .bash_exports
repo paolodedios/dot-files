@@ -87,11 +87,15 @@ function setupLocalDevEnvironment()
 
         # Declare platform agnostic applications
         export JDK_VERSION=1.7.0
-        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
-        export CSVKIT_VERSION=csvkit-0.4.4
         export VISUALVM_VERSION=visualvm-1.3.5
+
         export NEXUS_VERSION=nexus-2.4.0-09
         export TEAMCITY_VERSION=teamcity-7.1.5
+
+        export CSVKIT_VERSION=csvkit-0.4.4
+
+        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
+        export CLOUDIFY_VERSION=gigaspaces-cloudify-2.5.1-ga
 
         if [ "$OS" = "darwin" ]; then
             # Declare OS X specific applications
@@ -112,11 +116,6 @@ function setupLocalDevEnvironment()
          # Create local bin PATH variable
         export LOCAL_BIN_PATH=$LOCAL_APP_HOME/bin
 
-        # Create EC2 PATH variable
-        if [ -d $LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION ]; then
-            export EC2_HOME=$LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION
-        fi
-
         # Create CSVkit PATH variable
         if [ -d $LOCAL_BIN_PATH/$CSVKIT_VERSION ]; then
             export CSVKIT_HOME=$LOCAL_BIN_PATH/$CSVKIT_VERSION
@@ -132,21 +131,35 @@ function setupLocalDevEnvironment()
             export MYSQL_DB_HOME=$LOCAL_BIN_PATH/$MYSQL_DB_VERSION
         fi
 
+        # Create package HOME env variable for Nexus
         if [ -d $LOCAL_BIN_PATH/$NEXUS_VERSION ]; then
-            # Create package HOME env variable for Nexus
             export NEXUS_HOME=$LOCAL_BIN_PATH/$NEXUS_VERSION
         fi
 
+        # Create package HOME env variable for TeamCity
         if [ -d $LOCAL_BIN_PATH/$TEAMCITY_VERSION ]; then
-            # Create package HOME env variable for TeamCity
             export TEAMCITY_HOME=$LOCAL_BIN_PATH/$TEAMCITY_VERSION
+        fi
+
+        # Create EC2 PATH variable
+        if [ -d $LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION ]; then
+            export EC2_HOME=$LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION
+        fi
+
+        # Create Cloudify PATH variable
+        if [ -d $LOCAL_BIN_PATH/$CLOUDIFY_VERSION ]; then
+            export CLOUDIFY_HOME=$LOCAL_BIN_PATH/$CLOUDIFY_VERSION
         fi
 
         # Create package HOME env variable for sourcecolon
         export SOURCECOLON_HOME=$LOCAL_BIN_PATH/sourcecolon
 
+        # Create binary path groups
+        export TOOLS_BIN_PATH=$CSVKIT_HOME:$VISUALVM_HOME/bin:$MYSQL_DB_HOME/bin
+        export CLOUD_TOOLS_BIN_PATH=$EC2_HOME/bin:$CLOUDIFY_HOME/bin
+
         # Append platform agnostic tools to PATH
-        export PATH=$LOCAL_BIN_PATH:$EC2_HOME/bin:$CSVKIT_HOME:$VISUALVM_HOME/bin:$MYSQL_DB_HOME/bin:$PATH
+        export PATH=$LOCAL_BIN_PATH:$TOOLS_BIN_PATH:$CLOUD_TOOLS_BIN_PATH:$PATH
     fi
 
     # Add local data and log folder to the path, if you have it.
