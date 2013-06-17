@@ -6,8 +6,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable color-themes for Emacs 23.X
+;; Emacs 23.X and earlier use the color-themes package for theme support
 ;; http://gnuemacscolorthemetest.googlecode.com/svn/html/index-java.html
+;; http://www.emacswiki.org/emacs/ColorTheme
+;;
+;; Emacs 24.X comes with a different system for color themes.
+;; http://batsov.com/articles/2012/02/19/color-theming-in-emacs-reloaded/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'color-theme)
