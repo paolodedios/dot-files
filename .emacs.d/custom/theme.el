@@ -32,6 +32,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set default color theme and font
+;; These settings may be overriden by platform specific settings set
+;; by either Emacs or platform-*.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-faces
@@ -42,9 +44,11 @@
                             :underline       nil
                             :slant           normal
                             :weight          normal
-                            :height          120
                             :width           normal
-                            :family          "Monaco")))  t)
+                            :family          "Monaco"
+                            :height          120
+                            )
+                           ))  t)
 
  ;; text mode files must inherit the custom-mode-default setting
  '(text-mode-default ((t (:inherit autoface-default))) t)
@@ -60,6 +64,7 @@
 
  ;; mode line inactive face
  '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))
+
  )
 
 
