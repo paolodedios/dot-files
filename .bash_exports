@@ -88,14 +88,19 @@ function setupLocalDevEnvironment()
         # Declare platform agnostic applications
         export JDK_VERSION=1.7.0
         export VISUALVM_VERSION=visualvm-1.3.5
-
-        export NEXUS_VERSION=nexus-2.4.0-09
-        export TEAMCITY_VERSION=teamcity-7.1.5
-
         export CSVKIT_VERSION=csvkit-0.4.4
 
-        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
-        export CLOUDIFY_VERSION=gigaspaces-cloudify-2.5.1-ga
+        # External Tool Dependencies [ Updated 7/27/2013 ]
+        #
+        # Nexus     : http://www.sonatype.org/nexus/go
+        # TeamCity  : http://www.jetbrains.com/teamcity/
+        # EC2 Tools : http://aws.amazon.com/developertools/351
+        # Cloudify  : http://www.cloudifysource.org/downloads/get_cloudify
+        export NEXUS_VERSION=nexus-2.6.0-05
+        export TEAMCITY_VERSION=teamcity-8.0.2
+
+        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.6.8.0
+        export CLOUDIFY_VERSION=gigaspaces-cloudify-2.6.0-ga
 
         if [ "$OS" = "darwin" ]; then
             # Declare OS X specific applications
@@ -107,6 +112,9 @@ function setupLocalDevEnvironment()
 
         # Set JAVA_HOME to JDK 7
         export JAVA_HOME=$(/usr/libexec/java_home -v $JDK_VERSION)
+
+        # Set GRADLE_HOME
+        export GRADLE_HOME=/opt/local/share/java/gradle
 
     fi
 
