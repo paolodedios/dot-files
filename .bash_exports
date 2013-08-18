@@ -56,6 +56,13 @@ export MANPAGER="less -X"
 export LESS_TERMCAP_md="$ORANGE"
 
 ######################################################################################
+# Directory marking and caching
+# http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
+######################################################################################
+
+export MARKPATH=$HOME/.marks
+
+######################################################################################
 # Declare platform specific applications
 ######################################################################################
 
@@ -88,7 +95,7 @@ function setupLocalDevEnvironment()
         # Declare platform agnostic applications
         export JDK_VERSION=1.7.0
         export VISUALVM_VERSION=visualvm-1.3.5
-        export CSVKIT_VERSION=csvkit-0.4.4
+        export CSVKIT_VERSION=csvkit-0.5.0
 
         # External Tool Dependencies [ Updated 7/27/2013 ]
         #
@@ -96,7 +103,7 @@ function setupLocalDevEnvironment()
         # TeamCity  : http://www.jetbrains.com/teamcity/
         # EC2 Tools : http://aws.amazon.com/developertools/351
         # Cloudify  : http://www.cloudifysource.org/downloads/get_cloudify
-        export NEXUS_VERSION=nexus-2.6.0-05
+        export NEXUS_VERSION=nexus-2.6.1-02
         export TEAMCITY_VERSION=teamcity-8.0.2
 
         export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.6.8.0
@@ -104,10 +111,10 @@ function setupLocalDevEnvironment()
 
         if [ "$OS" = "darwin" ]; then
             # Declare OS X specific applications
-            export MYSQL_DB_VERSION=mysql-5.5.21-osx-x86_64
+            export MYSQL_DB_VERSION=mysql-5.6.13-osx-x86_64
         else
             # Default to linux version
-            export MYSQL_DB_VERSION=mysql-5.5.21-linux-x86_64
+            export MYSQL_DB_VERSION=mysql-5.6.13-linux-x86_64
         fi
 
         # Set JAVA_HOME to JDK 7
