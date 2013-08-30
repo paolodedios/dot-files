@@ -79,7 +79,8 @@ function git_branch()
 }
 
 # take repo in $pwd and copy it to the specified location, minus the .git specific files.
-function gitexport(){
+function gitexport()
+{
 	mkdir -p "$1"
 	git archive master | tar -x -C "$1"
 }
@@ -345,6 +346,12 @@ function marks()
     ls -l $MARKPATH | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
 }
 
+# Flush Directory Service cache
+function flush-ds()
+{
+    dscacheutil -flushcache && killall -HUP mDNSResponder
+}
+
 #######################################################################################
 # Internet/web helpers
 #######################################################################################
@@ -369,7 +376,7 @@ function unidecode()
 	echo # newline
 }
 
-# Get a characters Unicode code point
+# Get a character's Unicode code point
 function codepoint()
 {
 	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
@@ -424,6 +431,24 @@ function mirrorwebsite()
     wget --mirror --convert-links --html-extension --page-requisites --no-parent --wait=5 $1
 }
 
+# List local IP address
+function local-ipaddr()
+{
+    ipconfig getifaddr en0
+}
+
+# List all IP address for interfaces
+function list-ipaddrs()
+{
+    ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'
+}
+
+# URL-encode strings
+function urlencode()
+{
+    python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"
+}
+
 #######################################################################################
 # Process/system related functions
 #######################################################################################
@@ -456,6 +481,12 @@ function killps()
     done
 }
 
+# Kill all the tabs in Chrome to free up memory
+# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
+function chromekill()
+{
+    ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill
+}
 
 #######################################################################################
 # Misc utilities
@@ -471,10 +502,16 @@ function repeat()
     done
 }
 
-function tmslow()
+function lower-tms-pri()
 {
     echo "Reducing Time Machine priority..."
     sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+}
+
+function timer()
+{
+    # Stopwatch
+    echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 }
 
 #######################################################################################
