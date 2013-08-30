@@ -239,7 +239,7 @@ if [ "$OS" = "darwin" ]; then
     export LOCAL_PROJECTS=~/Projects
 
     # Override XCode4/gcc tendency to use arch=PPC when building libraries
-    export ARCHFLAGS="-arch i386 -arch x86_64"
+    export ARCHFLAGS="-arch x86_64"
 
     # Create command alias for lsregister
     export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
