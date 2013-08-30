@@ -95,7 +95,7 @@ function setupLocalDevEnvironment()
         # Declare C toolchain
         export CC=gcc
         export CXX=g++
-        export FFLAGS=ff2c
+        export FFLAGS="-ff2c"
 
         # Declare platform agnostic applications
         export JDK_VERSION=1.7.0
