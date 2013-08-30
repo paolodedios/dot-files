@@ -8,6 +8,11 @@
 ########################################################################################
 
 ########################################################################################
+# Enable aliases to be sudo’ed
+########################################################################################
+alias sudo='sudo '
+
+########################################################################################
 # Always use VIM
 ########################################################################################
 
@@ -69,15 +74,17 @@ alias systail='tail -f /var/log/system.log'
 alias untar='tar xvzf'
 alias objectdump='od'
 
-# Enable aliases to be sudo’ed
-alias sudo='sudo '
-
 # Gzip-enabled `curl`
 alias gurl="curl --compressed"
 
 # Make grep more user friendly by highlighting matches and exclude grepping
 # through git folders.
 alias grep='grep --color=auto'
+
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
 
 #######################################################################################
 # Copies folder and all sub files and folders, preserving security and dates
@@ -176,6 +183,13 @@ alias m2='mvn2'
 alias m3='mvn3'
 
 ######################################################################################
+# Other developer tool aliases
+######################################################################################
+
+# Make Grunt print stack traces by default
+command -v grunt > /dev/null && alias grunt="grunt --stack"
+
+######################################################################################
 # Python virtualenvwrapper aliases
 ######################################################################################
 
@@ -209,7 +223,8 @@ alias pylsenvpkgs='lssitepackages'
 
 if [ "$OS" = "darwin" ]; then
 
-    alias rebuild-menu='$LS_REGISTER_PATH/lsregister -kill -r -domain local -domain system -domain user'
+    # Clean up LaunchServices to remove duplicates in the “Open With” menu
+    alias rebuild-menu='$LS_REGISTER_PATH/lsregister -kill -r -domain local -domain system -domain user && killall Finder'
 
     # Cleanup Resource Forks
     alias cleanresforks='find . -name \*._*|xargs \rm'
