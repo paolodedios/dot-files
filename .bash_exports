@@ -92,6 +92,11 @@ function setupLocalDevEnvironment()
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
 
+        # Declare C toolchain
+        export CC=gcc
+        export CXX=g++
+        export FFLAGS=ff2c
+
         # Declare platform agnostic applications
         export JDK_VERSION=1.7.0
         export VISUALVM_VERSION=visualvm-1.3.5
