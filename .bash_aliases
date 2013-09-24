@@ -217,6 +217,15 @@ alias pycdenv='cdvirtualenv'
 # list site-packages for current virtual environment
 alias pylsenvpkgs='lssitepackages'
 
+# update site-packages via pip
+alias pyupdatepkgs='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U'
+
+# generate python package list
+alias pylspkgs='pip freeze --local > requirements.txt'
+
+# install python packages from list
+alias pyinstallpkgs='pip install -r'
+
 ######################################################################################
 # Platform specific aliases
 ######################################################################################
