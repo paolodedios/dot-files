@@ -33,6 +33,8 @@
 (load "custom/text")
 (load "custom/markdown")
 
+(load "custom/autocomplete")
+
 (load "custom/lisp")
 (load "custom/sh")
 (load "custom/cc")
