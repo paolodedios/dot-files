@@ -114,14 +114,6 @@ function setupLocalDevEnvironment()
         export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.6.8.0
         export CLOUDIFY_VERSION=gigaspaces-cloudify-2.6.0-ga
 
-        if [ "$OS" = "darwin" ]; then
-            # Declare OS X specific applications
-            export MYSQL_DB_VERSION=mysql-5.6.13-osx-x86_64
-        else
-            # Default to linux version
-            export MYSQL_DB_VERSION=mysql-5.6.13-linux-x86_64
-        fi
-
         # Set JAVA_HOME to JDK 7
         export JAVA_HOME=$(/usr/libexec/java_home -v $JDK_VERSION)
 
@@ -144,11 +136,6 @@ function setupLocalDevEnvironment()
         # Create VisualVM PATH variable
         if [ -d $LOCAL_BIN_PATH/$VISUALVM_VERSION ]; then
             export VISUALVM_HOME=$LOCAL_BIN_PATH/$VISUALVM_VERSION
-        fi
-
-        # Create local MySQL database tool PATH variable
-        if [ -d $LOCAL_BIN_PATH/$MYSQL_DB_VERSION ]; then
-            export MYSQL_DB_HOME=$LOCAL_BIN_PATH/$MYSQL_DB_VERSION
         fi
 
         # Create package HOME env variable for Nexus
@@ -175,7 +162,7 @@ function setupLocalDevEnvironment()
         export SOURCECOLON_HOME=$LOCAL_BIN_PATH/sourcecolon
 
         # Create binary path groups
-        export TOOLS_BIN_PATH=$CSVKIT_HOME:$VISUALVM_HOME/bin:$MYSQL_DB_HOME/bin
+        export TOOLS_BIN_PATH=$CSVKIT_HOME:$VISUALVM_HOME/bin
         export CLOUD_TOOLS_BIN_PATH=$EC2_HOME/bin:$CLOUDIFY_HOME/bin
 
         # Append platform agnostic tools to PATH
@@ -229,8 +216,18 @@ function setupPythonVirtualEnv()
 
 if [ "$OS" = "darwin" ]; then
 
+    # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
+    # to screen. This isn't a 100% reliable indicator (for example, you can't
+    # easily tell if you're running screen inside tmux or tmux inside screen),
+    # but it should be good enough in practice.
+    if ! { [ -n "$TMUX" ]; } then
+        export SYSTEM_PATH=$PATH
+    else
+        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
+    fi
+
     # MacPorts versions take precedence
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
     # Locally configured, user-specific binaries
     export LOCAL_APP_HOME=~/Applications
@@ -263,6 +260,16 @@ if [ "$OS" = "darwin" ]; then
     setupWorkDevEnvironment
 
 else
+
+    # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
+    # to screen. This isn't a 100% reliable indicator (for example, you can't
+    # easily tell if you're running screen inside tmux or tmux inside screen),
+    # but it should be good enough in practice.
+    if ! { [ -n "$TMUX" ]; } then
+        export SYSTEM_PATH=$PATH
+    else
+        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+    fi
 
     # Local packages take precedence
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
