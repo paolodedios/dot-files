@@ -71,7 +71,7 @@ function setupWorkDevEnvironment()
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
         # Declare platform agnostic applications
-        export PLAY_FRAMEWORK_VERSION=play-1.2.5
+        export PLAY_FRAMEWORK_VERSION=play-1.2.6
     fi
 
     # Add local applications to PATH
