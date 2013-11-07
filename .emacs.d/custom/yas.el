@@ -65,6 +65,16 @@
 ;; reload all snippet tables
 (yas-reload-all)
 
+;; enable yasnippet for snippet-mode
+(add-hook 'snippet-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for lisp-mode
+(add-hook 'lisp-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
 ;; enable yasnippet for generic cc-mode
 (add-hook 'cc-mode-hook
           '(lambda ()
@@ -82,6 +92,11 @@
 
 ;; enable yasnippet for scala-mode
 (add-hook 'scala-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for clojure-mode
+(add-hook 'clojure-mode-hook
           '(lambda ()
              (yas/minor-mode-on)))
 
@@ -110,6 +125,11 @@
           '(lambda ()
              (yas/minor-mode-on)))
 
+;; enable yasnippet for nxml-mode
+(add-hook 'nxml-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
 ;; enable yasnippet for css-mode
 (add-hook 'css-mode-hook
           '(lambda ()
@@ -117,5 +137,15 @@
 
 ;; enable yasnippet for sh-mode
 (add-hook 'sh-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for sql-mode
+(add-hook 'sql-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for markdown-mode
+(add-hook 'markdown-mode-hook
           '(lambda ()
              (yas/minor-mode-on)))
