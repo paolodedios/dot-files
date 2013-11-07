@@ -50,8 +50,21 @@
                  )
       )
 
-;; Set the trigger key so that it can work with yasnippet via the TAB key,
-;; if the word exists in yasnippet, pressing tab will cause yasnippet to
-;; activate, otherwise, auto-complete will
-(ac-set-trigger-key    "TAB"   )
-(ac-set-trigger-key    "<tab>" )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Adjust key bindings and triggers
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Set the trigger key to TAB by default
+;;
+;; Completion can be stopped by pressing C-g at any time. Hitting C-g and RET
+;; will enter a newline with the autocomplete bindings of RET intact. Also
+;; C-j can be used instead of  RET when entering a newline. C-j is not bound to
+;; to ac-complete by default.
+(ac-set-trigger-key               "TAB"       )
+
+;; Automatically show completion menu
+(setq ac-use-menu-map             t           )
+
+;; Map C-n and C-p to navigate the completion menu
+(define-key ac-menu-map  "\C-n"   'ac-next    )
+(define-key ac-menu-map  "\C-p"   'ac-previous)
