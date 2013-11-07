@@ -19,6 +19,44 @@
       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable dropdown-prompt priority
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'dropdown-list)
+
+(setq yas/prompt-functions
+      '(yas/dropdown-prompt
+        yas/ido-prompt
+        yas/x-prompt
+        yas/completing-prompt
+        yas/no-prompt
+        )
+      )
+
+
+;; Use yas/completing-prompt ONLY via `M-x yas/insert-snippet'
+(defadvice yas/insert-snippet (around use-completing-prompt activate)
+    "Use `yas/completing-prompt' for `yas/prompt-functions' but only here..."
+     (let ((yas/prompt-functions '(yas/completing-prompt)) )  ad-do-it)
+     )
+
+;; Set to auto indent first line
+(setq yas/also-auto-indent-first-line             t  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Rebind trigger keys and functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Unbind yasnippet from using the TAB key to prevent it from conflicting
+;; with TAB completion via the autocomplete.el module
+(define-key yas-minor-mode-map [(tab)]            nil       )
+(define-key yas-minor-mode-map (kbd "TAB")        nil       )
+
+;; Rebind the trigger to Shift-TAB instead
+(define-key yas-minor-mode-map (kbd "<S-tab>")   'yas/expand)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Use YASnippet as a non-global minor mode, by replacing (yas-global-mode 1)
 ;; with (yas-reload-all) to load the snippet tables. Then add a call to
 ;; (yas-minor-mode) to the major-modes where you to enable YASnippet.
