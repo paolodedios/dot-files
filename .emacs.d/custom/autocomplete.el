@@ -39,6 +39,7 @@
                  js2-mode
                  makefile-mode
                  ocaml-mode
+                 tuareg-mode
                  perl-mode
                  php-mode
                  python-mode

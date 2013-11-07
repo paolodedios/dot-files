@@ -100,6 +100,16 @@
           '(lambda ()
              (yas/minor-mode-on)))
 
+;; enable yasnippet for ocaml-mode
+(add-hook 'ocaml-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for ocaml tuareg-mode
+(add-hook 'tuareg-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
 ;; enable yasnippet for python-mode
 (add-hook 'python-mode-hook
           '(lambda ()
