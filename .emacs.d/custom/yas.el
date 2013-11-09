@@ -13,8 +13,8 @@
 (require 'yasnippet)
 
 (setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"                       ;; personal snippets
-        "~/.emacs.d/vendor/yasnippet/snippets"      ;; the default collection
+      '("~/.snippets"                               ;; local snippets
+        "~/.emacs.d/vendor/yasnippet/snippets"      ;; the default, public collection
         )
       )
 
@@ -64,6 +64,11 @@
 
 ;; reload all snippet tables
 (yas-reload-all)
+
+;; enable yasnippet for snippet-mode
+(add-hook 'text-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
 
 ;; enable yasnippet for snippet-mode
 (add-hook 'snippet-mode-hook
