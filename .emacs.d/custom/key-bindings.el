@@ -249,10 +249,7 @@
 
 (define-key global-map [(alt f6)]         'paste-default-c-file-style      )
 (define-key global-map [(alt f7)]         'paste-knr-c-file-style          )
-(define-key global-map [(alt f8)]         'paste-atsl-copyright            )
-(define-key global-map [(alt f9)]         'paste-atsl-mpl-copyright        )
-(define-key global-map [(alt f10)]        'paste-atsl-mpl-copyright-html   )
-(define-key global-map [(alt f11)]        'paste-mpl-copyright             )
+(define-key global-map [(alt f12)]        'yas-reload-all                  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
