@@ -2,4 +2,4 @@
 # name: (email address)
 # key: email
 # --
-`(replace-regexp-in-string "@" "@NOSPAM." "paolodedios@gmail.com")`
+paolodedios@gmail.com
