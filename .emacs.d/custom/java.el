@@ -117,7 +117,7 @@
     (c-lineup-math                   1)
     (c-lineup-inexpr-block           1)
 
-    ) "My Java Work Programming Style")
+    ) "My K&R Java Programming Style")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -291,9 +291,9 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              ;; set programming style
-             (c-add-style "sourcery" my-java-mode-programming-style       t)
-             (c-add-style "knr13"    my-knr13-java-mode-programming-style t)
-             ;; default style is modified K&R (Sumall, Squarespace, etc)
+             (c-add-style "sourcery" my-java-mode-programming-style        t)
+             (c-add-style "knr13"    my-knr13-java-mode-programming-style  t)
+             ;; default style is modified K&R
              (c-set-style "knr13")
              )
           )
