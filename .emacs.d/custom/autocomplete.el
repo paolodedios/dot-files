@@ -48,6 +48,7 @@
                  sh-mode
                  xml-mode
                  sgml-mode
+                 text-mode
                  )
       )
 
