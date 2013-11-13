@@ -37,7 +37,7 @@
 ;; Use yas/completing-prompt ONLY via `M-x yas/insert-snippet'
 (defadvice yas/insert-snippet (around use-completing-prompt activate)
     "Use `yas/completing-prompt' for `yas/prompt-functions' but only here..."
-     (let ((yas/prompt-functions '(yas/completing-prompt)) )  ad-do-it)
+     (let ((yas-prompt-functions '(yas/completing-prompt)) )  ad-do-it)
      )
 
 ;; Set to auto indent first line
