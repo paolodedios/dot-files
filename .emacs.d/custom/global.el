@@ -51,6 +51,9 @@
 (modify-coding-system-alist 'file "\\.C\\'"        'utf-8-unix)
 (modify-coding-system-alist 'file "\\.idl\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.java\\'"     'utf-8-unix)
+(modify-coding-system-alist 'file "\\.scala\\'"    'utf-8-unix)
+(modify-coding-system-alist 'file "\\.clojure\\'"  'utf-8-unix)
+(modify-coding-system-alist 'file "\\.go\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.js\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.coffee\\'"   'utf-8-unix)
 (modify-coding-system-alist 'file "\\.sh\\'"       'utf-8-unix)
@@ -64,7 +67,13 @@
 (modify-coding-system-alist 'file "\\.php\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.xsd\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.dtd\\'"      'utf-8-unix)
-
+(modify-coding-system-alist 'file "\\.groovy\\'"   'utf-8-unix)
+(modify-coding-system-alist 'file "\\.gradle\\'"   'utf-8-unix)
+(modify-coding-system-alist 'file "\\.python\\'"   'utf-8-unix)
+(modify-coding-system-alist 'file "\\.ml\\'"       'utf-8-unix)
+(modify-coding-system-alist 'file "\\.ocaml\\'"    'utf-8-unix)
+(modify-coding-system-alist 'file "\\.sql\\'"      'utf-8-unix)
+(modify-coding-system-alist 'file "\\.epl\\'"      'utf-8-unix)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs recognizes which kind of end-of-line conversion to use based on the
