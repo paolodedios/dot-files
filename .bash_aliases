@@ -271,4 +271,8 @@ if [ "$OS" = "darwin" ]; then
 
     # Enable Spotlight
     alias spoton="sudo mdutil -a -i on"
+
+    # Show program names with lsof
+    alias slsof="sudo lsof -i -P"
+
 fi
