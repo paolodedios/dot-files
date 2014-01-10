@@ -92,28 +92,38 @@ function setupLocalDevEnvironment()
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
 
-        # Declare C toolchain
+        # Declare C toolchain [ Updated 01/10/2014 ]
+        #
+        # XCode     : https://developer.apple.com/xcode/
+        #
         export CC=gcc
         export CXX=g++
         export FFLAGS="-ff2c"
 
-        # Declare platform agnostic applications
+        # Declare platform agnostic applications [ Updated 01/10/2014 ]
+        #
+        # JDK       : http://www.oracle.com/technetwork/java/javase/downloads/index.html
+        # VisualVM  : http://visualvm.java.net/download.html
+        # CSVkit    : http://csvkit.readthedocs.org/en/latest/
+        #
         export JDK_VERSION=1.7.0
-        export VISUALVM_VERSION=visualvm-1.3.5
-        export CSVKIT_VERSION=csvkit-0.5.0
+        export VISUALVM_VERSION=visualvm-1.3.6
+        export CSVKIT_VERSION=csvkit-0.6.1
 
-        # External Build Tool Dependencies [ Updated 11/01/2013 ]
+        # External Build Tool Dependencies [ Updated 01/10/2014 ]
         #
         # Nexus     : http://www.sonatype.org/nexus/go
         # TeamCity  : http://www.jetbrains.com/teamcity/
+        #
         export NEXUS_VERSION=nexus-2.6.4-02
-        export TEAMCITY_VERSION=teamcity-8.0.4
+        export TEAMCITY_VERSION=teamcity-8.0.5
 
-        # External Cloud Dependencies [ Updated 11/01/2013 ]
+        # External Cloud Dependencies [ Updated 01/10/2014 ]
         #
         # EC2 Tools : http://aws.amazon.com/developertools/351
         # Cloudify  : http://www.cloudifysource.org/downloads/get_cloudify
-        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.6.11.0
+        #
+        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.6.12.0
         export CLOUDIFY_VERSION=gigaspaces-cloudify-2.6.2-ga
 
         # Set JAVA_HOME to JDK 7
