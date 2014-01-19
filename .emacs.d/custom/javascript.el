@@ -217,7 +217,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq auto-mode-alist (append '(("\\.js$"       . js2-mode          )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.json$"     . json-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.json$"     . js-mode           )) auto-mode-alist))
 
 ;; add node-js to interpreter list
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))
