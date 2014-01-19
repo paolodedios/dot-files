@@ -66,27 +66,6 @@ export MARKPATH=$HOME/.marks
 # Declare platform specific applications
 ######################################################################################
 
-function setupWorkDevEnvironment()
-{
-    # Declare platform agnostic applications
-    if [ -d $LOCAL_APP_HOME ]; then
-        # Declare platform agnostic applications
-        export PLAY_FRAMEWORK_VERSION=play-1.2.6
-    fi
-
-    # Add local applications to PATH
-    if [ -d $LOCAL_APP_HOME/bin ]; then
-
-        # Create Play! Framework PATH variable
-        if [ -d $LOCAL_BIN_PATH/$PLAY_FRAMEWORK_VERSION ]; then
-            export PLAY_FRAMEWORK_HOME=$LOCAL_BIN_PATH/$PLAY_FRAMEWORK_VERSION
-        fi
-
-        # Append platform agnostic tools to PATH
-        export PATH=$PLAY_FRAMEWORK_HOME:$PATH
-    fi
-}
-
 function setupLocalDevEnvironment()
 {
     # Declare platform agnostic applications
@@ -103,28 +82,8 @@ function setupLocalDevEnvironment()
         # Declare platform agnostic applications [ Updated 01/10/2014 ]
         #
         # JDK       : http://www.oracle.com/technetwork/java/javase/downloads/index.html
-        # VisualVM  : http://visualvm.java.net/download.html
-        # CSVkit    : http://csvkit.readthedocs.org/en/latest/
         #
         export JDK_VERSION=1.7.0
-        export VISUALVM_VERSION=visualvm-1.3.6
-        export CSVKIT_VERSION=csvkit-0.6.1
-
-        # External Build Tool Dependencies [ Updated 01/10/2014 ]
-        #
-        # Nexus     : http://www.sonatype.org/nexus/go
-        # TeamCity  : http://www.jetbrains.com/teamcity/
-        #
-        export NEXUS_VERSION=nexus-2.6.4-02
-        export TEAMCITY_VERSION=teamcity-8.0.5
-
-        # External Cloud Dependencies [ Updated 01/10/2014 ]
-        #
-        # EC2 Tools : http://aws.amazon.com/developertools/351
-        # Cloudify  : http://www.cloudifysource.org/downloads/get_cloudify
-        #
-        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.6.12.0
-        export CLOUDIFY_VERSION=gigaspaces-cloudify-2.6.2-ga
 
         # Set JAVA_HOME to JDK 7
         export JAVA_HOME=$(/usr/libexec/java_home -v $JDK_VERSION)
@@ -139,45 +98,11 @@ function setupLocalDevEnvironment()
          # Create local bin PATH variable
         export LOCAL_BIN_PATH=$LOCAL_APP_HOME/bin
 
-        # Create CSVkit PATH variable
-        if [ -d $LOCAL_BIN_PATH/$CSVKIT_VERSION ]; then
-            export CSVKIT_HOME=$LOCAL_BIN_PATH/$CSVKIT_VERSION
-        fi
-
-        # Create VisualVM PATH variable
-        if [ -d $LOCAL_BIN_PATH/$VISUALVM_VERSION ]; then
-            export VISUALVM_HOME=$LOCAL_BIN_PATH/$VISUALVM_VERSION
-        fi
-
-        # Create package HOME env variable for Nexus
-        if [ -d $LOCAL_BIN_PATH/$NEXUS_VERSION ]; then
-            export NEXUS_HOME=$LOCAL_BIN_PATH/$NEXUS_VERSION
-        fi
-
-        # Create package HOME env variable for TeamCity
-        if [ -d $LOCAL_BIN_PATH/$TEAMCITY_VERSION ]; then
-            export TEAMCITY_HOME=$LOCAL_BIN_PATH/$TEAMCITY_VERSION
-        fi
-
-        # Create EC2 PATH variable
-        if [ -d $LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION ]; then
-            export EC2_HOME=$LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION
-        fi
-
-        # Create Cloudify PATH variable
-        if [ -d $LOCAL_BIN_PATH/$CLOUDIFY_VERSION ]; then
-            export CLOUDIFY_HOME=$LOCAL_BIN_PATH/$CLOUDIFY_VERSION
-        fi
-
         # Create package HOME env variable for sourcecolon
         export SOURCECOLON_HOME=$LOCAL_BIN_PATH/sourcecolon
 
-        # Create binary path groups
-        export TOOLS_BIN_PATH=$CSVKIT_HOME:$VISUALVM_HOME/bin
-        export CLOUD_TOOLS_BIN_PATH=$EC2_HOME/bin:$CLOUDIFY_HOME/bin
-
         # Append platform agnostic tools to PATH
-        export PATH=$LOCAL_BIN_PATH:$TOOLS_BIN_PATH:$CLOUD_TOOLS_BIN_PATH:$PATH
+        export PATH=$LOCAL_BIN_PATH:$PATH
     fi
 
     # Add local data and log folder to the path, if you have it.
@@ -267,9 +192,6 @@ if [ "$OS" = "darwin" ]; then
     # Set up local dev environment
     setupLocalDevEnvironment
 
-    # Set up local dev environment
-    setupWorkDevEnvironment
-
 else
 
     # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
@@ -296,8 +218,5 @@ else
 
     # Set up local dev environment
     setupLocalDevEnvironment
-
-    # Set up local dev environment
-    setupWorkDevEnvironment
 
 fi
