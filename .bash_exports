@@ -112,11 +112,11 @@ function setupLocalDevEnvironment()
         export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
         export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
 
-        # Add work directory for Nexus
-        export PLEXUS_NEXUS_WORK=$LOCAL_DATA_PATH/nexus
-
         # Add work directory for SourceColon
         export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/sourcecolon
+
+        # Add work directory for Packer
+        export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer_cache
     fi
 
     # Declare personal projects directory
