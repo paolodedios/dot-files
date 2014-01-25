@@ -116,7 +116,8 @@ function setupLocalDevEnvironment()
         export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/sourcecolon
 
         # Add work directory for Packer
-        export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer_cache
+        export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer/cache
+        export PACKER_BUILD_DIR=$LOCAL_DATA_PATH/packer/build
     fi
 
     # Declare personal projects directory
