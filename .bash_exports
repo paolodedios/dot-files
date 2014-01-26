@@ -180,6 +180,10 @@ if [ "$OS" = "darwin" ]; then
     export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
     export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
 
+    # Add the VMware ovftool to the PATH
+    export VMWARE_OVFTOOL_PATH=/Applications/VMware\ OVF\ Tool/
+    export PATH=$PATH:$VMWARE_OVFTOOL_PATH
+
     # Increase the maximum number of open file descriptors to the max OSX limit
     ulimit -n 2048
 
