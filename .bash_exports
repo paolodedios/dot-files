@@ -115,7 +115,15 @@ function setupLocalDevEnvironment()
         # Add work directory for SourceColon
         export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/sourcecolon
 
-        # Add work directory for Packer
+        # Add work directory for Packer.
+        #
+        # When debugging the packer build process, set the
+        # environment variable PACKER_LOG=1. The log output
+        # will be displayed via stdout but can be optionally
+        # redirected to a file via PACKER_LOG_PATH
+        #
+        # http://www.packer.io/docs/other/debugging.html
+        #
         export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer/cache
         export PACKER_BUILD_DIR=$LOCAL_DATA_PATH/packer/build
     fi
