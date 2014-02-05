@@ -98,9 +98,6 @@ function setupLocalDevEnvironment()
          # Create local bin PATH variable
         export LOCAL_BIN_PATH=$LOCAL_APP_HOME/bin
 
-        # Create package HOME env variable for sourcecolon
-        export SOURCECOLON_HOME=$LOCAL_BIN_PATH/sourcecolon
-
         # Append platform agnostic tools to PATH
         export PATH=$LOCAL_BIN_PATH:$PATH
     fi
@@ -111,9 +108,6 @@ function setupLocalDevEnvironment()
         # Create local data PATH variable
         export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
         export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
-
-        # Add work directory for SourceColon
-        export SOURCECOLON_SRC_ROOT=$LOCAL_DATA_PATH/sourcecolon
 
         # Add work directory for Packer.
         #
