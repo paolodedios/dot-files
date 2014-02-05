@@ -127,49 +127,6 @@ function jadexecv()
 }
 
 ######################################################################################
-# Local Sourcecolon code indexer/xref commands
-######################################################################################
-
-function runindexer()
-{
-    sh $SOURCECOLON_HOME/gradlew -p $SOURCECOLON_HOME runIndexer -Ptarget=$SOURCECOLON_SRC_ROOT
-}
-
-function runxref()
-{
-    sh $SOURCECOLON_HOME/gradlew -p $SOURCECOLON_HOME runJetty8 -PhttpPort=9100 -Ptarget=$SOURCECOLON_SRC_ROOT
-}
-
-######################################################################################
-# Local TeamCity CI server commands
-######################################################################################
-
-function startteamcity()
-{
-    sh $TEAMCITY_HOME/bin/runAll.sh start
-}
-
-function stopteamcity()
-{
-    sh $TEAMCITY_HOME/bin/runAll.sh stop
-}
-
-######################################################################################
-# Local Nexus repository server commands
-######################################################################################
-
-function startnexus()
-{
-    sh $NEXUS_HOME/bin/nexus start
-}
-
-function stopnexus()
-{
-    sh $NEXUS_HOME/bin/nexus stop
-}
-
-
-######################################################################################
 # File & string-related functions
 ######################################################################################
 
