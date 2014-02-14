@@ -216,10 +216,10 @@ else
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
     # Locally configured, user-specific binaries
-    export LOCAL_APP_HOME=~/apps
+    export LOCAL_APP_HOME=~/Applications
 
     # Project directory
-    export LOCAL_PROJECTS=~/projects
+    export LOCAL_PROJECTS=~/Projects
 
     # Set up local python virtualenv variables
     setupPythonVirtualEnv
