@@ -15,7 +15,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the title displayed in the title-bar "filename (path)"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq frame-title-format              "%b (%f)")
+(setq frame-title-format               "[ %f ]")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the buffer file coding system to the appropriate character set.
@@ -51,6 +51,9 @@
 (modify-coding-system-alist 'file "\\.C\\'"        'utf-8-unix)
 (modify-coding-system-alist 'file "\\.idl\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.java\\'"     'utf-8-unix)
+(modify-coding-system-alist 'file "\\.scala\\'"    'utf-8-unix)
+(modify-coding-system-alist 'file "\\.clojure\\'"  'utf-8-unix)
+(modify-coding-system-alist 'file "\\.go\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.js\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.coffee\\'"   'utf-8-unix)
 (modify-coding-system-alist 'file "\\.sh\\'"       'utf-8-unix)
@@ -64,7 +67,13 @@
 (modify-coding-system-alist 'file "\\.php\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.xsd\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.dtd\\'"      'utf-8-unix)
-
+(modify-coding-system-alist 'file "\\.groovy\\'"   'utf-8-unix)
+(modify-coding-system-alist 'file "\\.gradle\\'"   'utf-8-unix)
+(modify-coding-system-alist 'file "\\.python\\'"   'utf-8-unix)
+(modify-coding-system-alist 'file "\\.ml\\'"       'utf-8-unix)
+(modify-coding-system-alist 'file "\\.ocaml\\'"    'utf-8-unix)
+(modify-coding-system-alist 'file "\\.sql\\'"      'utf-8-unix)
+(modify-coding-system-alist 'file "\\.epl\\'"      'utf-8-unix)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs recognizes which kind of end-of-line conversion to use based on the
@@ -229,30 +238,3 @@
 
 (setq save-place-file      "~/.emacs.saveplace")
 (setq-default save-place   t                   )
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Electric buffer list font-locking
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq buffer-menu-buffer-font-lock-keywords
-      '(("^....[*]Man .*Man.*"   . font-lock-variable-name-face) ; Man page
-        (".*Dired.*"             . font-lock-comment-face)       ; Dired
-        ("^....[*]shell.*"       . font-lock-preprocessor-face)  ; shell buff
-        (".*[*]scratch[*].*"     . font-lock-function-name-face) ; scratch buffer
-        ("^....[*].*"            . font-lock-string-face)        ; "*" named buffers
-        ("^..[*].*"              . font-lock-constant-face)      ; Modified
-        ("^.[%].*"               . font-lock-keyword-face))      ; Read only
-      )
-
-(defun buffer-menu-custom-font-lock  ()
-  (let ((font-lock-unfontify-region-function
-         (lambda (start end)
-           (remove-text-properties start end '(font-lock-face nil)))))
-    (font-lock-unfontify-buffer)
-    (set (make-local-variable 'font-lock-defaults)
-         '(buffer-menu-buffer-font-lock-keywords t))
-    (font-lock-fontify-buffer))
-  )
-
-(add-hook 'electric-buffer-menu-mode-hook 'buffer-menu-custom-font-lock)

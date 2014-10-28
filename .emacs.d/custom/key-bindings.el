@@ -233,10 +233,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-key global-map [(control f6)]     'indent-clean-region             )
-(define-key global-map [(control f7)]     'align-stacked-list-commas       )
-(define-key global-map [(control f8)]     'align-stacked-c-arglist         )
-(define-key global-map [(control f9)]     'align-stacked-c-assignments     )
-(define-key global-map [(control f10)]    'indent-buffer                   )
+(define-key global-map [(control f7)]     'align-stacked-c-list            )
+(define-key global-map [(control f8)]     'align-stacked-c-funcall         )
+(define-key global-map [(control f9)]     'align-stacked-c-params          )
+(define-key global-map [(control f10)]    'align-stacked-c-assignments     )
+(define-key global-map [(control f12)]    'align-regexp                    )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paste c-file-style overrides and copyright notice text
@@ -247,10 +249,7 @@
 
 (define-key global-map [(alt f6)]         'paste-default-c-file-style      )
 (define-key global-map [(alt f7)]         'paste-knr-c-file-style          )
-(define-key global-map [(alt f8)]         'paste-atsl-copyright            )
-(define-key global-map [(alt f9)]         'paste-atsl-mpl-copyright        )
-(define-key global-map [(alt f10)]        'paste-atsl-mpl-copyright-html   )
-(define-key global-map [(alt f11)]        'paste-mpl-copyright             )
+(define-key global-map [(alt f12)]        'yas-reload-all                  )
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

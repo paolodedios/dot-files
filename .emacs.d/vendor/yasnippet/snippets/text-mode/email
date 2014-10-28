@@ -1,4 +1,5 @@
-# name: (user's email)
+# -*- mode: snippet -*-
+# name: (email address)
 # key: email
 # --
-`(replace-regexp-in-string "@" "@NOSPAM." user-mail-address)`
+paolodedios@gmail.com

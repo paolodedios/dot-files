@@ -329,19 +329,44 @@
     )
   )
 
-(defun align-stacked-list-commas (current-region-begin current-region-end)
+(defun align-stacked-c-list (current-region-begin current-region-end)
   "Vertically align region - used to align stacked list commas"
   (interactive "r")
   (align-regexp current-region-begin
                 current-region-end
                 (concat "\\(\\s-*\\)"
-                        "\\(,\\|)\\)\\(\\s-+\\|$\\)"
+                        "\\(,\\|;\\)\\(\\s-+\\|$\\)"
                         )
                 1 1 t
                 )
   )
 
-(defun align-stacked-c-argnames (current-region-begin current-region-end)
+
+(defun align-stacked-c-funcall (current-region-begin current-region-end)
+  "Vertically align region - used to align stacked list commas"
+  (interactive "r")
+  (align-regexp current-region-begin
+                current-region-end
+                (concat "\\(\\s-*\\)"
+                        "\\(,\\|)\\)\\(;\\)?\\(\\s-+\\|$\\)"
+                        )
+                1 1 t
+                )
+  )
+
+(defun align-stacked-c-param-delimiters (current-region-begin current-region-end)
+  "Vertically align region - used to align stacked list commas"
+  (interactive "r")
+  (align-regexp current-region-begin
+                current-region-end
+                (concat "\\(\\s-*\\)"
+                        "\\(,\\|)\\)\\(\\s-+\n\\|\\s-+{\\|$\\)"
+                        )
+                1 1 t
+                )
+  )
+
+(defun align-stacked-c-param-names (current-region-begin current-region-end)
   "Vertically align region - used to align stacked arg list param names"
   (interactive "r")
   (align-regexp current-region-begin
@@ -353,7 +378,7 @@
                 )
   )
 
-(defun align-stacked-c-arglist (current-region-begin current-region-end)
+(defun align-stacked-c-params (current-region-begin current-region-end)
   "Vertically align region - used to align arg list variables and commas"
   (interactive "r")
 
@@ -361,10 +386,10 @@
   (indent-clean-region)
 
   ;; Align param names
-  (align-stacked-c-argnames current-region-begin current-region-end)
+  (align-stacked-c-param-names (region-beginning) (region-end))
 
   ;; Obtain updated active region point and mark and align param delimiters
-  (align-stacked-list-commas (region-beginning) (region-end))
+  (align-stacked-c-param-delimiters (region-beginning) (region-end))
   )
 
 
@@ -399,7 +424,7 @@
   (indent-clean-region)
 
   ;; Align variable names
-  (align-stacked-c-lvalues current-region-begin current-region-end)
+  (align-stacked-c-lvalues (region-beginning) (region-end))
 
   ;; Obtain updated active region point and mark and align equal signs
   (align-stacked-c-assignment-equals (region-beginning) (region-end))
@@ -470,156 +495,4 @@ there's a region, all lines that region covers will be duplicated."
   (insert
    "/* -*- c-file-style: \"knr13\" -*- */"
    )
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Copyright information source headers
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun paste-atsl-copyright ()
-  "Insert AfterText Proprietary Copyright Text. "
-  (interactive)
-  (insert
-"/* -*- c-file-style: \"sourcery\" -*- */
-/**
- * Version 1.0 ATSL
- *
- * THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF AFTERTEXT, INC.
- * The Computer Code and Software contained herein is the sole property
- * of AfterText, Inc  (\"AfterText\").  The copyright notice above does
- * not evidence any actual or intended publication of such source code.
- *
- * Use and distribution of this software and its source code is governed
- * by the terms and conditions of the AfterText Software License
- * (\"ATSL\")
- *
- * The Initial Developer of the Original Code is AfterText, Inc. Portions
- * created by AfterText are Copyright (C) 2013 AfterText, Inc.  All Rights
- * Reserved.
- */
-")
-  (cut-ctrlM)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Copyright information to be used in open-sourced
-;; code under the terms of the MPL 1.1
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun paste-atsl-mpl-copyright ()
-  "Insert AfterText MPL Copyright Text. "
-  (interactive)
-  (insert
-"/* -*- c-file-style: \"sourcery\" -*- */
-/**
- * Version 1.1 MPL
- *
- * The contents of this file are subject to the Mozilla Public
- * License Version 1.1 (the \"License\").  You may not use this
- * file except in compliance with the License. You may obtain a
- * copy of the License at http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an
- * \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * rights and limitations under the License.
- *
- * The Initial Developer of the Original Code is Aftertext, Inc.
- * Portions created by AfterText, Inc are Copyright (C) 2013
- * AfterText, Inc.  All Rights Reserved.
- *
- * Redistribution of the Original Code or portions of the Original
- * Code or Software under this agreement must retain the above
- * copyright notice, this redistribution statement and the following
- * disclaimer.  Neither the name of AfterText, Inc nor the names
- * of its contributors may be used to endorse or promote any
- * products derived from this software without specific prior
- * written permission from AfterText, Inc.
- *
- * Contributor(s):
- *   Paolo de Dios <paolodedios@aftertext.com> (original author)
- *
- */
-")
-  (cut-ctrlM)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ATSL copyright information to be used in open-sourced
-;; code under the terms of the MPL
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun paste-atsl-mpl-copyright-html ()
-  "Insert AfterText MPL Copyright Text. "
-  (interactive)
-  (insert
-"<!-- Version 1.1 MPL
-   -
-   - The contents of this file are subject to the Mozilla Public
-   - License Version 1.1 (the \"License\").  You may not use this
-   - file except in compliance with the License. You may obtain a
-   - copy of the License at http://www.mozilla.org/MPL/
-   -
-   - Software distributed under the License is distributed on an
-   - \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
-   - or implied. See the License for the specific language governing
-   - rights and limitations under the License.
-   -
-   - The Original Code is AfterText.
-   -
-   - The Initial Developer of the Original Code is AfterText, Inc.
-   - Portions created by AfterText, Inc are Copyright (C) 2013
-   - AfterText, Inc.  All Rights Reserved.
-   -
-   - Redistribution of the Original Code or portions of the Original
-   - Code or software under this agreement must retain the above
-   - copyright notice, this redistribution statement and the following
-   - disclaimer.  Neither the name of AfterText, Inc nor the
-   - names of its contributors may be used to endorse or promote any
-   - products derived from this software without specific prior
-   - written permission from AfterText, Inc.
-   -
-   -->
-")
-  (cut-ctrlM)
-  )
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Copyright information to be used in open-sourced
-;; code under the terms of the MPL 1.1
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun paste-mpl-copyright ()
-  "Insert Individual Contributor MPL Copyright Text. "
-  (interactive)
-  (insert
-"/* -*- c-file-style: \"sourcery\" -*- */
-/**
- * Version 1.1 MPL
- *
- * The contents of this file are subject to the Mozilla Public
- * License Version 1.1 (the \"License\").  You may not use this
- * file except in compliance with the License. You may obtain a
- * copy of the License at http://www.mozilla.org/MPL/
- *
- * Software distributed under the License is distributed on an
- * \"AS IS\" basis, WITHOUT WARRANTY OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * rights and limitations under the License.
- *
- * The Initial Developer of the Original Code is Paolo de Dios.
- * Portions Copyright (C) 2013 Paolo de Dios.  All Rights Reserved.
- *
- * Redistribution of the Original Code or portions of the Original
- * Code or Software under this agreement must retain the above
- * copyright notice, this redistribution statement and the following
- * disclaimer.
- *
- * Contributor(s):
- *   Paolo de Dios <paolodedios@gmail.com> (original author)
- *
- */
-")
-  (cut-ctrlM)
   )

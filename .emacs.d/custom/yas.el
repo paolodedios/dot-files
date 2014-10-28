@@ -13,10 +13,48 @@
 (require 'yasnippet)
 
 (setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"                       ;; personal snippets
-        "~/.emacs.d/vendor/yasnippet/snippets"      ;; the default collection
+      '("~/.snippets"                               ;; local snippets
+        "~/.emacs.d/vendor/yasnippet/snippets"      ;; the default, public collection
         )
       )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable dropdown-prompt priority
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'dropdown-list)
+
+(setq yas/prompt-functions
+      '(yas/dropdown-prompt
+        yas/ido-prompt
+        yas/x-prompt
+        yas/completing-prompt
+        yas/no-prompt
+        )
+      )
+
+
+;; Use yas/completing-prompt ONLY via `M-x yas/insert-snippet'
+(defadvice yas/insert-snippet (around use-completing-prompt activate)
+    "Use `yas/completing-prompt' for `yas/prompt-functions' but only here..."
+     (let ((yas-prompt-functions '(yas/completing-prompt)) )  ad-do-it)
+     )
+
+;; Set to auto indent first line
+(setq yas/also-auto-indent-first-line             t  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Rebind trigger keys and functions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Unbind yasnippet from using the TAB key to prevent it from conflicting
+;; with TAB completion via the autocomplete.el module
+(define-key yas-minor-mode-map [(tab)]            nil       )
+(define-key yas-minor-mode-map (kbd "TAB")        nil       )
+
+;; Rebind the trigger to Shift-TAB instead
+(define-key yas-minor-mode-map (kbd "<S-tab>")   'yas/expand)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Use YASnippet as a non-global minor mode, by replacing (yas-global-mode 1)
@@ -26,6 +64,21 @@
 
 ;; reload all snippet tables
 (yas-reload-all)
+
+;; enable yasnippet for snippet-mode
+(add-hook 'text-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for snippet-mode
+(add-hook 'snippet-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for lisp-mode
+(add-hook 'lisp-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
 
 ;; enable yasnippet for generic cc-mode
 (add-hook 'cc-mode-hook
@@ -44,6 +97,21 @@
 
 ;; enable yasnippet for scala-mode
 (add-hook 'scala-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for clojure-mode
+(add-hook 'clojure-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for ocaml-mode
+(add-hook 'ocaml-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for ocaml tuareg-mode
+(add-hook 'tuareg-mode-hook
           '(lambda ()
              (yas/minor-mode-on)))
 
@@ -72,6 +140,11 @@
           '(lambda ()
              (yas/minor-mode-on)))
 
+;; enable yasnippet for nxml-mode
+(add-hook 'nxml-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
 ;; enable yasnippet for css-mode
 (add-hook 'css-mode-hook
           '(lambda ()
@@ -79,5 +152,15 @@
 
 ;; enable yasnippet for sh-mode
 (add-hook 'sh-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for sql-mode
+(add-hook 'sql-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+
+;; enable yasnippet for markdown-mode
+(add-hook 'markdown-mode-hook
           '(lambda ()
              (yas/minor-mode-on)))

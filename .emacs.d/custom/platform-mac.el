@@ -34,6 +34,24 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Font overrides for Mac OS X
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when (eq system-type 'darwin)
+
+  ;; default Latin font (e.g. Consolas, Menlo, etc)
+  (set-face-attribute 'default nil   :family   "Monaco")
+
+  ;; default font size (point * 10)
+  ;;
+  ;; Depending on the default font, if the size is not supported very well,
+  ;; the frame will be clipped so that the beginning of the buffer may not
+  ;; be visible correctly.
+  (set-face-attribute 'default nil   :height   120)
+  )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Aquamacs specific window settings
 ;; see http://www.emacswiki.org/emacs/CustomizeAquamacs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -47,7 +65,9 @@
     "Set initial value of alpha parameter for the current frame"
     (interactive)
     (if (equal (frame-parameter nil 'alpha) nil)
-        (set-frame-parameter nil 'alpha 100)))
+        (set-frame-parameter nil 'alpha 100)
+      )
+    )
 
   (defun transparency-set-value (numb)
     "Set level of transparency for the current frame"
@@ -56,7 +76,10 @@
         (message "Error. The maximum value for transparency is 100.")
       (if (< numb 0)
           (message "Error. The minimum value for transparency is 0.")
-        (set-frame-parameter nil 'alpha numb))))
+        (set-frame-parameter nil 'alpha numb)
+        )
+      )
+    )
 
   (defun transparency-increase ()
     "Increase level of transparency for the current frame"
@@ -64,7 +87,9 @@
     (transparency-set-initial-value)
     (if (> (frame-parameter nil 'alpha) 0)
         (set-frame-parameter nil 'alpha (+ (frame-parameter nil 'alpha) -1))
-      (message "This is the minimum value for transparency")))
+      (message "This is the minimum value for transparency")
+      )
+    )
 
   (defun transparency-decrease ()
     "Decrease level of transparency for the current frame"
@@ -72,7 +97,9 @@
     (transparency-set-initial-value)
     (if (< (frame-parameter nil 'alpha) 100)
         (set-frame-parameter nil 'alpha (+ (frame-parameter nil 'alpha) +1))
-      (message "This is the minimum value for transparency")))
+      (message "This is the minimum value for transparency")
+      )
+    )
 
   ;; keybinding for transparency manipulation
   (define-key global-map (kbd "C-?") 'transparency-set-value)
@@ -101,6 +128,7 @@
   ;; (setq mac-control-modifier 'ctrl)
 
   ;; make C-v, M-v maintain the mark
-  (define-key global-map "\C-v" 'scroll-up)
+  (define-key global-map "\C-v" 'scroll-up  )
   (define-key global-map "\M-v" 'scroll-down)
+
   )

@@ -67,7 +67,7 @@
                              (statement-block-intro                . +)
                              (block-close                          . 0)
                              (do-while-closure                     . 0)
-                             (case-label                           . *)
+                             (case-label                           . +)
                              (statement-case-intro                 . +)
                              (statement-cont c-lineup-cascaded-calls +)
                              (stream-op                            . c-lineup-streamop)
@@ -217,7 +217,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq auto-mode-alist (append '(("\\.js$"       . js2-mode          )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.json$"     . json-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.json$"     . js-mode           )) auto-mode-alist))
 
 ;; add node-js to interpreter list
 (add-to-list 'interpreter-mode-alist '("node" . js2-mode))

@@ -35,12 +35,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq auto-mode-alist (append '(("\\.groovy$"   . groovy-mode       )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.gradle$"   . groovy-mode       )) auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Interpreter binding
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq interpreter-mode-alist (append '(("groovy" . groovy-mode )) interpreter-mode-alist))
+(setq interpreter-mode-alist (append '(("gradle" . groovy-mode )) interpreter-mode-alist))
 
 ;; can set groovy-home here, if not in environment
 (setq inferior-groovy-mode-hook

@@ -25,15 +25,12 @@ export NETIF=en0
 export EDITOR="vim"
 
 ######################################################################################
-# Config file editing aliases
+# Host file env variables
 ######################################################################################
 
 # Put list of remote hosts in ~/.hosts
 export SYS_HOSTFILE=/etc/hosts
 export MY_HOSTFILE=$HOME/.hosts
-
-alias hostedit='sudo vim ${SYS_HOSTFILE}'
-alias myhostedit='vim ${MY_HOSTFILE}'
 
 ######################################################################################
 # Command history customization
@@ -59,51 +56,40 @@ export MANPAGER="less -X"
 export LESS_TERMCAP_md="$ORANGE"
 
 ######################################################################################
-# Declare platform specific applications
+# Directory marking and caching
+# http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
 ######################################################################################
 
-function setupWorkDevEnvironment()
-{
-    # Declare platform agnostic applications
-    if [ -d $LOCAL_APP_HOME ]; then
-        # Declare platform agnostic applications
-        export PLAY_FRAMEWORK_VERSION=play-1.2.5
-    fi
+export MARKPATH=$HOME/.marks
 
-    # Add local applications to PATH
-    if [ -d $LOCAL_APP_HOME/bin ]; then
-
-        # Create Play! Framework PATH variable
-        if [ -d $LOCAL_BIN_PATH/$PLAY_FRAMEWORK_VERSION ]; then
-            export PLAY_FRAMEWORK_HOME=$LOCAL_BIN_PATH/$PLAY_FRAMEWORK_VERSION
-        fi
-
-        # Append platform agnostic tools to PATH
-        export PATH=$PLAY_FRAMEWORK_HOME:$PATH
-    fi
-}
+######################################################################################
+# Declare platform specific applications
+######################################################################################
 
 function setupLocalDevEnvironment()
 {
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
-        # Declare platform agnostic applications
-        export JDK_VERSION=1.7.0
-        export EC2_API_TOOLS_VERSION=aws-ec2-api-tools-1.5.2.4
-        export CSVKIT_VERSION=csvkit-0.4.4
-        export VISUALVM_VERSION=visualvm-1.3.5
 
-        if [ "$OS" = "darwin" ]; then
-            # Declare OS X specific applications
-            export MYSQL_DB_VERSION=mysql-5.5.21-osx-x86_64
-        else
-            # Default to linux version
-            export MYSQL_DB_VERSION=mysql-5.5.21-linux-x86_64
-        fi
+        # Declare C toolchain [ Updated 01/10/2014 ]
+        #
+        # XCode     : https://developer.apple.com/xcode/
+        #
+        export CC=gcc
+        export CXX=g++
+        export FFLAGS="-ff2c"
+
+        # Declare platform agnostic applications [ Updated 01/10/2014 ]
+        #
+        # JDK       : http://www.oracle.com/technetwork/java/javase/downloads/index.html
+        #
+        export JDK_VERSION=1.7.0
 
         # Set JAVA_HOME to JDK 7
         export JAVA_HOME=$(/usr/libexec/java_home -v $JDK_VERSION)
 
+        # Set GRADLE_HOME
+        export GRADLE_HOME=/opt/local/share/java/gradle
     fi
 
     # Add local applications to PATH
@@ -112,39 +98,31 @@ function setupLocalDevEnvironment()
          # Create local bin PATH variable
         export LOCAL_BIN_PATH=$LOCAL_APP_HOME/bin
 
-        # Create EC2 PATH variable
-        if [ -d $LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION ]; then
-            export EC2_HOME=$LOCAL_BIN_PATH/$EC2_API_TOOLS_VERSION
-        fi
-
-        # Create CSVkit PATH variable
-        if [ -d $LOCAL_BIN_PATH/$CSVKIT_VERSION ]; then
-            export CSVKIT_HOME=$LOCAL_BIN_PATH/$CSVKIT_VERSION
-        fi
-
-        # Create VisualVM PATH variable
-        if [ -d $LOCAL_BIN_PATH/$VISUALVM_VERSION ]; then
-            export VISUALVM_HOME=$LOCAL_BIN_PATH/$VISUALVM_VERSION
-        fi
-
-        # Create local MySQL database tool PATH variable
-        if [ -d $LOCAL_BIN_PATH/$MYSQL_DB_VERSION ]; then
-            export MYSQL_DB_HOME=$LOCAL_BIN_PATH/$MYSQL_DB_VERSION
-        fi
-
         # Append platform agnostic tools to PATH
-        export PATH=$LOCAL_BIN_PATH:$EC2_HOME/bin:$CSVKIT_HOME:$VISUALVM_HOME/bin:$MYSQL_DB_HOME/bin:$PATH
+        export PATH=$LOCAL_BIN_PATH:$PATH
     fi
-
-
 
     # Add local data and log folder to the path, if you have it.
     if [ -d $LOCAL_APP_HOME/var ]; then
+
+        # Create local data PATH variable
         export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
         export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
+
+        # Add work directory for Packer.
+        #
+        # When debugging the packer build process, set the
+        # environment variable PACKER_LOG=1. The log output
+        # will be displayed via stdout but can be optionally
+        # redirected to a file via PACKER_LOG_PATH
+        #
+        # http://www.packer.io/docs/other/debugging.html
+        #
+        export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer/cache
+        export PACKER_BUILD_DIR=$LOCAL_DATA_PATH/packer/build
     fi
 
-    # Personal projects directory
+    # Declare personal projects directory
     if [ -d $HOME/$LOCAL_PROJECTS ]; then
         export PROJECT_HOME=$HOME/$LOCAL_PROJECTS
     fi
@@ -177,8 +155,18 @@ function setupPythonVirtualEnv()
 
 if [ "$OS" = "darwin" ]; then
 
+    # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
+    # to screen. This isn't a 100% reliable indicator (for example, you can't
+    # easily tell if you're running screen inside tmux or tmux inside screen),
+    # but it should be good enough in practice.
+    if ! { [ -n "$TMUX" ]; } then
+        export SYSTEM_PATH=$PATH
+    else
+        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
+    fi
+
     # MacPorts versions take precedence
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
     # Locally configured, user-specific binaries
     export LOCAL_APP_HOME=~/Applications
@@ -187,12 +175,20 @@ if [ "$OS" = "darwin" ]; then
     export LOCAL_PROJECTS=~/Projects
 
     # Override XCode4/gcc tendency to use arch=PPC when building libraries
-    export ARCHFLAGS="-arch i386 -arch x86_64"
+    export ARCHFLAGS="-arch x86_64"
 
     # Create command alias for lsregister
     export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
     export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
     export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
+
+    # Add the VMware ovftool to the PATH
+    export VMWARE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library/
+    export VMWARE_OVFTOOL_PATH=/Applications/VMware\ OVF\ Tool/
+    export PATH=$PATH:$VMWARE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
+
+    # Increase the maximum number of open file descriptors to the max OSX limit
+    ulimit -n 2048
 
     # Add tab completion for `defaults read|write NSGlobalDomain`
     # You could just use `-g` instead, but I like being explicit
@@ -204,27 +200,31 @@ if [ "$OS" = "darwin" ]; then
     # Set up local dev environment
     setupLocalDevEnvironment
 
-    # Set up local dev environment
-    setupWorkDevEnvironment
-
 else
+
+    # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
+    # to screen. This isn't a 100% reliable indicator (for example, you can't
+    # easily tell if you're running screen inside tmux or tmux inside screen),
+    # but it should be good enough in practice.
+    if ! { [ -n "$TMUX" ]; } then
+        export SYSTEM_PATH=$PATH
+    else
+        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+    fi
 
     # Local packages take precedence
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
     # Locally configured, user-specific binaries
-    export LOCAL_APP_HOME=~/apps
+    export LOCAL_APP_HOME=~/Applications
 
     # Project directory
-    export LOCAL_PROJECTS=~/projects
+    export LOCAL_PROJECTS=~/Projects
 
     # Set up local python virtualenv variables
     setupPythonVirtualEnv
 
     # Set up local dev environment
     setupLocalDevEnvironment
-
-    # Set up local dev environment
-    setupWorkDevEnvironment
 
 fi

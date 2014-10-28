@@ -44,8 +44,8 @@ function showcolors()
 
 function hg_dirty()
 {
-    hg status 2> /dev/null \
-    | awk '$1 == "?" { unknown = 1 }
+    hg status 2> /dev/null | \
+      awk '$1 == "?" { unknown = 1 }
            $1 != "?" { changed = 1 }
            END {
              if (changed) printf "*"
@@ -79,7 +79,8 @@ function git_branch()
 }
 
 # take repo in $pwd and copy it to the specified location, minus the .git specific files.
-function gitexport(){
+function gitexport()
+{
 	mkdir -p "$1"
 	git archive master | tar -x -C "$1"
 }
@@ -136,8 +137,9 @@ function md()
 }
 
 # Copy w/ progress
-function cp_p() {
-  rsync -WavP --human-readable --progress $1 $2
+function cp_p()
+{
+    rsync -WavP --human-readable --progress $1 $2
 }
 
 # Find a file with a pattern in name:
@@ -276,6 +278,42 @@ function unique()
     sort "$1" | uniq
 }
 
+######################################################################################
+# Directory marking and caching
+# http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
+######################################################################################
+
+function jump()
+{
+    cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
+}
+
+function mark()
+{
+    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
+}
+
+function unmark()
+{
+    rm -i "$MARKPATH/$1"
+}
+
+function marks()
+{
+    if [ "$OS" = "darwin" ]; then
+        # https://news.ycombinator.com/item?id=6229428
+        \ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk  -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
+    else
+        ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g'&&echo
+    fi
+}
+
+# Flush Directory Service cache
+function flush-ds()
+{
+    dscacheutil -flushcache && killall -HUP mDNSResponder
+}
+
 #######################################################################################
 # Internet/web helpers
 #######################################################################################
@@ -300,7 +338,7 @@ function unidecode()
 	echo # newline
 }
 
-# Get a characters Unicode code point
+# Get a character's Unicode code point
 function codepoint()
 {
 	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
@@ -345,14 +383,32 @@ function dataurl()
 # Scrape a URL using wget
 function getwebsite()
 {
-    wget --recursive --level=inf --page-requisites --no-parent --wait=1 $1
+    wget --recursive --level=inf --page-requisites --no-parent --no-clobber --wait=1 $1
 }
 
 # Mirror a URL using wget
 function mirrorwebsite()
 {
     # Equivalent to: --recursive --timestamping --level=inf --no-remove-listing
-    wget --mirror --convert-links --html-extension --page-requisites --no-parent --wait=5 $1
+    wget --mirror --convert-links --html-extension --page-requisites --no-parent --no-clobber --wait=5 $1
+}
+
+# List local IP address
+function local-ipaddr()
+{
+    ipconfig getifaddr en0
+}
+
+# List all IP address for interfaces
+function list-ipaddrs()
+{
+    ifconfig -a | grep -o 'inet6\? \(\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\)\|[a-fA-F0-9:]\+\)' | sed -e 's/inet6* //'
+}
+
+# URL-encode strings
+function urlencode()
+{
+    python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"
 }
 
 #######################################################################################
@@ -387,6 +443,12 @@ function killps()
     done
 }
 
+# Kill all the tabs in Chrome to free up memory
+# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
+function chromekill()
+{
+    ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill
+}
 
 #######################################################################################
 # Misc utilities
@@ -402,10 +464,16 @@ function repeat()
     done
 }
 
-function tmslow()
+function lower-tms-pri()
 {
     echo "Reducing Time Machine priority..."
     sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+}
+
+function timer()
+{
+    # Stopwatch
+    echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 }
 
 #######################################################################################
