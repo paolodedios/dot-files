@@ -294,7 +294,7 @@
              (c-add-style "sourcery" my-java-mode-programming-style        t)
              (c-add-style "knr13"    my-knr13-java-mode-programming-style  t)
              ;; default style is modified K&R
-             (c-set-style "knr13")
+             (c-set-style "sourcery")
              )
           )
 
