@@ -3,10 +3,15 @@
 #
 ###############################################################
 
+# Always use Fogbugz/KilnHG user ID
 [ui]
-username                       = Paolo de Dios <paolodedios@gmail.com>
+username                       = Paolo de Dios <paolodedios@appliedtheory.io>
 ignore                         = /Users/paolodedios/.hgignore_global
 verbose                        = true
+
+[hostfingerprints]
+developers.kilnhg.com          = f1:01:76:c2:31:e9:cd:a4:8c:a1:22:45:af:f2:0c:c1:59:61:7a:dd
+appliedtheory.kilnhg.com       = f1:01:76:c2:31:e9:cd:a4:8c:a1:22:45:af:f2:0c:c1:59:61:7a:dd
 
 [extensions]
 hgext.extdiff                  =
