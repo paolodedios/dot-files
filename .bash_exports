@@ -79,13 +79,13 @@ function setupLocalDevEnvironment()
         export CXX=g++
         export FFLAGS="-ff2c"
 
-        # Declare platform agnostic applications [ Updated 01/10/2014 ]
+        # Declare platform agnostic applications [ Updated 12/04/2014 ]
         #
         # JDK       : http://www.oracle.com/technetwork/java/javase/downloads/index.html
         #
-        export JDK_VERSION=1.7.0
+        export JDK_VERSION=1.8.0
 
-        # Set JAVA_HOME to JDK 7
+        # Set JAVA_HOME to JDK 8
         export JAVA_HOME=$(/usr/libexec/java_home -v $JDK_VERSION)
 
         # Set GRADLE_HOME
