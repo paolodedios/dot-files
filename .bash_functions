@@ -108,6 +108,11 @@ function select_jdk7()
     export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0)
 }
 
+function select_jdk8()
+{
+    export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0)
+}
+
 ######################################################################################
 # Java Decompiler(JAD) standard command
 ######################################################################################
