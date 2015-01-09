@@ -133,22 +133,27 @@ function setupPythonVirtualEnv()
     # Python virtual environment
     if [ -e `type -p virtualenvwrapper.sh` ]; then
 
-        # virtualenv working directory
+        # Set virtualenv working directory
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
 
-        # make pip use the same directory for virtualenvs as virtualenvwrapper
+        # Make pip use the same directory for virtualenvs as virtualenvwrapper
         export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
-        # makes pip detect an active virtualenv and install to it, without
+        # Makes pip detect an active virtualenv and install to it, without
         # having to pass it the -E parameter
         export PIP_RESPECT_VIRTUALENV=true
 
-        # ensure that all new environments are isolated from the system
+        # Ensure that the MacPorts versions of Python and virtualenv are used
+        # for all virtualenv sessions.
+        export VIRTUALENVWRAPPER_PYTHON=/opt/local/bin/python
+        export VIRTUALENVWRAPPER_VIRTUALENV=/opt/local/bin/virtualenv
+
+        # Ensure that all new environments are isolated from the system
         # site-packages directory by passing "no-site-packages" as the default
         # argument for virtualenv
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 
-        # load virtualenv wrapper functions
+        # Load virtualenv wrapper functions
         source virtualenvwrapper.sh > /dev/null 2>&1
     fi
 }
