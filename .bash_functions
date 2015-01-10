@@ -95,6 +95,60 @@ if [ $? -eq 0 ]; then
 fi
 
 ######################################################################################
+# Python Switcher
+######################################################################################
+
+function show_python_info()
+{
+    sudo port select --list python
+    sudo port select --list pip
+    sudo port select --list virtualenv
+}
+
+function select_python26_apple()
+{
+    sudo port select --set python python26-apple
+    sudo port select --set pip none
+    sudo port select --set virtualenv none
+}
+
+function select_python27_apple()
+{
+    sudo port select --set python python27-apple
+    sudo port select --set pip none
+    sudo port select --set virtualenv none
+}
+
+function select_python26()
+{
+    sudo port select --set python python26
+    sudo port select --set pip pip26
+    sudo port select --set virtualenv virtualenv26
+}
+
+function select_python27()
+{
+    sudo port select --set python python27
+    sudo port select --set pip pip27
+    sudo port select --set virtualenv virtualenv27
+}
+
+function select_python33()
+{
+    sudo port select --set python python33
+    sudo port select --set pip pip33
+    sudo port select --set virtualenv virtualenv33
+}
+
+function select_python34()
+{
+    sudo port select --set python python34
+    sudo port select --set pip pip34
+    sudo port select --set virtualenv virtualenv34
+}
+
+
+######################################################################################
 # Java Switcher
 ######################################################################################
 
