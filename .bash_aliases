@@ -193,37 +193,37 @@ command -v grunt > /dev/null && alias grunt="grunt --stack"
 # Python virtualenvwrapper aliases
 ######################################################################################
 
-# create a new virtual environment
+# Create a new virtual environment
 alias pymkenv="mkvirtualenv"
 
-# switch to a specific virtual environment
+# Switch to a specific virtual environment
 alias pystartenv="workon"
 
-# stop using the current virtual environment
+# Stop using the current virtual environment
 alias pystopenv="deactivate"
 
-# list virtual environments
+# List virtual environments
 alias pylsenv="lsvirtualenv -b"
 
-# remove virtual environment
+# Remove virtual environment
 alias pyrmenv="rmvirtualenv"
 
-# copy virtual environment
+# Copy virtual environment
 alias pycpenv="cpvirtualenv"
 
-# change dir to top level of current virtual environment
+# Change dir to top level of current virtual environment
 alias pycdenv="cdvirtualenv"
 
-# list site-packages for current virtual environment
+# List site-packages for current virtual environment
 alias pylsenvpkgs="lssitepackages"
 
-# update site-packages via pip
+# Update site-packages via pip
 alias pyupdatepkgs='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U'
 
-# generate python package list
+# Generate python package list
 alias pylspkgs="pip freeze --local > requirements.txt"
 
-# install python packages from list
+# Install python packages from list
 alias pyinstallpkgs="pip install -r"
 
 ######################################################################################
