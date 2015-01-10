@@ -139,6 +139,9 @@ function setupPythonVirtualEnv()
         # Make pip use the same directory for virtualenvs as virtualenvwrapper
         export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
+        # Ensure that pip only runs if there is a virtualenv currently activated
+        export PIP_REQUIRE_VIRTUALENV=true
+
         # Makes pip detect an active virtualenv and install to it, without
         # having to pass it the -E parameter
         export PIP_RESPECT_VIRTUALENV=true
