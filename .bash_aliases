@@ -54,6 +54,7 @@ alias whichpath="type -p"
 alias path="echo -e ${PATH//:/\\n}"
 alias libpath="echo -e ${LD_LIBRARY_PATH//:/\\n}"
 
+alias cd="py_virtualenv_cd"
 alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
@@ -168,26 +169,12 @@ alias httpdump="sudo tcpdump -i $NETIF -n -s 0 -w - | grep -a -o -E \"Host\: .*|
 # Aliases for python and gcc version selection via MacPorts
 ######################################################################################
 
-alias python_list="sudo port select --list python"
-alias python_select="sudo port select --set python"
-
 alias gcc_list="sudo port select --list gcc"
 alias gcc_select="sudo port select --set gcc"
 
-######################################################################################
-# Java related aliases
-######################################################################################
-
-alias maven="mvn3"
-alias m2="mvn2"
-alias m3="mvn3"
-
-######################################################################################
-# Other developer tool aliases
-######################################################################################
-
-# Make Grunt print stack traces by default
-command -v grunt > /dev/null && alias grunt="grunt --stack"
+# @see select_python functions in .bash_functions
+alias python_list="sudo port select --list python"
+alias python_select="sudo port select --set python"
 
 ######################################################################################
 # Python virtualenvwrapper aliases
@@ -225,6 +212,22 @@ alias pylspkgs="pip freeze --local > requirements.txt"
 
 # Install python packages from list
 alias pyinstallpkgs="pip install -r"
+
+
+######################################################################################
+# Java related aliases
+######################################################################################
+
+alias maven="mvn3"
+alias m2="mvn2"
+alias m3="mvn3"
+
+######################################################################################
+# Grunt related aliases
+######################################################################################
+
+# Make Grunt print stack traces by default
+command -v grunt > /dev/null && alias grunt="grunt --stack"
 
 ######################################################################################
 # Platform specific aliases
