@@ -20,22 +20,15 @@ function sysinfo()
 }
 
 ########################################################################################
-# Display terminal color constants
+# Macports shortcut functions
 ########################################################################################
 
-function showcolors()
+function upgrade_macports()
 {
-    echo
-    echo -e "$(tput bold) reg  bld  und   tput-command-colors$(tput sgr0)"
-
-    for i in $(seq 1 256); do
-        echo " $(tput setaf $i)Text$(tput sgr0) $(tput bold)$(tput setaf $i)Text$(tput sgr0) $(tput sgr 0 1)$(tput setaf $i)Text$(tput sgr0)  \$(tput setaf $i)"
-    done
-
-    echo ' Bold            $(tput bold)'
-    echo ' Underline       $(tput sgr 0 1)'
-    echo ' Reset           $(tput sgr0)'
-    echo
+    sudo port selfupdate
+    sudo port upgrade outdated
+    sudo port clean --all -f installed
+    sudo port -f uninstall inactive
 }
 
 ########################################################################################
@@ -147,6 +140,39 @@ function select_python34()
     sudo port select --set virtualenv virtualenv34
 }
 
+######################################################################################
+# Python Helpers
+######################################################################################
+
+# Call virtualenvwrapper's "workon" if .venv exists.  This is modified from
+# http://justinlilly.com/python/virtualenv_wrapper_helper.html
+#
+# Also @see
+# http://virtualenvwrapper.readthedocs.org/en/latest/tips.html#automatically-run-workon-when-entering-a-directory
+py_virtualenv_check()
+{
+    if [ -e .venv ]; then
+        PYTHON_VIRTUALENV_TOPLEVEL=$PWD
+        PYTHON_VIRTUALENV_SELECTION=`cat .venv`
+        if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
+            echo "Starting virtualenv from .venv file: ${PYTHON_VIRTUALENV_SELECTION}"
+            workon $PYTHON_VIRTUALENV_SELECTION
+        fi
+    fi
+}
+
+# Override `cd` to use the PYTHON_VIRTUALENV_TOPLEVEL location as the root
+# for all "$ cd" commands.  If the toplevel is not defined, the default
+# behavior persists.
+py_virtualenv_cd()
+{
+    if [[ $# == 0 ]]; then
+        builtin cd $PYTHON_VIRTUALENV_TOPLEVEL
+    else
+        builtin cd "$@" && py_virtualenv_check
+    fi
+
+}
 
 ######################################################################################
 # Java Switcher
