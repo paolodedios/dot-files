@@ -23,7 +23,7 @@ function sysinfo()
 # Macports shortcut functions
 ########################################################################################
 
-function upgrade_macports()
+function update_macports()
 {
     sudo port selfupdate
     sudo port upgrade outdated
