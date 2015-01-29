@@ -238,7 +238,10 @@ if [ "$OS" = "darwin" ]; then
     # Clean up LaunchServices to remove duplicates in the “Open With” menu
     alias rebuild-menu="$LS_REGISTER_PATH/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 
-    # Reboot the window server/manager
+    # Reboot the Finder
+    alias kill-finder="killall Finder && open /System/Library/CoreServices/Finder.app"
+
+    # Reboot the window server/manager and force a logout
     alias kill-windowserver="sudo killall -HUP WindowServer"
 
     # Cleanup Resource Forks
