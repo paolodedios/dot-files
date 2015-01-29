@@ -194,22 +194,54 @@ function select_jdk8()
 }
 
 ######################################################################################
-# Java Decompiler(JAD) standard command
+# Java Decompiler (JAD) helper command
 ######################################################################################
 
 # Execute JAD with standard options
 
 function jadexec()
 {
-    find . -name \*.class |xargs jad -b -d "$1" -dead -ff -i -o -r -radix10 -s .java -safe -stat
+    if [ -e `type -p jad` ]; then
+        find . -name \*.class |xargs jad -b -d "$1" -dead -ff -i -o -r -radix10 -s .java -safe -stat
+    else
+        echo "ERROR: Java Decompiler not found."
+    fi
 }
 
 # Execute JAD with fully qualified names and with verbose processing output
 
 function jadexecv()
 {
-    find . -name \*.class |xargs jad -b -d "$1" -dead -f -ff -i -o -r -radix10 -s .java -safe -stat -v
+    if [ -e `type -p jad` ]; then
+        find . -name \*.class |xargs jad -b -d "$1" -dead -f -ff -i -o -r -radix10 -s .java -safe -stat -v
+    else
+        echo "ERROR: Java Decompiler not found."
+    fi
 }
+
+
+######################################################################################
+# Matlab commandline helper
+######################################################################################
+
+function matlab_console()
+{
+    if [ -e `type -p matlab` ]; then
+        matlab -nodisplay -nodesktop -nosplash
+    else
+        echo "ERROR: Matlab interpreter not found."
+    fi
+}
+
+function matlab_run_file()
+{
+    if [ -e `type -p matlab` ]; then
+        matlab -nodisplay -nodesktop -nosplash -r "run('$1'); exit;"
+    else
+        echo "ERROR: Matlab interpreter not found."
+    fi
+}
+
 
 ######################################################################################
 # File & string-related functions
