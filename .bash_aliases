@@ -281,4 +281,7 @@ if [ "$OS" = "darwin" ]; then
     # Show program names with lsof
     alias slsof="sudo lsof -i -P"
 
+    # If Matlab is installed, ensure it runs properly on the command line
+    command -v matlab > /dev/null && alias matlab="matlab -nodisplay -nodesktop -nosplash"
+    command -v matlab > /dev/null && alias matlabex="matlab -r"
 fi
