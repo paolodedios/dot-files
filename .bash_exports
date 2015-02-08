@@ -161,13 +161,17 @@ function setupPythonVirtualEnv()
     fi
 }
 
+########################################################################################
+# Export OS specific variables
+########################################################################################
+
 if [ "$OS" = "darwin" ]; then
 
     # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
     # to screen. This isn't a 100% reliable indicator (for example, you can't
     # easily tell if you're running screen inside tmux or tmux inside screen),
     # but it should be good enough in practice.
-    if ! { [ -n "$TMUX" ]; } then
+    if ! { [ -n "$TMUX" ] }; then
         export SYSTEM_PATH=$PATH
     else
         export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
@@ -201,14 +205,6 @@ if [ "$OS" = "darwin" ]; then
         export PATH=$PATH:$MATLAB_COMMAND_PATH
     fi
 
-
-    # Increase the maximum number of open file descriptors to the max OSX limit
-    ulimit -n 2048
-
-    # Add tab completion for `defaults read|write NSGlobalDomain`
-    # You could just use `-g` instead, but I like being explicit
-    complete -W "NSGlobalDomain" defaults
-
     # Set up local python virtualenv variables
     setupPythonVirtualEnv
 
@@ -221,7 +217,7 @@ else
     # to screen. This isn't a 100% reliable indicator (for example, you can't
     # easily tell if you're running screen inside tmux or tmux inside screen),
     # but it should be good enough in practice.
-    if ! { [ -n "$TMUX" ]; } then
+    if ! { [ -n "$TMUX" ] }; then
         export SYSTEM_PATH=$PATH
     else
         export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
@@ -243,3 +239,11 @@ else
     setupLocalDevEnvironment
 
 fi
+
+########################################################################################
+# Export OS independent variables
+########################################################################################
+
+# Prefer US English and use UTF-8
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US"
