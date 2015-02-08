@@ -93,9 +93,9 @@ fi
 
 function show_python_info()
 {
-    sudo port select --list python
-    sudo port select --list pip
-    sudo port select --list virtualenv
+    port select --list python
+    port select --list pip
+    port select --list virtualenv
 }
 
 function select_python26_apple()
@@ -155,7 +155,9 @@ py_virtualenv_check()
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=`cat .venv`
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
-            echo "Starting virtualenv : ${PYTHON_VIRTUALENV_SELECTION}"
+            echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
+            echo "Using python version :"
+            show_python_info | grep active
             workon $PYTHON_VIRTUALENV_SELECTION
         fi
     fi
