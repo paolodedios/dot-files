@@ -254,15 +254,6 @@ if [ "$OS" = "darwin" ]; then
     # Open file in the current Aquamacs window
     alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"
 
-    # Canonical hex dump; some systems have this symlinked
-    command -v hd > /dev/null || alias hd="hexdump -C"
-
-    # OS X has no `md5sum`, so use `md5` as a fallback
-    command -v md5sum > /dev/null || alias md5sum="md5"
-
-    # OS X has no `sha1sum`, so use `shasum` as a fallback
-    command -v sha1sum > /dev/null || alias sha1sum="shasum"
-
     # ROT13-encode text. Works for decoding also
     alias rot13="tr a-zA-Z n-za-mN-ZA-M"
 
@@ -278,6 +269,15 @@ if [ "$OS" = "darwin" ]; then
 
     # Show program names with lsof
     alias slsof="sudo lsof -i -P"
+
+    # Canonical hex dump; some systems have this symlinked
+    command -v hd > /dev/null || alias hd="hexdump -C"
+
+    # OS X has no `md5sum`, so use `md5` as a fallback
+    command -v md5sum > /dev/null || alias md5sum="md5"
+
+    # OS X has no `sha1sum`, so use `shasum` as a fallback
+    command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
     # If Matlab is installed, ensure it runs properly on the command line
     command -v matlab > /dev/null && alias matlab="matlab_console"
