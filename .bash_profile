@@ -76,19 +76,21 @@ fi
 
 ########################################################################################
 # Enable tab completion for the mark jump unmark functions
-# @see .bash_functions
+# depends on .bash_functions
 ########################################################################################
 
 complete -F complete_marks jump unmark
 
 ########################################################################################
 # Print system information
+# depends on .bash_functions
 ########################################################################################
 
 sysinfo
 
 ########################################################################################
 # Check if entering a python virtual environment
+# depends on .bash_functions
 ########################################################################################
 
 py_virtualenv_check
