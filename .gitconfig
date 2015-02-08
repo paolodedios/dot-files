@@ -15,12 +15,10 @@
     logallrefupdates = true
     excludesfile     = /Users/paolodedios/.gitignore_global
 
-
-[difftool "Kaleidoscope"]
-[difftool]
-    prompt           = false
 [diff]
     tool             = Kaleidoscope
+[difftool]
+    prompt           = false
 [difftool "Kaleidoscope"]
     cmd              = ksdiff-wrapper git \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
@@ -29,3 +27,6 @@
 [mergetool "sourcetree"]
     cmd              = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
     trustExitCode    = true
+
+[push]
+    default          = simple

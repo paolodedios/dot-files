@@ -24,7 +24,7 @@
 # When an interactive, non-login shell is started (when you run "bash" from
 # inside a shell, or when you start a shell in XWindows [xterm/gnome-terminal/etc] )
 # the following files are read and executed, in this order:
-# 
+#
 # 1. /etc/bashrc
 # 2. .bashrc
 ########################################################################################
@@ -80,3 +80,8 @@ fi
 
 sysinfo
 
+########################################################################################
+# Check if entering a python virtual environment
+########################################################################################
+
+py_virtualenv_check

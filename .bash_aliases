@@ -10,6 +10,7 @@
 ########################################################################################
 # Enable aliases to be sudo’ed
 ########################################################################################
+
 alias sudo="sudo "
 
 ########################################################################################
@@ -54,6 +55,7 @@ alias whichpath="type -p"
 alias path="echo -e ${PATH//:/\\n}"
 alias libpath="echo -e ${LD_LIBRARY_PATH//:/\\n}"
 
+alias cd="py_virtualenv_cd"
 alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
@@ -93,13 +95,6 @@ alias map="xargs -n1"
 alias cp-folder="cp -Rpv"
 
 #######################################################################################
-# Shows most used commands
-# http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
-#######################################################################################
-
-alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
-
-#######################################################################################
 # Lists folders and files sizes in the current folder
 #######################################################################################
 
@@ -135,7 +130,6 @@ fi
 
 
 alias l="ls -l ${colorflag}"                # List all files colorized in long format
-alias lsd='ls -l ${colorflag} | grep "^d"'  # List only directories
 alias ls="command ls ${colorflag}"          # Always use color output for `ls`
 
 alias la="ls -lAxh"                         # show all, including hidden files
@@ -148,6 +142,8 @@ alias lu="ls -ltur"                         # sort by and show access time, most
 alias lt="ls -ltr"                          # sort by date, most recent last
 alias lm="ls -al |more"                     # pipe through "more"
 alias lr="ls -lR"                           # recursive ls
+
+alias lsd='ls -l ${colorflag} | grep "^d"'  # List only directories
 
 #######################################################################################
 # Networking related aliases
@@ -168,11 +164,50 @@ alias httpdump="sudo tcpdump -i $NETIF -n -s 0 -w - | grep -a -o -E \"Host\: .*|
 # Aliases for python and gcc version selection via MacPorts
 ######################################################################################
 
+alias gcc_list="sudo port select --list gcc"
+alias gcc_select="sudo port select --set gcc"
+
+# @see select_python functions in .bash_functions
 alias python_list="sudo port select --list python"
 alias python_select="sudo port select --set python"
 
-alias gcc_list="sudo port select --list gcc"
-alias gcc_select="sudo port select --set gcc"
+######################################################################################
+# Python virtualenvwrapper aliases
+######################################################################################
+
+# Create a new virtual environment
+alias pymkenv="mkvirtualenv"
+
+# Switch to a specific virtual environment
+alias pystartenv="workon"
+
+# Stop using the current virtual environment
+alias pystopenv="deactivate"
+
+# List virtual environments
+alias pylsenv="lsvirtualenv -b"
+
+# Remove virtual environment
+alias pyrmenv="rmvirtualenv"
+
+# Copy virtual environment
+alias pycpenv="cpvirtualenv"
+
+# Change dir to top level of current virtual environment
+alias pycdenv="cdvirtualenv"
+
+# List site-packages for current virtual environment
+alias pylsenvpkgs="lssitepackages"
+
+# Update site-packages via pip
+alias pyupdatepkgs='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U'
+
+# Generate python package list
+alias pylspkgs="pip freeze --local > requirements.txt"
+
+# Install python packages from list
+alias pyinstallpkgs="pip install -r"
+
 
 ######################################################################################
 # Java related aliases
@@ -183,48 +218,11 @@ alias m2="mvn2"
 alias m3="mvn3"
 
 ######################################################################################
-# Other developer tool aliases
+# Grunt related aliases
 ######################################################################################
 
 # Make Grunt print stack traces by default
 command -v grunt > /dev/null && alias grunt="grunt --stack"
-
-######################################################################################
-# Python virtualenvwrapper aliases
-######################################################################################
-
-# create a new virtual environment
-alias pymkenv="mkvirtualenv"
-
-# switch to a specific virtual environment
-alias pystartenv="workon"
-
-# stop using the current virtual environment
-alias pystopenv="deactivate"
-
-# list virtual environments
-alias pylsenv="lsvirtualenv"
-
-# remove virtual environment
-alias pyrmenv="rmvirtualenv"
-
-# copy virtual environment
-alias pycpenv="cpvirtualenv"
-
-# change dir to top level of current virtual environment
-alias pycdenv="cdvirtualenv"
-
-# list site-packages for current virtual environment
-alias pylsenvpkgs="lssitepackages"
-
-# update site-packages via pip
-alias pyupdatepkgs='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U'
-
-# generate python package list
-alias pylspkgs="pip freeze --local > requirements.txt"
-
-# install python packages from list
-alias pyinstallpkgs="pip install -r"
 
 ######################################################################################
 # Platform specific aliases
@@ -235,7 +233,10 @@ if [ "$OS" = "darwin" ]; then
     # Clean up LaunchServices to remove duplicates in the “Open With” menu
     alias rebuild-menu="$LS_REGISTER_PATH/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
 
-    # Reboot the window server/manager
+    # Reboot the Finder
+    alias kill-finder="killall Finder && open /System/Library/CoreServices/Finder.app"
+
+    # Reboot the window server/manager and force a logout
     alias kill-windowserver="sudo killall -HUP WindowServer"
 
     # Cleanup Resource Forks
@@ -278,4 +279,7 @@ if [ "$OS" = "darwin" ]; then
     # Show program names with lsof
     alias slsof="sudo lsof -i -P"
 
+    # If Matlab is installed, ensure it runs properly on the command line
+    command -v matlab > /dev/null && alias matlab="matlab_console"
+    command -v matlab > /dev/null && alias matlabex="matlab_run_file"
 fi

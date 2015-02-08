@@ -20,22 +20,15 @@ function sysinfo()
 }
 
 ########################################################################################
-# Display terminal color constants
+# Macports shortcut functions
 ########################################################################################
 
-function showcolors()
+function update_macports()
 {
-    echo
-    echo -e "$(tput bold) reg  bld  und   tput-command-colors$(tput sgr0)"
-
-    for i in $(seq 1 256); do
-        echo " $(tput setaf $i)Text$(tput sgr0) $(tput bold)$(tput setaf $i)Text$(tput sgr0) $(tput sgr 0 1)$(tput setaf $i)Text$(tput sgr0)  \$(tput setaf $i)"
-    done
-
-    echo ' Bold            $(tput bold)'
-    echo ' Underline       $(tput sgr 0 1)'
-    echo ' Reset           $(tput sgr0)'
-    echo
+    sudo port selfupdate
+    sudo port upgrade outdated
+    sudo port clean --all -f installed
+    sudo port -f uninstall inactive
 }
 
 ########################################################################################
@@ -95,6 +88,93 @@ if [ $? -eq 0 ]; then
 fi
 
 ######################################################################################
+# Python Switcher
+######################################################################################
+
+function show_python_info()
+{
+    sudo port select --list python
+    sudo port select --list pip
+    sudo port select --list virtualenv
+}
+
+function select_python26_apple()
+{
+    sudo port select --set python python26-apple
+    sudo port select --set pip none
+    sudo port select --set virtualenv none
+}
+
+function select_python27_apple()
+{
+    sudo port select --set python python27-apple
+    sudo port select --set pip none
+    sudo port select --set virtualenv none
+}
+
+function select_python26()
+{
+    sudo port select --set python python26
+    sudo port select --set pip pip26
+    sudo port select --set virtualenv virtualenv26
+}
+
+function select_python27()
+{
+    sudo port select --set python python27
+    sudo port select --set pip pip27
+    sudo port select --set virtualenv virtualenv27
+}
+
+function select_python33()
+{
+    sudo port select --set python python33
+    sudo port select --set pip pip33
+    sudo port select --set virtualenv virtualenv33
+}
+
+function select_python34()
+{
+    sudo port select --set python python34
+    sudo port select --set pip pip34
+    sudo port select --set virtualenv virtualenv34
+}
+
+######################################################################################
+# Python Helpers
+######################################################################################
+
+# Call virtualenvwrapper's "workon" if .venv exists.  This is modified from
+# http://justinlilly.com/python/virtualenv_wrapper_helper.html
+#
+# Also @see
+# http://virtualenvwrapper.readthedocs.org/en/latest/tips.html#automatically-run-workon-when-entering-a-directory
+py_virtualenv_check()
+{
+    if [ -e .venv ]; then
+        PYTHON_VIRTUALENV_TOPLEVEL=$PWD
+        PYTHON_VIRTUALENV_SELECTION=`cat .venv`
+        if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
+            echo "Starting virtualenv from .venv file: ${PYTHON_VIRTUALENV_SELECTION}"
+            workon $PYTHON_VIRTUALENV_SELECTION
+        fi
+    fi
+}
+
+# Override `cd` to use the PYTHON_VIRTUALENV_TOPLEVEL location as the root
+# for all "$ cd" commands.  If the toplevel is not defined, the default
+# behavior persists.
+py_virtualenv_cd()
+{
+    if [[ $# == 0 ]]; then
+        builtin cd $PYTHON_VIRTUALENV_TOPLEVEL
+    else
+        builtin cd "$@" && py_virtualenv_check
+    fi
+
+}
+
+######################################################################################
 # Java Switcher
 ######################################################################################
 
@@ -108,23 +188,60 @@ function select_jdk7()
     export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0)
 }
 
+function select_jdk8()
+{
+    export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0)
+}
+
 ######################################################################################
-# Java Decompiler(JAD) standard command
+# Java Decompiler (JAD) helper command
 ######################################################################################
 
 # Execute JAD with standard options
 
 function jadexec()
 {
-    find . -name \*.class |xargs jad -b -d "$1" -dead -ff -i -o -r -radix10 -s .java -safe -stat
+    if [ -e `type -p jad` ]; then
+        find . -name \*.class |xargs jad -b -d "$1" -dead -ff -i -o -r -radix10 -s .java -safe -stat
+    else
+        echo "ERROR: Java Decompiler not found."
+    fi
 }
 
 # Execute JAD with fully qualified names and with verbose processing output
 
 function jadexecv()
 {
-    find . -name \*.class |xargs jad -b -d "$1" -dead -f -ff -i -o -r -radix10 -s .java -safe -stat -v
+    if [ -e `type -p jad` ]; then
+        find . -name \*.class |xargs jad -b -d "$1" -dead -f -ff -i -o -r -radix10 -s .java -safe -stat -v
+    else
+        echo "ERROR: Java Decompiler not found."
+    fi
 }
+
+
+######################################################################################
+# Matlab commandline helper
+######################################################################################
+
+function matlab_console()
+{
+    if [ -e `type -p matlab` ]; then
+        matlab -nodisplay -nodesktop -nosplash
+    else
+        echo "ERROR: Matlab interpreter not found."
+    fi
+}
+
+function matlab_run_file()
+{
+    if [ -e `type -p matlab` ]; then
+        matlab -nodisplay -nodesktop -nosplash -r "run('$1'); exit;"
+    else
+        echo "ERROR: Matlab interpreter not found."
+    fi
+}
+
 
 ######################################################################################
 # File & string-related functions
@@ -444,10 +561,19 @@ function killps()
 }
 
 # Kill all the tabs in Chrome to free up memory
-# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
+# Explained:
+#   http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 function chromekill()
 {
     ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill
+}
+
+
+# Shows most used commands
+# http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
+function profileme()
+{
+    history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr
 }
 
 #######################################################################################

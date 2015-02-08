@@ -79,13 +79,13 @@ function setupLocalDevEnvironment()
         export CXX=g++
         export FFLAGS="-ff2c"
 
-        # Declare platform agnostic applications [ Updated 01/10/2014 ]
+        # Declare platform agnostic applications [ Updated 12/04/2014 ]
         #
         # JDK       : http://www.oracle.com/technetwork/java/javase/downloads/index.html
         #
-        export JDK_VERSION=1.7.0
+        export JDK_VERSION=1.8.0
 
-        # Set JAVA_HOME to JDK 7
+        # Set JAVA_HOME to JDK 8
         export JAVA_HOME=$(/usr/libexec/java_home -v $JDK_VERSION)
 
         # Set GRADLE_HOME
@@ -133,22 +133,30 @@ function setupPythonVirtualEnv()
     # Python virtual environment
     if [ -e `type -p virtualenvwrapper.sh` ]; then
 
-        # virtualenv working directory
+        # Set virtualenv working directory
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
 
-        # make pip use the same directory for virtualenvs as virtualenvwrapper
+        # Make pip use the same directory for virtualenvs as virtualenvwrapper
         export PIP_VIRTUALENV_BASE=$WORKON_HOME
 
-        # makes pip detect an active virtualenv and install to it, without
+        # Ensure that pip only runs if there is a virtualenv currently activated
+        export PIP_REQUIRE_VIRTUALENV=true
+
+        # Makes pip detect an active virtualenv and install to it, without
         # having to pass it the -E parameter
         export PIP_RESPECT_VIRTUALENV=true
 
-        # ensure that all new environments are isolated from the system
+        # Ensure that the MacPorts versions of Python and virtualenv are used
+        # for all virtualenv sessions.
+        export VIRTUALENVWRAPPER_PYTHON=/opt/local/bin/python
+        export VIRTUALENVWRAPPER_VIRTUALENV=/opt/local/bin/virtualenv
+
+        # Ensure that all new environments are isolated from the system
         # site-packages directory by passing "no-site-packages" as the default
         # argument for virtualenv
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 
-        # load virtualenv wrapper functions
+        # Load virtualenv wrapper functions
         source virtualenvwrapper.sh > /dev/null 2>&1
     fi
 }
@@ -186,6 +194,13 @@ if [ "$OS" = "darwin" ]; then
     export VMWARE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library/
     export VMWARE_OVFTOOL_PATH=/Applications/VMware\ OVF\ Tool/
     export PATH=$PATH:$VMWARE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
+
+    # Add the Matlab command line utils to the PATH
+    export MATLAB_COMMAND_PATH=/Applications/MATLAB_R2014b.app/bin/
+    if [ -e $MATLAB_COMMAND_PATH ] ; then
+        export PATH=$PATH:$MATLAB_COMMAND_PATH
+    fi
+
 
     # Increase the maximum number of open file descriptors to the max OSX limit
     ulimit -n 2048
