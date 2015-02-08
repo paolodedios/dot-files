@@ -42,6 +42,25 @@
 for file in ~/.{bash_exports,bash_functions,bash_aliases,bash_prompt,bash_extras}; do
 	[ -r "$file" ] && source "$file"
 done
+
+########################################################################################
+# Run OS specific shell initializations
+########################################################################################
+
+if [ "$OS" = "darwin" ]; then
+
+    # Increase the maximum number of open file descriptors to the max OSX limit
+    ulimit -n 2048
+
+    # Add tab completion for `defaults read|write NSGlobalDomain`
+    # You could just use `-g` instead, but I like being explicit
+    complete -W "NSGlobalDomain" defaults
+fi
+
+########################################################################################
+# Run OS indepenedent shell initializations
+########################################################################################
+
 unset file
 
 # Case-insensitive globbing (used in pathname expansion)
@@ -60,10 +79,6 @@ for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null
 done
 
-# Prefer US English and use UTF-8
-export LC_ALL="en_US.UTF-8"
-export LANG="en_US"
-
 ########################################################################################
 # Load in bash-completion package
 ########################################################################################
@@ -75,13 +90,22 @@ else
 fi
 
 ########################################################################################
+# Enable tab completion for the mark jump unmark functions
+# depends on .bash_functions
+########################################################################################
+
+complete -F complete_marks jump unmark
+
+########################################################################################
 # Print system information
+# depends on .bash_functions
 ########################################################################################
 
 sysinfo
 
 ########################################################################################
 # Check if entering a python virtual environment
+# depends on .bash_functions
 ########################################################################################
 
 py_virtualenv_check

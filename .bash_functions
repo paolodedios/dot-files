@@ -425,6 +425,15 @@ function marks()
     fi
 }
 
+function complete_marks()
+{
+    local curw=${COMP_WORDS[COMP_CWORD]}
+    local wordlist=$(find $MARKPATH -type l -printf "%f\n")
+    COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
+    return 0
+}
+
+
 # Flush Directory Service cache
 function flush-ds()
 {
