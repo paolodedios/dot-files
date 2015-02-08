@@ -171,7 +171,7 @@ if [ "$OS" = "darwin" ]; then
     # to screen. This isn't a 100% reliable indicator (for example, you can't
     # easily tell if you're running screen inside tmux or tmux inside screen),
     # but it should be good enough in practice.
-    if ! { [ -n "$TMUX" ] }; then
+    if ! { [ -n "$TMUX" ]; } then
         export SYSTEM_PATH=$PATH
     else
         export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
@@ -217,7 +217,7 @@ else
     # to screen. This isn't a 100% reliable indicator (for example, you can't
     # easily tell if you're running screen inside tmux or tmux inside screen),
     # but it should be good enough in practice.
-    if ! { [ -n "$TMUX" ] }; then
+    if ! { [ -n "$TMUX" ]; } then
         export SYSTEM_PATH=$PATH
     else
         export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
