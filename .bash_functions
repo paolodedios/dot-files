@@ -155,7 +155,7 @@ py_virtualenv_check()
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=`cat .venv`
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
-            echo "Starting virtualenv from .venv file: ${PYTHON_VIRTUALENV_SELECTION}"
+            echo "Starting virtualenv : ${PYTHON_VIRTUALENV_SELECTION}"
             workon $PYTHON_VIRTUALENV_SELECTION
         fi
     fi
