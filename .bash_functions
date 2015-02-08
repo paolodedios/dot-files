@@ -601,8 +601,12 @@ function repeat()
 
 function lower-tms-pri()
 {
-    echo "Reducing Time Machine priority..."
-    sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+    if [ "$OS" = "darwin" ]; then
+        echo "Reducing Time Machine priority..."
+        sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+    else
+        echo "Unimplemented."
+    fi
 }
 
 function timer()

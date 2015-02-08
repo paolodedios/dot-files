@@ -66,7 +66,7 @@ export MARKPATH=$HOME/.marks
 # Declare platform specific applications
 ######################################################################################
 
-function setupLocalDevEnvironment()
+function set_local_dev_environment_vars()
 {
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
@@ -128,7 +128,7 @@ function setupLocalDevEnvironment()
     fi
 }
 
-function setupPythonVirtualEnv()
+function set_python_virtualenv_vars()
 {
     # Python virtual environment
     if [ -e `type -p virtualenvwrapper.sh` ]; then
@@ -155,9 +155,6 @@ function setupPythonVirtualEnv()
         # site-packages directory by passing "no-site-packages" as the default
         # argument for virtualenv
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-
-        # Load virtualenv wrapper functions
-        source virtualenvwrapper.sh > /dev/null 2>&1
     fi
 }
 
@@ -205,11 +202,11 @@ if [ "$OS" = "darwin" ]; then
         export PATH=$PATH:$MATLAB_COMMAND_PATH
     fi
 
-    # Set up local python virtualenv variables
-    setupPythonVirtualEnv
+    # Set local python virtualenv variables
+    set_python_virtualenv_vars
 
-    # Set up local dev environment
-    setupLocalDevEnvironment
+    # Set local dev environment variables
+    set_local_dev_environment_vars
 
 else
 
@@ -232,11 +229,11 @@ else
     # Project directory
     export LOCAL_PROJECTS=~/Projects
 
-    # Set up local python virtualenv variables
-    setupPythonVirtualEnv
+    # Set local python virtualenv variables
+    set_python_virtualenv_vars
 
-    # Set up local dev environment
-    setupLocalDevEnvironment
+    # Set local dev environment variables
+    set_local_dev_environment_vars
 
 fi
 

@@ -49,7 +49,7 @@ done
 
 if [ "$OS" = "darwin" ]; then
 
-    # Increase the maximum number of open file descriptors to the max OSX limit
+    # Increase the maximum number of open file descriptors to the Mac OS limit
     ulimit -n 2048
 
     # Add tab completion for `defaults read|write NSGlobalDomain`
@@ -80,7 +80,7 @@ for option in autocd globstar; do
 done
 
 ########################################################################################
-# Load in bash-completion package
+# Load in bash_completion package
 ########################################################################################
 
 if [ -f /opt/local/etc/bash_completion ]; then
@@ -91,21 +91,30 @@ fi
 
 ########################################################################################
 # Enable tab completion for the mark jump unmark functions
-# depends on .bash_functions
 ########################################################################################
 
 complete -F complete_marks jump unmark
 
 ########################################################################################
-# Print system information
-# depends on .bash_functions
+# Load git tab completion functions
 ########################################################################################
 
-sysinfo
+source ~/.git_completion
+
+########################################################################################
+# Load Python virtualenv wrapper functions
+########################################################################################
+
+source virtualenvwrapper.sh > /dev/null 2>&1
 
 ########################################################################################
 # Check if entering a python virtual environment
-# depends on .bash_functions
 ########################################################################################
 
 py_virtualenv_check
+
+########################################################################################
+# Print system information
+########################################################################################
+
+sysinfo
