@@ -561,10 +561,19 @@ function killps()
 }
 
 # Kill all the tabs in Chrome to free up memory
-# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
+# Explained:
+#   http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 function chromekill()
 {
     ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill
+}
+
+
+# Shows most used commands
+# http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
+function profileme()
+{
+    history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr
 }
 
 #######################################################################################

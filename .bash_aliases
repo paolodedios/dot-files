@@ -10,6 +10,7 @@
 ########################################################################################
 # Enable aliases to be sudo’ed
 ########################################################################################
+
 alias sudo="sudo "
 
 ########################################################################################
@@ -94,13 +95,6 @@ alias map="xargs -n1"
 alias cp-folder="cp -Rpv"
 
 #######################################################################################
-# Shows most used commands
-# http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
-#######################################################################################
-
-alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
-
-#######################################################################################
 # Lists folders and files sizes in the current folder
 #######################################################################################
 
@@ -136,7 +130,6 @@ fi
 
 
 alias l="ls -l ${colorflag}"                # List all files colorized in long format
-alias lsd='ls -l ${colorflag} | grep "^d"'  # List only directories
 alias ls="command ls ${colorflag}"          # Always use color output for `ls`
 
 alias la="ls -lAxh"                         # show all, including hidden files
@@ -149,6 +142,8 @@ alias lu="ls -ltur"                         # sort by and show access time, most
 alias lt="ls -ltr"                          # sort by date, most recent last
 alias lm="ls -al |more"                     # pipe through "more"
 alias lr="ls -lR"                           # recursive ls
+
+alias lsd='ls -l ${colorflag} | grep "^d"'  # List only directories
 
 #######################################################################################
 # Networking related aliases
