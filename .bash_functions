@@ -20,18 +20,6 @@ function sysinfo()
 }
 
 ########################################################################################
-# Macports shortcut functions
-########################################################################################
-
-function update_macports()
-{
-    sudo port selfupdate
-    sudo port upgrade outdated
-    sudo port clean --all -f installed
-    sudo port -f uninstall inactive
-}
-
-########################################################################################
 # Mercurial Functions
 ########################################################################################
 
@@ -421,11 +409,6 @@ function unique()
     sort "$1" | uniq
 }
 
-# Flush Directory Service cache
-function flush-ds()
-{
-    dscacheutil -flushcache && killall -HUP mDNSResponder
-}
 
 #######################################################################################
 # Internet/web helpers
@@ -528,15 +511,15 @@ function urlencode()
 # Process/system related functions
 #######################################################################################
 
-function my_ps()
+function pss()
 {
     ps $@ -u $USER -o pid,%cpu,%mem,time,command ;
 }
 
 
-function pp()
+function psp()
 {
-    my_ps -f | awk '!/awk/ && $0~var' var=${1:-".*"} ;
+    pss -f | awk '!/awk/ && $0~var' var=${1:-".*"} ;
 }
 
 # Kill by process name.
@@ -586,15 +569,6 @@ function repeat()
     done
 }
 
-function lower-tms-pri()
-{
-    if [ "$OS" = "darwin" ]; then
-        echo "Reducing Time Machine priority..."
-        sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
-    else
-        echo "Unimplemented."
-    fi
-}
 
 function timer()
 {
@@ -637,3 +611,33 @@ function showfuns()
 {
     typeset -F | showcol 3 | grep -v _
 }
+
+######################################################################################
+# Platform specific functions
+######################################################################################
+
+if [ "$OS" = "darwin" ]; then
+
+    # Macports shortcut functions
+    function update_macports()
+    {
+        sudo port selfupdate
+        sudo port upgrade outdated
+        sudo port clean --all -f installed
+        sudo port -f uninstall inactive
+    }
+
+    # Reprioritize Time Machine
+    function lower-tms-pri()
+    {
+        echo "Reducing Time Machine priority..."
+        sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+    }
+
+    # Flush Directory Service cache
+    function flush-ds()
+    {
+        dscacheutil -flushcache && killall -HUP mDNSResponder
+    }
+
+fi
