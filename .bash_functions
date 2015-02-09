@@ -316,14 +316,38 @@ function fstr()
 
 }
 
-# cut last n lines in file, 10 by default
+
+# Global search and replace on a directory tree
+function sr
+{
+    find . -type f -exec sed -i '' s/$1/$2/g {} +
+}
+
+
+# Skip the first n lines in a file
+function skiphead
+{
+    n=$(($1 + 1))
+    cut -d' ' -f$n-
+}
+
+# Cut last n lines in file, 10 by default
 function cuttail()
 {
     nlines=${2:-10}
     sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $1
 }
 
-# move filenames to lowercase
+# Show only the Nth column piped into this function
+# e.g. Print the second column of the git status command
+#  $ git status -s | col 2
+function showcol()
+{
+    awk -v col=$1 '{print $col}'
+}
+
+
+# Move filenames to lowercase
 function lowercase()
 {
     for file ; do
@@ -637,4 +661,18 @@ function aws-use-endpoint()
 {
     echo "Using AWS region endpoint : [$1]"
     export EC2_URL="http://$1"
+}
+
+########################################################################################
+# Show definition of function $1
+########################################################################################
+
+function showdef()
+{
+    typeset -f $1
+}
+
+function showfuns()
+{
+    typeset -F | showcol 3 | grep -v _
 }
