@@ -129,21 +129,19 @@ else
 fi
 
 
-alias l="ls -l ${colorflag}"                # List all files colorized in long format
 alias ls="command ls ${colorflag}"          # Always use color output for `ls`
-
-alias la="ls -lAxh"                         # show all, including hidden files
+alias la="ls -l -Axh"                       # show all, including hidden files
 alias ll="ls -l"                            # show all, exclude hidden files
 
-alias lx="ls -lxB"                          # sort by extension
-alias lk="ls -lSr"                          # sort by size, biggest last
-alias lc="ls -ltcr"                         # sort by and show change time, most recent last
-alias lu="ls -ltur"                         # sort by and show access time, most recent last
-alias lt="ls -ltr"                          # sort by date, most recent last
-alias lm="ls -al |more"                     # pipe through "more"
+alias lx="ls -l -xB"                        # sort by extension
+alias lk="ls -l -Sr"                        # sort by size, biggest last
+alias lc="ls -l -tcr"                       # sort by and show change time, most recent last
+alias lu="ls -l -tur"                       # sort by and show access time, most recent last
+alias lt="ls -l -tr"                        # sort by date, most recent last
+alias lm="ls -al | more"                    # pipe through "more"
 alias lr="ls -lR"                           # recursive ls
 
-alias lsd='ls -l ${colorflag} | grep "^d"'  # List only directories
+alias lsd='ll | grep "^d"'                  # List only directories
 
 #######################################################################################
 # Networking related aliases
