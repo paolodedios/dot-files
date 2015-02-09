@@ -421,45 +421,6 @@ function unique()
     sort "$1" | uniq
 }
 
-######################################################################################
-# Directory marking and caching
-# http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
-######################################################################################
-
-function jump()
-{
-    cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
-}
-
-function mark()
-{
-    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
-}
-
-function unmark()
-{
-    rm -i "$MARKPATH/$1"
-}
-
-function marks()
-{
-    if [ "$OS" = "darwin" ]; then
-        # https://news.ycombinator.com/item?id=6229428
-        \ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk  -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
-    else
-        ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g'&&echo
-    fi
-}
-
-function complete_marks()
-{
-    local curw=${COMP_WORDS[COMP_CWORD]}
-    local wordlist=$(find $MARKPATH -type l -printf "%f\n")
-    COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
-    return 0
-}
-
-
 # Flush Directory Service cache
 function flush-ds()
 {

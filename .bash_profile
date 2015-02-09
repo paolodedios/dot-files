@@ -39,7 +39,7 @@
 # 5. bash_extra (private configuration)
 ######################################################################################
 
-for file in ~/.{bash_exports,bash_functions,bash_aliases,bash_prompt,bash_extras}; do
+for file in ~/.{bash_exports,bash_functions,bash_aliases,bash_prompt,bash_extra}; do
 	[ -r "$file" ] && source "$file"
 done
 
@@ -90,10 +90,10 @@ else
 fi
 
 ########################################################################################
-# Enable tab completion for the mark jump unmark functions
+# Load directory marking and unmarking functions
 ########################################################################################
 
-complete -F complete_marks jump unmark
+source ~/.bash_marks
 
 ########################################################################################
 # Load git tab completion functions

@@ -56,13 +56,6 @@ export MANPAGER="less -X"
 export LESS_TERMCAP_md="$ORANGE"
 
 ######################################################################################
-# Directory marking and caching
-# http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
-######################################################################################
-
-export MARKPATH=$HOME/.marks
-
-######################################################################################
 # Declare platform specific applications
 ######################################################################################
 
