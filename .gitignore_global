@@ -1,79 +1,342 @@
 #
 # Git global ignore file list
 #
-###############################################################
+########################################################################################
 
-###############################################################
-#
-# Compiled source
-#
-###############################################################
+########################################################################################
+# Mac OS X files
+########################################################################################
 
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
-*.a
+.DS_Store
+.AppleDouble
+.LSOverride
 
-###############################################################
-#
-# Build output directories
-#
-###############################################################
+# Icon must end with two \r
+Icon
 
-target
+# Thumbnails
+._*
 
-.vagrant
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
 
-###############################################################
-#
-# Packages
-#
-###############################################################
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
+########################################################################################
+# Microsoft Windows system files
+########################################################################################
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+########################################################################################
+# Emacs editor files
+########################################################################################
+
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+
+# cask packages
+.cask/
+
+########################################################################################
+# VIM editor files
+########################################################################################
+
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+########################################################################################
+# JetBrains editor files
+########################################################################################
+
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
+*.iml
+
+## Directory-based project format:
+.idea/
+# if you remove the above rule, at least ignore the following:
+
+# User-specific stuff:
+# .idea/workspace.xml
+# .idea/tasks.xml
+# .idea/dictionaries
+
+# Sensitive or high-churn files:
+# .idea/dataSources.ids
+# .idea/dataSources.xml
+# .idea/sqlDataSources.xml
+# .idea/dynamic.xml
+# .idea/uiDesigner.xml
+
+# Gradle:
+# .idea/gradle.xml
+# .idea/libraries
+
+# Mongo Explorer plugin:
+# .idea/mongoSettings.xml
+
+## File-based project format:
+*.ipr
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+
+
+########################################################################################
+# XCode temporary files
+########################################################################################
+
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.xcuserstate
+
+########################################################################################
+# IPython notebook temporary files
+########################################################################################
+
+.ipynb_checkpoints/
+
+
+########################################################################################
+# Linux desktop files
+########################################################################################
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+
+########################################################################################
+# Matlab editor files
+########################################################################################
+
+# Windows default autosave extension
+*.asv
+
+# OSX / *nix default autosave extension
+*.m~
+
+# Compiled MEX binaries (all platforms)
+*.mex*
+
+# Simulink Code Generation
+slprj/
+
+########################################################################################
+# SublimeText editor files
+########################################################################################
+
+# cache files for sublime text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+# workspace files are user-specific
+*.sublime-workspace
+
+# project files should be checked into the repository, unless a significant
+# proportion of contributors will probably not be using SublimeText
+# *.sublime-project
+
+# sftp configuration file
+sftp-config.json
+
+
+########################################################################################
+# TAGS related files
+########################################################################################
+
+# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+TAGS
+!TAGS/
+tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+cscope.files
+cscope.out
+cscope.in.out
+cscope.po.out
+
+########################################################################################
+# Maven build artifacts
+########################################################################################
+
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+########################################################################################
+# SBT build artifacts
+########################################################################################
+
+lib_managed/
+src_managed/
+project/boot/
+.history
+.cache
+
+########################################################################################
+# Auto-tools artifacts
+########################################################################################
+
+# http://www.gnu.org/software/autoconf
+
+/autom4te.cache
+/compile
+/depcomp
+/install-sh
+/missing
+/stamp-h1
+
+########################################################################################
+# Vagrant launch directory
+########################################################################################
+
+.vagrant/
+
+########################################################################################
+# Python virtualenv
+########################################################################################
+
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ss]cripts
+pyvenv.cfg
+pip-selfcheck.json
+
+########################################################################################
+# Packer builder files
+########################################################################################
+
+# Cache objects
+packer_cache/
+
+# For built boxes
+*.box
+
+########################################################################################
+# Archives
+########################################################################################
+
+# It's better to unpack these files and commit the raw source because
+# git has its own built in compression methods.
 *.7z
-*.dmg
-*.gz
-*.iso
 *.jar
 *.rar
-*.tar
 *.zip
+*.gz
+*.bzip
+*.bz2
+*.xz
+*.lzma
+*.cab
 
-###############################################################
-#
-# Logs and databases
-#
-###############################################################
+#packing-only formats
+*.iso
+*.tar
+
+#package management formats
+*.dmg
+*.xpi
+*.gem
+*.egg
+*.deb
+*.rpm
+*.msi
+*.msm
+*.msp
+
+########################################################################################
+# Logs and binary databases
+########################################################################################
 
 *.log
 *.sqlite
-
-###############################################################
-#
-# OS generated files
-#
-###############################################################
-
-.DS_Store
-.DS_Store?
-*~
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-Thumbs.db
-
-###############################################################
-#
-# IDE Project Files
-#
-###############################################################
-
-workspace.xml
-tasks.xml
