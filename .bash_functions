@@ -146,7 +146,12 @@ py_virtualenv_check()
             echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
             echo "Using python version :"
             show_python_info | grep active
-            workon $PYTHON_VIRTUALENV_SELECTION
+
+            if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
+                mkvirtualenv $PYTHON_VIRTUALENV_SELECTION
+            else
+                workon $PYTHON_VIRTUALENV_SELECTION
+            fi
         fi
     fi
 }
