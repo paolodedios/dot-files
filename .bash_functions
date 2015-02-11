@@ -59,7 +59,6 @@ function git_in_repo()
     [[ `git rev-parse --abbrev-ref HEAD 2> /dev/null` ]] && echo "on git:"
 }
 
-
 function git_branch()
 {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(git_dirty)/"
