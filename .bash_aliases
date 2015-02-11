@@ -183,7 +183,7 @@ alias pystartenv="workon"
 alias pystopenv="deactivate"
 
 # List virtual environments
-alias pylsenv="lsvirtualenv -b"
+alias pylsenv="lsvirtualenv -b | sort"
 
 # Remove virtual environment
 alias pyrmenv="rmvirtualenv"
