@@ -36,7 +36,7 @@ function hg_dirty()
 
 function hg_in_repo()
 {
-    [[ `hg branch 2> /dev/null` ]] && echo 'on '
+    [[ `hg branch 2> /dev/null` ]] && echo "on hg:"
 }
 
 function hg_branch()
@@ -54,9 +54,15 @@ function git_dirty()
     [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
 }
 
+function git_in_repo()
+{
+    [[ `git rev-parse --abbrev-ref HEAD 2> /dev/null` ]] && echo "on git:"
+}
+
+
 function git_branch()
 {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/on \1$(git_dirty)/"
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(git_dirty)/"
 }
 
 # take repo in $pwd and copy it to the specified location, minus the .git specific files.
