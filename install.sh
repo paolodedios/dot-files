@@ -88,6 +88,7 @@ function updateHome()
           --exclude ".DS_Store"    \
           --exclude "install.sh"   \
           --exclude "README.md"    \
+          --exclude "LICENSE"      \
           --exclude ".emacs*"      \
           -av . ~
 
