@@ -21,6 +21,15 @@
 ;; Enable auto complete via the auto-complete module
 (setq py-load-pymacs-p  t)
 
+;; Enable auto fill mode at column 80 in compliance with PEP 8
+(add-hook 'python-mode-hook
+          '(lambda ()
+             (auto-fill-mode                              1)
+             (setq fill-column                           80)
+             (setq tab-width                              4)
+             (local-set-key [return]    'newline-and-indent)
+             )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
