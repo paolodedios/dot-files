@@ -177,7 +177,7 @@
 (setq fill-column                            80)
 
 ;; disable line wrap by default. enable only through specific mode hooks
-(setq default-truncate-lines                nil)
+(setq-default truncate-lines                nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Make selected region visible via highlighting
