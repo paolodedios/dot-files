@@ -99,8 +99,51 @@ function set_local_dev_environment_vars()
          # Create local bin PATH variable
         export LOCAL_BIN_PATH=$LOCAL_APP_HOME/bin
 
-        # Append platform agnostic tools to PATH
+        # Prepend platform agnostic tools to PATH
         export PATH=$LOCAL_BIN_PATH:$PATH
+    fi
+
+    # Add local libraries to LIBRARY PATH
+    if [ -d $LOCAL_APP_HOME/lib ]; then
+
+        # Create local LIB_PATH variable
+        export LOCAL_LIB_PATH=$LOCAL_APP_HOME/lib
+
+        # Prepend platform agnostic libraries to LIBRARY_PATH
+        if [ "$OS" = "darwin" ]; then
+            # Standard Mac OS X search path for shared libraries (from 'man dyld')
+            #
+            # DYLD_LIBRARY_PATH
+            #   This  is  a colon separated list of directories that contain
+            #   libraries. The dynamic linker searches these directories before
+            #   it searches the default locations for libraries. It allows you
+            #   to test new versions of existing libraries.
+            #   For each library that a program uses, the dynamic linker looks
+            #   for it in each directory in DYLD_LIBRARY_PATH in turn. If it
+            #   still  can't  find  the library, it then searches
+            #   DYLD_FALLBACK_FRAMEWORK_PATH and DYLD_FALLBACK_LIBRARY_PATH in
+            #   turn.
+            #
+            # DYLD_FALLBACK_LIBRARY_PATH
+            #   This is a colon  separated  list  of  directories  that  contain
+            #   libraries.  It is used as the default location for libraries not
+            #   found  in  their  install  path.   By  default,  it  is  set  to
+            #   $(HOME)/lib:/usr/local/lib:/lib:/usr/lib.
+            #
+            # In other words, the default library search path is used if
+            # DYLD_FALLBACK_LIBRARY_PATH is not set. Setting it will cause the
+            # default paths to be ignored, causing lots of problems. If the
+            # DYLD_FALLBACK_LIBRARY_PATH is modified, then care must be taken to
+            # add the defaults manually. (See man dlopen)
+            #
+            if [ -z "$DYLD_FALLBACK_LIBRARY_PATH" ]; then
+                export DYLD_FALLBACK_LIBRARY_PATH="$HOME/lib:/usr/local/lib:/lib:/usr/lib"
+            fi
+            export DYLD_FALLBACK_LIBRARY_PATH=$LOCAL_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
+        else
+            # Standard Unix search path for shared libraries
+            export LD_LIBRARY_PATH=$LOCAL_LIB_PATH:$LD_LIBRARY_PATH
+        fi
     fi
 
     # Add local data and log folder to the path, if you have it.

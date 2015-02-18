@@ -15,6 +15,12 @@
     logallrefupdates = true
     excludesfile     = /Users/paolodedios/.gitignore_global
 
+[color]
+   branch            = auto
+   diff              = auto
+   interactive       = auto
+   status            = auto
+
 [diff]
     tool             = Kaleidoscope
 [difftool]

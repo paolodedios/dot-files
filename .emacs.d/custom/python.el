@@ -29,6 +29,7 @@
              (setq tab-width                              4)
              (local-set-key [return]    'newline-and-indent)
              )
+          )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock
