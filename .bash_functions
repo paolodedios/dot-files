@@ -20,18 +20,6 @@ function sysinfo()
 }
 
 ########################################################################################
-# Macports shortcut functions
-########################################################################################
-
-function update_macports()
-{
-    sudo port selfupdate
-    sudo port upgrade outdated
-    sudo port clean --all -f installed
-    sudo port -f uninstall inactive
-}
-
-########################################################################################
 # Mercurial Functions
 ########################################################################################
 
@@ -48,7 +36,7 @@ function hg_dirty()
 
 function hg_in_repo()
 {
-    [[ `hg branch 2> /dev/null` ]] && echo 'on '
+    [[ `hg branch 2> /dev/null` ]] && echo "on hg:"
 }
 
 function hg_branch()
@@ -66,18 +54,34 @@ function git_dirty()
     [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
 }
 
-function git_branch()
+function git_in_repo()
 {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/on \1$(git_dirty)/"
+    [[ `git rev-parse --abbrev-ref HEAD 2> /dev/null` ]] && echo "on git:"
 }
 
-# take repo in $pwd and copy it to the specified location, minus the .git specific files.
+function git_branch()
+{
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(git_dirty)/"
+}
+
+# Take repo in $pwd and copy it to the specified location, minus the .git specific files.
 function gitexport()
 {
 	mkdir -p "$1"
 	git archive master | tar -x -C "$1"
 }
 
+# Designate specified git repo URL as the upstream or central repo
+function git_add_upstream()
+{
+    git remote add upstream "$1"
+}
+
+# Pull the latest changes from the upstream or central repo
+function git_pull_upstream()
+{
+    git pull upstream master "$1"
+}
 
 # Use Git's colored diff when available
 hash git &>/dev/null
@@ -87,15 +91,15 @@ if [ $? -eq 0 ]; then
 	}
 fi
 
-######################################################################################
+########################################################################################
 # Python Switcher
-######################################################################################
+########################################################################################
 
 function show_python_info()
 {
-    sudo port select --list python
-    sudo port select --list pip
-    sudo port select --list virtualenv
+    port select --list python
+    port select --list pip
+    port select --list virtualenv
 }
 
 function select_python26_apple()
@@ -140,9 +144,9 @@ function select_python34()
     sudo port select --set virtualenv virtualenv34
 }
 
-######################################################################################
-# Python Helpers
-######################################################################################
+########################################################################################
+# Python environment utilities
+########################################################################################
 
 # Call virtualenvwrapper's "workon" if .venv exists.  This is modified from
 # http://justinlilly.com/python/virtualenv_wrapper_helper.html
@@ -155,8 +159,15 @@ py_virtualenv_check()
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=`cat .venv`
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
-            echo "Starting virtualenv from .venv file: ${PYTHON_VIRTUALENV_SELECTION}"
-            workon $PYTHON_VIRTUALENV_SELECTION
+            echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
+            echo "Using python version :"
+            show_python_info | grep active
+
+            if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
+                mkvirtualenv $PYTHON_VIRTUALENV_SELECTION
+            else
+                workon $PYTHON_VIRTUALENV_SELECTION
+            fi
         fi
     fi
 }
@@ -174,9 +185,9 @@ py_virtualenv_cd()
 
 }
 
-######################################################################################
+########################################################################################
 # Java Switcher
-######################################################################################
+########################################################################################
 
 function select_jdk6()
 {
@@ -193,12 +204,11 @@ function select_jdk8()
     export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0)
 }
 
-######################################################################################
+########################################################################################
 # Java Decompiler (JAD) helper command
-######################################################################################
+########################################################################################
 
 # Execute JAD with standard options
-
 function jadexec()
 {
     if [ -e `type -p jad` ]; then
@@ -209,7 +219,6 @@ function jadexec()
 }
 
 # Execute JAD with fully qualified names and with verbose processing output
-
 function jadexecv()
 {
     if [ -e `type -p jad` ]; then
@@ -220,9 +229,9 @@ function jadexecv()
 }
 
 
-######################################################################################
+########################################################################################
 # Matlab commandline helper
-######################################################################################
+########################################################################################
 
 function matlab_console()
 {
@@ -243,9 +252,9 @@ function matlab_run_file()
 }
 
 
-######################################################################################
+########################################################################################
 # File & string-related functions
-######################################################################################
+########################################################################################
 
 # Create a new directory and enter it
 function md()
@@ -289,7 +298,6 @@ function fe()
     find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ;
 }
 
-
 # Find a pattern in a set of files and highlight them:
 # (needs a recent version of egrep)
 function fstr()
@@ -314,14 +322,36 @@ function fstr()
 
 }
 
-# cut last n lines in file, 10 by default
+# Global search and replace on a directory tree
+function gsr
+{
+    find . -type f -exec sed -i '' s/$1/$2/g {} +
+}
+
+# Skip the first n lines in a file
+function skiphead
+{
+    n=$(($1 + 1))
+    cut -d' ' -f$n-
+}
+
+# Cut last n lines in file, 10 by default
 function cuttail()
 {
     nlines=${2:-10}
     sed -n -e :a -e "1,${nlines}!{P;N;D;};N;ba" $1
 }
 
-# move filenames to lowercase
+# Show only the Nth column piped into this function
+# e.g. Print the second column of the git status command
+#  $ git status -s | col 2
+function showcol()
+{
+    awk -v col=$1 '{print $col}'
+}
+
+
+# Move filenames to lowercase
 function lowercase()
 {
     for file ; do
@@ -395,54 +425,10 @@ function unique()
     sort "$1" | uniq
 }
 
-######################################################################################
-# Directory marking and caching
-# http://jeroenjanssens.com/2013/08/16/quickly-navigate-your-filesystem-from-the-command-line.html
-######################################################################################
 
-function jump()
-{
-    cd -P "$MARKPATH/$1" 2>/dev/null || echo "No such mark: $1"
-}
-
-function mark()
-{
-    mkdir -p "$MARKPATH"; ln -s "$(pwd)" "$MARKPATH/$1"
-}
-
-function unmark()
-{
-    rm -i "$MARKPATH/$1"
-}
-
-function marks()
-{
-    if [ "$OS" = "darwin" ]; then
-        # https://news.ycombinator.com/item?id=6229428
-        \ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk  -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
-    else
-        ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g'&&echo
-    fi
-}
-
-function complete_marks()
-{
-    local curw=${COMP_WORDS[COMP_CWORD]}
-    local wordlist=$(find $MARKPATH -type l -printf "%f\n")
-    COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
-    return 0
-}
-
-
-# Flush Directory Service cache
-function flush-ds()
-{
-    dscacheutil -flushcache && killall -HUP mDNSResponder
-}
-
-#######################################################################################
+########################################################################################
 # Internet/web helpers
-#######################################################################################
+########################################################################################
 
 # All the dig info
 function digall()
@@ -537,19 +523,19 @@ function urlencode()
     python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"
 }
 
-#######################################################################################
+########################################################################################
 # Process/system related functions
-#######################################################################################
+########################################################################################
 
-function my_ps()
+function pss()
 {
     ps $@ -u $USER -o pid,%cpu,%mem,time,command ;
 }
 
 
-function pp()
+function psp()
 {
-    my_ps -f | awk '!/awk/ && $0~var' var=${1:-".*"} ;
+    pss -f | awk '!/awk/ && $0~var' var=${1:-".*"} ;
 }
 
 # Kill by process name.
@@ -577,7 +563,6 @@ function chromekill()
     ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill
 }
 
-
 # Shows most used commands
 # http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
 function profileme()
@@ -585,13 +570,13 @@ function profileme()
     history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr
 }
 
-#######################################################################################
+########################################################################################
 # Misc utilities
-#######################################################################################
+########################################################################################
 
+# Repeat command n times
 function repeat()
 {
-    # Repeat n times command.
     local i max
     max=$1; shift;
     for ((i=1; i <= max ; i++)); do
@@ -599,25 +584,15 @@ function repeat()
     done
 }
 
-function lower-tms-pri()
-{
-    if [ "$OS" = "darwin" ]; then
-        echo "Reducing Time Machine priority..."
-        sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
-    else
-        echo "Unimplemented."
-    fi
-}
-
+# Stopwatch
 function timer()
 {
-    # Stopwatch
     echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 }
 
-#######################################################################################
+########################################################################################
 # AWS Helpers
-#######################################################################################
+########################################################################################
 
 function aws-usekey()
 {
@@ -636,3 +611,47 @@ function aws-use-endpoint()
     echo "Using AWS region endpoint : [$1]"
     export EC2_URL="http://$1"
 }
+
+########################################################################################
+# Show definition of function $1
+########################################################################################
+
+function showdef()
+{
+    typeset -f $1
+}
+
+function showfuns()
+{
+    typeset -F | showcol 3 | grep -v _
+}
+
+########################################################################################
+# Platform specific functions
+########################################################################################
+
+if [ "$OS" = "darwin" ]; then
+
+    # Macports shortcut functions
+    function update_macports()
+    {
+        sudo port selfupdate
+        sudo port upgrade outdated
+        sudo port clean --all -f installed
+        sudo port -f uninstall inactive
+    }
+
+    # Reprioritize Time Machine
+    function lower-tms-pri()
+    {
+        echo "Reducing Time Machine priority..."
+        sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+    }
+
+    # Flush Directory Service cache
+    function flush-ds()
+    {
+        dscacheutil -flushcache && killall -HUP mDNSResponder
+    }
+
+fi

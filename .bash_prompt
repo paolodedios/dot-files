@@ -74,23 +74,23 @@ else
 	RESET="\033[m"
 fi
 
-########################################################################################
-# Set Prompt
-########################################################################################
-
-export CLICOLOR=1
 
 function emacs-prompt()
 {
-    export PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_branch) \n$ '
+    export PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch) \n$ '
 }
 
 function def-prompt()
 {
-    export PS1='\n\[$MAGENTA\]\u\[\033[0m\]@\[$PURPLE\]\h\[\033[0m\]:\[$YELLOW\]\w\[\033[0m\] \[\033[$GREEN\]$(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_branch)\[$RESET\] \n$ '
+    export PS1='\n\[$MAGENTA\]\u\[\033[0m\]@\[$PURPLE\]\h\[\033[0m\]:\[$YELLOW\]\w\[\033[0m\] \[\033[$GREEN\]$(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch)\[$RESET\] \n$ '
 }
 
-def-prompt
+
+if [ -z "$INSIDE_EMACS" ]; then
+    def-prompt
+else
+    emacs-prompt
+fi
 
 ########################################################################################
 # GNU ls color scheme; need to install GNU ls for this to take effect
