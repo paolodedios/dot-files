@@ -14,6 +14,12 @@
 alias sudo="sudo "
 
 ########################################################################################
+# Shortcut to reload all bash configurations
+########################################################################################
+
+alias reload-bash="source ~/.bash_profile"
+
+########################################################################################
 # Always use VIM
 ########################################################################################
 
@@ -37,23 +43,34 @@ alias hgstat="hg status"
 ########################################################################################
 
 alias gitstat="git status"
-alias git-add-upstream="git remote add upstream"
-alias git-pull-upstream="git pull upstream master"
+alias gitaddup="git_add_upstream"
+alias gitpullup="git_pull_upstream"
 
 ########################################################################################
-# Basic command aliases
+# Basic ommand aliases
 ########################################################################################
-
-alias reload-bash="source ~/.bash_profile"
 
 alias jj="jobs -l"
 
 alias hh="history"
+
+########################################################################################
+# Location shortcuts
+########################################################################################
+
 alias which="type -a"
 alias whichpath="type -p"
 
+########################################################################################
+# Path lookups
+########################################################################################
+
 alias path="echo -e ${PATH//:/\\n}"
 alias libpath="echo -e ${LD_LIBRARY_PATH//:/\\n}"
+
+########################################################################################
+# Directory navigation; @see .bash_marks
+########################################################################################
 
 alias cd="py_virtualenv_cd"
 alias cd..="cd .."
@@ -63,29 +80,35 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias .="echo $PWD"
 
-alias rm="rm -i"
-alias cp="cp -i"
-alias mv="mv -i"
-alias mkdir="mkdir -p"
-
-alias du="du -kh"
-alias df="df -kTh"
-
+# Tail system log
 alias systail="tail -f /var/log/system.log"
 
-alias untar="tar xvzf"
+# Dump binary to console
 alias objectdump="od"
+
+########################################################################################
+# Compress/uncompress helpers
+########################################################################################
+
+# Uncompress a .tar.gz file
+alias untar="tar xvzf"
 
 # Gzip-enabled `curl`
 alias gurl="curl --compressed"
 
+########################################################################################
 # Make grep more user friendly by highlighting matches and exclude grepping
 # through git folders.
+########################################################################################
+
 alias grep="grep --color=auto"
 
+########################################################################################
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
+########################################################################################
+
 alias map="xargs -n1"
 
 ########################################################################################
@@ -98,6 +121,8 @@ alias cp-folder="cp -Rpv"
 # Lists folders and files sizes in the current folder
 ########################################################################################
 
+alias du="du -kh"
+alias df="df -kTh"
 alias ducks="du -cksh * | sort -rn | head -11"
 alias du1="du -h -d 1"
 
