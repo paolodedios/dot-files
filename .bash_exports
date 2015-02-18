@@ -317,9 +317,15 @@ if [ "$OS" = "darwin" ]; then
     set_python_virtualenv_vars
 
     # Set shared dev environment variables
+    #
+    # Shared dev environment variables have precedence over system environment
+    # variables
     set_shared_dev_environment_vars
 
     # Set local dev environment variables
+    #
+    # Local dev environment variables have precedence over shared and system
+    # environment variables
     set_local_dev_environment_vars
 
 else
@@ -350,9 +356,15 @@ else
     set_python_virtualenv_vars
 
     # Set shared dev environment variables
+    #
+    # Shared dev environment variables have precedence over system environment
+    # variables
     set_shared_dev_environment_vars
 
     # Set local dev environment variables
+    #
+    # Local dev environment variables have precedence over shared and system
+    # environment variables
     set_local_dev_environment_vars
 
 fi
