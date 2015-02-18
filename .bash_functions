@@ -64,13 +64,24 @@ function git_branch()
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(git_dirty)/"
 }
 
-# take repo in $pwd and copy it to the specified location, minus the .git specific files.
+# Take repo in $pwd and copy it to the specified location, minus the .git specific files.
 function gitexport()
 {
 	mkdir -p "$1"
 	git archive master | tar -x -C "$1"
 }
 
+# Designate specified git repo URL as the upstream or central repo
+function git_add_upstream()
+{
+    git remote add upstream "$1"
+}
+
+# Pull the latest changes from the upstream or central repo
+function git_pull_upstream()
+{
+    git pull upstream master "$1"
+}
 
 # Use Git's colored diff when available
 hash git &>/dev/null
@@ -134,7 +145,7 @@ function select_python34()
 }
 
 ########################################################################################
-# Python Helpers
+# Python environment utilities
 ########################################################################################
 
 # Call virtualenvwrapper's "workon" if .venv exists.  This is modified from
@@ -198,7 +209,6 @@ function select_jdk8()
 ########################################################################################
 
 # Execute JAD with standard options
-
 function jadexec()
 {
     if [ -e `type -p jad` ]; then
@@ -209,7 +219,6 @@ function jadexec()
 }
 
 # Execute JAD with fully qualified names and with verbose processing output
-
 function jadexecv()
 {
     if [ -e `type -p jad` ]; then
@@ -289,7 +298,6 @@ function fe()
     find . -type f -iname '*'${1:-}'*' -exec ${2:-file} {} \;  ;
 }
 
-
 # Find a pattern in a set of files and highlight them:
 # (needs a recent version of egrep)
 function fstr()
@@ -314,13 +322,11 @@ function fstr()
 
 }
 
-
 # Global search and replace on a directory tree
-function sr
+function gsr
 {
     find . -type f -exec sed -i '' s/$1/$2/g {} +
 }
-
 
 # Skip the first n lines in a file
 function skiphead
@@ -557,7 +563,6 @@ function chromekill()
     ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill
 }
 
-
 # Shows most used commands
 # http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
 function profileme()
@@ -569,9 +574,9 @@ function profileme()
 # Misc utilities
 ########################################################################################
 
+# Repeat command n times
 function repeat()
 {
-    # Repeat n times command.
     local i max
     max=$1; shift;
     for ((i=1; i <= max ; i++)); do
@@ -579,10 +584,9 @@ function repeat()
     done
 }
 
-
+# Stopwatch
 function timer()
 {
-    # Stopwatch
     echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 }
 
