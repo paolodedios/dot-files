@@ -67,8 +67,89 @@ export LESS_TERMCAP_md="$ORANGE"
 # Declare platform specific applications
 ########################################################################################
 
+function set_shared_dev_environment_vars()
+{
+    # Add shared applications to PATH
+    if [ -d $SHARED_APP_HOME/bin ]; then
+
+         # Create shared bin PATH variable
+        export SHARED_BIN_PATH=$SHARED_APP_HOME/bin
+
+        # Prepend platform agnostic tools to PATH
+        export PATH=$SHARED_BIN_PATH:$PATH
+    fi
+
+    # Add shared libraries to LIBRARY PATH
+    if [ -d $SHARED_APP_HOME/lib ]; then
+
+        # Create shared LIB_PATH variable
+        export SHARED_LIB_PATH=$SHARED_APP_HOME/lib
+
+        # Prepend platform agnostic libraries to LIBRARY_PATH
+        if [ "$OS" = "darwin" ]; then
+            # Standard Mac OS X search path for shared libraries (from 'man dyld')
+            #
+            # DYLD_LIBRARY_PATH
+            #   This  is  a colon separated list of directories that contain
+            #   libraries. The dynamic linker searches these directories before
+            #   it searches the default locations for libraries. It allows you
+            #   to test new versions of existing libraries.
+            #   For each library that a program uses, the dynamic linker looks
+            #   for it in each directory in DYLD_LIBRARY_PATH in turn. If it
+            #   still  can't  find  the library, it then searches
+            #   DYLD_FALLBACK_FRAMEWORK_PATH and DYLD_FALLBACK_LIBRARY_PATH in
+            #   turn.
+            #
+            # DYLD_FALLBACK_LIBRARY_PATH
+            #   This is a colon  separated  list  of  directories  that  contain
+            #   libraries.  It is used as the default location for libraries not
+            #   found  in  their  install  path.   By  default,  it  is  set  to
+            #   $(HOME)/lib:/usr/local/lib:/lib:/usr/lib.
+            #
+            # In other words, the default library search path is used if
+            # DYLD_FALLBACK_LIBRARY_PATH is not set. Setting it will cause the
+            # default paths to be ignored, causing lots of problems. If the
+            # DYLD_FALLBACK_LIBRARY_PATH is modified, then care must be taken to
+            # add the defaults manually. (See man dlopen)
+            #
+            if [ -z "$DYLD_FALLBACK_LIBRARY_PATH" ]; then
+                export DYLD_FALLBACK_LIBRARY_PATH="$HOME/lib:/usr/local/lib:/lib:/usr/lib"
+            fi
+            export DYLD_FALLBACK_LIBRARY_PATH=$SHARED_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
+        else
+            # Standard Unix search path for shared libraries
+            export LD_LIBRARY_PATH=$SHARED_LIB_PATH:$LD_LIBRARY_PATH
+        fi
+    fi
+
+    # Add shared data and log folder to the path, if you have it.
+    if [ -d $SHARED_APP_HOME/var ]; then
+
+        # Create shared data PATH variable
+        export SHARED_LOG_PATH=$SHARED_APP_HOME/var/log
+        export SHARED_DATA_PATH=$SHARED_APP_HOME/var/data
+
+        # Add work directory for Packer.
+        #
+        # When debugging the packer build process, set the
+        # environment variable PACKER_LOG=1. The log output
+        # will be displayed via stdout but can be optionally
+        # redirected to a file via PACKER_LOG_PATH
+        #
+        # http://www.packer.io/docs/other/debugging.html
+        #
+        export PACKER_CACHE_DIR=$SHARED_DATA_PATH/packer/cache
+        export PACKER_BUILD_DIR=$SHARED_DATA_PATH/packer/build
+    fi
+}
+
 function set_local_dev_environment_vars()
 {
+    # Declare personal projects directory
+    if [ -d $HOME/$LOCAL_PROJECTS ]; then
+        export PROJECT_HOME=$HOME/$LOCAL_PROJECTS
+    fi
+
     # Declare platform agnostic applications
     if [ -d $LOCAL_APP_HOME ]; then
 
@@ -93,20 +174,20 @@ function set_local_dev_environment_vars()
         export GRADLE_HOME=/opt/local/share/java/gradle
     fi
 
-    # Add local applications to PATH
+    # Add shared applications to PATH
     if [ -d $LOCAL_APP_HOME/bin ]; then
 
-         # Create local bin PATH variable
+         # Create shared bin PATH variable
         export LOCAL_BIN_PATH=$LOCAL_APP_HOME/bin
 
         # Prepend platform agnostic tools to PATH
         export PATH=$LOCAL_BIN_PATH:$PATH
     fi
 
-    # Add local libraries to LIBRARY PATH
+    # Add shared libraries to LIBRARY PATH
     if [ -d $LOCAL_APP_HOME/lib ]; then
 
-        # Create local LIB_PATH variable
+        # Create shared LIB_PATH variable
         export LOCAL_LIB_PATH=$LOCAL_APP_HOME/lib
 
         # Prepend platform agnostic libraries to LIBRARY_PATH
@@ -146,29 +227,12 @@ function set_local_dev_environment_vars()
         fi
     fi
 
-    # Add local data and log folder to the path, if you have it.
+    # Add shared data and log folder to the path, if you have it.
     if [ -d $LOCAL_APP_HOME/var ]; then
 
-        # Create local data PATH variable
+        # Create shared data PATH variable
         export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
         export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
-
-        # Add work directory for Packer.
-        #
-        # When debugging the packer build process, set the
-        # environment variable PACKER_LOG=1. The log output
-        # will be displayed via stdout but can be optionally
-        # redirected to a file via PACKER_LOG_PATH
-        #
-        # http://www.packer.io/docs/other/debugging.html
-        #
-        export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer/cache
-        export PACKER_BUILD_DIR=$LOCAL_DATA_PATH/packer/build
-    fi
-
-    # Declare personal projects directory
-    if [ -d $HOME/$LOCAL_PROJECTS ]; then
-        export PROJECT_HOME=$HOME/$LOCAL_PROJECTS
     fi
 }
 
@@ -178,7 +242,7 @@ function set_python_virtualenv_vars()
     if [ -e `type -p virtualenvwrapper.sh` ]; then
 
         # Set virtualenv working directory
-        export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
+        export WORKON_HOME=$SHARED_APP_HOME/bin/python/virtualenvs
 
         # Make pip use the same directory for virtualenvs as virtualenvwrapper
         export PIP_VIRTUALENV_BASE=$WORKON_HOME
@@ -221,8 +285,11 @@ if [ "$OS" = "darwin" ]; then
     # MacPorts versions take precedence
     export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
-    # Locally configured, user-specific binaries
-    export LOCAL_APP_HOME=~/Applications
+    # Local machine-specific binaries
+    export LOCAL_APP_HOME=~/.bin.local
+
+    # Shared machine-agnostic binaries
+    export SHARED_APP_HOME=~/.bin.shared
 
     # Project directory
     export LOCAL_PROJECTS=~/Projects
@@ -249,6 +316,9 @@ if [ "$OS" = "darwin" ]; then
     # Set local python virtualenv variables
     set_python_virtualenv_vars
 
+    # Set shared dev environment variables
+    set_shared_dev_environment_vars
+
     # Set local dev environment variables
     set_local_dev_environment_vars
 
@@ -267,14 +337,20 @@ else
     # Local packages take precedence
     export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 
-    # Locally configured, user-specific binaries
-    export LOCAL_APP_HOME=~/Applications
+    # Local machine-specific binaries
+    export LOCAL_APP_HOME=~/.bin.local
+
+    # Shared machine-agnostic binaries
+    export SHARED_APP_HOME=~/.bin.shared
 
     # Project directory
     export LOCAL_PROJECTS=~/Projects
 
     # Set local python virtualenv variables
     set_python_virtualenv_vars
+
+    # Set shared dev environment variables
+    set_shared_dev_environment_vars
 
     # Set local dev environment variables
     set_local_dev_environment_vars
