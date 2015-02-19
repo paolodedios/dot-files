@@ -87,34 +87,6 @@ function set_shared_dev_environment_vars()
 
         # Prepend platform agnostic libraries to LIBRARY_PATH
         if [ "$OS" = "darwin" ]; then
-            # Standard Mac OS X search path for shared libraries (from 'man dyld')
-            #
-            # DYLD_LIBRARY_PATH
-            #   This  is  a colon separated list of directories that contain
-            #   libraries. The dynamic linker searches these directories before
-            #   it searches the default locations for libraries. It allows you
-            #   to test new versions of existing libraries.
-            #   For each library that a program uses, the dynamic linker looks
-            #   for it in each directory in DYLD_LIBRARY_PATH in turn. If it
-            #   still  can't  find  the library, it then searches
-            #   DYLD_FALLBACK_FRAMEWORK_PATH and DYLD_FALLBACK_LIBRARY_PATH in
-            #   turn.
-            #
-            # DYLD_FALLBACK_LIBRARY_PATH
-            #   This is a colon  separated  list  of  directories  that  contain
-            #   libraries.  It is used as the default location for libraries not
-            #   found  in  their  install  path.   By  default,  it  is  set  to
-            #   $(HOME)/lib:/usr/local/lib:/lib:/usr/lib.
-            #
-            # In other words, the default library search path is used if
-            # DYLD_FALLBACK_LIBRARY_PATH is not set. Setting it will cause the
-            # default paths to be ignored, causing lots of problems. If the
-            # DYLD_FALLBACK_LIBRARY_PATH is modified, then care must be taken to
-            # add the defaults manually. (See man dlopen)
-            #
-            if [ -z "$DYLD_FALLBACK_LIBRARY_PATH" ]; then
-                export DYLD_FALLBACK_LIBRARY_PATH="$HOME/lib:/usr/local/lib:/lib:/usr/lib"
-            fi
             export DYLD_FALLBACK_LIBRARY_PATH=$SHARED_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
         else
             # Standard Unix search path for shared libraries
@@ -192,34 +164,6 @@ function set_local_dev_environment_vars()
 
         # Prepend platform agnostic libraries to LIBRARY_PATH
         if [ "$OS" = "darwin" ]; then
-            # Standard Mac OS X search path for shared libraries (from 'man dyld')
-            #
-            # DYLD_LIBRARY_PATH
-            #   This  is  a colon separated list of directories that contain
-            #   libraries. The dynamic linker searches these directories before
-            #   it searches the default locations for libraries. It allows you
-            #   to test new versions of existing libraries.
-            #   For each library that a program uses, the dynamic linker looks
-            #   for it in each directory in DYLD_LIBRARY_PATH in turn. If it
-            #   still  can't  find  the library, it then searches
-            #   DYLD_FALLBACK_FRAMEWORK_PATH and DYLD_FALLBACK_LIBRARY_PATH in
-            #   turn.
-            #
-            # DYLD_FALLBACK_LIBRARY_PATH
-            #   This is a colon  separated  list  of  directories  that  contain
-            #   libraries.  It is used as the default location for libraries not
-            #   found  in  their  install  path.   By  default,  it  is  set  to
-            #   $(HOME)/lib:/usr/local/lib:/lib:/usr/lib.
-            #
-            # In other words, the default library search path is used if
-            # DYLD_FALLBACK_LIBRARY_PATH is not set. Setting it will cause the
-            # default paths to be ignored, causing lots of problems. If the
-            # DYLD_FALLBACK_LIBRARY_PATH is modified, then care must be taken to
-            # add the defaults manually. (See man dlopen)
-            #
-            if [ -z "$DYLD_FALLBACK_LIBRARY_PATH" ]; then
-                export DYLD_FALLBACK_LIBRARY_PATH="$HOME/lib:/usr/local/lib:/lib:/usr/lib"
-            fi
             export DYLD_FALLBACK_LIBRARY_PATH=$LOCAL_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
         else
             # Standard Unix search path for shared libraries
@@ -277,8 +221,10 @@ if [ "$OS" = "darwin" ]; then
     # easily tell if you're running screen inside tmux or tmux inside screen),
     # but it should be good enough in practice.
     if ! { [ -n "$TMUX" ]; } then
+        # TMUX session NOT active, set paths
         export SYSTEM_PATH=$PATH
     else
+        # TMUX session NOT active, preserve paths
         export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
     fi
 
@@ -315,6 +261,37 @@ if [ "$OS" = "darwin" ]; then
 
     # Set local python virtualenv variables
     set_python_virtualenv_vars
+
+    # Mac OS X search path for shared libraries (from 'man dyld')
+    #
+    # DYLD_LIBRARY_PATH
+    #   This is a colon separated list of directories that contain
+    #   libraries. The dynamic linker searches these directories before
+    #   it searches the default locations for libraries. It allows you
+    #   to test new versions of existing libraries.
+    #   For each library that a program uses, the dynamic linker looks
+    #   for it in each directory in DYLD_LIBRARY_PATH in turn. If it
+    #   still can't find the library, it then searches
+    #   DYLD_FALLBACK_FRAMEWORK_PATH and DYLD_FALLBACK_LIBRARY_PATH in
+    #   turn.
+    #
+    # DYLD_FALLBACK_LIBRARY_PATH
+    #   This is a colon  separated  list  of  directories  that  contain
+    #   libraries.  It is used as the default location for libraries not
+    #   found  in  their  install  path.   By  default,  it  is  set  to
+    #   $(HOME)/lib:/usr/local/lib:/lib:/usr/lib.
+    #
+    # The default library search path is only used if DYLD_FALLBACK_LIBRARY_PATH
+    #is not set. Setting DYLD_FALLBACK_LIBRARY_PATH will cause the
+    # default paths to be ignored, causing lots of problems. If the
+    # DYLD_FALLBACK_LIBRARY_PATH is modified, then care must be taken to
+    # add the defaults manually. (See man dlopen)
+    #
+    # Since the shared and local dev environment variables modify the
+    # library search path via the DYLD_FALLBACK_LIBRARY_PATH, ensure that
+    # it is always first set to the default paths.
+    #
+    export DYLD_FALLBACK_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/lib:/usr/lib
 
     # Set shared dev environment variables
     #
