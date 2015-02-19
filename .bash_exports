@@ -282,10 +282,10 @@ if [ "$OS" = "darwin" ]; then
     #   $(HOME)/lib:/usr/local/lib:/lib:/usr/lib.
     #
     # The default library search path is only used if DYLD_FALLBACK_LIBRARY_PATH
-    #is not set. Setting DYLD_FALLBACK_LIBRARY_PATH will cause the
-    # default paths to be ignored, causing lots of problems. If the
-    # DYLD_FALLBACK_LIBRARY_PATH is modified, then care must be taken to
-    # add the defaults manually. (See man dlopen)
+    # is not set. Setting DYLD_FALLBACK_LIBRARY_PATH will cause the default
+    # paths to be ignored, causing lots of problems. If the
+    # DYLD_FALLBACK_LIBRARY_PATH is modified, then care must be taken to add the
+    # defaults manually. (See man dlopen)
     #
     # Since the shared and local dev environment variables modify the
     # library search path via the DYLD_FALLBACK_LIBRARY_PATH, ensure that
