@@ -243,6 +243,13 @@ if [ "$OS" = "darwin" ]; then
     # Override XCode4/gcc tendency to use arch=PPC when building libraries
     export ARCHFLAGS="-arch x86_64"
 
+    # Default compiler flags that are safe to use with python and numpy extensions
+    export CFLAGS="-arch i386 -arch x86_64"
+    export FFLAGS="-m32 -m64"
+    export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -arch i386 -arch x86_64"
+    export CC="gcc"
+    export CXX="g++ -arch i386 -arch x86_64"
+
     # Create command alias for lsregister
     export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
     export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
