@@ -248,7 +248,7 @@ alias m3="mvn3"
 command -v grunt > /dev/null && alias grunt="grunt --stack"
 
 ########################################################################################
-# Platform specific aliases
+# Declare OS specific aliases
 ########################################################################################
 
 if [ "$OS" = "darwin" ]; then
