@@ -180,7 +180,7 @@ function set_local_dev_environment_vars()
     fi
 }
 
-function set_python_virtualenv_vars()
+function set_python_environment_vars()
 {
     # Python virtual environment
     if [ -e `type -p virtualenvwrapper.sh` ]; then
@@ -209,6 +209,76 @@ function set_python_virtualenv_vars()
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
     fi
 }
+
+function set_c_environment_vars()
+{
+    if [ "$OS" = "darwin" ]; then
+        # Override XCode4/gcc tendency to use arch=PPC when building libraries
+        export ARCHFLAGS="-arch x86_64"
+
+        # Default compiler flags that are safe to use with python and numpy extensions
+        export CFLAGS="-arch i386 -arch x86_64"
+        export FFLAGS="-m32 -m64"
+        export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -arch i386 -arch x86_64"
+        export CC="gcc"
+        export CXX="g++ -arch i386 -arch x86_64"
+    else
+        # Build only x86_64 architecture
+        export CFLAGS="-arch x86_64"
+        export FFLAGS="-m64"
+        export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -arch x86_64"
+        export CC="gcc"
+        export CXX="g++ -arch x86_64"
+    fi
+
+}
+
+function set_cuda_environment_vars()
+{
+    # The CUDA toolkit download will install the CUDA driver, CUDA toolkit
+    # supplements and CUDA samples.
+    #
+    # CUDA Driver: This will install /Library/Frameworks/CUDA.framework and the
+    # UNIX-compatibility stub /usr/local/cuda/lib/libcuda.dylib that refers to
+    # it.
+    #
+    # CUDA Toolkit: The CUDA Toolkit supplements the CUDA Driver with compilers
+    # and additional libraries and header files that are installed into
+    # /Developer/NVIDIA/CUDA-6.5 by default. Symlinks are created in
+    # /usr/local/cuda/ pointing to their respective files in
+    # /Developer/NVIDIA/CUDA-6.5/. Previous installations of the toolkit will be
+    # moved to /Developer/NVIDIA/CUDA-#.# to better support side-by-side
+    # installations.
+    #
+    # CUDA Samples (read-only): A read-only copy of the CUDA Samples is
+    # installed in /Developer/NVIDIA/CUDA-6.5/samples. Previous installations of
+    # the samples will be moved to /Developer/NVIDIA/CUDA-#.#/samples to better
+    # support side-by-side installations.
+    #
+    # @see http://docs.nvidia.com/cuda/index.html
+    #
+    if [ "$OS" = "darwin" ]; then
+        export LOCAL_CUDA_HOME=/Developer/NVIDIA/CUDA-6.5
+        export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
+        export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib
+
+        if [ -d $LOCAL_CUDA_PATH -a -d $LOCAL_CUDA_LIBRARY_PATH ]; then
+            export PATH=$LOCAL_CUDA_PATH:$PATH
+            export DYLD_FALLBACK_LIBRARY_PATH=$LOCAL_CUDA_LIBRARY_PATH:$DYLD_FALLBACK_LIBRARY_PATH
+        fi
+
+    else
+        export LOCAL_CUDA_HOME=/usr/local/cuda-6.5
+        export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
+        export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib64
+
+        if [ -d $LOCAL_CUDA_PATH -a -d $LOCAL_CUDA_LIBRARY_PATH ]; then
+            export PATH=$LOCAL_CUDA_PATH:$PATH
+            export LD_LIBRARY_PATH=$LOCAL_CUDA_LIBRARY_PATH:$LD_LIBRARY_PATH
+        fi
+    fi
+}
+
 
 ########################################################################################
 # Export OS specific variables
@@ -240,9 +310,6 @@ if [ "$OS" = "darwin" ]; then
     # Project directory
     export LOCAL_PROJECTS=~/Projects
 
-    # Override XCode4/gcc tendency to use arch=PPC when building libraries
-    export ARCHFLAGS="-arch x86_64"
-
     # Create command alias for lsregister
     export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
     export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
@@ -258,9 +325,6 @@ if [ "$OS" = "darwin" ]; then
     if [ -e $MATLAB_COMMAND_PATH ] ; then
         export PATH=$PATH:$MATLAB_COMMAND_PATH
     fi
-
-    # Set local python virtualenv variables
-    set_python_virtualenv_vars
 
     # Mac OS X search path for shared libraries (from 'man dyld')
     #
@@ -293,18 +357,6 @@ if [ "$OS" = "darwin" ]; then
     #
     export DYLD_FALLBACK_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/lib:/usr/lib
 
-    # Set shared dev environment variables
-    #
-    # Shared dev environment variables have precedence over system environment
-    # variables
-    set_shared_dev_environment_vars
-
-    # Set local dev environment variables
-    #
-    # Local dev environment variables have precedence over shared and system
-    # environment variables
-    set_local_dev_environment_vars
-
 else
 
     # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
@@ -328,20 +380,43 @@ else
 
     # Project directory
     export LOCAL_PROJECTS=~/Projects
-
-    # Set local python virtualenv variables
-    set_python_virtualenv_vars
-
-    # Set shared dev environment variables
-    #
-    # Shared dev environment variables have precedence over system environment
-    # variables
-    set_shared_dev_environment_vars
-
-    # Set local dev environment variables
-    #
-    # Local dev environment variables have precedence over shared and system
-    # environment variables
-    set_local_dev_environment_vars
-
 fi
+
+
+########################################################################################
+# Export OS indepenedent environment variables
+########################################################################################
+
+#
+# OS independent environment variables should be set after platform specific
+# variables have already been defined and abstracted away
+#
+
+# Set shared dev environment variables
+#
+# Shared dev environment variables have precedence over system environment
+# variables
+set_shared_dev_environment_vars
+
+# Set local dev environment variables
+#
+# Local dev environment variables have precedence over shared and system
+# environment variables
+set_local_dev_environment_vars
+
+# Set local C/C++ build environment variables
+#
+# Local programming environment variables are set after shared and local
+# environment dependencies are set
+set_c_environment_vars
+
+# Set local python virtualenv variables
+#
+# Local programming environment variables are set after shared and local
+# environment dependencies are set
+set_python_environment_vars
+
+# Set CUDA, OpenCL and other toolkit environment variables
+#
+# Toolkits that may depend on shared or local environment variables go last
+set_cuda_environment_vars
