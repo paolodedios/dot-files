@@ -168,6 +168,20 @@ py_virtualenv_check()
             else
                 workon $PYTHON_VIRTUALENV_SELECTION
             fi
+
+            if [ -e .requirements.txt ]; then
+                # Warn user of package install/update
+                echo "With virtualenv deps :"
+
+                # Print package listing, excluding comment lines, and pipe to
+                # sed again to add indenting spaces
+                sed -e '/^[[:space:]]*$/d' -e '/^[[:space:]]*#/d' .requirements.txt | sed  's/^/	/'
+
+                # Quitely install/upgrade packages.
+                # Redirect warnings and other stdout messages to "1> /dev/null"
+                # but don't redirect stderr "2>&1 1> /dev/null"
+                pip install -U -r .requirements.txt 1> /dev/null
+            fi
         fi
     fi
 }
