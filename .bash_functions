@@ -537,10 +537,20 @@ function urlencode()
     python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"
 }
 
-# Download file from URL; resume broken downloads automatically
+# Download file from URL and save locally using it's remote file name; resume
+# broken downloads automatically, retry up 5 times with exponential backoff,
+# follow location redirects.
 function geturl()
 {
-    curl -L -O -C - $1
+    curl --connect-timeout 5    \
+         --max-time 10          \
+         --retry 5              \
+         --retry-delay 0        \
+         --retry-max-time 60    \
+         --location             \
+         --remote-name          \
+         --continue-at -        \
+         $1
 }
 
 ########################################################################################
