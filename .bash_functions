@@ -537,6 +537,12 @@ function urlencode()
     python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"
 }
 
+# Download file from URL; resume broken downloads automatically
+function geturl()
+{
+    curl -L -O -C - $1
+}
+
 ########################################################################################
 # Process/system related functions
 ########################################################################################
