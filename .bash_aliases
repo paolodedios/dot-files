@@ -226,7 +226,7 @@ alias pylsenvpkgs="lssitepackages"
 alias pyupdatepkgs='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U'
 
 # Generate python package list
-alias pylspkgs="pip freeze --local > requirements.txt"
+alias pylspkgs="pip freeze --local | grep -v '^\-e' > requirements.txt"
 
 # Install python packages from list
 alias pyinstallpkgs="pip install -r"
