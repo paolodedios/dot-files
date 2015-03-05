@@ -45,6 +45,8 @@ alias hgstat="hg status"
 alias gitstat="git status"
 alias gitaddup="git_add_upstream"
 alias gitpullup="git_pull_upstream"
+alias gitreset="git_reset_branch"
+alias gitdiscard="git_discard_changes"
 
 ########################################################################################
 # Basic ommand aliases

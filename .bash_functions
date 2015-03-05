@@ -83,6 +83,18 @@ function git_pull_upstream()
     git pull upstream master "$1"
 }
 
+# Discard all local changes in the current branch
+function git_reset_branch()
+{
+    git checkout -- .
+}
+
+# Discard all local changes to a file
+function git_discard_changes()
+{
+    git checkout -- "$1"
+}
+
 # Use Git's colored diff when available
 hash git &>/dev/null
 if [ $? -eq 0 ]; then
