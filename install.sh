@@ -95,6 +95,20 @@ function update_dev_environment()
         ln -s ~/.bin.shared/etc/python/pip.conf ~/.pip/pip.conf
     fi
 
+    if [ -e ~/.pydistutils.cfg ]; then
+        check_list "Shared setup_tools configuration already installed"
+    else
+        check_list "Sym-linking shared pydistutils.cfg to home directory"
+        ln -s ~/.bin.shared/etc/python/pydistutils.conf ~/.pydistutils.cfg
+    fi
+
+    if [ -e ~/.buildout/default.cfg ]; then
+        check_list "Shared zc.buildout configuration already installed"
+    else
+        check_list "Sym-linking shared buildout.cfg to home directory"
+        ln -s ~/.bin.shared/etc/python/buildout.conf ~/.buildout/default.cfg
+    fi
+
     if [ -e ~/.vagrant.d/Vagrantfile ]; then
         check_list "Shared Vagrantfile configuration already installed"
     else
