@@ -74,6 +74,7 @@ alias libpath="echo -e ${LD_LIBRARY_PATH//:/\\n}"
 # Directory navigation; @see .bash_marks
 ########################################################################################
 
+# Override the builtin cd with a py virtualenv facade
 alias cd="py_virtualenv_cd"
 alias cd..="cd .."
 alias ..="cd .."
@@ -81,6 +82,9 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias .="echo $PWD"
+
+# Alias the builtin cd command
+alias bcd="builtin cd"
 
 # Tail system log
 alias systail="tail -f /var/log/system.log"
