@@ -22,6 +22,9 @@
 ;; Load the default auto-complete configuration
 (ac-config-default)
 
+;; Enable yasnippet completion in all modes
+(setq-default ac-sources (push 'ac-source-yasnippet ac-sources))
+
 ;; Enable specifc modes for auto-complete
 (setq ac-modes '(emacs-lisp-mode
                  lisp-interaction-mode
@@ -66,6 +69,9 @@
 
 ;; Automatically show completion menu
 (setq ac-use-menu-map             t           )
+
+;; Case sensitivity is important when finding matches
+(setq ac-ignore-case              nil         )
 
 ;; Map C-n and C-p to navigate the completion menu
 (define-key ac-menu-map  "\C-n"   'ac-next    )
