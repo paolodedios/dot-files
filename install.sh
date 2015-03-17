@@ -92,6 +92,7 @@ function update_dev_environment()
         check_list "Shared pip configuration already installed"
     else
         check_list "Sym-linking shared pip.conf to home directory"
+        mkdir -p ~/.pip
         ln -s ~/.bin.shared/etc/python/pip.conf ~/.pip/pip.conf
     fi
 
@@ -106,6 +107,7 @@ function update_dev_environment()
         check_list "Shared zc.buildout configuration already installed"
     else
         check_list "Sym-linking shared buildout.cfg to home directory"
+        mkdir -p ~/.buildout
         ln -s ~/.bin.shared/etc/python/buildout.conf ~/.buildout/default.cfg
     fi
 
@@ -113,10 +115,26 @@ function update_dev_environment()
         check_list "Shared Vagrantfile configuration already installed"
     else
         check_list "Sym-linking shared Vagrantfile to home directory"
+        mkdir -p ~/.vagrant.d
         ln -s ~/.bin.shared/etc/vagrant/Vagrantfile ~/.vagrant.d/Vagrantfile
     fi
 
     update_emacs
+}
+
+
+# Update deployment environment tooling related files
+function update_deployment_environment()
+{
+    # AWS credential files is the standard mechanism for sharing credentials
+    # between AWS SDKs, including non-Amazon ones like Boto
+    if [ -e ~/.aws/credentials ]; then
+        check_list "Shared AWS credentials already installed"
+    else
+        check_list "Sym-linking shared AWS credentials to home directory"
+        mkdir -p ~/.aws
+        ln -s ~/.bin.shared/etc/aws/credentials.conf ~/.aws/credentials
+    fi
 }
 
 # Update home directory
@@ -148,6 +166,8 @@ function update_home()
     fi
 
     update_dev_environment
+
+    update_deployment_environment
 
     check_list "Synchronize complete"
 }
@@ -231,6 +251,7 @@ if [ "$1" == "--force" -o "$1" == "-f" ]; then
     update_home
 elif [ "$1" == "--devenv" -o "$1" == "-d" ]; then
     update_dev_environment
+    update_deployment_environment
 elif [ "$1" == "--emacs" -o "$1" == "-e" ]; then
     update_emacs
 elif [ "$1" == "--backup" -o "$1" == "-b" ]; then
