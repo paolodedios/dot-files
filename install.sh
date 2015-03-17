@@ -135,6 +135,13 @@ function update_deployment_environment()
         mkdir -p ~/.aws
         ln -s ~/.bin.shared/etc/aws/credentials.conf ~/.aws/credentials
     fi
+
+    if [ -e ~/.boto ]; then
+        check_list "Shared Boto configuration already installed"
+    else
+        check_list "Sym-linking shared Boto configuration to home directory"
+        ln -s ~/.bin.shared/etc/aws/boto.conf ~/.boto
+    fi
 }
 
 # Update home directory
