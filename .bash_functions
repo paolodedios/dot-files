@@ -554,10 +554,10 @@ function urlencode()
 # follow location redirects.
 function geturl()
 {
-    curl --connect-timeout 5    \
+    curl --connect-timeout 15   \
          --max-time 10          \
-         --retry 10             \
-         --retry-delay 0        \
+         --retry 50             \
+         --retry-delay 2        \
          --retry-max-time 60    \
          --location             \
          --remote-name          \
