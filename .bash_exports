@@ -262,7 +262,7 @@ function set_cuda_environment_vars()
     # @see http://docs.nvidia.com/cuda/index.html
     #
     if [ "$OS" = "darwin" ]; then
-        export LOCAL_CUDA_HOME=/Developer/NVIDIA/CUDA-6.5
+        export LOCAL_CUDA_HOME=/Developer/NVIDIA/CUDA-7.0
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib
 
@@ -272,7 +272,7 @@ function set_cuda_environment_vars()
         fi
 
     else
-        export LOCAL_CUDA_HOME=/usr/local/cuda-6.5
+        export LOCAL_CUDA_HOME=/usr/local/cuda-7.0
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib64
 
