@@ -477,12 +477,6 @@ function codepoint()
 	echo # newline
 }
 
-# Force convert a file to UTF-8, for a list of encodings,
-# refer to the iconv_open(3) manual
-function convert_utf8()
-{
-    iconv -f utf-8 -t utf-8 -c $1
-}
 
 ########################################################################################
 # Image helpers
