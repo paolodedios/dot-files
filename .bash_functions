@@ -453,14 +453,8 @@ function unique()
 
 
 ########################################################################################
-# Internet/web helpers
+# Text encoding helpers
 ########################################################################################
-
-# All the dig info
-function digall()
-{
-	dig +nocmd "$1" any +multiline +noall +answer
-}
 
 # Escape UTF-8 characters into their 3-byte format
 function escape()
@@ -483,6 +477,17 @@ function codepoint()
 	echo # newline
 }
 
+# Force convert a file to UTF-8, for a list of encodings,
+# refer to the iconv_open(3) manual
+function convert_utf8()
+{
+    iconv -f utf-8 -t utf-8 -c $1
+}
+
+########################################################################################
+# Image helpers
+########################################################################################
+
 # Image width
 function width ()
 {
@@ -494,6 +499,10 @@ function height ()
 {
   echo $(sips -g pixelHeight $1 | grep -oE "[[:digit:]]{1,}$")
 }
+
+########################################################################################
+# Internet/web helpers
+########################################################################################
 
 # Syntax-highlight JSON strings or files
 # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
@@ -563,6 +572,12 @@ function geturl()
          --remote-name          \
          --continue-at -        \
          $1
+}
+
+# All the dig info
+function digall()
+{
+	dig +nocmd "$1" any +multiline +noall +answer
 }
 
 ########################################################################################
