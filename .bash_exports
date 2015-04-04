@@ -212,6 +212,8 @@ function set_python_environment_vars()
         # argument for virtualenv
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
     fi
+
+    export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
 }
 
 function set_c_environment_vars()
