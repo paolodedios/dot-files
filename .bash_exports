@@ -213,6 +213,13 @@ function set_python_environment_vars()
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
     fi
 
+    # NLTK data location used by the command
+    #
+    #    $ python -m nltk.downloader all
+    #
+    # to install corpora and other NLP models
+    #
+    # @see http://www.nltk.org/data.html for details
     export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
 }
 
