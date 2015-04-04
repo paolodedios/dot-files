@@ -217,7 +217,7 @@ function set_python_environment_vars()
     #
     #    $ python -m nltk.downloader all
     #
-    # to install corpora and other NLP models
+    # to install corpora, models, and tokenizers
     #
     # @see http://www.nltk.org/data.html for details
     export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
