@@ -207,6 +207,18 @@ alias python_select="sudo port select --set python"
 # Create a new virtual environment
 alias pymkenv="mkvirtualenv"
 
+# Create a new python 2.6 virtual environment
+alias py26mkenv="mkvirtualenv --python=/opt/local/bin/python2.6"
+
+# Create a new python 2.7 virtual environment
+alias py27mkenv="mkvirtualenv --python=/opt/local/bin/python2.7"
+
+# Create a new python 3.3 virtual environment
+alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.3"
+
+# Create a new python 3.4 virtual environment
+alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.4"
+
 # Switch to a specific virtual environment
 alias pystartenv="workon"
 
