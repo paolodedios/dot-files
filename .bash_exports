@@ -100,18 +100,6 @@ function set_shared_dev_environment_vars()
         # Create shared data PATH variable
         export SHARED_LOG_PATH=$SHARED_APP_HOME/var/log
         export SHARED_DATA_PATH=$SHARED_APP_HOME/var/data
-
-        # Add work directory for Packer.
-        #
-        # When debugging the packer build process, set the
-        # environment variable PACKER_LOG=1. The log output
-        # will be displayed via stdout but can be optionally
-        # redirected to a file via PACKER_LOG_PATH
-        #
-        # http://www.packer.io/docs/other/debugging.html
-        #
-        export PACKER_CACHE_DIR=$SHARED_DATA_PATH/packer/cache
-        export PACKER_BUILD_DIR=$SHARED_DATA_PATH/packer/build
     fi
 }
 
@@ -177,6 +165,18 @@ function set_local_dev_environment_vars()
         # Create shared data PATH variable
         export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
         export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
+
+        # Add work directory for Packer.
+        #
+        # When debugging the packer build process, set the
+        # environment variable PACKER_LOG=1. The log output
+        # will be displayed via stdout but can be optionally
+        # redirected to a file via PACKER_LOG_PATH
+        #
+        # http://www.packer.io/docs/other/debugging.html
+        #
+        export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer/cache
+        export PACKER_BUILD_DIR=$LOCAL_DATA_PATH/packer/build
     fi
 }
 
