@@ -11,7 +11,7 @@
 ;;
 ;; Notation:
 ;;     C-x    means press the control key with for example the x key
-;;     M-x    means press the alt key with for example the x key,
+;;     M-x    means press the option key with for example the x key,
 ;;            or press the escape key and then x.
 ;;
 ;; Buffers
@@ -93,9 +93,9 @@
 ;; Go to a specific line number
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; C-M
-;;     Type goto-line and press return
-;;     Type in the line number and press return.
+;;     A-l
+;;       Type goto-line and press return
+;;       Type in the line number and press return.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Selecting and Copying Text
@@ -205,12 +205,12 @@
 ;; @see http://www.gnu.org/software/emacs/manual/html_node/elisp/Keymaps.html
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map [f2]               'reload-dot-emacs                )
+(define-key global-map [f2]               'electric-buffer-list            )
 (define-key global-map [f3]               'ido-find-file                   )
-(define-key global-map [f4]               'electric-buffer-list            )
-(define-key global-map [f5]               'save-buffer                     )
-
+(define-key global-map [f4]               'save-buffer                     )
+(define-key global-map [f5]               'rename-this-buffer-and-file     )
 (define-key global-map [f6]               'refresh-file                    )
+
 (define-key global-map [f7]               'replace-string                  )
 (define-key global-map [f8]               'query-replace                   )
 (define-key global-map [f9]               'query-replace-regexp            )
@@ -256,8 +256,14 @@
 ;; Nameses desktop session shortcuts
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map [(meta f1)]        'nameses-load                    )
-(define-key global-map [(meta f2)]        'nameses-save                    )
+(define-key global-map [(meta f3)]        'nameses-load                    )
+(define-key global-map [(meta f4)]        'nameses-save                    )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Reload all Emacs configuration files specified by init.el
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-key global-map [(meta f6)]        'reload-dot-emacs                )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Electric Buffer
