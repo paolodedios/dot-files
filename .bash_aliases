@@ -291,9 +291,6 @@ if [ "$OS" = "darwin" ]; then
     # Copy emacs configuration to Aquamacs pref directory
     alias refreshaquamacsconfig="cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el"
 
-    # Multiprocess Aquamacs Alias
-    alias aquamacs="open -n /Applications/Aquamacs.app"
-
     # Open file in the current Aquamacs window
     alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"
 
