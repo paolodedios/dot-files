@@ -249,6 +249,9 @@ alias pyfreezepkgs="pip freeze --local | grep -v '^\-e' > requirements.txt"
 # Install python packages from list
 alias pyinstallpkgs="pip install -r"
 
+# Upgrade specific package
+alias pyupdate='pip install -U'
+
 # Check and activate an environment specified in the current directory
 alias pycheckenv="py_virtualenv_check"
 
