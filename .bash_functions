@@ -351,7 +351,7 @@ function fstr()
 # Global search and replace on a directory tree
 function gsr
 {
-    find . -type f -exec sed -i '' s/$1/$2/g {} +
+    find . -type f -exec sed -i '' "s/$1/$2/g" {} +
 }
 
 # Skip the first n lines in a file
