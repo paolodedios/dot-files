@@ -49,7 +49,7 @@ alias gitreset="git_reset_branch"
 alias gitdiscard="git_discard_changes"
 
 ########################################################################################
-# Basic ommand aliases
+# Basic command aliases
 ########################################################################################
 
 alias jj="jobs -l"
