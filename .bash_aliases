@@ -74,7 +74,6 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias .="echo $PWD"
 
 # Alias the builtin cd command
 alias bcd="builtin cd"
