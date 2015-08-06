@@ -186,7 +186,7 @@ function set_python_environment_vars()
     if [ -e `type -p virtualenvwrapper.sh` ]; then
 
         # Set virtualenv working directory
-        export WORKON_HOME=$SHARED_APP_HOME/bin/python/virtualenvs
+        export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
 
         # Make pip use the same directory for virtualenvs as virtualenvwrapper
         export PIP_VIRTUALENV_BASE=$WORKON_HOME
