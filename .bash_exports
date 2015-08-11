@@ -237,11 +237,9 @@ function set_c_environment_vars()
         export CXX="g++ -arch i386 -arch x86_64"
     else
         # Build only x86_64 architecture
-        export CFLAGS="-arch x86_64"
-        export FFLAGS="-m64"
-        export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -arch x86_64"
+        export CFLAGS="-v -Wall -m64"
         export CC="gcc"
-        export CXX="g++ -arch x86_64"
+        export CXX="g++"
     fi
 
 }
