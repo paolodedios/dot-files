@@ -61,7 +61,7 @@ function check_deps()
 }
 
 # Update emacs configuration files
-function update_emacs()
+function update_emacs_environment()
 {
     if [ -e ~/.snippets ]; then
         check_list "Shared Emacs YASnippet files already installed"
@@ -86,7 +86,7 @@ function update_emacs()
 }
 
 # Update Python configuration files
-function update_dev_environment()
+function update_python_environment()
 {
     if [ -e ~/.pip/pip.conf ]; then
         check_list "Shared pip configuration already installed"
@@ -110,16 +110,6 @@ function update_dev_environment()
         mkdir -p ~/.buildout
         ln -s ~/.bin.shared/etc/python/buildout.conf ~/.buildout/default.cfg
     fi
-
-    if [ -e ~/.vagrant.d/Vagrantfile ]; then
-        check_list "Shared Vagrantfile configuration already installed"
-    else
-        check_list "Sym-linking shared Vagrantfile to home directory"
-        mkdir -p ~/.vagrant.d
-        ln -s ~/.bin.shared/etc/vagrant/Vagrantfile ~/.vagrant.d/Vagrantfile
-    fi
-
-    update_emacs
 }
 
 
@@ -142,7 +132,32 @@ function update_deployment_environment()
         check_list "Sym-linking shared Boto configuration to home directory"
         ln -s ~/.bin.shared/etc/aws/boto.conf ~/.boto
     fi
+
+    if [ -e ~/.ansible.cfg ]; then
+        check_list "Shared ansible configuration already installed"
+    else
+        check_list "Sym-linking shared ansible configuration to home directory"
+        ln -s ~/.bin.shared/etc/ansible/ansible.conf ~/.ansible.cfg
+    fi
+
+    if [ -e ~/.vagrant.d/Vagrantfile ]; then
+        check_list "Shared Vagrantfile configuration already installed"
+    else
+        check_list "Sym-linking shared Vagrantfile to home directory"
+        mkdir -p ~/.vagrant.d
+        ln -s ~/.bin.shared/etc/vagrant/Vagrantfile ~/.vagrant.d/Vagrantfile
+    fi
 }
+
+
+# Update development environment
+function update_dev_environment()
+{
+    update_python_environment
+
+    update_emacs_environment
+}
+
 
 # Update home directory
 function update_home()
@@ -256,11 +271,11 @@ fi
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
     update_home
-elif [ "$1" == "--devenv" -o "$1" == "-d" ]; then
+elif [ "$1" == "--dev" -o "$1" == "-d" ]; then
     update_dev_environment
     update_deployment_environment
 elif [ "$1" == "--emacs" -o "$1" == "-e" ]; then
-    update_emacs
+    update_emacs_environment
 elif [ "$1" == "--backup" -o "$1" == "-b" ]; then
     backup_home
 else
@@ -276,7 +291,9 @@ fi
 
 unset backup_home
 unset update_home
-unset update_emacs
+unset update_dev_environment
+unset update_deployment_environment
+unset update_emacs_environment
 
 cd $current_pwd
 
