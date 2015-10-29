@@ -558,10 +558,11 @@ function urlencode()
 function geturl()
 {
     curl --connect-timeout 15   \
-         --max-time 10          \
-         --retry 50             \
+         --limit-rate 2M        \
+         --max-time 3600        \
+         --retry 999            \
          --retry-delay 2        \
-         --retry-max-time 60    \
+         --retry-max-time 0     \
          --location             \
          --remote-name          \
          --continue-at -        \
