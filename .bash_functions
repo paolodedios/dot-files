@@ -553,13 +553,14 @@ function urlencode()
 }
 
 # Download file from URL and save locally using it's remote file name; resume
-# broken downloads automatically, retry up 5 times with exponential backoff,
-# follow location redirects.
+# broken downloads automatically, retry up to 999 times with exponential backoff,
+# follow location redirects; limit download rate to 2MB/sec; alot 8 hours to
+# the download before cancelling; do not timeout the retries.
 function geturl()
 {
     curl --connect-timeout 15   \
          --limit-rate 2M        \
-         --max-time 3600        \
+         --max-time 28800       \
          --retry 999            \
          --retry-delay 2        \
          --retry-max-time 0     \
