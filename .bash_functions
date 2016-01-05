@@ -522,7 +522,7 @@ function dataurl()
 }
 
 # Scrape a URL using wget
-function getwebsite()
+function getwebpath()
 {
     wget --recursive --level=inf --page-requisites --no-parent --no-clobber --wait=1 $1
 }
