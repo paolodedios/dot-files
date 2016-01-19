@@ -314,7 +314,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun current-active-region-pos ()
-  "Vertically align region - used to align arg list variables and commas"
+  "Return position of the current word or the current text selection"
   (interactive)
   (let (pos1 pos2 bds)
     (if (region-active-p)
@@ -343,7 +343,7 @@
 
 
 (defun align-stacked-c-funcall (current-region-begin current-region-end)
-  "Vertically align region - used to align stacked list commas"
+  "Vertically align region - used to align stacked function calls"
   (interactive "r")
   (align-regexp current-region-begin
                 current-region-end
@@ -355,7 +355,7 @@
   )
 
 (defun align-stacked-c-param-delimiters (current-region-begin current-region-end)
-  "Vertically align region - used to align stacked list commas"
+  "Vertically align region - used to align stacked parameter commas"
   (interactive "r")
   (align-regexp current-region-begin
                 current-region-end
@@ -367,7 +367,7 @@
   )
 
 (defun align-stacked-c-param-names (current-region-begin current-region-end)
-  "Vertically align region - used to align stacked arg list param names"
+  "Vertically align region - used to align stacked arg list parameter names"
   (interactive "r")
   (align-regexp current-region-begin
                 current-region-end

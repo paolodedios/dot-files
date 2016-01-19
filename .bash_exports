@@ -100,18 +100,6 @@ function set_shared_dev_environment_vars()
         # Create shared data PATH variable
         export SHARED_LOG_PATH=$SHARED_APP_HOME/var/log
         export SHARED_DATA_PATH=$SHARED_APP_HOME/var/data
-
-        # Add work directory for Packer.
-        #
-        # When debugging the packer build process, set the
-        # environment variable PACKER_LOG=1. The log output
-        # will be displayed via stdout but can be optionally
-        # redirected to a file via PACKER_LOG_PATH
-        #
-        # http://www.packer.io/docs/other/debugging.html
-        #
-        export PACKER_CACHE_DIR=$SHARED_DATA_PATH/packer/cache
-        export PACKER_BUILD_DIR=$SHARED_DATA_PATH/packer/build
     fi
 }
 
@@ -177,6 +165,18 @@ function set_local_dev_environment_vars()
         # Create shared data PATH variable
         export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
         export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
+
+        # Add work directory for Packer.
+        #
+        # When debugging the packer build process, set the
+        # environment variable PACKER_LOG=1. The log output
+        # will be displayed via stdout but can be optionally
+        # redirected to a file via PACKER_LOG_PATH
+        #
+        # http://www.packer.io/docs/other/debugging.html
+        #
+        export PACKER_CACHE_DIR=$LOCAL_DATA_PATH/packer/cache
+        export PACKER_BUILD_DIR=$LOCAL_DATA_PATH/packer/build
     fi
 }
 
@@ -186,7 +186,7 @@ function set_python_environment_vars()
     if [ -e `type -p virtualenvwrapper.sh` ]; then
 
         # Set virtualenv working directory
-        export WORKON_HOME=$SHARED_APP_HOME/bin/python/virtualenvs
+        export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
 
         # Make pip use the same directory for virtualenvs as virtualenvwrapper
         export PIP_VIRTUALENV_BASE=$WORKON_HOME
@@ -198,6 +198,10 @@ function set_python_environment_vars()
         # having to pass it the -E parameter
         export PIP_RESPECT_VIRTUALENV=true
 
+        # Set PIP_CERT to the self-signed certificate for the local devpi PyPi server
+        export PIP_CERT="$HOME/.bin.shared/etc/python/pypi.cert.crt"
+        export REQUESTS_CA_BUNDLE="$PIP_CERT"
+
         # Ensure that the MacPorts versions of Python and virtualenv are used
         # for all virtualenv sessions.
         export VIRTUALENVWRAPPER_PYTHON=/opt/local/bin/python
@@ -208,6 +212,15 @@ function set_python_environment_vars()
         # argument for virtualenv
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
     fi
+
+    # NLTK data location used by the command
+    #
+    #    $ python -m nltk.downloader all
+    #
+    # to install corpora, models, and tokenizers
+    #
+    # @see http://www.nltk.org/data.html for details
+    export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
 }
 
 function set_c_environment_vars()
@@ -224,11 +237,9 @@ function set_c_environment_vars()
         export CXX="g++ -arch i386 -arch x86_64"
     else
         # Build only x86_64 architecture
-        export CFLAGS="-arch x86_64"
-        export FFLAGS="-m64"
-        export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -arch x86_64"
+        export CFLAGS="-v -Wall -m64"
         export CC="gcc"
-        export CXX="g++ -arch x86_64"
+        export CXX="g++"
     fi
 
 }
@@ -258,7 +269,7 @@ function set_cuda_environment_vars()
     # @see http://docs.nvidia.com/cuda/index.html
     #
     if [ "$OS" = "darwin" ]; then
-        export LOCAL_CUDA_HOME=/Developer/NVIDIA/CUDA-6.5
+        export LOCAL_CUDA_HOME=/Developer/NVIDIA/CUDA-7.0
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib
 
@@ -268,7 +279,7 @@ function set_cuda_environment_vars()
         fi
 
     else
-        export LOCAL_CUDA_HOME=/usr/local/cuda-6.5
+        export LOCAL_CUDA_HOME=/usr/local/cuda-7.0
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib64
 

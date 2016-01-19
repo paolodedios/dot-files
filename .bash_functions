@@ -83,6 +83,18 @@ function git_pull_upstream()
     git pull upstream master "$1"
 }
 
+# Discard all local changes in the current branch
+function git_reset_branch()
+{
+    git checkout -- .
+}
+
+# Discard all local changes to a file
+function git_discard_changes()
+{
+    git checkout -- "$1"
+}
+
 # Use Git's colored diff when available
 hash git &>/dev/null
 if [ $? -eq 0 ]; then
@@ -167,6 +179,20 @@ py_virtualenv_check()
                 mkvirtualenv $PYTHON_VIRTUALENV_SELECTION
             else
                 workon $PYTHON_VIRTUALENV_SELECTION
+            fi
+
+            if [ -e .requirements.txt ]; then
+                # Warn user of package install/update
+                echo "With virtualenv deps :"
+
+                # Print package listing, excluding comment lines, and pipe to
+                # sed again to add indenting spaces
+                sed -e '/^[[:space:]]*$/d' -e '/^[[:space:]]*#/d' .requirements.txt | sed  's/^/	/'
+
+                # Quitely install/upgrade packages.
+                # Redirect warnings and other stdout messages to "1> /dev/null"
+                # but don't redirect stderr "2>&1 1> /dev/null"
+                pip install -U -r .requirements.txt 1> /dev/null
             fi
         fi
     fi
@@ -325,7 +351,7 @@ function fstr()
 # Global search and replace on a directory tree
 function gsr
 {
-    find . -type f -exec sed -i '' s/$1/$2/g {} +
+    find . -type f -exec sed -i '' "s/$1/$2/g" {} +
 }
 
 # Skip the first n lines in a file
@@ -427,14 +453,8 @@ function unique()
 
 
 ########################################################################################
-# Internet/web helpers
+# Text encoding helpers
 ########################################################################################
-
-# All the dig info
-function digall()
-{
-	dig +nocmd "$1" any +multiline +noall +answer
-}
 
 # Escape UTF-8 characters into their 3-byte format
 function escape()
@@ -457,6 +477,11 @@ function codepoint()
 	echo # newline
 }
 
+
+########################################################################################
+# Image helpers
+########################################################################################
+
 # Image width
 function width ()
 {
@@ -468,6 +493,10 @@ function height ()
 {
   echo $(sips -g pixelHeight $1 | grep -oE "[[:digit:]]{1,}$")
 }
+
+########################################################################################
+# Internet/web helpers
+########################################################################################
 
 # Syntax-highlight JSON strings or files
 # Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
@@ -493,7 +522,7 @@ function dataurl()
 }
 
 # Scrape a URL using wget
-function getwebsite()
+function getwebpath()
 {
     wget --recursive --level=inf --page-requisites --no-parent --no-clobber --wait=1 $1
 }
@@ -521,6 +550,30 @@ function list-ipaddrs()
 function urlencode()
 {
     python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"
+}
+
+# Download file from URL and save locally using it's remote file name; resume
+# broken downloads automatically, retry up to 999 times with exponential backoff,
+# follow location redirects; limit download rate to 2MB/sec; alot 8 hours to
+# the download before cancelling; do not timeout the retries.
+function geturl()
+{
+    curl --connect-timeout 15   \
+         --limit-rate 2M        \
+         --max-time 28800       \
+         --retry 999            \
+         --retry-delay 2        \
+         --retry-max-time 0     \
+         --location             \
+         --remote-name          \
+         --continue-at -        \
+         $1
+}
+
+# All the dig info
+function digall()
+{
+	dig +nocmd "$1" any +multiline +noall +answer
 }
 
 ########################################################################################

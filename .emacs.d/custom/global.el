@@ -231,10 +231,17 @@
 (highlight-current-line-on                    t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Save cursor place for all files
+;; Save cursor point placement for all files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'saveplace)
 
-(setq save-place-file      "~/.emacs.saveplace")
-(setq-default save-place   t                   )
+(setq save-place-file      "~/.emacs.sessions/saveplace")
+(setq-default save-place   t                            )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Save editing sessions by name
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'desktop)
+(require 'nameses)

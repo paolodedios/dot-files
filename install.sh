@@ -40,7 +40,7 @@ function error_list()
 }
 
 # Check for dependency
-function dep()
+function check_deps()
 {
     # Check installed
     local i=true
@@ -61,8 +61,15 @@ function dep()
 }
 
 # Update emacs configuration files
-function updateEmacs()
+function update_emacs_environment()
 {
+    if [ -e ~/.snippets ]; then
+        check_list "Shared Emacs YASnippet files already installed"
+    else
+        check_list "Sym-linking shared Emacs YASnippet files to home directory"
+        ln -s ~/.bin.shared/etc/snippets ~/.snippets
+    fi
+
     # Delete files that do not exist in the source repo
     check_list "Synchronizing Emacs configuration directory [~/.emacs.d]"
     rsync --exclude ".git/"        \
@@ -78,8 +85,82 @@ function updateEmacs()
     fi
 }
 
+# Update Python configuration files
+function update_python_environment()
+{
+    if [ -e ~/.pip/pip.conf ]; then
+        check_list "Shared pip configuration already installed"
+    else
+        check_list "Sym-linking shared pip.conf to home directory"
+        mkdir -p ~/.pip
+        ln -s ~/.bin.shared/etc/python/pip.conf ~/.pip/pip.conf
+    fi
+
+    if [ -e ~/.pydistutils.cfg ]; then
+        check_list "Shared setup_tools configuration already installed"
+    else
+        check_list "Sym-linking shared pydistutils.cfg to home directory"
+        ln -s ~/.bin.shared/etc/python/pydistutils.conf ~/.pydistutils.cfg
+    fi
+
+    if [ -e ~/.buildout/default.cfg ]; then
+        check_list "Shared zc.buildout configuration already installed"
+    else
+        check_list "Sym-linking shared buildout.cfg to home directory"
+        mkdir -p ~/.buildout
+        ln -s ~/.bin.shared/etc/python/buildout.conf ~/.buildout/default.cfg
+    fi
+}
+
+
+# Update deployment environment tooling related files
+function update_deployment_environment()
+{
+    # AWS credential files is the standard mechanism for sharing credentials
+    # between AWS SDKs, including non-Amazon ones like Boto
+    if [ -e ~/.aws/credentials ]; then
+        check_list "Shared AWS credentials already installed"
+    else
+        check_list "Sym-linking shared AWS credentials to home directory"
+        mkdir -p ~/.aws
+        ln -s ~/.bin.shared/etc/aws/credentials.conf ~/.aws/credentials
+    fi
+
+    if [ -e ~/.boto ]; then
+        check_list "Shared Boto configuration already installed"
+    else
+        check_list "Sym-linking shared Boto configuration to home directory"
+        ln -s ~/.bin.shared/etc/aws/boto.conf ~/.boto
+    fi
+
+    if [ -e ~/.ansible.cfg ]; then
+        check_list "Shared ansible configuration already installed"
+    else
+        check_list "Sym-linking shared ansible configuration to home directory"
+        ln -s ~/.bin.shared/etc/ansible/ansible.conf ~/.ansible.cfg
+    fi
+
+    if [ -e ~/.vagrant.d/Vagrantfile ]; then
+        check_list "Shared Vagrantfile configuration already installed"
+    else
+        check_list "Sym-linking shared Vagrantfile to home directory"
+        mkdir -p ~/.vagrant.d
+        ln -s ~/.bin.shared/etc/vagrant/Vagrantfile ~/.vagrant.d/Vagrantfile
+    fi
+}
+
+
+# Update development environment
+function update_dev_environment()
+{
+    update_python_environment
+
+    update_emacs_environment
+}
+
+
 # Update home directory
-function updateHome()
+function update_home()
 {
     notice "Synchronizing configuration files"
 
@@ -99,13 +180,22 @@ function updateHome()
         rm -f ~/.profile
     fi
 
-    updateEmacs
+    if [ -e ~/.ssh ]; then
+        check_list "Shared SSH configuration already installed"
+    else
+        check_list "Sym-linking shared SSH configuration to home directory"
+        ln -s ~/.bin.shared/etc/ssh ~/.ssh
+    fi
+
+    update_dev_environment
+
+    update_deployment_environment
 
     check_list "Synchronize complete"
 }
 
 # Update home directory
-function backupHome()
+function backup_home()
 {
     notice "Backing up configuration files"
     check_list "Backup complete"
@@ -127,8 +217,8 @@ cd "$(dirname "$0")"
 
 notice "Checking dependencies"
 
-dep "git"   "1.7"
-dep "rsync" "3.0"
+check_deps "git"   "1.7"
+check_deps "rsync" "3.0"
 
 if [ "${#missing[*]}" -gt "0" ]; then
 
@@ -151,31 +241,59 @@ else
     error_list  "Drobox folder missing"
 fi
 
+if [ -d ~/.bin.shared/bin ]; then
+    check_list "Shared bin folder found"
+else
+    error_list "Shared bin folder missing"
+fi
+
+if [ -d ~/.bin.shared/etc ]; then
+    check_list "Shared etc folder found"
+else
+    error_list "Shared etc folder missing"
+fi
+
+if [ -d ~/.bin.shared/include ]; then
+    check_list "Shared include folder found"
+else
+    error_list "Shared include folder missing"
+fi
+
+if [ -d ~/.bin.shared/lib ]; then
+    check_list "Shared lib folder found"
+else
+    error_list "Shared lib folder missing"
+fi
 
 ########################################################################################
 # Install scripts
 ########################################################################################
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
-    updateHome
+    update_home
+elif [ "$1" == "--dev" -o "$1" == "-d" ]; then
+    update_dev_environment
+    update_deployment_environment
 elif [ "$1" == "--emacs" -o "$1" == "-e" ]; then
-    updateEmacs
+    update_emacs_environment
 elif [ "$1" == "--backup" -o "$1" == "-b" ]; then
-    backupHome
+    backup_home
 else
 	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
-        updateHome
+        update_home
     else
         error "Aborted"
         exit 1
     fi
 fi
 
-unset backupHome
-unset updateHome
-unset updateEmacs
+unset backup_home
+unset update_home
+unset update_dev_environment
+unset update_deployment_environment
+unset update_emacs_environment
 
 cd $current_pwd
 

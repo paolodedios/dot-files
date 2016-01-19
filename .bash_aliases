@@ -45,9 +45,11 @@ alias hgstat="hg status"
 alias gitstat="git status"
 alias gitaddup="git_add_upstream"
 alias gitpullup="git_pull_upstream"
+alias gitreset="git_reset_branch"
+alias gitdiscard="git_discard_changes"
 
 ########################################################################################
-# Basic ommand aliases
+# Basic command aliases
 ########################################################################################
 
 alias jj="jobs -l"
@@ -62,23 +64,19 @@ alias which="type -a"
 alias whichpath="type -p"
 
 ########################################################################################
-# Path lookups
-########################################################################################
-
-alias path="echo -e ${PATH//:/\\n}"
-alias libpath="echo -e ${LD_LIBRARY_PATH//:/\\n}"
-
-########################################################################################
 # Directory navigation; @see .bash_marks
 ########################################################################################
 
+# Override the builtin cd with a py virtualenv facade
 alias cd="py_virtualenv_cd"
 alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-alias .="echo $PWD"
+
+# Alias the builtin cd command
+alias bcd="builtin cd"
 
 # Tail system log
 alias systail="tail -f /var/log/system.log"
@@ -201,6 +199,18 @@ alias python_select="sudo port select --set python"
 # Create a new virtual environment
 alias pymkenv="mkvirtualenv"
 
+# Create a new python 2.6 virtual environment
+alias py26mkenv="mkvirtualenv --python=/opt/local/bin/python2.6"
+
+# Create a new python 2.7 virtual environment
+alias py27mkenv="mkvirtualenv --python=/opt/local/bin/python2.7"
+
+# Create a new python 3.3 virtual environment
+alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.3"
+
+# Create a new python 3.4 virtual environment
+alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.4"
+
 # Switch to a specific virtual environment
 alias pystartenv="workon"
 
@@ -226,11 +236,16 @@ alias pylsenvpkgs="lssitepackages"
 alias pyupdatepkgs='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U'
 
 # Generate python package list
-alias pylspkgs="pip freeze --local > requirements.txt"
+alias pyfreezepkgs="pip freeze --local | grep -v '^\-e' > requirements.txt"
 
 # Install python packages from list
 alias pyinstallpkgs="pip install -r"
 
+# Upgrade specific package
+alias pyupdate='pip install -U'
+
+# Check and activate an environment specified in the current directory
+alias pycheckenv="py_virtualenv_check"
 
 ########################################################################################
 # Java related aliases
@@ -270,9 +285,6 @@ if [ "$OS" = "darwin" ]; then
 
     # Copy emacs configuration to Aquamacs pref directory
     alias refreshaquamacsconfig="cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el"
-
-    # Multiprocess Aquamacs Alias
-    alias aquamacs="open -n /Applications/Aquamacs.app"
 
     # Open file in the current Aquamacs window
     alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"
