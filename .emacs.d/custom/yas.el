@@ -97,6 +97,26 @@
           '(lambda ()
              (yas-minor-mode-on)))
 
+;; enable yasnippet for js2-mode
+(add-hook 'js2-mode-hook
+          '(lambda ()
+             (yas-minor-mode-on)))
+
+;; enable yasnippet for js-mode
+(add-hook 'js-mode-hook
+          '(lambda ()
+             (yas-minor-mode-on)))
+
+;; enable yasnippet for javascript-mode
+(add-hook 'javascript-mode-hook
+          '(lambda ()
+             (yas-minor-mode-on)))
+
+;; enable yasnippet for coffeescript-mode
+(add-hook 'coffee-mode-hook
+          '(lambda ()
+             (yas-minor-mode-on)))
+
 ;; enable yasnippet for scala-mode
 (add-hook 'scala-mode-hook
           '(lambda ()
@@ -164,5 +184,10 @@
 
 ;; enable yasnippet for markdown-mode
 (add-hook 'markdown-mode-hook
+          '(lambda ()
+             (yas-minor-mode-on)))
+
+;; enable yasnippet for web-mode
+(add-hook 'web-mode-hook
           '(lambda ()
              (yas-minor-mode-on)))
