@@ -180,11 +180,11 @@
              (setq indent-tabs-mode                nil)
 
              (setq js2-use-font-lock-faces           t)
-             (setq js2-highlight-level               3)
+             (setq js2-highlight-level               4)
 
              ;; additional js2-mode indent sexp
              ;; incompatible with js2-mode from https://github.com/mooz/js2-mode
-             ;;(set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
+             ;; (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
 
              ;; enable highlight-vars-mode
              (if (featurep 'js2-highlight-vars)  (js2-highlight-vars-mode))
@@ -205,6 +205,12 @@
              )
           )
 
+
+(add-hook 'js-mode-hook  'js2-minor-mode)
+
+;; Available on later versions of js2-mode
+;; (add-hook 'js2-mode-hook 'ac-js2-mode   )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -217,70 +223,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq auto-mode-alist (append '(("\\.js$"       . js2-mode          )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.jsx$"      . js2-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.json$"     . js-mode           )) auto-mode-alist))
 
 ;; add node-js to interpreter list
-(add-to-list 'interpreter-mode-alist '("node" . js2-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load the javacsript-mode package (for mmm-mode)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'javascript-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set javascript-mode MMM submode indentation function override
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; javascript-mode indentation breaks under Emacs 22 and MMM
-;; This is a custom indentation function for exclusive use with
-;; javascript-mode in MMM
-
-(defun my-javascript-mmm-indent-sexp ()
-  (interactive)
-  (save-restriction
-    (widen)
-    (let* ((inhibit-point-motion-hooks t)
-           (parse-status (save-excursion (syntax-ppss (point-at-bol))))
-           (offset (- (current-column) (current-indentation)))
-           (indentation (js--proper-indentation parse-status))
-           node)
-
-      (save-excursion
-        ;; I like to indent case and labels to half of the tab width
-        (back-to-indentation)
-        (if (looking-at "case\\s-")
-            (setq indentation (+ indentation (/ js-indent-level 2))))
-        )
-
-      (indent-line-to indentation)
-      (when (> offset 0) (forward-char offset))
-
-      )
-    )
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Javascript hook section, called on entry of javascript-mode in MMM
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'javascript-mode-hook
-          '(lambda ()
-             (require 'js)
-             ;; toggle major mode editor options
-             (show-paren-mode                        t)
-             (c-toggle-auto-state                    1)
-             (c-toggle-hungry-state                  1)
-             (auto-fill-mode                         1)
-             (show-paren-mode                        t)
-             (subword-mode                           1)
-             (setq fill-column                      80)
-             (setq c-basic-offset                    4)
-             (setq tab-width                         4)
-             (setq indent-tabs-mode                nil)
-             (set (make-local-variable 'indent-line-function) 'my-javascript-mmm-indent-sexp)
-             ;; set programming style and force c-mode so that Emacs allows c-set-style
-             (c-add-style "sourcery" my-javascript-mode-programming-style t)
-             (c-set-style "sourcery")
-             )
-          )
+(add-to-list 'interpreter-mode-alist '("node"   . js2-mode))
