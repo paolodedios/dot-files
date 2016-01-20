@@ -153,9 +153,6 @@
 (setq auto-mode-alist (append '(("\\.html$"     . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.vrml$"     . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.st$"       . sgml-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.jsp$"      . sgml-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.phtml$"    . sgml-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.phps$"     . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.incl$"     . sgml-mode         )) auto-mode-alist))
 
 (setq auto-mode-alist (append '(("\\.rng$"      . xml-mode          )) auto-mode-alist))
