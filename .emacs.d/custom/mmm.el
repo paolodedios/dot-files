@@ -218,8 +218,6 @@
 (add-to-list 'mmm-mode-ext-classes-alist '(html-mode  nil   html-css ))
 
 ;; What features should be turned on in this multi-mode
-(mmm-add-mode-ext-class  'sgml-mode  "\\.php[34]?\\'"  'html-php )
-(mmm-add-mode-ext-class  'sgml-mode  "\\.jsp\\'"       'html-jsp )
 (mmm-add-mode-ext-class  'sgml-mode  "\\.html\\'"      'html-js  )
 (mmm-add-mode-ext-class  'sgml-mode  "\\.vm\\'"        'html-js  )
 (mmm-add-mode-ext-class  'xml-mode   "\\.xul\\'"       'xul-js   )
