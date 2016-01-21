@@ -29,8 +29,8 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; By default Emacs doesn't include subdirectories of a directory in the
-;; load-path.
+;; Ensure subdirectories are scanned, since Emacs doesn't include subdirectories
+;; of a directory in the load-path by default.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
