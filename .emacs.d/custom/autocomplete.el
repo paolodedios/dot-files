@@ -27,15 +27,20 @@
 
 ;; Enable specifc modes for auto-complete
 (setq ac-modes '(emacs-lisp-mode
+                 lisp-mode
                  lisp-interaction-mode
-                 cc-mode
                  c-mode
+                 cc-mode
                  c++-mode
+                 go-mode
                  objc-mode
                  java-mode
                  scala-mode
                  clojure-mode
+                 clojurescript-mode
                  css-mode
+                 scss-mode
+                 less-css-mode
                  ecmascript-mode
                  javascript-mode
                  js-mode
@@ -44,16 +49,22 @@
                  ocaml-mode
                  tuareg-mode
                  perl-mode
+                 cperl-mode
                  php-mode
                  python-mode
                  ruby-mode
+                 lua-mode
+                 tcl-mode
                  sql-mode
                  sh-mode
                  xml-mode
                  sgml-mode
+                 web-mode
                  text-mode
+                 apples-mode
                  )
       )
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Adjust key bindings and triggers
