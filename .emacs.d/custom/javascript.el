@@ -208,7 +208,7 @@
 
 (add-hook 'js-mode-hook  'js2-minor-mode)
 
-;; Available on later versions of js2-mode
+;; @see https://github.com/ScottyB/ac-js2
 ;; (add-hook 'js2-mode-hook 'ac-js2-mode   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
