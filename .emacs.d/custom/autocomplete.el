@@ -42,7 +42,6 @@
                  scss-mode
                  less-css-mode
                  ecmascript-mode
-                 javascript-mode
                  js-mode
                  js2-mode
                  makefile-mode
@@ -74,7 +73,7 @@
 ;;
 ;; Completion can be stopped by pressing C-g at any time. Hitting C-g and RET
 ;; will enter a newline with the autocomplete bindings of RET intact. Also
-;; C-j can be used instead of  RET when entering a newline. C-j is not bound to
+;; C-j can be used instead of RET when entering a newline. C-j is not bound to
 ;; to ac-complete by default.
 (ac-set-trigger-key               "TAB"       )
 
