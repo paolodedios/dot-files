@@ -58,6 +58,7 @@
 (load "custom/go")
 (load "custom/ocaml")
 
+(load "custom/mmm")
 (load "custom/web")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
