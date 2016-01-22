@@ -29,7 +29,7 @@
  'html-js
  '(
    (js-script
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<script[^>]*>[ \t]*\n?"
     :back "[ \t]*</script>"
@@ -37,7 +37,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-script-cdata
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<script[^>]*>[ \t\n]*<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*]]>[ \t\n]*</script>"
@@ -45,7 +45,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-cdata-only
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*]]>[ \t\n]*"
@@ -53,7 +53,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-inline
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "on\w+=\""
     :back "\""
@@ -99,7 +99,7 @@
  'xul-js
  '(
    (js-methodbody-cdata
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<body[^>]*>[ \t\n]*<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*]]>[ \t\n]*</body>"
@@ -107,7 +107,7 @@
                  @ "\n" _ "\n" @ "</method>" @))
     )
    (js-methodbody
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<body[^>]*>[ \t]*\n?"
     :back "[ \t]*</body>"
@@ -115,7 +115,7 @@
                  @ "\n" _ "\n" @ "</method>" @))
     )
    (js-script-cdata
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<script[^>]*>[ \t\n]*<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*]]>[ \t\n]*</script>"
@@ -123,7 +123,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-script
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<script[^>]*>[ \t]*\n?"
     :back "[ \t]*</script>"
@@ -131,7 +131,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-getter-cdata
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<getter[^>]*>[ \t\n]*<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*]]>[ \t\n]*</getter>"
@@ -139,7 +139,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-setter-cdata
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<setter[^>]*>[ \t\n]*<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*]]>[ \t\n]*</setter>"
@@ -147,7 +147,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-getter
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<getter[^>]*>[ \t]*\n?"
     :back "[ \t]*</getter>"
@@ -155,7 +155,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-setter
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<setter[^>]*>[ \t]*\n?"
     :back "[ \t]*</setter>"
@@ -163,7 +163,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-cdata-only
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "<!\\[CDATA\\[[ \t]*\n?"
     :back "[ \t]*]]>[ \t\n]*"
@@ -171,7 +171,7 @@
                  @ "\n" _ "\n" @ "</script>" @))
     )
    (js-inline
-    :submode javascript-mode
+    :submode js
     :face mmm-code-submode-face
     :front "on\w+=\""
     :back "\"")
@@ -204,6 +204,109 @@
    )
  )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load the javascript-mode package (for mmm-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'js)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Javascript style (for mmm-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defconst my-js-mode-programming-style
+  ;; hanging brace setup
+  '((c-hanging-braces-alist .
+                            ((brace-list-open                    after)
+                             (brace-entry-open                   after)
+                             (substatement-open                 before)
+                             (block-close            . c-snug-do-while)
+                             (extern-lang-open                   after)
+                             (inexpr-class-open                  after)
+                             (inexpr-class-close                before)
+                             ))
+    ;; cleanup shortcuts
+    (c-cleanup-list         .
+                            ((brace-else-brace                        )
+                             (brace-elseif-brace                      )
+                             (brace-catch-brace                       )
+                             (list-close-comma                        )
+                             ))
+    ;; indentation offsets
+    (c-offsets-alist        .
+                            ((access-label                         . 0)
+                             (inline-open                          . 0)
+                             (substatement-open                    . 0)
+                             (statement-block-intro                . +)
+                             (block-close                          . 0)
+                             (do-while-closure                     . 0)
+                             (case-label                           . +)
+                             (statement-case-intro                 . +)
+                             (statement-cont c-lineup-cascaded-calls +)
+                             (stream-op                            . c-lineup-streamop)
+                             ))
+    (c-lineup-math                   1)
+    (c-lineup-inexpr-block           1)
+
+    ) "My Javascript Programming Style")
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Set js-mode MMM submode indentation function override
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; js-mode indentation breaks under Emacs 22 and MMM
+;; This is a custom indentation function for exclusive use with
+;; js-mode in MMM
+
+(defun my-js-mmm-indent-sexp ()
+  (interactive)
+  (save-restriction
+    (widen)
+    (let* ((inhibit-point-motion-hooks t)
+           (parse-status (save-excursion (syntax-ppss (point-at-bol))))
+           (offset (- (current-column) (current-indentation)))
+           (indentation (js--proper-indentation parse-status))
+           node)
+
+      (save-excursion
+        ;; I like to indent case and labels to half of the tab width
+        (back-to-indentation)
+        (if (looking-at "case\\s-")
+            (setq indentation (+ indentation (/ js-indent-level 2))))
+        )
+
+      (indent-line-to indentation)
+      (when (> offset 0) (forward-char offset))
+
+      )
+    )
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Javascript hook section, called on entry of js-mode in MMM
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'js-mode-hook
+          '(lambda ()
+             (require 'js)
+             ;; toggle major mode editor options
+             (show-paren-mode                        t)
+             (c-toggle-auto-state                    1)
+             (c-toggle-hungry-state                  1)
+             (auto-fill-mode                         1)
+             (show-paren-mode                        t)
+             (subword-mode                           1)
+             (setq fill-column                      80)
+             (setq c-basic-offset                    4)
+             (setq tab-width                         4)
+             (setq indent-tabs-mode                nil)
+             (set (make-local-variable 'indent-line-function) 'my-js-mmm-indent-sexp)
+             ;; set programming style and force c-mode so that Emacs allows c-set-style
+             (c-add-style "sourcery" my-js-mode-programming-style t)
+             (c-set-style "sourcery")
+             )
+          )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; MMM hook section, called on entry of mmm-mode
