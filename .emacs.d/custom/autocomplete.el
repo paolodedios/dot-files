@@ -42,7 +42,6 @@
                  scss-mode
                  less-css-mode
                  ecmascript-mode
-                 js-mode
                  js2-mode
                  makefile-mode
                  ocaml-mode
