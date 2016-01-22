@@ -97,18 +97,13 @@
           '(lambda ()
              (yas-minor-mode-on)))
 
-;; enable yasnippet for js2-mode
-(add-hook 'js2-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
 ;; enable yasnippet for js-mode
 (add-hook 'js-mode-hook
           '(lambda ()
              (yas-minor-mode-on)))
 
-;; enable yasnippet for javascript-mode
-(add-hook 'javascript-mode-hook
+;; enable yasnippet for js2-mode
+(add-hook 'js2-mode-hook
           '(lambda ()
              (yas-minor-mode-on)))
 

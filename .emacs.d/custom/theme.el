@@ -118,7 +118,7 @@
                (c++-mode              . t)
                (c-mode                . t)
                (objc-mode             . t)
-               (javascript-mode       . t)
+               (js-mode               . t)
                (js2-mode              . t)
                (coffee-mode           . t)
                (css-mode              . t)
