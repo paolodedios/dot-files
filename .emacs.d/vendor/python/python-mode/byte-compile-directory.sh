@@ -21,7 +21,7 @@
 # Code:
 
 
-# the path
+# the path 
 PDIR=`pwd`
 
 # python-mode file to load
@@ -36,3 +36,5 @@ EMACS=emacs
 PYMACSDIR=Pymacs
 
 $EMACS -Q --batch --eval "(message (emacs-version))" --eval "(when (featurep 'python-mode)(unload-feature 'python-mode t))" --eval "(add-to-list 'load-path \"$PDIR/\")" --eval "(add-to-list 'load-path \"$PYMACSDIR/\")" -load "$PDIR/$PYTHONMODE" --eval '(byte-recompile-directory default-directory 1 t)'
+
+
