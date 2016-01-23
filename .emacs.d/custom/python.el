@@ -12,7 +12,6 @@
 (setq py-install-directory "~/.emacs.d/vendor/python/python-mode")
 
 (require 'python-mode)
-(require 'virtualenv)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Python hook section, called on entry of Python mode
