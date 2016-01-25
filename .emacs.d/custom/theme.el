@@ -72,6 +72,10 @@
  ;; mode line inactive face
  '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))
 
+ ;; git-gutter+ indicator faces
+ '(git-gutter+-modified ((t (:foreground "yellow"))))
+ '(git-gutter+-added    ((t (:foreground "green"))))
+ '(git-gutter+-deleted  ((t (:foreground "red"))))
  )
 
 

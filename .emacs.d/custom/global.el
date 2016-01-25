@@ -132,6 +132,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set some limits on history lists
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq kill-ring-max                         500)
 (setq extended-command-history-max           50)
 (setq query-replace-history-max              50)
@@ -237,6 +238,18 @@
 (require 'highlight-indentation)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable git diff indicators in the gutter
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'git-gutter+)
+(require 'git-gutter-fringe+)
+
+(global-git-gutter+-mode)
+
+(setq-default right-fringe-width   20          )
+(setq git-gutter-fr+-side         'right-fringe)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Save cursor point placement for all files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -244,6 +257,18 @@
 
 (setq save-place-file      "~/.emacs.sessions/saveplace")
 (setq-default save-place   t                            )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable abbrev mode for modes that use it
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq abbrev-file-name     "~/.snippets/abbrev-mode/abbrevs")
+(setq-default abbrev-mode  t                                )
+(setq save-abbrevs         t                                )
+
+(if (file-exists-p abbrev-file-name)
+    (quietly-read-abbrev-file)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Save editing sessions by name
