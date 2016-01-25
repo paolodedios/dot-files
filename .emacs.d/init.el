@@ -56,9 +56,10 @@
 
 (require 'package)
 
-(add-to-list 'package-archives '("gnu"       . "http://elpa.gnu.org/packages/"       ) t)
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives '("melpa"     . "http://melpa.org/packages/"          ) t)
+(add-to-list 'package-archives '("gnu"          . "http://elpa.gnu.org/packages/"       ) t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"   ) t)
+(add-to-list 'package-archives '("melpa"        . "http://melpa.org/packages/"          ) t)
+(add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/") t)
 
 (package-initialize)
 
@@ -66,8 +67,9 @@
   '(dash
     deferred
     epc
-    git-commit
-    fringe-helper
+    magit
+    git-gutter+
+    git-gutter-fringe+
     )
   "Packages to ensure are installed on startup.")
 
