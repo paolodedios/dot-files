@@ -42,6 +42,44 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Suppress dfunction redefinition warnings from `defadvice` usage by customized
+;; Emacs functions or third-party packages.
+;;
+;; @see http://andrewjamesjohnson.com/suppressing-ad-handle-definition-warnings-in-emacs/
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq ad-redefinition-action 'accept)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load Emacs 24 package management library
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'package)
+
+(add-to-list 'package-archives '("gnu"       . "http://elpa.gnu.org/packages/"       ) t)
+(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa"     . "http://melpa.org/packages/"          ) t)
+
+(package-initialize)
+(when (not package-archive-contents)
+  (package-refresh-contents)
+  )
+
+(defvar package_dependencies
+  '(dash
+    deferred
+    epc
+    git-commit
+    fringe-helper
+    )
+  )
+
+(mapc #'(lambda (package)
+          (unless (package-installed-p package) (package-install package))
+          )
+      package_dependencies)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom configuration settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
