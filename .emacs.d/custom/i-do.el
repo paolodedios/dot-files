@@ -11,13 +11,17 @@
 
 (require 'ido)
 
-(ido-mode                                     t)
-(setq ido-everywhere                          t)
-(setq ido-enable-flex-matching                t)
-(setq ido-case-fold                           t)
-(setq ido-use-filename-at-point          'guess)
-(setq ido-enable-prefix                     nil)
-(setq ido-max-prospects                      10)
+(ido-mode                                      t)
+(setq ido-everywhere                           t)
+(setq ido-enable-flex-matching                 t)
+(setq ido-case-fold                            t)
+(setq ido-create-new-buffer              'always)
+(setq ido-use-filename-at-point           'guess)
+(setq ido-enable-prefix                      nil)
+(setq ido-max-prospects                       10)
+(setq ido-auto-merge-work-directories-length nil)
+(setq ido-use-virtual-buffers                  t)
+(setq ido-handle-duplicate-virtual-buffers     3)
 
 ;; ido file listing order
 (setq ido-file-extensions-order
@@ -26,6 +30,7 @@
         ".clj"
         ".groovy"
         ".js"
+        ".jsx"
         ".coffee"
         ".css"
         ".less"
@@ -33,6 +38,7 @@
         ".html"
         ".xml"
         ".c"
+        ".objc"
         ".cpp"
         ".h"
         ".el"
