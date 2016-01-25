@@ -61,23 +61,36 @@
 (add-to-list 'package-archives '("melpa"     . "http://melpa.org/packages/"          ) t)
 
 (package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents)
-  )
 
-(defvar package_dependencies
+(defvar local-package-deps
   '(dash
     deferred
     epc
     git-commit
     fringe-helper
     )
+  "Packages to ensure are installed on startup.")
+
+(defun local-package-deps-installed-p ()
+  (loop for p in local-package-deps
+        when (not (package-installed-p p)) do (return nil)
+        finally (return t)
+        )
   )
 
-(mapc #'(lambda (package)
-          (unless (package-installed-p package) (package-install package))
-          )
-      package_dependencies)
+(unless (local-package-deps-installed-p)
+  ;; Check for new packages (package versions)
+  (message "%s" "Refreshing package database and checking for updates...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ;; Install the missing packages
+  (dolist (p local-package-deps)
+    (when (not (package-installed-p p))
+      (message "Installing package : %s" p)
+      (package-install p)
+      )
+    )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom configuration settings
