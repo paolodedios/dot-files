@@ -7,7 +7,14 @@
 ;; M-x load-file RET .emacs RET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(message "Loading Emacs customization files...")
+(message "Loading Emacs customization files via init.el.")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Set the correct environment for bash commands
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq shell-file-name          "bash")
+(setq shell-command-switch     "-ic" )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set language constants
@@ -42,84 +49,56 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Suppress dfunction redefinition warnings from `defadvice` usage by customized
+;; Suppress function redefinition warnings from `defadvice` usage by customized
 ;; Emacs functions or third-party packages.
 ;;
-;; @see http://andrewjamesjohnson.com/suppressing-ad-handle-definition-warnings-in-emacs/
+;; @see http://andrewjamesjohnson.com/
+;;      suppressing-ad-handle-definition-warnings-in-emacs/
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq ad-redefinition-action 'accept)
+(setq ad-redefinition-action  'accept)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load Emacs 24 package management library
+;; Load debugger settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'package)
+(load "custom/debug")
 
-(add-to-list 'package-archives '("gnu"          . "http://elpa.gnu.org/packages/"       ) t)
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"   ) t)
-(add-to-list 'package-archives '("melpa"        . "http://melpa.org/packages/"          ) t)
-(add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/") t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load package manager
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(package-initialize)
-
-(defvar local-package-deps
-  '(dash
-    deferred
-    epc
-    magit
-    git-gutter+
-    git-gutter-fringe+
-    )
-  "Packages to ensure are installed on startup.")
-
-(defun local-package-deps-installed-p ()
-  (loop for p in local-package-deps
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)
-        )
-  )
-
-(unless (local-package-deps-installed-p)
-  ;; Check for new packages (package versions)
-  (message "%s" "Refreshing package database and checking for updates...")
-  (package-refresh-contents)
-  (message "%s" " done.")
-  ;; Install the missing packages
-  (dolist (p local-package-deps)
-    (when (not (package-installed-p p))
-      (message "Installing package : %s" p)
-      (package-install p)
-      )
-    )
-  )
+(load "custom/packages")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom configuration settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/debug")
-(load "custom/functions")
-(load "custom/key-bindings")
-(load "custom/global")
-(load "custom/theme")
-(load "custom/backups")
-(load "custom/modes")
+(defun configure-emacs ()
+  ;; Load package configuration files
+  (load "custom/functions")
+  (load "custom/key-bindings")
+  (load "custom/global")
+  (load "custom/theme")
+  (load "custom/backups")
+  (load "custom/modes")
 
-(when (string-equal system-type "darwin")
-  ;; Load Mac OS specific settings
-  (message "Loading Mac OS X specific settings")
-  (load "custom/platform-mac")
- )
+  ;; Load platform specific configuration files
+  (when (string-equal system-type "darwin")
+    (message "Loading Mac OS X specific settings")
+    (load "custom/platform-mac")
+    )
 
-(when (string-equal system-type "gnu/linux")
-  ;; Load Unix/Linux specific settings
-  (message "Loading GNU/Linux specific settings")
-  (load "custom/platform-unix")
- )
+  (when (string-equal system-type "gnu/linux")
+    (message "Loading GNU/Linux specific settings")
+    (load "custom/platform-unix")
+    )
 
-(when (string-equal system-type "windows-nt")
-  ;; Load Windows specific settings
-  (message "Loading Windows specific settings")
-  (load "custom/platform-win")
- )
+  (when (string-equal system-type "windows-nt")
+    (message "Loading Windows specific settings")
+    (load "custom/platform-win")
+    )
+  )
+
+;; Load custom package configurations after packages and init.el load
+(add-hook 'after-init-hook 'configure-emacs)
