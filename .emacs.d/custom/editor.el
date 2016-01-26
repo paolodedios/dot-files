@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
-;; Global editor settings
+;; Editor settings
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
