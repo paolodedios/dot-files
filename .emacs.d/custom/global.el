@@ -7,6 +7,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Initial window frame settings
+;;
+;; Frame width should remain consistent across screens.  Height will vary
+;; between monitor sizes.
+;;
+;; @see preference file "frame-positions.el"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (set-frame-height (selected-frame)           90)
@@ -15,6 +20,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the title displayed in the title-bar "filename (path)"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (setq frame-title-format               "[ %f ]")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -53,8 +59,10 @@
 (modify-coding-system-alist 'file "\\.java\\'"     'utf-8-unix)
 (modify-coding-system-alist 'file "\\.scala\\'"    'utf-8-unix)
 (modify-coding-system-alist 'file "\\.clojure\\'"  'utf-8-unix)
+(modify-coding-system-alist 'file "\\.clj\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.go\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.js\\'"       'utf-8-unix)
+(modify-coding-system-alist 'file "\\.jsx\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.coffee\\'"   'utf-8-unix)
 (modify-coding-system-alist 'file "\\.sh\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.conf\\'"     'utf-8-unix)
@@ -63,6 +71,7 @@
 (modify-coding-system-alist 'file "\\.rdf\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.html\\'"     'utf-8-unix)
 (modify-coding-system-alist 'file "\\.css\\'"      'utf-8-unix)
+(modify-coding-system-alist 'file "\\.scss\\'"     'utf-8-unix)
 (modify-coding-system-alist 'file "\\.vm\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.php\\'"      'utf-8-unix)
 (modify-coding-system-alist 'file "\\.xsd\\'"      'utf-8-unix)
@@ -70,6 +79,7 @@
 (modify-coding-system-alist 'file "\\.groovy\\'"   'utf-8-unix)
 (modify-coding-system-alist 'file "\\.gradle\\'"   'utf-8-unix)
 (modify-coding-system-alist 'file "\\.python\\'"   'utf-8-unix)
+(modify-coding-system-alist 'file "\\.ipyb\\'"     'utf-8-unix)
 (modify-coding-system-alist 'file "\\.ml\\'"       'utf-8-unix)
 (modify-coding-system-alist 'file "\\.ocaml\\'"    'utf-8-unix)
 (modify-coding-system-alist 'file "\\.sql\\'"      'utf-8-unix)
@@ -117,12 +127,6 @@
 (size-indication-mode                         t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; show time on the bar
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(display-time)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Suppress startup messages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -148,9 +152,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq minibuffer-max-depth                  nil)
-(setq mouse-yank-at-point                   t  )
-(setq query-replace-highlight               t  )
-(setq search-highlight                      t  )
+(setq mouse-yank-at-point                     t)
+(setq query-replace-highlight                 t)
+(setq search-highlight                        t)
 
 ;; use the block cursor instead of the line cursor
 (setq bar-cursor                            nil)
@@ -174,10 +178,10 @@
 ;; Line wrapping behavior
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; don't allow text to exceed 80 columns before line wrapping
+;; Don't allow text to exceed 80 columns before line wrapping
 (setq fill-column                            80)
 
-;; disable line wrap by default. enable only through specific mode hooks
+;; Disable line wrap by default. enable only through specific mode hooks
 (setq-default truncate-lines                nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
