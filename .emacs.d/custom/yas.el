@@ -13,8 +13,9 @@
 (require 'yasnippet)
 
 (setq yas-snippet-dirs
-      '("~/.snippets"                               ;; local snippets
-        "~/.emacs.d/vendor/yasnippet/snippets"      ;; the default, public collection
+      '("~/.snippets"                               ;; local, private snippets
+        "~/.emacs.d/snippets"                       ;; public contrib snippets
+        "~/.emacs.d/vendor/yasnippet/snippets"      ;; default snippets collection
         )
       )
 
