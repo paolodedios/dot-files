@@ -61,7 +61,7 @@
  '(highlight-current-line-face ((t (:background "gray10"))))
 
  ;; highlight indentation current column settings
- '(highlight-indentation-current-column-face ((t (:background "dimgray" ))))
+ '(highlight-indentation-current-column-face ((t (:background "#3e3c36" ))))
 
  ;; line number column custom face
  '(linum ((t (:inherit (shadow default) :background "gray10" :foreground "dimgray"))))
