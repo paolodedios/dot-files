@@ -1,6 +1,6 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
-;; Global function definitions
+;; User defined definitions
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
