@@ -17,10 +17,7 @@
 
 (eval-after-load "sql" '(load-library "sql-indent"))
 
-(add-hook 'sql-mode-hook
-          (function
-           (lambda () (local-set-key "\C-cu" 'sql-to-update)))
-          )
+(add-hook 'sql-mode-hook (lambda () (local-set-key "\C-cu" 'sql-to-update)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock
