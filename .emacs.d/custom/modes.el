@@ -12,6 +12,7 @@
 (load "custom/config-dired-mode")
 (load "custom/config-ido-mode")
 (load "custom/config-git-mode")
+(load "custom/config-abbrev-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load major modes in order
