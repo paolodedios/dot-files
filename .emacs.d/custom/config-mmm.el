@@ -302,9 +302,6 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              (set (make-local-variable 'indent-line-function) 'my-js-mmm-indent-sexp)
-             ;; set programming style and force c-mode so that Emacs allows c-set-style
-             (c-add-style "sourcery" my-js-mode-programming-style t)
-             (c-set-style "sourcery")
              )
           )
 
