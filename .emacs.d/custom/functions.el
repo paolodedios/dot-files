@@ -37,14 +37,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun reload-dot-emacs ()
-  "Reload the .emacs file."
+  "Reload the .emacs.d/init.el file."
   (interactive)
-  (load "~/.emacs"))
+  (load "~/.emacs.d/init.el"))
+
 
 (defun edit-dot-emacs ()
-  "Edit the .emacs file."
+  "Edit the .emacs.d/init.el file."
   (interactive)
-  (find-file "~/.emacs"))
+  (find-file "~/.emacs.d/init.el"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
