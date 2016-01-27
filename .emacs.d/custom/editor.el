@@ -24,102 +24,12 @@
 (setq frame-title-format               "[ %f ]")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set the buffer file coding system to the appropriate character set.
-;; undecided-unix lets emacs use a platform neutral encoding.
-;;
-;; (set-buffer-file-coding-system 'iso-latin-1-unix)
-;; (set-buffer-file-coding-system 'iso-latin-1-dos)
-;; (set-buffer-file-coding-system 'undecided-unix)
-;;
-;; Default to 8-bit clean utf-8 encoding
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(set-default-coding-systems         'utf-8-unix)
-(set-buffer-file-coding-system      'utf-8-unix)
-
-(prefer-coding-system               'utf-8     )
-(setq locale-coding-system          'utf-8     )
-(set-terminal-coding-system         'utf-8     )
-(set-keyboard-coding-system         'utf-8     )
-(set-selection-coding-system        'utf-8     )
-(set-language-environment           "UTF-8"    )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set file associations for automatic charset conversions
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(modify-coding-system-alist 'file "\\.m\\'"        'utf-8-unix)
-(modify-coding-system-alist 'file "\\.c\\'"        'utf-8-unix)
-(modify-coding-system-alist 'file "\\.h\\'"        'utf-8-unix)
-(modify-coding-system-alist 'file "\\.hpp\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.H\\'"        'utf-8-unix)
-(modify-coding-system-alist 'file "\\.cpp\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.C\\'"        'utf-8-unix)
-(modify-coding-system-alist 'file "\\.idl\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.java\\'"     'utf-8-unix)
-(modify-coding-system-alist 'file "\\.scala\\'"    'utf-8-unix)
-(modify-coding-system-alist 'file "\\.clojure\\'"  'utf-8-unix)
-(modify-coding-system-alist 'file "\\.clj\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.go\\'"       'utf-8-unix)
-(modify-coding-system-alist 'file "\\.js\\'"       'utf-8-unix)
-(modify-coding-system-alist 'file "\\.jsx\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.coffee\\'"   'utf-8-unix)
-(modify-coding-system-alist 'file "\\.sh\\'"       'utf-8-unix)
-(modify-coding-system-alist 'file "\\.conf\\'"     'utf-8-unix)
-(modify-coding-system-alist 'file "\\.xml\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.xul\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.rdf\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.html\\'"     'utf-8-unix)
-(modify-coding-system-alist 'file "\\.css\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.scss\\'"     'utf-8-unix)
-(modify-coding-system-alist 'file "\\.vm\\'"       'utf-8-unix)
-(modify-coding-system-alist 'file "\\.php\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.xsd\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.dtd\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.groovy\\'"   'utf-8-unix)
-(modify-coding-system-alist 'file "\\.gradle\\'"   'utf-8-unix)
-(modify-coding-system-alist 'file "\\.python\\'"   'utf-8-unix)
-(modify-coding-system-alist 'file "\\.ipyb\\'"     'utf-8-unix)
-(modify-coding-system-alist 'file "\\.ml\\'"       'utf-8-unix)
-(modify-coding-system-alist 'file "\\.ocaml\\'"    'utf-8-unix)
-(modify-coding-system-alist 'file "\\.sql\\'"      'utf-8-unix)
-(modify-coding-system-alist 'file "\\.epl\\'"      'utf-8-unix)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Emacs recognizes which kind of end-of-line conversion to use based on the
-;; contents of the file: if it sees only carriage-returns, or only carriage
-;; return linefeed sequences, then it chooses the end-of-line conversion
-;; accordingly. You can inhibit the automatic use of end-of-line conversion by
-;; setting the variable inhibit-eol-conversion to non-nil. If you do that, DOS
-;; style files will be displayed with the `^M' characters visible in the buffer
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq inhibit-eol-conversion                nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Backwards compatibility; default-buffer-file-coding-system is deprecated
-;; starting in Emacs 23.2.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(if (boundp 'buffer-file-coding-system)
-    (setq-default buffer-file-coding-system 'utf-8)
-  (setq default-buffer-file-coding-system 'utf-8)
-  )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq x-select-request-type    '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set global variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(custom-set-variables
- '(cursor-type (quote box))
- '(tool-bar-mode nil nil (tool-bar))
- )
+(custom-set-variables '(cursor-type (quote box))
+                      '(tool-bar-mode nil nil (tool-bar))
+                      )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Show approximate buffer size
@@ -247,18 +157,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'highlight-indentation)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable git diff indicators in the gutter
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'git-gutter+)
-(require 'git-gutter-fringe+)
-
-(global-git-gutter+-mode)
-
-(setq-default right-fringe-width   20          )
-(setq git-gutter-fr+-side         'right-fringe)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Save cursor point placement for all files
