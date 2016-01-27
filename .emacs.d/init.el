@@ -84,7 +84,7 @@
   (load "custom/linenum")
   (load "custom/modes")
   (load "custom/backups")
-  (load "custom/theme")
+  (load "themes/candycrush-theme")
 
   ;; Load platform specific configuration files
   (when (string-equal system-type "darwin")
