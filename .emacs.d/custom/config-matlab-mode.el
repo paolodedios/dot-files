@@ -9,7 +9,7 @@
 ;; Load matlab-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load-vendor 'matlab)
+(require 'matlab)
 
 (autoload 'matlab-mode  "matlab"  "Enter Matlab Mode."       t)
 (autoload 'matlab-shell "matlab"  "Interactive Matlab Mode." t)

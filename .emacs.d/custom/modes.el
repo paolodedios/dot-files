@@ -6,69 +6,55 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set default comment column
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq comment-column                 80)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set default indentation to blocks of 4 spaces
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq-default tab-width               4)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Pre-load editor customizations used in major/minor modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/dir-ed")
-(load "custom/i-do")
-(load "custom/modeline")
-(load "custom/linenum")
+(load "custom/config-dired-mode")
+(load "custom/config-ido-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load major modes in order
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/text")
-(load "custom/markdown")
+(load "custom/config-text-mode")
+(load "custom/config-markdown-mode")
 
-(load "custom/lisp")
-(load "custom/sh")
-(load "custom/cc")
-(load "custom/java")
-(load "custom/scala")
-(load "custom/clojure")
-(load "custom/groovy")
-(load "custom/jflex")
+(load "custom/config-lisp-mode")
+(load "custom/config-sh-mode")
+(load "custom/config-cc-mode")
+(load "custom/config-java-mode")
+(load "custom/config-scala-mode")
+(load "custom/config-clojure-mode")
+(load "custom/config-groovy-mode")
+(load "custom/config-jflex-mode")
 
-(load "custom/python")
-(load "custom/javascript")
-(load "custom/coffeescript")
+(load "custom/config-python-mode")
+(load "custom/config-js-mode")
+(load "custom/config-coffeescript-mode")
 
-(load "custom/php")
-(load "custom/sql")
-(load "custom/perl")
-(load "custom/matlab")
+(load "custom/config-php-mode")
+(load "custom/config-sql-mode")
+(load "custom/config-perl-mode")
+(load "custom/config-matlab-mode")
 
-(load "custom/css")
-(load "custom/dtd")
-(load "custom/xml")
+(load "custom/config-css-mode")
+(load "custom/config-dtd-mode")
+(load "custom/config-xml-mode")
 
-(load "custom/go")
-(load "custom/ocaml")
+(load "custom/config-go-mode")
+(load "custom/config-ocaml-mode")
 
-(load "custom/mmm")
-(load "custom/web")
+(load "custom/config-mmm")
+(load "custom/config-web-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Attach YASnippet mode to all other major modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/yas")
+(load "custom/config-yas-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load auto-complete package after all other major modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/autocomplete")
+(load "custom/config-autocomplete-mode")
