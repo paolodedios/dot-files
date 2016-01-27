@@ -38,8 +38,8 @@
    `(font-lock-reference-face ((,class (:foreground ,const))))
    `(font-lock-constant-face ((,class (:foreground ,const))))
    `(font-lock-doc-face ((,class (:foreground ,comment))))
-   `(font-lock-function-name-face ((,class (:foreground ,func :bold t))))
-   `(font-lock-keyword-face ((,class (:foreground ,keyword :bold ,class))))
+   `(font-lock-function-name-face ((,class (:foreground ,func))))
+   `(font-lock-keyword-face ((,class (:foreground ,keyword))))
    `(font-lock-string-face ((,class (:foreground ,str))))
    `(font-lock-type-face ((,class (:foreground ,type ))))
    `(font-lock-variable-name-face ((,class (:foreground ,var))))
@@ -269,7 +269,7 @@
 (setq buffer-menu-buffer-font-lock-keywords
       '(("^....[*]Man .*Man.*"   . font-lock-variable-name-face) ; Man page
         (".*Dired.*"             . font-lock-comment-face)       ; Dired
-        ("^....[*]shell.*"       . font-lock-preprocessor-face)  ; shell buff
+        ("^....[*]shell.*"       . font-lock-preprocessor-face)  ; shell buffer
         (".*[*]scratch[*].*"     . font-lock-function-name-face) ; scratch buffer
         ("^....[*].*"            . font-lock-string-face)        ; "*" named buffers
         ("^..[*].*"              . font-lock-constant-face)      ; Modified
