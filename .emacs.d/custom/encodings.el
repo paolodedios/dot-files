@@ -15,16 +15,6 @@
 (set-terminal-coding-system         'utf-8)
 (set-keyboard-coding-system         'utf-8)
 (set-language-environment           'utf-8)
-
-;; On Windows, it's best to avoid (set-selection-coding-system 'utf-8) as
-;; it alters the clipboard behavior in Emacs. The correct value for
-;; selection-coding-system (aka clipboard-coding-system) on Windows
-;; should be 'utf-16-le (the default) in order to allow Emacs to interop
-;; with other Unicode programs
-(unless (eq system-type 'windows-nt)
-  (set-selection-coding-system      'utf-8)
-  )
-
 (setq locale-coding-system          'utf-8)
 
 ;; Disable CJK coding/encoding (Chinese/Japanese/Korean characters)
