@@ -12,6 +12,21 @@
 (set-selection-coding-system      'utf-8)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Font selection
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Default Latin font (e.g. Consolas, Menlo, etc)
+(set-face-attribute 'default nil   :family   "Monaco")
+
+;; Default font size (point * 10)
+;;
+;; Depending on the default font, if the size is not supported very well,
+;; the frame will be clipped so that the beginning of the buffer may not
+;; be visible correctly.
+(set-face-attribute 'default nil   :height   120)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Platform Tweaks
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -38,23 +53,19 @@
     )
   )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Font overrides
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when (eq system-type 'darwin)
-
-  ;; default Latin font (e.g. Consolas, Menlo, etc)
-  (set-face-attribute 'default nil   :family   "Monaco")
-
-  ;; default font size (point * 10)
-  ;;
-  ;; Depending on the default font, if the size is not supported very well,
-  ;; the frame will be clipped so that the beginning of the buffer may not
-  ;; be visible correctly.
-  (set-face-attribute 'default nil   :height   120)
-  )
-
+;; DISABLED. Configured through Mac OS X Keyboard Preferences
+;;
+;; Set the mac keyboard up for sane emacs usage.
+;; [Ctrl][Option][Command/Alt]
+;;
+;; Within emacs only:
+;;   "Alt/A-"   is mapped to the "Command" button
+;;   "Meta/M-"  is mapped to the "Alt" button
+;;   "Ctrl/C-"  is mapped to the "Caps-lock" button and the "Ctrl" button
+;;
+;; (setq mac-command-modifier  'alt)
+;; (setq mac-option-modifier   'meta)
+;; (setq mac-capslock-modifier 'ctrl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Aquamacs specific window settings
@@ -115,26 +126,12 @@
   (define-key global-map (kbd "C-<") 'transparency-decrease)
 
   ;; Set initial frame transparency
-  (setq transparency-level 100)
-  (transparency-set-value transparency-level)
-  (add-hook 'after-make-frame-functions (lambda (selected-frame) (set-frame-parameter selected-frame 'alpha transparency-level)))
+  (setq transparency-level   100)
+  (transparency-set-value     transparency-level)
 
-  ;; DISABLED because of osx-key-mode
-  ;;
-  ;; Set the mac keyboard up for sane emacs usage.
-  ;; [Ctrl][Option][Command/Alt]
-  ;;
-  ;; Within emacs only:
-  ;;   "Alt/A-"   is mapped to the "Option" button
-  ;;   "Meta/M-"  is mapped to the "Alt" button
-  ;;   "Ctrl/C-"  is mapped to the "Ctrl" button (stays the same)
-  ;;
-  ;; (setq mac-command-modifier 'meta)
-  ;; (setq mac-option-modifier  'alt)
-  ;; (setq mac-control-modifier 'ctrl)
-
-  ;; make C-v, M-v maintain the mark
-  (define-key global-map "\C-v" 'scroll-up  )
-  (define-key global-map "\M-v" 'scroll-down)
-
+  (add-hook 'after-make-frame-functions
+            (lambda (selected-frame)
+              (set-frame-parameter selected-frame 'alpha transparency-level)
+              )
+            )
   )
