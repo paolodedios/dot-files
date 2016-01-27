@@ -78,6 +78,7 @@
   ;; Load package configuration files
   (load "custom/functions")
   (load "custom/key-bindings")
+  (load "custom/encodings")
   (load "custom/editor")
   (load "custom/theme")
   (load "custom/backups")
