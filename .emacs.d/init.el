@@ -80,9 +80,11 @@
   (load "custom/key-bindings")
   (load "custom/encodings")
   (load "custom/editor")
-  (load "custom/theme")
-  (load "custom/backups")
+  (load "custom/modeline")
+  (load "custom/linenum")
   (load "custom/modes")
+  (load "custom/backups")
+  (load "custom/theme")
 
   ;; Load platform specific configuration files
   (when (string-equal system-type "darwin")
