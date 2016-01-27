@@ -23,6 +23,8 @@
 ;; Enable auto fill mode at column 80 in compliance with PEP 8
 (add-hook 'python-mode-hook
           '(lambda ()
+             ;; Enable indentation highlighting
+             (require 'highlight-indentation)
              (highlight-indentation-current-column-mode   t)
              (auto-fill-mode                              1)
              (setq fill-column                           80)
