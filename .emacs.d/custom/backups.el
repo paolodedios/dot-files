@@ -83,7 +83,7 @@
       (message file)
       (delete-file file)))
   (dolist (file (directory-files user-session-backup-file-directory t))
-    (message "Deleting old session backup files in [%s]..." user-session-backup-file-directory)
+    (message "Deleting old per-session backup files in [%s]..." user-session-backup-file-directory)
     (when (and (backup-file-name-p file)
                (> (- current (float-time (fifth (file-attributes file)))) week))
       (message file)
