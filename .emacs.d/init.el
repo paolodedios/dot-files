@@ -84,7 +84,6 @@
   (load "custom/linenum")
   (load "custom/modes")
   (load "custom/backups")
-  (load "themes/candycrush-theme")
 
   ;; Load platform specific configuration files
   (when (string-equal system-type "darwin")
@@ -101,6 +100,9 @@
     (message "Loading Windows specific settings")
     (load "custom/platform-win")
     )
+
+  ;; Load custom theme
+  (load "themes/candycrush-theme")
   )
 
 ;; Load custom package configurations after packages and init.el load
