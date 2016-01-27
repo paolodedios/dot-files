@@ -49,8 +49,6 @@
                             :slant           normal
                             :weight          normal
                             :width           normal
-                            :family          "Monaco"
-                            :height          120
                             )
                            ))  t)
 
