@@ -74,18 +74,6 @@
 (defalias 'yes-or-no-p                'y-or-n-p)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load uniquify to distinguish between two identically named files instead of
-;; appending a <n> extension
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'uniquify)
-
-(setq uniquify-buffer-name-style       'reverse)
-(setq uniquify-separator                    "|")
-(setq uniquify-after-kill-buffer-p            t)
-(setq uniquify-ignore-buffers-re         "^\\*")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Line wrapping behavior
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -153,12 +141,6 @@
 (highlight-current-line-on                    t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable indentation highlighting
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'highlight-indentation)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Save cursor point placement for all files
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -167,17 +149,18 @@
 (setq save-place-file      "~/.emacs.sessions/saveplace")
 (setq-default save-place   t                            )
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable abbrev mode for modes that use it
+;; Distinguish between two identically named files instead of
+;; appending a <n> extension via uniquify
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq abbrev-file-name     "~/.snippets/abbrev-mode/abbrevs")
-(setq-default abbrev-mode  t                                )
-(setq save-abbrevs         t                                )
+(require 'uniquify)
 
-(if (file-exists-p abbrev-file-name)
-    (quietly-read-abbrev-file)
-  )
+(setq uniquify-buffer-name-style       'reverse)
+(setq uniquify-separator                    "|")
+(setq uniquify-after-kill-buffer-p            t)
+(setq uniquify-ignore-buffers-re         "^\\*")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Save editing sessions by name
