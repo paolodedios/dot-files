@@ -41,6 +41,9 @@
 
 (setq custom-theme-directory "~/.emacs.d/themes/")
 
+;; Always trust custom themes (and don't prompt)
+(setq custom-safe-themes t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Ensure subdirectories are scanned, since Emacs doesn't include subdirectories
 ;; of a directory in the load-path by default.
@@ -107,8 +110,8 @@
     (load "custom/platform-win")
     )
 
-  ;; Load custom theme  
-  (load-theme 'candycrush)
+  ;; Load custom theme
+  (load-theme 'candycrush  t)
   )
 
 ;; Load custom package configurations after packages and init.el load
