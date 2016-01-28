@@ -163,6 +163,7 @@
     (set (make-local-variable 'font-lock-defaults)
          '(buffer-menu-buffer-font-lock-keywords t)
          )
+    (font-lock-mode         1)
     (font-lock-fontify-buffer)
     )
   )
