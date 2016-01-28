@@ -9,7 +9,7 @@
 (deftheme candycrush)
 
 (let ((class '((class color) (min-colors 89)))
-      (fg1       "beige")
+      (fg1       "wheat")
       (fg2       "#000000")
       (fg3       "#000000")
       (fg4       "#000000")
@@ -42,7 +42,7 @@
   (custom-theme-set-faces
    'candycrush
    ;; Font-lock face customizations
-   `(default ((,class (:background ,bg1 :foreground ,fg1))))
+   `(default ((,class (:foreground ,fg1 :background ,bg1))))
    `(font-lock-builtin-face ((,class (:foreground ,builtin))))
    `(font-lock-comment-face ((,class (:foreground ,comment))))
    `(font-lock-negation-char-face ((,class (:foreground ,const))))
