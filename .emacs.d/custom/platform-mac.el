@@ -78,6 +78,13 @@
 
 ;; Define aquamacs specific settings
 (when aquamacs-p
+
+  ;; Enable tab bar globally
+  (tabbar-mode  t)
+
+  ;; Disable one-buffer-per-frame setting
+  (one-buffer-one-frame-mode -1)
+
   (defun transparency-set-initial-value ()
     "Set initial value of alpha parameter for the current frame"
     (interactive)
@@ -134,4 +141,7 @@
               (set-frame-parameter selected-frame 'alpha transparency-level)
               )
             )
+
+  ;; Disable saving customizations to ~/Library/Preferences/.../customizations.el
+  (setq aquamacs-save-options-on-quit  nil)
   )
