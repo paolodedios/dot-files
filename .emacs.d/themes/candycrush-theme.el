@@ -9,25 +9,35 @@
 (deftheme candycrush)
 
 (let ((class '((class color) (min-colors 89)))
-      (fg1      "beige")
-      (fg2      "#000000")
-      (fg3      "#000000")
-      (fg4      "#000000")
-      (bg1      "black")
-      (bg2      "#181818")
-      (bg3      "#282828")
-      (bg4      "#393939")
-      (key2     "#1d1d1d")
-      (key3     "#000000")
-      (builtin  "lightsteelblue")
-      (keyword  "turquoise")
-      (const    "aquamarine")
-      (comment  "orangered")
-      (func     "deepskyblue")
-      (str      "tan")
-      (type     "palegreen")
-      (var      "khaki")
-      (warning  "pink")
+      (fg1       "beige")
+      (fg2       "#000000")
+      (fg3       "#000000")
+      (fg4       "#000000")
+      (fg5       "dimgray")
+      (fg6       "#030303")
+      (fg7       "#f9f9f9")
+      (bg1       "#121212")
+      (bg2       "#181818")
+      (bg3       "#282828")
+      (bg4       "#393939")
+      (bg5       "gray10")
+      (bg6       "#3e3c36")
+      (bg7       "#bdbdbd")
+      (bg8       "#666666")
+      (builtin   "lightsteelblue")
+      (keyword   "turquoise")
+      (keyword2  "darkturquoise")
+      (keyword3  "cadetblue")
+      (const     "aquamarine")
+      (comment   "orangered")
+      (func      "deepskyblue")
+      (str       "tan")
+      (type      "palegreen")
+      (var       "khaki")
+      (warning   "pink")
+      (yellow    "yellow")
+      (green     "green")
+      (red       "red")
       )
   (custom-theme-set-faces
    'candycrush
@@ -63,23 +73,30 @@
    `(warning ((,class (:foreground ,warning))))
    `(trailing-whitespace ((,class :foreground nil :background ,warning)))
 
-   ;; Modeline custom faces
-   `(mode-line ((,class (:box (:line-width 1 :color nil) :bold t :foreground ,fg4 :background ,bg2))))
-   `(mode-line-inactive ((,class (:box (:line-width 1 :color nil :style pressed-button) :foreground ,key3 :background ,bg1 :weight normal))))
-   `(mode-line-buffer-id ((,class (:bold t :foreground ,func :background nil))))
-   `(mode-line-highlight ((,class (:foreground ,keyword :box nil :weight bold))))
-   `(mode-line-emphasis ((,class (:foreground ,fg1))))
-   '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
-   '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))
+   ;; highlight-current-line
+   `(highlight-current-line-face ((t (:background ,bg5))))
 
-   ;; autocomplete-mode faces
+   ;; highlight-indentation
+   `(highlight-indentation-current-column-face ((t (:background ,bg6))))
+
+   ;; line number column custom face
+   `(linum ((t (:inherit (shadow default) :background ,bg5 :foreground ,fg5))))
+
+   ;; Modeline
+   `(mode-line ((,class (:foreground ,fg6 :background ,bg7 :box nil))))
+   `(mode-line-inactive ((,class (:foreground ,fg7 :background ,bg8 :box nil))))
+   `(mode-line-buffer-id ((,class (:bold t :foreground ,func :background nil))))
+   `(mode-line-highlight ((,class (:foreground ,type :box nil :weight bold))))
+   `(mode-line-emphasis ((,class (:foreground ,fg1))))
+
+   ;; autocomplete-mode
    `(ac-completion-face ((,class (:underline t :foreground ,keyword))))
 
-   ;; ido-mode faces
+   ;; ido-mode
    `(ido-only-match ((,class (:foreground ,warning))))
    `(ido-first-match ((,class (:foreground ,keyword :bold t))))
 
-   ;; org-mode faces
+   ;; org-mode
    `(org-code ((,class (:foreground ,fg2))))
    `(org-hide ((,class (:foreground ,fg4))))
    `(org-level-1 ((,class (:bold t :foreground ,fg2 :height 1.1))))
@@ -108,9 +125,9 @@
    `(org-document-info-keyword ((,class (:foreground ,func))))
    `(org-sexp-date ((,class (:foreground ,fg4))))
 
-   ;; latex-mode faces
+   ;; latex-mode
    `(font-latex-bold-face ((,class (:foreground ,type))))
-   `(font-latex-italic-face ((,class (:foreground ,key3 :italic t))))
+   `(font-latex-italic-face ((,class (:foreground ,keyword3 :italic t))))
    `(font-latex-string-face ((,class (:foreground ,str))))
    `(font-latex-match-reference-keywords ((,class (:foreground ,const))))
    `(font-latex-match-variable-keywords ((,class (:foreground ,var))))
@@ -118,31 +135,31 @@
    ;; ffap (find file at point package) faces
    `(ffap ((,class (:foreground ,fg4))))
 
-   ;; js2-mode faces
+   ;; js2-mode
    `(js2-private-function-call ((,class (:foreground ,const))))
-   `(js2-jsdoc-html-tag-delimiter ((,class (:foreground ,str))))
-   `(js2-jsdoc-html-tag-name ((,class (:foreground ,key2))))
+   `(js2-jsdoc-html-tag-delimiter ((,class (:foreground ,keyword2))))
+   `(js2-jsdoc-html-tag-name ((,class (:foreground ,keyword2))))
    `(js2-external-variable ((,class (:foreground ,type  ))))
    `(js2-function-param ((,class (:foreground ,const))))
    `(js2-jsdoc-value ((,class (:foreground ,str))))
    `(js2-private-member ((,class (:foreground ,fg3))))
 
-   ;; js3-mode faces
+   ;; js3-mode
    `(js3-warning-face ((,class (:underline ,keyword))))
    `(js3-error-face ((,class (:underline ,warning))))
    `(js3-external-variable-face ((,class (:foreground ,var))))
-   `(js3-function-param-face ((,class (:foreground ,key3))))
+   `(js3-function-param-face ((,class (:foreground ,keyword3))))
    `(js3-jsdoc-tag-face ((,class (:foreground ,keyword))))
    `(js3-instance-member-face ((,class (:foreground ,const))))
 
-   ;; info-mode faces
+   ;; info-mode
    `(info-quoted-name ((,class (:foreground ,builtin))))
    `(info-string ((,class (:foreground ,str))))
 
-   ;; icomplete mode
+   ;; icomplete-mode
    `(icompletep-determined ((,class :foreground ,builtin)))
 
-   ;; undo-tree package
+   ;; undo-tree
    `(undo-tree-visualizer-current-face ((,class :foreground ,builtin)))
    `(undo-tree-visualizer-default-face ((,class :foreground ,fg2)))
    `(undo-tree-visualizer-unmodified-face ((,class :foreground ,var)))
@@ -151,7 +168,7 @@
    ;; SLIME
    `(slime-repl-inputed-output-face ((,class (:foreground ,type))))
 
-   ;; rainbow-delimiters faces
+   ;; rainbow-delimiters
    `(rainbow-delimiters-depth-1-face ((,class :foreground ,fg1)))
    `(rainbow-delimiters-depth-2-face ((,class :foreground ,type)))
    `(rainbow-delimiters-depth-3-face ((,class :foreground ,var)))
@@ -162,7 +179,7 @@
    `(rainbow-delimiters-depth-8-face ((,class :foreground ,var)))
    `(rainbow-delimiters-unmatched-face ((,class :foreground ,warning)))
 
-   ;; magit faces
+   ;; Magit
    `(magit-item-highlight ((,class :background ,bg3)))
    `(magit-section-heading        ((,class (:foreground ,keyword :weight bold))))
    `(magit-hunk-heading           ((,class (:background ,bg3))))
@@ -178,7 +195,12 @@
    `(magit-hash ((,class (:foreground ,fg2))))
    `(magit-diff-file-header ((,class (:foreground ,fg2 :background ,bg3))))
 
-   ;; terminal faces
+   ;; git-gutter+
+   `(git-gutter+-modified ((t (:foreground ,yellow))))
+   `(git-gutter+-added    ((t (:foreground ,green))))
+   `(git-gutter+-deleted  ((t (:foreground ,red))))
+
+   ;; ansi-term
    `(term ((,class (:foreground ,fg1 :background ,bg1))))
    `(term-color-black ((,class (:foreground ,bg3 :background ,bg3))))
    `(term-color-blue ((,class (:foreground ,func :background ,func))))
@@ -189,7 +211,7 @@
    `(term-color-cyan ((,class (:foreground ,str :background ,str))))
    `(term-color-white ((,class (:foreground ,fg2 :background ,fg2))))
 
-   ;; helm-mode faces
+   ;; Helm
    `(helm-header ((,class (:foreground ,fg2 :background ,bg1 :underline nil :box nil))))
    `(helm-source-header ((,class (:foreground ,keyword :background ,bg1 :underline nil :weight bold))))
    `(helm-selection ((,class (:background ,bg2 :underline nil))))
@@ -205,8 +227,8 @@
    `(helm-buffer-size ((,class (:foreground ,fg1 :background ,bg1))))
    `(helm-ff-directory ((,class (:foreground ,func :background ,bg1 :weight bold))))
    `(helm-ff-file ((,class (:foreground ,fg1 :background ,bg1 :weight normal))))
-   `(helm-ff-executable ((,class (:foreground ,key2 :background ,bg1 :weight normal))))
-   `(helm-ff-invalid-symlink ((,class (:foreground ,key3 :background ,bg1 :weight bold))))
+   `(helm-ff-executable ((,class (:foreground ,keyword2 :background ,bg1 :weight normal))))
+   `(helm-ff-invalid-symlink ((,class (:foreground ,keyword3 :background ,bg1 :weight bold))))
    `(helm-ff-symlink ((,class (:foreground ,keyword :background ,bg1 :weight bold))))
    `(helm-ff-prefix ((,class (:foreground ,bg1 :background ,keyword :weight normal))))
    `(helm-grep-cmd-line ((,class (:foreground ,fg1 :background ,bg1))))
@@ -219,9 +241,9 @@
    `(helm-source-go-package-godoc-description ((,class (:foreground ,str))))
    `(helm-bookmark-w3m ((,class (:foreground ,type))))
 
-   ;; company-mode faces
+   ;; company-mode
    `(company-echo-common ((,class (:foreground ,bg1 :background ,fg1))))
-   `(company-preview ((,class (:background ,bg1 :foreground ,key2))))
+   `(company-preview ((,class (:background ,bg1 :foreground ,keyword2))))
    `(company-preview-common ((,class (:foreground ,bg2 :foreground ,fg3))))
    `(company-preview-search ((,class (:foreground ,type :background ,bg1))))
    `(company-scrollbar-bg ((,class (:background ,bg3))))
@@ -234,7 +256,7 @@
    `(company-tooltip-selection ((,class (:background ,bg3 :foreground ,fg3))))
    `(company-template-field ((,class (:inherit region))))
 
-   ;; web-mode faces
+   ;; web-mode
    `(web-mode-builtin-face ((,class (:inherit ,font-lock-builtin-face))))
    `(web-mode-comment-face ((,class (:inherit ,font-lock-comment-face))))
    `(web-mode-constant-face ((,class (:inherit ,font-lock-constant-face))))
@@ -248,27 +270,14 @@
    `(web-mode-warning-face ((,class (:inherit ,font-lock-warning-face))))
    `(web-mode-html-tag-face ((,class (:foreground ,builtin))))
 
+   ;; Java JDE
    `(jde-java-font-lock-package-face ((t (:foreground ,var))))
    `(jde-java-font-lock-public-face ((t (:foreground ,keyword))))
    `(jde-java-font-lock-private-face ((t (:foreground ,keyword))))
    `(jde-java-font-lock-constant-face ((t (:foreground ,const))))
-   `(jde-java-font-lock-modifier-face ((t (:foreground ,key3))))
+   `(jde-java-font-lock-modifier-face ((t (:foreground ,keyword3))))
    `(jde-jave-font-lock-protected-face ((t (:foreground ,keyword))))
    `(jde-java-font-lock-number-face ((t (:foreground ,var))))
-
-   ;; highlight current line face
-   '(highlight-current-line-face ((t (:background "gray10"))))
-
-   ;; highlight indentation face
-   '(highlight-indentation-current-column-face ((t (:background "#3e3c36" ))))
-
-   ;; line number column custom face
-   '(linum ((t (:inherit (shadow default) :background "gray10" :foreground "dimgray"))))
-
-   ;; git-gutter+ indicator faces
-   '(git-gutter+-modified ((t (:foreground "yellow"))))
-   '(git-gutter+-added    ((t (:foreground "green"))))
-   '(git-gutter+-deleted  ((t (:foreground "red"))))
    )
   )
 
