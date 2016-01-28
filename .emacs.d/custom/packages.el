@@ -30,6 +30,7 @@
     (git-gutter+           . "melpa"       )
     (git-gutter-fringe+    . "melpa"       )
     (magit                 . "melpa-stable")
+    (gist                  . "marmalade"   )
     )
   )
 
