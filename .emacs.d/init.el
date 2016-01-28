@@ -111,7 +111,8 @@
     )
 
   ;; Load custom theme
-  (load-theme 'candycrush  t)
+  (load-theme   'candycrush  t)
+  (enable-theme 'candycrush   )
   )
 
 ;; Load custom package configurations after packages and init.el load
