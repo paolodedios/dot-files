@@ -9,57 +9,57 @@
 ;; Load file management minor modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/config-dired-mode")
-(load "custom/config-ido-mode")
-(load "custom/config-git-mode")
-(load "custom/config-abbrev-mode")
+(load "modules/config-dired-mode")
+(load "modules/config-ido-mode")
+(load "modules/config-git-mode")
+(load "modules/config-abbrev-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load major modes in order
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/config-text-mode")
-(load "custom/config-markdown-mode")
+(load "modules/config-text-mode")
+(load "modules/config-markdown-mode")
 
-(load "custom/config-lisp-mode")
-(load "custom/config-sh-mode")
-(load "custom/config-cc-mode")
-(load "custom/config-java-mode")
-(load "custom/config-scala-mode")
-(load "custom/config-clojure-mode")
-(load "custom/config-groovy-mode")
-(load "custom/config-jflex-mode")
+(load "modules/config-lisp-mode")
+(load "modules/config-sh-mode")
+(load "modules/config-cc-mode")
+(load "modules/config-java-mode")
+(load "modules/config-scala-mode")
+(load "modules/config-clojure-mode")
+(load "modules/config-groovy-mode")
+(load "modules/config-jflex-mode")
 
-(load "custom/config-python-mode")
-(load "custom/config-js-mode")
-(load "custom/config-coffeescript-mode")
+(load "modules/config-python-mode")
+(load "modules/config-js-mode")
+(load "modules/config-coffeescript-mode")
 
-(load "custom/config-php-mode")
-(load "custom/config-sql-mode")
-(load "custom/config-perl-mode")
-(load "custom/config-matlab-mode")
+(load "modules/config-php-mode")
+(load "modules/config-sql-mode")
+(load "modules/config-perl-mode")
+(load "modules/config-matlab-mode")
 
-(load "custom/config-css-mode")
-(load "custom/config-dtd-mode")
-(load "custom/config-xml-mode")
+(load "modules/config-css-mode")
+(load "modules/config-dtd-mode")
+(load "modules/config-xml-mode")
 
-(load "custom/config-go-mode")
-(load "custom/config-ocaml-mode")
+(load "modules/config-go-mode")
+(load "modules/config-ocaml-mode")
 
-(load "custom/config-mmm")
-(load "custom/config-web-mode")
+(load "modules/config-mmm")
+(load "modules/config-web-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Attach YASnippet mode to all other major modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/config-yas-mode")
+(load "modules/config-yas-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load auto-complete package after all other major modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/config-autocomplete-mode")
+(load "modules/config-autocomplete-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set default major mode to text

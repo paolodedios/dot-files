@@ -71,13 +71,13 @@
 ;; Load debugger settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/debug")
+(load "modules/debug")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load package manager
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/packages")
+(load "modules/packages")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom configuration settings
@@ -85,29 +85,29 @@
 
 (defun configure-emacs ()
   ;; Load package configuration files
-  (load "custom/functions")
-  (load "custom/key-bindings")
-  (load "custom/encodings")
-  (load "custom/editor")
-  (load "custom/modeline")
-  (load "custom/linenum")
-  (load "custom/modes")
-  (load "custom/backups")
+  (load "modules/functions")
+  (load "modules/key-bindings")
+  (load "modules/encodings")
+  (load "modules/editor")
+  (load "modules/modeline")
+  (load "modules/linenum")
+  (load "modules/modes")
+  (load "modules/backups")
 
   ;; Load platform specific configuration files
   (when (string-equal system-type "darwin")
     (message "Loading Mac OS X specific settings")
-    (load "custom/platform-mac")
+    (load "modules/platform-mac")
     )
 
   (when (string-equal system-type "gnu/linux")
     (message "Loading GNU/Linux specific settings")
-    (load "custom/platform-unix")
+    (load "modules/platform-unix")
     )
 
   (when (string-equal system-type "windows-nt")
     (message "Loading Windows specific settings")
-    (load "custom/platform-win")
+    (load "modules/platform-win")
     )
 
   ;; Load custom theme

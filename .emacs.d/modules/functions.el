@@ -23,9 +23,9 @@
     )
   )
 
-(defun load-custom (library)
+(defun load-module (library)
   (let* ((file (symbol-name library))
-         (custom (concat "~/.emacs.d/custom/" file)))
+         (custom (concat "~/.emacs.d/modules/" file)))
     (when (file-exists-p (concat custom ".el"))
       (load custom)
       )
