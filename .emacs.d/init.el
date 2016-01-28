@@ -36,6 +36,12 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Set the load path for custom themes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq custom-theme-directory "~/.emacs.d/themes/")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Ensure subdirectories are scanned, since Emacs doesn't include subdirectories
 ;; of a directory in the load-path by default.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -101,8 +107,8 @@
     (load "custom/platform-win")
     )
 
-  ;; Load custom theme
-  (load "themes/candycrush-theme")
+  ;; Load custom theme  
+  (load-theme 'candycrush)
   )
 
 ;; Load custom package configurations after packages and init.el load
