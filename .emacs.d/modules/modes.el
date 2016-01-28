@@ -6,11 +6,32 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable font-lock for all modes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'font-lock)
+
+(cond ((fboundp 'global-font-lock-mode)
+       (global-font-lock-mode                            t)
+       (setq-default font-lock-auto-fontify              t)
+       (setq-default font-lock-use-maximal-decoration    t)
+       (setq-default font-lock-use-colors                t)
+       (setq-default font-lock-use-fonts               nil)
+       (setq-default font-lock-mode-enable-list        nil)
+       (setq-default font-lock-mode-disable-list       nil)
+       )
+      )
+
+(setq font-lock-maximum-decoration     t)
+(setq font-lock-maximum-size         nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load file management minor modes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (load "modules/config-dired-mode")
 (load "modules/config-ido-mode")
+(load "modules/config-buffer-menu")
 (load "modules/config-git-mode")
 (load "modules/config-abbrev-mode")
 
