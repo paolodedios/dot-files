@@ -79,6 +79,9 @@
 ;; Define aquamacs specific settings
 (when aquamacs-p
 
+  ;; Disable mode-specific faces, use the default font for everything
+  (aquamacs-autoface-mode  -1)
+
   ;; Enable tab bar globally
   (tabbar-mode  t)
 
