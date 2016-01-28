@@ -281,60 +281,6 @@
    )
   )
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable font-lock
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'font-lock)
-
-(cond ((fboundp 'global-font-lock-mode)
-       ;; Turn on font-lock in all modes that support it
-       (global-font-lock-mode                            t)
-       (setq-default font-lock-auto-fontify              t)
-       (setq-default font-lock-use-maximal-decoration    t)
-       (setq-default font-lock-use-colors                t)
-       (setq-default font-lock-use-fonts               nil)
-       (setq-default font-lock-mode-enable-list        nil)
-       (setq-default font-lock-mode-disable-list       nil)
-       )
-      )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set buffer menu highlighting
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq buffer-menu-buffer-font-lock-keywords
-      '(("^....[*]Man .*Man.*"   . font-lock-variable-name-face) ; Man page
-        (".*Dired.*"             . font-lock-comment-face)       ; Dired
-        ("^....[*]shell.*"       . font-lock-preprocessor-face)  ; shell buffer
-        (".*[*]scratch[*].*"     . font-lock-function-name-face) ; scratch buffer
-        ("^....[*].*"            . font-lock-string-face)        ; "*" named buffers
-        ("^..[*].*"              . font-lock-constant-face)      ; Modified
-        ("^.[%].*"               . font-lock-keyword-face)       ; Read only
-        )
-      )
-
-
-(defun buffer-menu-custom-font-lock  ()
-  (let ((font-lock-unfontify-region-function
-         (lambda (start end)
-           (remove-text-properties start end '(font-lock-face nil))
-           )
-         )
-        )
-    (font-lock-unfontify-buffer)
-    (set (make-local-variable 'font-lock-defaults)
-         '(buffer-menu-buffer-font-lock-keywords t)
-         )
-    (font-lock-mode         1)
-    (font-lock-fontify-buffer)
-    )
-  )
-
-(add-hook 'electric-buffer-menu-mode-hook 'buffer-menu-custom-font-lock)
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add to theme path
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
