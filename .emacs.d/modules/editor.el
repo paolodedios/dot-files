@@ -29,6 +29,7 @@
 
 (custom-set-variables
  '(cursor-type (quote box))
+ '(cursor-color "yellow")
  '(default-frame-alist '((background-mode        .     dark)
                          (foreground-color       .  "wheat")
                          (background-color       .  "black")
