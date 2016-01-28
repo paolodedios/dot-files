@@ -17,24 +17,6 @@
 (require 'color-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set custom variables
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(custom-set-variables
- '(default-frame-alist '(
-                         (tool-bar-lines         .        0)
-                         (menu-bar-lines         .        1)
-                         (foreground-color       .  "wheat")
-                         (background-color       .  "black")
-                         (cursor-type            .      box)
-                         (cursor-color           . "yellow")
-                         (vertical-scroll-bars   .    right)
-                         (internal-border-width  .        0)
-                         )
-    )
- )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set default color theme and font
 ;; These settings may be overriden by platform specific settings set
 ;; by either Emacs or platform-*.el
