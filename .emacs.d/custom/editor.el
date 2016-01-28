@@ -27,9 +27,19 @@
 ;; Set global variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(custom-set-variables '(cursor-type (quote box))
-                      '(tool-bar-mode nil nil (tool-bar))
-                      )
+(custom-set-variables
+ '(default-frame-alist '((foreground-color       .  "wheat")
+                         (background-color       .  "black")
+                         (cursor-type            .      box)
+                         (cursor-color           . "yellow")
+                         (vertical-scroll-bars   .    right)
+                         (internal-border-width  .        0)
+                         (tool-bar-mode  nil nil (tool-bar))
+                         (tool-bar-lines         .        0)
+                         (menu-bar-lines         .        1)
+                         )
+    )
+ )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Show approximate buffer size
@@ -87,14 +97,14 @@
 ;; Make selected region visible via highlighting
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(transient-mark-mode                          1)
+(transient-mark-mode                          t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rebinds C-a, C-e, and C-k to commands that operate by visual lines
 ;; instead of logical lines.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-visual-line-mode                      1)
+(global-visual-line-mode                      t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Underline highlighted region
