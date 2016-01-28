@@ -24,11 +24,13 @@
 (setq frame-title-format               "[ %f ]")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set global variables
+;; Set global frame variables
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
- '(default-frame-alist '((foreground-color       .  "wheat")
+ '(cursor-type (quote box))
+ '(default-frame-alist '((background-mode        .     dark)
+                         (foreground-color       .  "wheat")
                          (background-color       .  "black")
                          (cursor-type            .      box)
                          (cursor-color           . "yellow")
@@ -97,6 +99,7 @@
 ;; Make selected region visible via highlighting
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(cua-mode                                   nil)
 (transient-mark-mode                          t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
