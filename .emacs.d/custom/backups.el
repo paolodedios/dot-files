@@ -100,7 +100,7 @@
   ;; emacs session.
   (when (not buffer-backed-up)
     ;; Override the default parameters for per-session backups.
-    (let ((backup-directory-alist '(("" . user-session-backup-file-directory))))
+    (let ((backup-directory-alist '(("" . "~/.emacs.backups.d/per-session/"))))
       (backup-buffer)
       )
     )
