@@ -180,6 +180,13 @@ function update_home()
         rm -f ~/.profile
     fi
 
+    if [ -e ~/.bash_extra ]; then
+        check_list "Private shell variable file already installed"
+    else
+        check_list "Sym-linking private shell variable file to home directory"
+        ln -s ~/.bin.shared/etc/bash/.bash_extra ~/.bash_extra
+    fi
+
     if [ -e ~/.ssh ]; then
         check_list "Shared SSH configuration already installed"
     else
