@@ -198,10 +198,6 @@ function set_python_environment_vars()
         # having to pass it the -E parameter
         export PIP_RESPECT_VIRTUALENV=true
 
-        # Set PIP_CERT to the self-signed certificate for the local devpi PyPi server
-        export PIP_CERT="$HOME/.bin.shared/etc/python/pypi.cert.crt"
-        export REQUESTS_CA_BUNDLE="$PIP_CERT"
-
         # Ensure that the MacPorts versions of Python and virtualenv are used
         # for all virtualenv sessions.
         export VIRTUALENVWRAPPER_PYTHON=/opt/local/bin/python
