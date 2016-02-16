@@ -1,6 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; Markup (XML, HTML, XHTML, SGML) mode
+;; @see https://www.emacswiki.org/emacs/PsgmlMode
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
