@@ -43,12 +43,11 @@
 
 (add-hook 'text-mode-hook
           '(lambda ()
+             (linum-mode                             1)
              (auto-fill-mode                         1)
              (setq fill-column                      80)
              (setq tab-width                         4)
              (local-set-key "^C-^t"   'ispell-complete-word)
-             ;; For some reason, global-linum-mode does not work in text mode
-             (linum-mode                             1)
              )
           )
 

@@ -30,19 +30,22 @@
 ;; web-mode hook section, called on entry of web-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun my-web-mode-hook ()
-  "Hooks for web-mode."
-  (setq web-mode-markup-indent-offset             4)
-  (setq web-mode-css-indent-offset                4)
-  (setq web-mode-code-indent-offset               4)
-  (setq web-mode-enable-auto-pairing              t)
-  (setq web-mode-enable-css-colorization          t)
-  (setq web-mode-enable-comment-keywords          t)
-  (setq web-mode-enable-heredoc-fontification     t)
-  (setq web-mode-use-tabs                         t)
-  )
-
-(add-hook 'web-mode-hook          'my-web-mode-hook)
+(add-hook 'web-mode-hook
+          (lambda ()
+            (setq web-mode-markup-indent-offset             4)
+            (setq web-mode-css-indent-offset                4)
+            (setq web-mode-code-indent-offset               4)
+            (setq web-mode-indent-style                     2)
+            (setq web-mode-style-paddding                   1)
+            (setq web-mode-script-paddding                  1)
+            (setq web-mode-block-paddding                   0)
+            (setq web-mode-enable-auto-pairing              t)
+            (setq web-mode-enable-css-colorization          t)
+            (setq web-mode-enable-comment-keywords          t)
+            (setq web-mode-enable-heredoc-fontification     t)
+            (setq web-mode-use-tabs                         t)
+            )
+          )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; web-mode key bindings
