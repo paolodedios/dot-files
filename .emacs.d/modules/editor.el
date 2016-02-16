@@ -177,12 +177,3 @@
 
 (require 'desktop)
 (require 'nameses)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable frame buffer listing by local and global modes
-;; @see https://github.com/alpaker/Frame-Bufs
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'frame-bufs)
-
-(frame-bufs-mode  t)
