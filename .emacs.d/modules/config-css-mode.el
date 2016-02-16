@@ -2,6 +2,9 @@
 ;;
 ;; CSS mode
 ;; @see https://julien.danjou.info/projects/emacs-packages#rainbow-mode
+;; @see https://github.com/purcell/less-css-mode
+;; @see https://github.com/nex3/sass-mode
+;; @see https://github.com/antonj/scss-mode
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
