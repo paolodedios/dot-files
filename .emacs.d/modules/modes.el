@@ -63,6 +63,7 @@
 (load "modules/config-css-mode")
 (load "modules/config-dtd-mode")
 (load "modules/config-xml-mode")
+(load "modules/config-yaml-mode")
 
 (load "modules/config-go-mode")
 (load "modules/config-ocaml-mode")
