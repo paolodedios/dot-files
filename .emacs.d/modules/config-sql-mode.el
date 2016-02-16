@@ -1,6 +1,8 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; SQL mode
+;; @see https://github.com/bsvingen/sql-indent
+;; @see https://github.com/paetzke/format-sql.el
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
