@@ -1,6 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; DTD mode
+;; @see http://www.menteith.com/wiki/tdtd
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
