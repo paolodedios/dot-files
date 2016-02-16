@@ -25,23 +25,41 @@
 ;; Enable dropdown-prompt priority
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'popup)
+
+(eval-after-load 'popup
+  '(progn
+     (define-key popup-menu-keymap (kbd "M-n") 'popup-next)
+     (define-key popup-menu-keymap (kbd "TAB") 'popup-next)
+     (define-key popup-menu-keymap (kbd "<tab>") 'popup-next)
+     (define-key popup-menu-keymap (kbd "<backtab>") 'popup-previous)
+     (define-key popup-menu-keymap (kbd "M-p") 'popup-previous)))
+
+
+(defun yas-popup-isearch-prompt (prompt choices &optional display-fn)
+  (when (featurep 'popup)
+    (popup-menu*
+     (mapcar
+      (lambda (choice)
+        (popup-make-item
+         (or (and display-fn (funcall display-fn choice))
+             choice)
+         :value choice))
+      choices)
+     :prompt prompt
+     ;; start isearch mode immediately
+     :isearch t)))
+
+
 (require 'dropdown-list)
 
 (setq yas-prompt-functions
       '(yas-dropdown-prompt
-        yas-ido-prompt
         yas-x-prompt
-        yas-completing-prompt
+        yas-popup-isearch-prompt
         yas-no-prompt
         )
       )
-
-
-;; Use yas-completing-prompt ONLY via `M-x yas-insert-snippet'
-(defadvice yas-insert-snippet (around use-completing-prompt activate)
-    "Use `yas-completing-prompt' for `yas-prompt-functions' but only here..."
-     (let ((yas-prompt-functions '(yas-completing-prompt)) )  ad-do-it)
-     )
 
 ;; Set to auto indent first line
 (setq yas-also-auto-indent-first-line             t  )
@@ -67,125 +85,8 @@
 ;; (yas-minor-mode) to the major-modes where you to enable YASnippet.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; reload all snippet tables
+;; Reload all snippet tables
 (yas-reload-all)
 
-;; enable yasnippet for snippet-mode
-(add-hook 'text-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for snippet-mode
-(add-hook 'snippet-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for lisp-mode
-(add-hook 'lisp-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for generic cc-mode
-(add-hook 'cc-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for objc-mode
-(add-hook 'objc-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for java-mode
-(add-hook 'java-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for js-mode
-(add-hook 'js-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for js2-mode
-(add-hook 'js2-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for coffeescript-mode
-(add-hook 'coffee-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for scala-mode
-(add-hook 'scala-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for clojure-mode
-(add-hook 'clojure-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for ocaml-mode
-(add-hook 'ocaml-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for ocaml tuareg-mode
-(add-hook 'tuareg-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for python-mode
-(add-hook 'python-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for html-mode
-(add-hook 'html-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for psgml-mode
-(add-hook 'psgml-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for sgml-mode
-(add-hook 'sgml-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for xml-mode
-(add-hook 'xml-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for nxml-mode
-(add-hook 'nxml-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for css-mode
-(add-hook 'css-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for sh-mode
-(add-hook 'sh-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for sql-mode
-(add-hook 'sql-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for markdown-mode
-(add-hook 'markdown-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
-
-;; enable yasnippet for web-mode
-(add-hook 'web-mode-hook
-          '(lambda ()
-             (yas-minor-mode-on)))
+;; Enable YAS mode everywhere
+(yas-global-mode  t)
