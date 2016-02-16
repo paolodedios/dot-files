@@ -12,16 +12,6 @@
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files."  t)
 (autoload 'xml-mode  "psgml" "Major mode to edit XML files."   t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; nXhtml mode loader (Breaks MMM mode customizations and file associations)
-;;
-;; (requre 'autostart.el)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'xxml)
-
-(autoload 'xxml-mode-routine "xxml")
-
 (require 'yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -47,11 +37,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; XML hook section, called on entry of a markup mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Enable xxml mode for SGML and XML modes
-(add-hook 'sgml-mode-hook     'xxml-mode-routine)
-(add-hook 'xml-mode-hook      'xxml-mode-routine)
-
 
 ;; Disable auto fill mode for all markup major/minor modes
 (add-hook 'html-mode-hook
