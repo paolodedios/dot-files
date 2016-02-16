@@ -1,14 +1,13 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; C/C++ mode
+;; @see http://cc-mode.sourceforge.net/index.php
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C/C++ mode. Esp for identation settings, require CC-mode
-;; Uses latest cc-mode in vendor/cc
-;; @see http://cc-mode.sourceforge.net/index.php
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'cc-mode)
