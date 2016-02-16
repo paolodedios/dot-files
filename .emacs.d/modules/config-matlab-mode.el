@@ -10,9 +10,7 @@
 ;; Load matlab-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'matlab)
-
-(autoload 'matlab-mode  "matlab"  "Enter Matlab Mode."       t)
+(autoload 'matlab-mode  "matlab"  "Matlab Editing Mode."     t)
 (autoload 'matlab-shell "matlab"  "Interactive Matlab Mode." t)
 
 (setq matlab-shell-command                            "matlab")
