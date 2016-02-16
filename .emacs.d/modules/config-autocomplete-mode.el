@@ -1,6 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; Autocomplete Mode
+;; @see https://github.com/auto-complete/auto-complete
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -17,9 +18,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on auto-complete
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Configure location of autocomplete dictionaries for various modes
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/vendor/autocomplete/dict")
 
 ;; Load the default auto-complete configuration
 (ac-config-default)

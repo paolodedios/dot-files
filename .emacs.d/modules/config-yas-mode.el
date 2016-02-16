@@ -1,6 +1,8 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
-;; YASnippet  mode
+;; YASnippet mode
+;; @see https://github.com/capitaomorte/yasnippet
+;; @see https://github.com/AndreaCrotti/yasnippet-snippets
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -13,12 +15,12 @@
 (require 'yasnippet)
 
 (setq yas-snippet-dirs
-      '("~/.snippets"                               ;; local, private snippets
-        "~/.emacs.d/snippets"                       ;; public contrib snippets
-        "~/.emacs.d/vendor/yasnippet/snippets"      ;; default snippets collection
-        )
+      (append yas-snippet-dirs
+              '("~/.snippets"           ;; private snippets
+                "~/.emacs.d/snippets"   ;; public contrib snippets
+                )
+              )
       )
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable dropdown-prompt priority
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -1,6 +1,9 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; Javascript mode
+;; @see https://github.com/mooz/js2-mode
+;; @see https://github.com/unhammer/js2-highlight-vars.el
+;; @see https://github.com/joshwnj/json-mode
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

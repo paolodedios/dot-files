@@ -1,6 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
-;; web template mode
+;; Web template mode
+;; https://github.com/fxbois/web-mode
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
