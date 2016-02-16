@@ -12,8 +12,6 @@
 (autoload 'sgml-mode "psgml" "Major mode to edit SGML files."  t)
 (autoload 'xml-mode  "psgml" "Major mode to edit XML files."   t)
 
-(require 'yaml-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SGML and XML global settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -66,12 +64,6 @@
              (setq tab-width     2)
              )
           )
-
-(add-hook 'yaml-mode-hook
-      '(lambda ()
-        (define-key yaml-mode-map "\C-m" 'newline-and-indent)
-        )
-      )
 
 ;; Add CSS colorization to relevant major/minor modes
 (add-hook 'html-mode-hook     'hexcolor-add-to-font-lock)
@@ -148,4 +140,3 @@
 (setq auto-mode-alist (append '(("\\.rdf$"      . xml-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.xsd$"      . xml-mode          )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.xsl$"      . xml-mode          )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.yml$"      . yaml-mode         )) auto-mode-alist))
