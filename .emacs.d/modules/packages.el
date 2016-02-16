@@ -33,6 +33,7 @@
     (lorem-ipsum                     . "melpa"       )
     (paradox                         . "melpa-stable")
     (paredit                         . "melpa-stable")
+    (regex-dsl                       . "melpa"       )
     (wc-goal-mode                    . "melpa"       )
     ;; Major and minor mode packages
     (clojure-mode                    . "melpa-stable")
@@ -50,6 +51,7 @@
     (magit                           . "melpa-stable")
     (markdown-mode                   . "melpa-stable")
     (matlab-mode                     . "melpa"       )
+    (mmm-mode                        . "melpa-stable")
     (php-mode                        . "melpa-stable")
     (python-mode                     . "melpa"       )
     (rainbow-mode                    . "gnu"         )

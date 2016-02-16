@@ -1,6 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; MMM (Multiple Major Modes) mode
+;; @see https://github.com/purcell/mmm-mode
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
