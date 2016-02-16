@@ -54,6 +54,7 @@
     (mmm-mode                        . "melpa-stable")
     (php-mode                        . "melpa-stable")
     (python-mode                     . "melpa"       )
+    (psgml                           . "marmalade"   )
     (rainbow-mode                    . "gnu"         )
     (sass-mode                       . "melpa-stable")
     (scala-mode                      . "melpa"       )
