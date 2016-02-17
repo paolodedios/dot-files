@@ -36,6 +36,7 @@
     (lorem-ipsum                     . "melpa"       )
     (paradox                         . "melpa-stable")
     (paredit                         . "melpa-stable")
+    (powerline                       . "melpa-stable")
     (regex-dsl                       . "melpa"       )
     (s                               . "melpa-stable")
     (wc-goal-mode                    . "melpa"       )
