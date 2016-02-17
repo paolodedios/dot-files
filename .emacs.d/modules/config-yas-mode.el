@@ -96,7 +96,6 @@
      :prompt prompt
      :max-width 80
      :isearch t
-     :isearch-keymap yas-popup-isearch-keymap
      )
     )
   )
