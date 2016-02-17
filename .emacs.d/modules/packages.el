@@ -48,7 +48,7 @@
     (clojure-mode-extra-font-locking . "melpa-stable")
     (coffee-mode                     . "melpa-stable")
     (format-sql                      . "melpa"       )
-    (gist                            . "marmalade"   )
+    (gist                            . "melpa"       )
     (go-mode                         . "melpa-stable")
     (groovy-mode                     . "melpa"       )
     (js2-mode                        . "melpa-stable")
