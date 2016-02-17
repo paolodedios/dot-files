@@ -85,7 +85,7 @@
    ;; Modeline
    `(mode-line ((,class (:foreground ,fg6 :background ,bg7 :box nil))))
    `(mode-line-inactive ((,class (:foreground ,fg7 :background ,bg8 :box nil))))
-   `(mode-line-buffer-id ((,class (:bold t :foreground ,func :background nil))))
+   `(mode-line-buffer-id ((,class (:bold t :foreground ,bg4 :background nil))))
    `(mode-line-highlight ((,class (:foreground ,type :box nil :weight bold))))
    `(mode-line-emphasis ((,class (:foreground ,fg1))))
 
