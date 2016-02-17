@@ -37,6 +37,7 @@
     (paradox                         . "melpa-stable")
     (paredit                         . "melpa-stable")
     (regex-dsl                       . "melpa"       )
+    (s                               . "melpa-stable")
     (wc-goal-mode                    . "melpa"       )
     ;; Major and minor mode packages
     (clojure-mode                    . "melpa-stable")
