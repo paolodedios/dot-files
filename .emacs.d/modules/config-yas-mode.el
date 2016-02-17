@@ -25,44 +25,89 @@
 ;; Enable dropdown-prompt priority
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'popup)
-
-(eval-after-load 'popup
-  '(progn
-     (define-key popup-menu-keymap (kbd "M-n") 'popup-next)
-     (define-key popup-menu-keymap (kbd "TAB") 'popup-next)
-     (define-key popup-menu-keymap (kbd "<tab>") 'popup-next)
-     (define-key popup-menu-keymap (kbd "<backtab>") 'popup-previous)
-     (define-key popup-menu-keymap (kbd "M-p") 'popup-previous)))
-
-
-(defun yas-popup-isearch-prompt (prompt choices &optional display-fn)
-  (when (featurep 'popup)
-    (popup-menu*
-     (mapcar
-      (lambda (choice)
-        (popup-make-item
-         (or (and display-fn (funcall display-fn choice))
-             choice)
-         :value choice))
-      choices)
-     :prompt prompt
-     ;; start isearch mode immediately
-     :isearch t)))
-
-
 (require 'dropdown-list)
+(require 'popup)
+(require 'dash)
+(require 's)
+
+;; Use incremental search to autocomplete the snippet key. Under incremental
+;; search, the following keyboard shortcuts apply
+;;
+;; RET          select/finish completion  (also fn-ENTER on some keyboards)
+;; C-m          select/finish completion
+;; C-g          cancel isearch
+;; C-h          delete isearch character
+;;
+;; @see https://github.com/auto-complete/popup-el
+;; @see https://github.com/thomasf/emacs-yasnippet-popup
+;;
+(defun yas-popup-isearch-prompt (prompt choices &optional display-fn)
+  "A yasnipppet prompt based on popup.el"
+  (let ((group-max-len 0)
+        (key-max-len 0)
+        (fmt "")
+        (popup-items)
+        )
+
+    (mapcar #'(lambda (choice)
+                (when (yas--template-p choice)
+                  (setq group-max-len (max group-max-len
+                                           (+ (length (yas--template-group choice) )
+                                              (apply '+ (mapcar 'length (yas--template-group choice))))))
+                  (setq key-max-len (max key-max-len (length (yas--template-key choice))))
+                  )
+                )
+            choices)
+
+    (setq fmt (format "%s%%%d.%ds%s%%-%d.%ds│ %%s"
+                      (if (> group-max-len 0 ) "" " ")
+                      group-max-len group-max-len
+                      (if (> group-max-len 0 ) " > " "")
+                      key-max-len key-max-len
+                      )
+          )
+
+    (setq popup-items
+          (mapcar
+           #'(lambda (choice)
+               (popup-make-item
+                (if (yas--template-p choice)
+                    (format fmt
+                            (if (yas--template-group choice)
+                                (s-join "/" (yas--template-group choice))
+                              "")
+                            (if (yas--template-key choice)
+                                (yas--template-key choice)
+                              "")
+                            (if (yas--template-name choice)
+                                (yas--template-name choice)
+                              ""))
+                  (format " %s" choice)
+                  )
+                :value choice
+                )
+               )
+           choices
+           )
+          )
+
+    (popup-menu*
+     popup-items
+     :prompt prompt
+     :max-width 80
+     :isearch t
+     :isearch-keymap yas-popup-isearch-keymap
+     )
+    )
+  )
 
 (setq yas-prompt-functions
-      '(yas-dropdown-prompt
-        yas-x-prompt
-        yas-popup-isearch-prompt
-        yas-no-prompt
-        )
-      )
-
-;; Set to auto indent first line
-(setq yas-also-auto-indent-first-line             t  )
+       '(yas-popup-isearch-prompt
+         yas-dropdown-prompt
+         yas-x-prompt
+         yas-no-prompt
+         )
+       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rebind trigger keys and functions
@@ -84,6 +129,9 @@
 ;; with (yas-reload-all) to load the snippet tables. Then add a call to
 ;; (yas-minor-mode) to the major-modes where you to enable YASnippet.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Set to auto indent first line
+(setq yas-also-auto-indent-first-line             t  )
 
 ;; Reload all snippet tables
 (yas-reload-all)
