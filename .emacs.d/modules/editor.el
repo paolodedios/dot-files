@@ -177,3 +177,23 @@
 
 (require 'desktop)
 (require 'nameses)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Visual regexp
+;; @see https://github.com/benma/visual-regexp.el
+;; @see https://github.com/benma/visual-regexp-steroids.el
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'visual-regexp-steroids)
+
+;; Use PCRE regular expressions via the pcre2el engine.
+;; @see https://github.com/joddie/pcre2el
+(setq vr/engine  'pcre2el)
+
+;; Bind the visual-regexp query replace functions
+(define-key global-map (kbd "C-c r") 'vr/replace)
+(define-key global-map (kbd "C-c q") 'vr/query-replace)
+
+;; Use visual-regexp-steroids's isearch instead of the built-in regexp isearch
+(define-key esc-map (kbd "C-r") 'vr/isearch-backward)
+(define-key esc-map (kbd "C-s") 'vr/isearch-forward)

@@ -36,9 +36,12 @@
     (lorem-ipsum                     . "melpa"       )
     (paradox                         . "melpa-stable")
     (paredit                         . "melpa-stable")
+    (pcre2el                         . "melpa"       )
     (powerline                       . "melpa-stable")
     (regex-dsl                       . "melpa"       )
     (s                               . "melpa-stable")
+    (visual-regexp                   . "melpa"       )
+    (visual-regexp-steroids          . "melpa"       )
     (wc-goal-mode                    . "melpa"       )
     ;; Major and minor mode packages
     (clojure-mode                    . "melpa-stable")
