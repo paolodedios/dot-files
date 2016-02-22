@@ -283,9 +283,6 @@ if [ "$OS" = "darwin" ]; then
     # Flush Directory Service cache
     alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
-    # Copy emacs configuration to Aquamacs pref directory
-    alias refreshaquamacsconfig="cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el"
-
     # Open file in the current Aquamacs window
     alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"
 
