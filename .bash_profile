@@ -39,7 +39,7 @@
 # 5. bash_extra (private configuration)
 ########################################################################################
 
-for file in ~/.{bash_exports,bash_functions,bash_aliases,bash_prompt,bash_extra}; do
+for file in ~/.{bash_exports,bash_functions,bash_aliases,bash_prompt,bash_extras}; do
 	[ -r "$file" ] && source "$file"
 done
 
