@@ -644,28 +644,6 @@ function timer()
 }
 
 ########################################################################################
-# AWS Helpers
-########################################################################################
-
-function aws-usekey()
-{
-    echo "Using AWS EC2 X.509 private key : [$1]"
-    export EC2_PRIVATE_KEY=$1
-}
-
-function aws-usecert()
-{
-    echo "Using AWS EC2 X.509 certificate : [$1]"
-    export EC2_CERT=$1
-}
-
-function aws-use-endpoint()
-{
-    echo "Using AWS region endpoint : [$1]"
-    export EC2_URL="http://$1"
-}
-
-########################################################################################
 # Show definition of function $1
 ########################################################################################
 
