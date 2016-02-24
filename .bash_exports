@@ -301,7 +301,7 @@ if [ "$OS" = "darwin" ]; then
         # TMUX session NOT active, set paths
         export SYSTEM_PATH=$PATH
     else
-        # TMUX session NOT active, preserve paths
+        # TMUX session active, preserve paths
         export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
     fi
 
