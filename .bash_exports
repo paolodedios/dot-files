@@ -11,9 +11,9 @@
 # Identify OS and Machine
 ########################################################################################
 
-export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
-export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
-export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export OS=$(uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
+export OSVERSION=$(uname -r); OSVERSION=$(expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)')
+export MACHINE=$(uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
 export PLATFORM="$MACHINE-$OS-$OSVERSION"
 export NETIF=en0
 
@@ -183,7 +183,7 @@ function set_local_dev_environment_vars()
 function set_python_environment_vars()
 {
     # Python virtual environment
-    if [ -e `type -p virtualenvwrapper.sh` ]; then
+    if [ -e $(type -p virtualenvwrapper.sh) ]; then
 
         # Set virtualenv working directory
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs

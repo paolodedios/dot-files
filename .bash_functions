@@ -14,7 +14,7 @@
 
 function sysinfo()
 {
-    echo -e  "Kernel: " `uname -smr`
+    echo -e  "Kernel: " $(uname -smr)
     echo -ne "Uptime:  "; uptime
     echo -ne "Time  :  "; date
 }
@@ -36,7 +36,7 @@ function hg_dirty()
 
 function hg_in_repo()
 {
-    [[ `hg branch 2> /dev/null` ]] && echo "on hg:"
+    [[ $(hg branch 2> /dev/null) ]] && echo "on hg:"
 }
 
 function hg_branch()
@@ -56,7 +56,7 @@ function git_dirty()
 
 function git_in_repo()
 {
-    [[ `git rev-parse --abbrev-ref HEAD 2> /dev/null` ]] && echo "on git:"
+    [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null) ]] && echo "on git:"
 }
 
 function git_branch()
@@ -169,7 +169,7 @@ py_virtualenv_check()
 {
     if [ -e .venv ]; then
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
-        PYTHON_VIRTUALENV_SELECTION=`cat .venv`
+        PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
             echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
             echo "Using python version :"
@@ -237,7 +237,7 @@ function select_jdk8()
 # Execute JAD with standard options
 function jadexec()
 {
-    if [ -e `type -p jad` ]; then
+    if [ -e $(type -p jad) ]; then
         find . -name \*.class |xargs jad -b -d "$1" -dead -ff -i -o -r -radix10 -s .java -safe -stat
     else
         echo "ERROR: Java Decompiler not found."
@@ -247,7 +247,7 @@ function jadexec()
 # Execute JAD with fully qualified names and with verbose processing output
 function jadexecv()
 {
-    if [ -e `type -p jad` ]; then
+    if [ -e $(type -p jad) ]; then
         find . -name \*.class |xargs jad -b -d "$1" -dead -f -ff -i -o -r -radix10 -s .java -safe -stat -v
     else
         echo "ERROR: Java Decompiler not found."
@@ -261,7 +261,7 @@ function jadexecv()
 
 function matlab_console()
 {
-    if [ -e `type -p matlab` ]; then
+    if [ -e $(type -p matlab) ]; then
         matlab -nodisplay -nodesktop -nosplash
     else
         echo "ERROR: Matlab interpreter not found."
@@ -270,7 +270,7 @@ function matlab_console()
 
 function matlab_run_file()
 {
-    if [ -e `type -p matlab` ]; then
+    if [ -e $(type -p matlab) ]; then
         matlab -nodisplay -nodesktop -nosplash -r "run('$1'); exit;"
     else
         echo "ERROR: Matlab interpreter not found."
@@ -676,7 +676,7 @@ if [ "$OS" = "darwin" ]; then
     function lower-tms-pri()
     {
         echo "Reducing Time Machine priority..."
-        sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+        sudo renice +5 -p $(ps -axc | grep backupd | awk '{ print \$1 }')
     }
 
     # Flush Directory Service cache
