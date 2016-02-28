@@ -217,6 +217,13 @@ function set_python_environment_vars()
     #
     # @see http://www.nltk.org/data.html for details
     export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
+
+
+    # SpaCy data location used by the command
+    #
+    #    $ python -m spacy.en.download all --force
+    #
+    export SPACY_DATA="$HOME/.bin.local/var/data/spacy"
 }
 
 function set_c_environment_vars()
