@@ -106,8 +106,8 @@ function set_shared_dev_environment_vars()
 function set_local_dev_environment_vars()
 {
     # Declare personal projects directory
-    if [ -d $HOME/$LOCAL_PROJECTS ]; then
-        export PROJECT_HOME=$HOME/$LOCAL_PROJECTS
+    if [ -d $LOCAL_PROJECTS ]; then
+        export PROJECT_HOME=$LOCAL_PROJECTS
     fi
 
     # Declare platform agnostic applications
@@ -296,8 +296,8 @@ function set_cuda_environment_vars()
 function set_go_lang_environment_vars()
 {
     # Declare personal projects directory
-    if [ -d $HOME/$LOCAL_PROJECTS ]; then
-        export GO_PROJECT_HOME=$HOME/$LOCAL_PROJECTS
+    if [ -d $LOCAL_PROJECTS ]; then
+        export GO_PROJECT_HOME=$LOCAL_PROJECTS
     else
         export GO_PROJECT_HOME=$HOME
     fi
