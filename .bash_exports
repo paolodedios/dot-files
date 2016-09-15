@@ -293,6 +293,20 @@ function set_cuda_environment_vars()
     fi
 }
 
+function set_go_lang_environment_vars()
+{
+    # Declare personal projects directory
+    if [ -d $HOME/$LOCAL_PROJECTS ]; then
+        export GO_PROJECT_HOME=$HOME/$LOCAL_PROJECTS
+    else
+        export GO_PROJECT_HOME=$HOME
+    fi
+
+    # Set the top level GOPATH environment variable
+    # @see https://golang.org/doc/code.html#Workspaces
+    #
+    export GOPATH=$GO_PROJECT_HOME/Go
+}
 
 ########################################################################################
 # Export OS specific variables
@@ -434,3 +448,6 @@ set_python_environment_vars
 #
 # Toolkits that may depend on shared or local environment variables go last
 set_cuda_environment_vars
+
+# Set local Go language environment variables
+set_go_lang_environment_vars
