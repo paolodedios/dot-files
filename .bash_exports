@@ -306,6 +306,7 @@ function set_go_lang_environment_vars()
     # @see https://golang.org/doc/code.html#Workspaces
     #
     export GOPATH=$GO_PROJECT_HOME/Go
+    export PATH=$GOPATH/bin:$PATH
 }
 
 ########################################################################################
