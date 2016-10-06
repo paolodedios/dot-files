@@ -83,7 +83,9 @@ done
 # Load in bash_completion package
 ########################################################################################
 
-if [ -f /opt/local/etc/bash_completion ]; then
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion > /dev/null 2>&1
+elif [ -f /opt/local/etc/bash_completion ]; then
     . /opt/local/etc/bash_completion > /dev/null 2>&1
 else
     complete -W "$(echo $(grep '^ssh ' .bash_history | sort -u | sed 's/^ssh //'))" ssh
