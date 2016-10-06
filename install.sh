@@ -64,7 +64,7 @@ function check_deps()
 function update_emacs_environment()
 {
     if [ -e ~/.snippets ]; then
-        check_list "Shared Emacs YASnippet files already installed"
+        check_list "Private Emacs YASnippet files already installed"
     else
         check_list "Sym-linking shared Emacs YASnippet files to home directory"
         ln -s ~/.bin.shared/etc/snippets ~/.snippets
@@ -89,7 +89,7 @@ function update_emacs_environment()
 function update_python_environment()
 {
     if [ -e ~/.pip/pip.conf ]; then
-        check_list "Shared pip configuration already installed"
+        check_list "Private pip configuration already installed"
     else
         check_list "Sym-linking shared pip.conf to home directory"
         mkdir -p ~/.pip
@@ -97,14 +97,14 @@ function update_python_environment()
     fi
 
     if [ -e ~/.pydistutils.cfg ]; then
-        check_list "Shared setup_tools configuration already installed"
+        check_list "Private setup_tools configuration already installed"
     else
         check_list "Sym-linking shared pydistutils.cfg to home directory"
         ln -s ~/.bin.shared/etc/python/pydistutils.conf ~/.pydistutils.cfg
     fi
 
     if [ -e ~/.buildout/default.cfg ]; then
-        check_list "Shared zc.buildout configuration already installed"
+        check_list "Private zc.buildout configuration already installed"
     else
         check_list "Sym-linking shared buildout.cfg to home directory"
         mkdir -p ~/.buildout
@@ -119,7 +119,7 @@ function update_deployment_environment()
     # AWS credential files is the standard mechanism for sharing credentials
     # between AWS SDKs, including non-Amazon ones like Boto
     if [ -e ~/.aws/credentials ]; then
-        check_list "Shared AWS credentials already installed"
+        check_list "Private AWS credentials already installed"
     else
         check_list "Sym-linking shared AWS credentials to home directory"
         mkdir -p ~/.aws
@@ -127,21 +127,21 @@ function update_deployment_environment()
     fi
 
     if [ -e ~/.boto ]; then
-        check_list "Shared Boto configuration already installed"
+        check_list "Private Boto configuration already installed"
     else
         check_list "Sym-linking shared Boto configuration to home directory"
         ln -s ~/.bin.shared/etc/aws/boto.conf ~/.boto
     fi
 
     if [ -e ~/.ansible.cfg ]; then
-        check_list "Shared ansible configuration already installed"
+        check_list "Private ansible configuration already installed"
     else
         check_list "Sym-linking shared ansible configuration to home directory"
         ln -s ~/.bin.shared/etc/ansible/ansible.conf ~/.ansible.cfg
     fi
 
     if [ -e ~/.vagrant.d/Vagrantfile ]; then
-        check_list "Shared Vagrantfile configuration already installed"
+        check_list "Private Vagrantfile configuration already installed"
     else
         check_list "Sym-linking shared Vagrantfile to home directory"
         mkdir -p ~/.vagrant.d
@@ -180,19 +180,28 @@ function update_home()
         rm -f ~/.profile
     fi
 
-    if [ -e ~/.bash_extra ]; then
+    if [ -e ~/.bash_extras ]; then
         check_list "Private shell variable file already installed"
     else
         check_list "Sym-linking private shell variable file to home directory"
-        ln -s ~/.bin.shared/etc/bash/.bash_extra ~/.bash_extra
+        ln -s ~/.bin.shared/etc/bash/.bash_extras ~/.bash_extras
     fi
 
+    if [ -e ~/.bash_completion.d ]; then
+        check_list "Private bash completion scripts already installed"
+    else
+        check_list "Sym-linking shared bash completion scripts to home directory"
+        ln -s ~/.bin.shared/etc/bash/bash_completion.d ~/.bash_completion.d
+       fi
+
     if [ -e ~/.ssh ]; then
-        check_list "Shared SSH configuration already installed"
+        check_list "Private SSH configuration already installed"
     else
         check_list "Sym-linking shared SSH configuration to home directory"
         ln -s ~/.bin.shared/etc/ssh ~/.ssh
     fi
+
+
 
     update_dev_environment
 
