@@ -47,6 +47,7 @@
     (clojure-mode                    . "melpa-stable")
     (clojure-mode-extra-font-locking . "melpa-stable")
     (coffee-mode                     . "melpa-stable")
+    (dockerfile-mode                 . "melpa"       )
     (format-sql                      . "melpa"       )
     (gist                            . "melpa"       )
     (go-mode                         . "melpa-stable")
