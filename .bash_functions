@@ -559,7 +559,7 @@ function urlencode()
 function geturl()
 {
     curl --connect-timeout 15   \
-         --limit-rate 2M        \
+         --limit-rate 5M        \
          --max-time 28800       \
          --retry 999            \
          --retry-delay 2        \
