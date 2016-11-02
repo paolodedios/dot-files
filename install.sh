@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # Shell configuration initialization script
 #
