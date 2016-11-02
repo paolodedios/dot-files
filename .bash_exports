@@ -44,7 +44,7 @@ export MY_HOSTFILE=$HOME/.hosts
 # Command history customization
 ########################################################################################
 
-export HISTSIZE=32768
+export HISTSIZE=262144
 export HISTFILESIZE=$HISTSIZE
 
 # Avoid succesive duplicates in the bash command history
