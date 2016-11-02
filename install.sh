@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Shell configuration initialization script
 #
@@ -30,13 +30,13 @@ function error()
 # List item
 function check_list()
 {
-    echo  "  \033[1;32m✔\033[0m $1";
+    echo "  \033[1;32m✔\033[0m $1";
 }
 
 # Error list item
 function error_list()
 {
-    echo  "  \033[1;31m✖\033[0m $1";
+    echo "  \033[1;31m✖\033[0m $1";
 }
 
 # Check for dependency
