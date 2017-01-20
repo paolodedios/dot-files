@@ -156,6 +156,20 @@ function select_python34()
     sudo port select --set virtualenv virtualenv34
 }
 
+function select_python35()
+{
+    sudo port select --set python python35
+    sudo port select --set pip pip35
+    sudo port select --set virtualenv virtualenv35
+}
+
+function select_python36()
+{
+    sudo port select --set python python36
+    sudo port select --set pip pip36
+    sudo port select --set virtualenv virtualenv36
+}
+
 ########################################################################################
 # Python environment utilities
 ########################################################################################
