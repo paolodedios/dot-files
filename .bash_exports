@@ -207,6 +207,9 @@ function set_python_environment_vars()
         # site-packages directory by passing "no-site-packages" as the default
         # argument for virtualenv
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+
+        # Load Python virtualenv wrapper functions
+        source virtualenvwrapper.sh > /dev/null 2>&1
     fi
 
     # NLTK data location used by the command
