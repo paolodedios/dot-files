@@ -211,6 +211,12 @@ alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.3"
 # Create a new python 3.4 virtual environment
 alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.4"
 
+# Create a new python 3.5 virtual environment
+alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.5"
+
+# Create a new python 3.6 virtual environment
+alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.6"
+
 # Switch to a specific virtual environment
 alias pystartenv="workon"
 
