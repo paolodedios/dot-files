@@ -12,18 +12,18 @@
 ;; between monitor sizes.
 ;;
 ;; Emacs @2560x1600:
-;; - frame-height:  90
-;; - frame-width : 154
+;; - frame-height:  94
+;; - frame-width : 158
 ;;
 ;; Emacs @1440x900:
 ;; - frame-height:  50
-;; - frame-width : 154
+;; - frame-width : 158
 ;;
 ;; @see preference file "frame-positions.el"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-frame-height (selected-frame)           90)
-(set-frame-width  (selected-frame)          154)
+(set-frame-height (selected-frame)           94)
+(set-frame-width  (selected-frame)          158)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the title displayed in the title-bar "filename (path)"
