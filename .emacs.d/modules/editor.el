@@ -11,6 +11,14 @@
 ;; Frame width should remain consistent across screens.  Height will vary
 ;; between monitor sizes.
 ;;
+;; Emacs @2560x1600:
+;; - frame-height:  90
+;; - frame-width : 154
+;;
+;; Emacs @1440x900:
+;; - frame-height:  50
+;; - frame-width : 154
+;;
 ;; @see preference file "frame-positions.el"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
