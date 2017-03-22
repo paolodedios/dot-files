@@ -18,7 +18,7 @@
 ;; Turn on font-lock
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'typescrupt-mode-hook           'turn-on-font-lock)
+(add-hook 'typescript-mode-hook           'turn-on-font-lock)
 
 (defun setup-tide-mode ()
   (interactive)
