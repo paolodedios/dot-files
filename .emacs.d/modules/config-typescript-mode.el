@@ -47,4 +47,4 @@
 ;; File associations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq auto-mode-alist (append '(("\\.ts$"        . typescrupt-mode           )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.ts$"        . typescript-mode           )) auto-mode-alist))
