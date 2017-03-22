@@ -18,15 +18,14 @@
 ;; Turn on font-lock
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'typescript-mode-hook           'turn-on-font-lock)
-
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
-  (flycheck-mode               +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode                  +1)
   (tide-hl-identifier-mode     +1)
+
+  (flycheck-mode               +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
 
   ;; company is an optional dependency. You have to
   ;; install it separately via package-install
@@ -35,12 +34,14 @@
   )
 
 ;; aligns annotation to the right hand side
-(setq company-tooltip-align-annotations t)
+(setq company-tooltip-align-annotations  t)
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
 
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(add-hook 'typescript-mode-hook  'turn-on-font-lock)
+
+(add-hook 'typescript-mode-hook  #'setup-tide-mode)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
