@@ -25,6 +25,7 @@
 ;; to source them from.
 (defvar local-pinned-package-deps
   '((auto-complete                   . "melpa-stable")
+    (company                         . "gnu"         )
     (dash                            . "melpa"       )
     (deferred                        . "melpa-stable")
     (dropdown-list                   . "melpa"       )
@@ -62,6 +63,7 @@
     (markdown-mode                   . "melpa-stable")
     (matlab-mode                     . "melpa"       )
     (mmm-mode                        . "melpa-stable")
+    (ng2-mode                        . "melpa"       )
     (php-mode                        . "melpa-stable")
     (python-mode                     . "melpa"       )
     (psgml                           . "marmalade"   )
@@ -70,6 +72,9 @@
     (scala-mode                      . "melpa"       )
     (scss-mode                       . "melpa-stable")
     (sql-indent                      . "melpa"       )
+    (tide                            . "melpa"       )
+    (ts-comint                       . "melpa"       )
+    (typescript-mode                 . "melpa"       )
     (tuareg                          . "melpa"       )
     (web-mode                        . "melpa-stable")
     (yaml-mode                       . "melpa-stable")
