@@ -54,6 +54,7 @@
 (load "modules/config-python-mode")
 (load "modules/config-js-mode")
 (load "modules/config-coffeescript-mode")
+(load "modules/config-typescript-mode")
 
 (load "modules/config-php-mode")
 (load "modules/config-sql-mode")
@@ -70,6 +71,7 @@
 
 (load "modules/config-mmm")
 (load "modules/config-web-mode")
+(load "modules/config-ng2-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Attach YASnippet mode to all other major modes
