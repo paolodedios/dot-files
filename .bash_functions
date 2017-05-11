@@ -184,7 +184,7 @@ py_virtualenv_check()
     if [ -e .venv ]; then
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
-        PYTHON_VIRTUALENV_VERSION=$(python --version)
+        PYTHON_VIRTUALENV_VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
             echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
             echo "Using python version : ${PYTHON_VIRTUALENV_VERSION}"
