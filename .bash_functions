@@ -186,8 +186,7 @@ py_virtualenv_check()
         PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
             echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
-            echo "Using python version :"
-            show_python_info | grep active
+            echo "Using python version : $(python --version)"
 
             if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
                 mkvirtualenv $PYTHON_VIRTUALENV_SELECTION
