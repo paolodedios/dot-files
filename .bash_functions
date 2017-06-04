@@ -83,6 +83,14 @@ function git_pull_upstream()
     git pull upstream master "$1"
 }
 
+# Reset last commit. If last commit was pushed upstream then a
+# git pull may be necessary before re-committing and pushing
+# changes
+function git_undo_last_commit()
+{
+    git reset HEAD~
+}
+
 # Discard all local changes in the current branch
 function git_reset_branch()
 {
