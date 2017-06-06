@@ -531,6 +531,27 @@ function tmux_wrapper_loadavg()
     esac
 }
 
+
+function tmux_wrapper_loadavg_full()
+{
+    case $(uname -s) in
+        *Darwin*)
+            local loadavg_01m=$(sysctl -q -n vm.loadavg | cut -d' ' -f2)
+            local loadavg_05m=$(sysctl -q -n vm.loadavg | cut -d' ' -f3)
+            local loadavg_15m=$(sysctl -q -n vm.loadavg | cut -d' ' -f4)
+
+            tmux set -g @loadavg_full "load: ${loadavg_01m}, ${loadavg_05m}, ${loadavg_15m}"
+            ;;
+        *Linux*)
+            local loadavg_01m=$(cut -d' ' -f1 < /proc/loadavg)
+            local loadavg_05m=$(cut -d' ' -f2 < /proc/loadavg)
+            local loadavg_10m=$(cut -d' ' -f3 < /proc/loadavg)
+
+            tmux set -g @loadavg_full "load: ${loadavg_01m}, ${loadavg_05m}, ${loadavg_10m}"
+            ;;
+    esac
+}
+
 ###############################################################################
 #
 # Split window override function
@@ -1079,6 +1100,18 @@ EOF
                                                       -e 's/#\{(\?)?loadavg/#\{\1@loadavg/g')
             status_right="#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_loadavg)$status_right"
             ;;
+    esac
+
+    # Full Load average information
+    case "$status_left $status_right" in
+        *'#{loadavg_full}'*)
+            status_left=$(echo "$status_left" | sed -E \
+                                                    -e 's/#\{(\?)?loadavg_full/#\{\1@loadavg_full/g')
+            status_right=$(echo "$status_right" | sed -E \
+                                                      -e 's/#\{(\?)?loadavg_full/#\{\1@loadavg_full/g')
+            status_right="#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_loadavg_full)$status_right"
+            ;;
+
     esac
 
     # Style session number information
