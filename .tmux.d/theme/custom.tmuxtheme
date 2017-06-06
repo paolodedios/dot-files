@@ -387,7 +387,7 @@ function tmux_wrapper_username()
         # shellcheck disable=SC2086
         [ -z "$username" ] && username=$(ssh -T -o ControlPath=none \
                                              -o ProxyCommand="sh -c 'echo %%username%% %r >&2'" \
-                                         $ssh_parameters 2>&1 | awk '/^%username% / { print $2; exit }')
+                                             $ssh_parameters 2>&1 | awk '/^%username% / { print $2; exit }')
     else
         if ! tmux_wrapper_is_enabled "$ssh_only"; then
             # shellcheck disable=SC2039
@@ -433,8 +433,9 @@ function tmux_wrapper_hostname()
         # shellcheck disable=SC2086
         hostname=$(ssh -G $ssh_parameters 2>/dev/null | awk 'NR > 2 { exit } ; /^hostname / { print $2 }')
         # shellcheck disable=SC2086
-        [ -z "$hostname" ] && hostname=$(ssh -T -o ControlPath=none \
-                                             -o ProxyCommand= "sh -c 'echo %%hostname%% %h >&2'" \
+        [ -z "$hostname" ] && hostname=$(ssh -T \
+                                             -o ControlPath=none \
+                                             -o ProxyCommand="sh -c 'echo %%hostname%% %h >&2'" \
                                              $ssh_parameters 2>&1 | awk '/^%hostname% / { print $2; exit }')
         #shellcheck disable=SC1004
         hostname=$(echo "$hostname" | awk '\
