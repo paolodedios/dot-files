@@ -7,11 +7,21 @@
 #
 # @author paolodedios
 #
-# Implementation note:
-# String literal line continuations are implemented by using backtick operators
-# that evaluate spaces to nothing
+# Implementation notes:
 #
-# @see https://stackoverflow.com/questions/7729023/how-do-i-break-up-an-extremely-long-string-literal-in-bash
+# 1. String literal line continuations are implemented by using backtick operators
+#    that evaluate spaces to nothing.
+#    @see https://stackoverflow.com/questions/7729023
+#         /how-do-i-break-up-an-extremely-long-string-literal-in-bash
+#
+# 2. Workaround for high CPU utilization on status line updates requires
+#    delaying variable expansion in embedded shell jobs by converting
+#    variable usage of the form #D to '#'D for all instances of jobs using
+#    the #D, #I, #S variables.
+#    @see https://github.com/tmux/tmux/issues/889#issuecomment-298249810
+#    @see https://github.com/tmux/tmux/issues/889
+#    @see https://github.com/tmux/tmux/issues/922
+#    @see https://github.com/gpakosz/.tmux/issues/50
 #
 ###############################################################################
 
@@ -792,9 +802,9 @@ tmux_wrapper_apply_theme()
     fi
 
     tmux_conf_theme_window_status_format=$(echo "$tmux_conf_theme_window_status_format" | \
-                                               sed 's%#{circled_window_index}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit #I)%g')
+                                           sed "s%#{circled_window_index}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit '#'I)%g")
     tmux_conf_theme_window_status_current_format=$(echo "$tmux_conf_theme_window_status_current_format" | \
-                                               sed 's%#{circled_window_index}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit #I)%g')
+                                           sed "s%#{circled_window_index}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit '#'I)%g")
 
     tmux  setw -g window-status-style "fg=$tmux_conf_theme_window_status_fg,"`
                                         `"bg=$tmux_conf_theme_window_status_bg,$tmux_conf_theme_window_status_attr" \;\
@@ -856,7 +866,7 @@ tmux_wrapper_apply_theme()
     tmux_conf_theme_status_left=$(echo "$tmux_conf_theme_status_left" | \
                                       sed -e "s%#{root}%#[fg=$tmux_conf_theme_root_fg]#[bg=$tmux_conf_theme_root_bg]"`
                                            `"#[$tmux_conf_theme_root_attr]#(cat ${TMUX_THEME_FILE} | "`
-                                           `"sh -s tmux_wrapper_root #{pane_tty} #D)#[inherit]%g")
+                                           `"sh -s tmux_wrapper_root #{pane_tty} '#'D)#[inherit]%g")
 
     if [ -n "$tmux_conf_theme_status_left" ]; then
         status_left=$(awk \
@@ -955,7 +965,7 @@ EOF
     tmux_conf_theme_status_right=$(echo "$tmux_conf_theme_status_right" | \
                                        sed -e "s%#{root}%#[fg=$tmux_conf_theme_root_fg]#[bg=$tmux_conf_theme_root_bg]"`
                                             `"#[$tmux_conf_theme_root_attr]#(cat ${TMUX_THEME_FILE} | "`
-                                            `"sh -s tmux_wrapper_root #{pane_tty} #D)#[inherit]%g")
+                                            `"sh -s tmux_wrapper_root #{pane_tty} '#'D)#[inherit]%g")
 
     if [ -n "$tmux_conf_theme_status_right" ]; then
         status_right=$(awk \
@@ -1062,15 +1072,15 @@ EOF
     case "$status_left $status_right" in
         *'#{username}'*|*'#{hostname}'*|*'#{username_ssh}'*|*'#{hostname_ssh}'*)
             status_left=$(echo "$status_left" | \
-                              sed -e 's%#{username}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} false #D)%g' \
-                                  -e 's%#{hostname}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} false #D)%g' \
-                                  -e 's%#{username_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} true #D)%g' \
-                                  -e 's%#{hostname_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} true #D)%g')
+                              sed -e "s%#{username}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} false '#'D)%g" \
+                                  -e "s%#{hostname}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} false '#'D)%g" \
+                                  -e "s%#{username_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} true '#'D)%g" \
+                                  -e "s%#{hostname_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} true '#'D)%g")
             status_right=$(echo "$status_right" | \
-                              sed -e 's%#{username}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} false #D)%g' \
-                                  -e 's%#{hostname}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} false #D)%g' \
-                                  -e 's%#{username_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} true #D)%g' \
-                                  -e 's%#{hostname_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} true #D)%g')
+                              sed -e "s%#{username}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} false '#'D)%g" \
+                                  -e "s%#{hostname}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} false '#'D)%g" \
+                                  -e "s%#{username_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_username #{pane_tty} true '#'D)%g" \
+                                  -e "s%#{hostname_ssh}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_hostname #{pane_tty} true '#'D)%g")
             ;;
     esac
 
@@ -1115,8 +1125,8 @@ EOF
     esac
 
     # Style session number information
-    status_left=$(echo "$status_left" | sed 's%#{circled_session_name}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit #S)%g')
-    status_right=$(echo "$status_right" | sed 's%#{circled_session_name}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit #S)%g')
+    status_left=$(echo "$status_left" | sed "s%#{circled_session_name}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit '#'S)%g")
+    status_right=$(echo "$status_right" | sed "s%#{circled_session_name}%#(cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_circled_digit '#'S)%g")
 
     tmux  set -g status-left-length 1000 \; set -g status-left "$status_left" \;\
           set -g status-right-length 1000 \; set -g status-right "$status_right"
