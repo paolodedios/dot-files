@@ -89,6 +89,20 @@ function git_push_new_branch()
     git push --set-upstream origin $(git_branch_name)
 }
 
+# Delete local and remote branches
+function git_delete_branch()
+{
+    echo "Deleting local and remote tracking branch for: ${1}"
+    git push origin --delete "$1"
+    git branch -d "$1"
+}
+
+# Sync local branches with upstream
+function git_prune_branches()
+{
+    git fetch --all --prune
+}
+
 # Reset last commit. If last commit was pushed upstream then a
 # git pull may be necessary before re-committing and pushing
 # changes
