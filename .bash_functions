@@ -88,8 +88,7 @@ function git_push_new_branch()
 {
     local branch_name=$(git_branch_name)
 
-    git branch --set-upstream-to origin/$branch_name $branch_name
-    git push
+    git push --set-upstream origin $branch_name
 }
 
 # Reset last commit. If last commit was pushed upstream then a
