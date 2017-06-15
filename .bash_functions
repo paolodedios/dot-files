@@ -83,6 +83,15 @@ function git_pull_upstream()
     git pull upstream master "$1"
 }
 
+# Push an untracked local branch to the remote origin
+function git_push_new_branch()
+{
+    local branch_name=$(git_branch_name)
+
+    git branch --set-upstream-to origin/$branch_name $branch_name
+    git push
+}
+
 # Reset last commit. If last commit was pushed upstream then a
 # git pull may be necessary before re-committing and pushing
 # changes
