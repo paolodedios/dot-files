@@ -86,9 +86,7 @@ function git_pull_upstream()
 # Push an untracked local branch to the remote origin
 function git_push_new_branch()
 {
-    local branch_name=$(git_branch_name)
-
-    git push --set-upstream origin $branch_name
+    git push --set-upstream origin $(git_branch_name)
 }
 
 # Reset last commit. If last commit was pushed upstream then a
