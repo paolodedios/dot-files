@@ -62,10 +62,19 @@ and/or that does so now."
 ;; @see https://github.com/magit/magit/issues/2687
 ;; @see https://github.com/magit/magit/wiki/magit-update-uncommitted-buffer-hook
 ;;
+;; (add-hook 'magit-update-uncommitted-buffer-hook 'vc-refresh-state)
 
+;; Enable global-auto-revert-mode
 (global-auto-revert-mode 1)
-;;(setq auto-revert-check-vc-info t)
-(add-hook 'magit-update-uncommitted-buffer-hook 'vc-refresh-state)
+
+;; Update the vcs info in the modeline when auto revert runs
+(setq auto-revert-check-vc-info t)
+
+;; Disable the "reverting buffer ..." messages
+(setq auto-revert-verbose nil)
+
+;; Set file poll interval for 10 seconds
+(setq auto-revert-interval 10)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Magit mode key bindings
