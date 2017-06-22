@@ -63,7 +63,7 @@ and/or that does so now."
 ;; @see https://github.com/magit/magit/wiki/magit-update-uncommitted-buffer-hook
 ;;
 ;;(add-hook 'magit-update-uncommitted-buffer-hook 'vc-refresh-state)
-
+(global-auto-revert-mode 1)
 (setq auto-revert-check-vc-info t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
