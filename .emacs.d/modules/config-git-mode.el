@@ -7,6 +7,21 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable global-auto-revert-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-auto-revert-mode 1)
+
+;; Update the vcs info in the modeline when auto revert runs
+(setq auto-revert-check-vc-info t)
+
+;; Disable the "reverting buffer ..." messages
+(setq auto-revert-verbose nil)
+
+;; Set file poll interval for 10 seconds
+(setq auto-revert-interval 10)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable git diff indicators in the gutter
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -27,9 +42,9 @@
 
 (defun magit-maybe-cache-modified-files ()
   "Maybe save a list of modified files.
-That list is later used by `magit-update-uncommitted-buffers',
-provided it is a member of `magit-post-refresh-hook'.  If it is
-not, then don't save anything here."
+   That list is later used by `magit-update-uncommitted-buffers',
+   provided it is a member of `magit-post-refresh-hook'.  If it is
+   not, then don't save anything here."
   (when (memq 'magit-update-uncommitted-buffers magit-post-refresh-hook)
     (setq magit--modified-files (magit-modified-files t))))
 
@@ -39,10 +54,10 @@ not, then don't save anything here."
 
 (defun magit-update-uncommitted-buffers ()
   "Update some file-visiting buffers belonging to the current repository.
-Run `magit-update-uncommitted-buffer-hook' for each buffer
-which visits a file inside the current repository that had
-uncommitted changes before running the current Magit command
-and/or that does so now."
+   Run `magit-update-uncommitted-buffer-hook' for each buffer
+   which visits a file inside the current repository that had
+   uncommitted changes before running the current Magit command
+   and/or that does so now."
   (let ((topdir (magit-toplevel)))
     (dolist (file (delete-consecutive-dups
                    (sort (nconc (magit-modified-files t)
@@ -62,19 +77,7 @@ and/or that does so now."
 ;; @see https://github.com/magit/magit/issues/2687
 ;; @see https://github.com/magit/magit/wiki/magit-update-uncommitted-buffer-hook
 ;;
-;; (add-hook 'magit-update-uncommitted-buffer-hook 'vc-refresh-state)
-
-;; Enable global-auto-revert-mode
-(global-auto-revert-mode 1)
-
-;; Update the vcs info in the modeline when auto revert runs
-(setq auto-revert-check-vc-info t)
-
-;; Disable the "reverting buffer ..." messages
-(setq auto-revert-verbose nil)
-
-;; Set file poll interval for 10 seconds
-(setq auto-revert-interval 10)
+(add-hook 'magit-update-uncommitted-buffer-hook 'vc-refresh-state)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Magit mode key bindings
