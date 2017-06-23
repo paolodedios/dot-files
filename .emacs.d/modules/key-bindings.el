@@ -232,6 +232,7 @@
 ;; Ctrl-[f6 to f12] are mapped to functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(define-key global-map [(control f5)]     'toggle-margin-to-fill-column    )
 (define-key global-map [(control f6)]     'indent-clean-region             )
 (define-key global-map [(control f7)]     'align-stacked-c-list            )
 (define-key global-map [(control f8)]     'align-stacked-c-funcall         )

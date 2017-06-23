@@ -41,6 +41,7 @@
 
 (load "modules/config-text-mode")
 (load "modules/config-markdown-mode")
+(load "modules/config-whitespace-mode")
 
 (load "modules/config-lisp-mode")
 (load "modules/config-sh-mode")

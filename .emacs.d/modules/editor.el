@@ -98,11 +98,12 @@
 ;; Line wrapping behavior
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Don't allow text to exceed 80 columns before line wrapping
-(setq fill-column                            80)
-
 ;; Disable line wrap by default. enable only through specific mode hooks
 (setq-default truncate-lines                nil)
+
+;; Don't allow text to exceed a default of 100 columns when fill-mode or
+;; auto-fill-mode is active.
+(setq-default fill-column                   100)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Make selected region visible via highlighting
