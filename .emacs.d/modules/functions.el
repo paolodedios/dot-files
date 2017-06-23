@@ -478,10 +478,6 @@ there's a region, all lines that region covers will be duplicated."
   )
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Copyright information source headers
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defun paste-default-c-file-style ()
   "Insert c-file-style local variable header. "
   (interactive)
@@ -497,3 +493,15 @@ there's a region, all lines that region covers will be duplicated."
    "/* -*- c-file-style: \"knr13\" -*- */"
    )
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Toggle moving margin to fill column
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun toggle-margin-to-fill-column ()
+  "Toggle the right margin between `fill-column' or window width.
+   This command is convenient when reading novel, documentation."
+  (interactive)
+  (if (eq (cdr (window-margins)) nil)
+      (set-window-margins nil 0 (- (window-body-width) fill-column))
+    (set-window-margins nil 0 0) ) )
