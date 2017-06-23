@@ -19,15 +19,15 @@
 ;; Enable auto complete via the auto-complete module
 (setq py-load-pymacs-p  t)
 
-;; Enable auto fill mode at column 80 in compliance with PEP 8
 (add-hook 'python-mode-hook
           '(lambda ()
              ;; Enable indentation highlighting
              (require 'highlight-indentation)
              (highlight-indentation-current-column-mode   t)
-             (auto-fill-mode                              1)
+             ;; Set fill-column to 80 in compliance with PEP 8
              (setq fill-column                           80)
              (setq tab-width                              4)
+             (auto-fill-mode                              1)
              (local-set-key [return]    'newline-and-indent)
              )
           )

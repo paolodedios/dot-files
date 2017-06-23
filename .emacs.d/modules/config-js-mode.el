@@ -98,14 +98,13 @@
              ;; js2-mode is not a cc-mode derivative
              (c-toggle-auto-state                    1)
              (c-toggle-hungry-state                  1)
-             (auto-fill-mode                         1)
              (show-paren-mode                        t)
              (subword-mode                           1)
-             (setq fill-column                      80)
+             (setq fill-column                     100)
              (setq c-basic-offset                    4)
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
-
+             (auto-fill-mode                         1)
              ;; js2-mode specific options
              (setq js2-use-font-lock-faces           t)
              (setq js2-highlight-level               3)

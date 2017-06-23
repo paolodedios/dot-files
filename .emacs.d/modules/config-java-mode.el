@@ -283,13 +283,13 @@
              ;; toggle major mode editor options
              (c-toggle-auto-state                    1)
              (c-toggle-hungry-state                  1)
-             (auto-fill-mode                         1)
              (show-paren-mode                        t)
              (subword-mode                           1)
-             (setq fill-column                      80)
+             (setq fill-column                     100)
              (setq c-basic-offset                    4)
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
+             (auto-fill-mode                         1)
              ;; set programming style
              (c-add-style "sourcery" my-java-mode-programming-style        t)
              (c-add-style "knr13"    my-knr13-java-mode-programming-style  t)

@@ -102,13 +102,13 @@
              ;; toggle major mode editor options
              (c-toggle-auto-state                    1)
              (c-toggle-hungry-state                  1)
-             (auto-fill-mode                         1)
              (show-paren-mode                        t)
              (subword-mode                           1)
-             (setq fill-column                      80)
+             (setq fill-column                     100)
              (setq c-basic-offset                    4)
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
+             (auto-fill-mode                         1)
              ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
@@ -128,13 +128,13 @@
              ;; toggle major mode editor options
              (c-toggle-auto-state                    1)
              (c-toggle-hungry-state                  1)
-             (auto-fill-mode                         1)
              (show-paren-mode                        t)
              (subword-mode                           1)
-             (setq fill-column                      80)
+             (setq fill-column                     100)
              (setq c-basic-offset                    4)
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
+             (auto-fill-mode                         1)
              ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
@@ -154,13 +154,13 @@
              ;; toggle major mode editor options
              (c-toggle-auto-state                    1)
              (c-toggle-hungry-state                  1)
-             (auto-fill-mode                         1)
              (show-paren-mode                        t)
              (subword-mode                           1)
-             (setq fill-column                      80)
+             (setq fill-column                     100)
              (setq c-basic-offset                    4)
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
+             (auto-fill-mode                         1)
              ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))

@@ -16,7 +16,6 @@
 ;; YAML mode hook section, called on entry of yaml-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Disable auto fill mode for all markup major/minor modes
 (add-hook 'yaml-mode-hook
       '(lambda ()
         (define-key yaml-mode-map "\C-m" 'newline-and-indent)

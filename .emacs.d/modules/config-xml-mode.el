@@ -40,28 +40,28 @@
 ;; Disable auto fill mode for all markup major/minor modes
 (add-hook 'html-mode-hook
           '(lambda ()
-             (auto-fill-mode     nil)
+             (auto-fill-mode    -1)
              (setq tab-width     2)
              )
           )
 
 (add-hook 'psgml-mode-hook
           '(lambda ()
-             (auto-fill-mode     nil)
+             (auto-fill-mode    -1)
              (setq tab-width     2)
              )
           )
 
 (add-hook 'sgml-mode-hook
           '(lambda ()
-             (auto-fill-mode     nil)
+             (auto-fill-mode    -1)
              (setq tab-width     2)
              )
           )
 
 (add-hook 'xml-mode-hook
           '(lambda ()
-             (auto-fill-mode     nil)
+             (auto-fill-mode    -1)
              (setq tab-width     2)
              )
           )
