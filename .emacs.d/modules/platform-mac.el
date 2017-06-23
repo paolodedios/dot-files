@@ -82,6 +82,10 @@
   ;; Disable mode-specific faces, use the default font for everything
   (aquamacs-autoface-mode  -1)
 
+  ;; Disable aquamacs auto-detect-wrap to allow text-mode-hook to control
+  ;; line-wrapping and fill mode independently.
+  (remove-hook 'text-mode-hook 'auto-detect-wrap)
+
   ;; Enable tab bar globally
   (tabbar-mode  t)
 
@@ -146,5 +150,7 @@
             )
 
   ;; Disable saving customizations to ~/Library/Preferences/.../customizations.el
-  (setq aquamacs-save-options-on-quit  nil)
+  ;; (custom-set-variables '(aquamacs-save-options-on-quit nil) )
+  (custom-set-variables '(aquamacs-save-options-on-quit nil) )
+
   )
