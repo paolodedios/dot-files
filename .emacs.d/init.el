@@ -7,7 +7,14 @@
 ;; M-x load-file RET .emacs RET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(message "Loading Emacs customization files...")
+(message "Loading Emacs customization files via init.el.")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Set the correct environment for bash commands
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq shell-file-name          "bash")
+(setq shell-command-switch     "-ic" )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set language constants
@@ -29,8 +36,17 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; By default Emacs doesn't include subdirectories of a directory in the
-;; load-path.
+;; Set the load path for custom themes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq custom-theme-directory "~/.emacs.d/themes/")
+
+;; Always trust custom themes (and don't prompt)
+(setq custom-safe-themes t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Ensure subdirectories are scanned, since Emacs doesn't include subdirectories
+;; of a directory in the load-path by default.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
@@ -42,31 +58,62 @@
   )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Suppress function redefinition warnings from `defadvice` usage by customized
+;; Emacs functions or third-party packages.
+;;
+;; @see http://andrewjamesjohnson.com/
+;;      suppressing-ad-handle-definition-warnings-in-emacs/
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq ad-redefinition-action  'accept)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load debugger settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(load "modules/debug")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load package manager
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(load "modules/packages")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load custom configuration settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load "custom/debug")
-(load "custom/functions")
-(load "custom/key-bindings")
-(load "custom/global")
-(load "custom/theme")
-(load "custom/backups")
-(load "custom/modes")
+(defun configure-emacs ()
+  ;; Load package configuration files
+  (load "modules/functions")
+  (load "modules/key-bindings")
+  (load "modules/encodings")
+  (load "modules/editor")
+  (load "modules/modeline")
+  (load "modules/linenum")
+  (load "modules/modes")
+  (load "modules/backups")
 
-(when (string-equal system-type "darwin")
-  ;; Load Mac OS specific settings
-  (message "Loading Mac OS X specific settings")
-  (load "custom/platform-mac")
- )
+  ;; Load platform specific configuration files
+  (when (string-equal system-type "darwin")
+    (message "Loading Mac OS X specific settings")
+    (load "modules/platform-mac")
+    )
 
-(when (string-equal system-type "gnu/linux")
-  ;; Load Unix/Linux specific settings
-  (message "Loading GNU/Linux specific settings")
-  (load "custom/platform-unix")
- )
+  (when (string-equal system-type "gnu/linux")
+    (message "Loading GNU/Linux specific settings")
+    (load "modules/platform-unix")
+    )
 
-(when (string-equal system-type "windows-nt")
-  ;; Load Windows specific settings
-  (message "Loading Windows specific settings")
-  (load "custom/platform-win")
- )
+  (when (string-equal system-type "windows-nt")
+    (message "Loading Windows specific settings")
+    (load "modules/platform-win")
+    )
+
+  ;; Load custom theme
+  (load-theme   'candycrush  t)
+  (enable-theme 'candycrush   )
+  )
+
+;; Load custom package configurations after packages and init.el load
+(add-hook 'after-init-hook 'configure-emacs)

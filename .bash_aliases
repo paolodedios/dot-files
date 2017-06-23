@@ -205,11 +205,14 @@ alias py26mkenv="mkvirtualenv --python=/opt/local/bin/python2.6"
 # Create a new python 2.7 virtual environment
 alias py27mkenv="mkvirtualenv --python=/opt/local/bin/python2.7"
 
-# Create a new python 3.3 virtual environment
-alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.3"
-
 # Create a new python 3.4 virtual environment
 alias py34mkenv="mkvirtualenv --python=/opt/local/bin/python3.4"
+
+# Create a new python 3.5 virtual environment
+alias py35mkenv="mkvirtualenv --python=/opt/local/bin/python3.5"
+
+# Create a new python 3.6 virtual environment
+alias py36mkenv="mkvirtualenv --python=/opt/local/bin/python3.6"
 
 # Switch to a specific virtual environment
 alias pystartenv="workon"
@@ -282,9 +285,6 @@ if [ "$OS" = "darwin" ]; then
 
     # Flush Directory Service cache
     alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
-
-    # Copy emacs configuration to Aquamacs pref directory
-    alias refreshaquamacsconfig="cp ~/.emacs ~/Library/Preferences/Aquamacs\ Emacs/Preferences.el"
 
     # Open file in the current Aquamacs window
     alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"

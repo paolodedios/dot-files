@@ -14,7 +14,7 @@
 
 function sysinfo()
 {
-    echo -e  "Kernel: " `uname -smr`
+    echo -e  "Kernel: " $(uname -smr)
     echo -ne "Uptime:  "; uptime
     echo -ne "Time  :  "; date
 }
@@ -36,7 +36,7 @@ function hg_dirty()
 
 function hg_in_repo()
 {
-    [[ `hg branch 2> /dev/null` ]] && echo "on hg:"
+    [[ $(hg branch 2> /dev/null) ]] && echo "on hg:"
 }
 
 function hg_branch()
@@ -51,21 +51,21 @@ function hg_branch()
 
 function git_dirty()
 {
-    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
+    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working tree clean" ]] && echo "*"
 }
 
 function git_in_repo()
 {
-    [[ `git rev-parse --abbrev-ref HEAD 2> /dev/null` ]] && echo "on git:"
+    [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null) ]] && echo "on git:"
 }
 
-function git_branch()
+function git_branch_name()
 {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(git_dirty)/"
 }
 
 # Take repo in $pwd and copy it to the specified location, minus the .git specific files.
-function gitexport()
+function git_export()
 {
 	mkdir -p "$1"
 	git archive master | tar -x -C "$1"
@@ -81,6 +81,34 @@ function git_add_upstream()
 function git_pull_upstream()
 {
     git pull upstream master "$1"
+}
+
+# Push an untracked local branch to the remote origin
+function git_push_new_branch()
+{
+    git push --set-upstream origin $(git_branch_name)
+}
+
+# Delete local and remote branches
+function git_delete_branch()
+{
+    echo "Deleting local and remote tracking branch for: ${1}"
+    git push origin --delete "$1"
+    git branch -d "$1"
+}
+
+# Sync local branches with upstream
+function git_prune_branches()
+{
+    git fetch --all --prune
+}
+
+# Reset last commit. If last commit was pushed upstream then a
+# git pull may be necessary before re-committing and pushing
+# changes
+function git_undo_last_commit()
+{
+    git reset HEAD~
 }
 
 # Discard all local changes in the current branch
@@ -156,6 +184,20 @@ function select_python34()
     sudo port select --set virtualenv virtualenv34
 }
 
+function select_python35()
+{
+    sudo port select --set python python35
+    sudo port select --set pip pip35
+    sudo port select --set virtualenv virtualenv35
+}
+
+function select_python36()
+{
+    sudo port select --set python python36
+    sudo port select --set pip pip36
+    sudo port select --set virtualenv virtualenv36
+}
+
 ########################################################################################
 # Python environment utilities
 ########################################################################################
@@ -169,11 +211,11 @@ py_virtualenv_check()
 {
     if [ -e .venv ]; then
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
-        PYTHON_VIRTUALENV_SELECTION=`cat .venv`
+        PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
+        PYTHON_VIRTUALENV_VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
             echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
-            echo "Using python version :"
-            show_python_info | grep active
+            echo "Using python version : ${PYTHON_VIRTUALENV_VERSION}"
 
             if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
                 mkvirtualenv $PYTHON_VIRTUALENV_SELECTION
@@ -237,7 +279,7 @@ function select_jdk8()
 # Execute JAD with standard options
 function jadexec()
 {
-    if [ -e `type -p jad` ]; then
+    if [ -e $(type -p jad) ]; then
         find . -name \*.class |xargs jad -b -d "$1" -dead -ff -i -o -r -radix10 -s .java -safe -stat
     else
         echo "ERROR: Java Decompiler not found."
@@ -247,7 +289,7 @@ function jadexec()
 # Execute JAD with fully qualified names and with verbose processing output
 function jadexecv()
 {
-    if [ -e `type -p jad` ]; then
+    if [ -e $(type -p jad) ]; then
         find . -name \*.class |xargs jad -b -d "$1" -dead -f -ff -i -o -r -radix10 -s .java -safe -stat -v
     else
         echo "ERROR: Java Decompiler not found."
@@ -261,7 +303,7 @@ function jadexecv()
 
 function matlab_console()
 {
-    if [ -e `type -p matlab` ]; then
+    if [ -e $(type -p matlab) ]; then
         matlab -nodisplay -nodesktop -nosplash
     else
         echo "ERROR: Matlab interpreter not found."
@@ -270,7 +312,7 @@ function matlab_console()
 
 function matlab_run_file()
 {
-    if [ -e `type -p matlab` ]; then
+    if [ -e $(type -p matlab) ]; then
         matlab -nodisplay -nodesktop -nosplash -r "run('$1'); exit;"
     else
         echo "ERROR: Matlab interpreter not found."
@@ -559,7 +601,7 @@ function urlencode()
 function geturl()
 {
     curl --connect-timeout 15   \
-         --limit-rate 2M        \
+         --limit-rate 5M        \
          --max-time 28800       \
          --retry 999            \
          --retry-delay 2        \
@@ -644,28 +686,6 @@ function timer()
 }
 
 ########################################################################################
-# AWS Helpers
-########################################################################################
-
-function aws-usekey()
-{
-    echo "Using AWS EC2 X.509 private key : [$1]"
-    export EC2_PRIVATE_KEY=$1
-}
-
-function aws-usecert()
-{
-    echo "Using AWS EC2 X.509 certificate : [$1]"
-    export EC2_CERT=$1
-}
-
-function aws-use-endpoint()
-{
-    echo "Using AWS region endpoint : [$1]"
-    export EC2_URL="http://$1"
-}
-
-########################################################################################
 # Show definition of function $1
 ########################################################################################
 
@@ -698,7 +718,7 @@ if [ "$OS" = "darwin" ]; then
     function lower-tms-pri()
     {
         echo "Reducing Time Machine priority..."
-        sudo renice +5 -p `ps -axc | grep backupd | awk '{ print \$1 }'`
+        sudo renice +5 -p $(ps -axc | grep backupd | awk '{ print \$1 }')
     }
 
     # Flush Directory Service cache

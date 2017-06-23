@@ -11,9 +11,9 @@
 # Identify OS and Machine
 ########################################################################################
 
-export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
-export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
-export MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
+export OS=$(uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
+export OSVERSION=$(uname -r); OSVERSION=$(expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)')
+export MACHINE=$(uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
 export PLATFORM="$MACHINE-$OS-$OSVERSION"
 export NETIF=en0
 
@@ -44,7 +44,7 @@ export MY_HOSTFILE=$HOME/.hosts
 # Command history customization
 ########################################################################################
 
-export HISTSIZE=32768
+export HISTSIZE=262144
 export HISTFILESIZE=$HISTSIZE
 
 # Avoid succesive duplicates in the bash command history
@@ -106,8 +106,8 @@ function set_shared_dev_environment_vars()
 function set_local_dev_environment_vars()
 {
     # Declare personal projects directory
-    if [ -d $HOME/$LOCAL_PROJECTS ]; then
-        export PROJECT_HOME=$HOME/$LOCAL_PROJECTS
+    if [ -d $LOCAL_PROJECTS ]; then
+        export PROJECT_HOME=$LOCAL_PROJECTS
     fi
 
     # Declare platform agnostic applications
@@ -183,7 +183,7 @@ function set_local_dev_environment_vars()
 function set_python_environment_vars()
 {
     # Python virtual environment
-    if [ -e `type -p virtualenvwrapper.sh` ]; then
+    if [ -e $(type -p virtualenvwrapper.sh) ]; then
 
         # Set virtualenv working directory
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
@@ -198,10 +198,6 @@ function set_python_environment_vars()
         # having to pass it the -E parameter
         export PIP_RESPECT_VIRTUALENV=true
 
-        # Set PIP_CERT to the self-signed certificate for the local devpi PyPi server
-        export PIP_CERT="$HOME/.bin.shared/etc/python/pypi.cert.crt"
-        export REQUESTS_CA_BUNDLE="$PIP_CERT"
-
         # Ensure that the MacPorts versions of Python and virtualenv are used
         # for all virtualenv sessions.
         export VIRTUALENVWRAPPER_PYTHON=/opt/local/bin/python
@@ -211,6 +207,9 @@ function set_python_environment_vars()
         # site-packages directory by passing "no-site-packages" as the default
         # argument for virtualenv
         export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+
+        # Load Python virtualenv wrapper functions
+        source virtualenvwrapper.sh > /dev/null 2>&1
     fi
 
     # NLTK data location used by the command
@@ -221,6 +220,13 @@ function set_python_environment_vars()
     #
     # @see http://www.nltk.org/data.html for details
     export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
+
+
+    # SpaCy data location used by the command
+    #
+    #    $ python -m spacy.en.download all --force
+    #
+    export SPACY_DATA="$HOME/.bin.local/var/data/spacy"
 }
 
 function set_c_environment_vars()
@@ -290,6 +296,21 @@ function set_cuda_environment_vars()
     fi
 }
 
+function set_go_lang_environment_vars()
+{
+    # Declare personal projects directory
+    if [ -d $LOCAL_PROJECTS ]; then
+        export GO_PROJECT_HOME=$LOCAL_PROJECTS
+    else
+        export GO_PROJECT_HOME=$HOME
+    fi
+
+    # Set the top level GOPATH environment variable
+    # @see https://golang.org/doc/code.html#Workspaces
+    #
+    export GOPATH=$GO_PROJECT_HOME/Go
+    export PATH=$GOPATH/bin:$PATH
+}
 
 ########################################################################################
 # Export OS specific variables
@@ -305,7 +326,7 @@ if [ "$OS" = "darwin" ]; then
         # TMUX session NOT active, set paths
         export SYSTEM_PATH=$PATH
     else
-        # TMUX session NOT active, preserve paths
+        # TMUX session active, preserve paths
         export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
     fi
 
@@ -431,3 +452,6 @@ set_python_environment_vars
 #
 # Toolkits that may depend on shared or local environment variables go last
 set_cuda_environment_vars
+
+# Set local Go language environment variables
+set_go_lang_environment_vars

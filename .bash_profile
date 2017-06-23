@@ -39,7 +39,7 @@
 # 5. bash_extra (private configuration)
 ########################################################################################
 
-for file in ~/.{bash_exports,bash_functions,bash_aliases,bash_prompt,bash_extra}; do
+for file in ~/.{bash_exports,bash_functions,bash_aliases,bash_prompt,bash_extras}; do
 	[ -r "$file" ] && source "$file"
 done
 
@@ -83,7 +83,9 @@ done
 # Load in bash_completion package
 ########################################################################################
 
-if [ -f /opt/local/etc/bash_completion ]; then
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion > /dev/null 2>&1
+elif [ -f /opt/local/etc/bash_completion ]; then
     . /opt/local/etc/bash_completion > /dev/null 2>&1
 else
     complete -W "$(echo $(grep '^ssh ' .bash_history | sort -u | sed 's/^ssh //'))" ssh
@@ -106,12 +108,6 @@ source ~/.git_completion
 ########################################################################################
 
 source ~/.docker_completion
-
-########################################################################################
-# Load Python virtualenv wrapper functions
-########################################################################################
-
-source virtualenvwrapper.sh > /dev/null 2>&1
 
 ########################################################################################
 # Check if entering a python virtual environment
