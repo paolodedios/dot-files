@@ -32,10 +32,10 @@
 
 (add-hook 'web-mode-hook
           (lambda ()
-            (setq web-mode-markup-indent-offset             4)
+            (setq web-mode-markup-indent-offset             2)
             (setq web-mode-css-indent-offset                4)
             (setq web-mode-code-indent-offset               4)
-            (setq web-mode-indent-style                     2)
+            (setq web-mode-indent-style                     4)
             (setq web-mode-style-paddding                   1)
             (setq web-mode-script-paddding                  1)
             (setq web-mode-block-paddding                   0)
