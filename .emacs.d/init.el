@@ -84,6 +84,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun configure-emacs ()
+  (interactive)
   ;; Load package configuration files
   (load "modules/functions")
   (load "modules/key-bindings")
