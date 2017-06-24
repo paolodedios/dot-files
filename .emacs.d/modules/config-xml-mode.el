@@ -31,6 +31,8 @@
       sgml-warn-about-undefined-entities   nil
       sgml-warn-about-undefined-elements   nil
       sgml-trace-entity-lookup             nil
+      nxml-child-indent                    2
+      nxml-attribute-indent                2
       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -66,10 +68,20 @@
              )
           )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Turn on font-lock
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Add CSS colorization to relevant major/minor modes
 (add-hook 'html-mode-hook     'hexcolor-add-to-font-lock)
 (add-hook 'psgml-mode-hook    'hexcolor-add-to-font-lock)
+(add-hook 'sgml-mode-hook     'hexcolor-add-to-font-lock)
 (add-hook 'xml-mode-hook      'hexcolor-add-to-font-lock)
+
+(add-hook 'html-mode-hook     'turn-on-font-lock)
+(add-hook 'psgml-mode-hook    'turn-on-font-lock)
+(add-hook 'sgml-mode-hook     'turn-on-font-lock)
+(add-hook 'xml-mode-hook      'turn-on-font-lock)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Close XML tag function
@@ -106,22 +118,17 @@
     )
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; XML mode key bindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; To close a tag, press "C-c /".  It will look for the closest opened tag and
 ;; it will close it.  The above function is not bullet-proof. It just counts
 ;; closing tags and discards as many open tags, before finding the one that you
 ;; need to close.  This means, if you have: "<foo><bar></foo>|" and press "C-c /",
 ;; it will still enter "</foo>" although your XML is obviously invalid.
 
-(define-key global-map [(control c) (/)] 'xml-close-tag)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Turn on font-lock
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'html-mode-hook         'turn-on-font-lock)
-(add-hook 'psgml-mode-hook        'turn-on-font-lock)
-(add-hook 'sgml-mode-hook         'turn-on-font-lock)
-(add-hook 'xml-mode-hook          'turn-on-font-lock)
+(define-key global-map "\C-c/" 'xml-close-tag)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File associations
