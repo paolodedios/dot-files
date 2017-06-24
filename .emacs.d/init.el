@@ -116,5 +116,11 @@
   (enable-theme 'candycrush   )
   )
 
-;; Load custom package configurations after packages and init.el load
+;; Load custom package configurations after packages and init.el load. The
+;; after-init-hook runs only once, when emacs starts, so in order to do a
+;; hot reload of configuration files, the configure-emacs function will
+;; need to be executed from a REPL session via:
+;;
+;;  M-x: configure-emacs
+;;
 (add-hook 'after-init-hook 'configure-emacs)
