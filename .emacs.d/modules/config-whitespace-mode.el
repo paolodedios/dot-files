@@ -57,7 +57,7 @@
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Witespace mode key bindgs
+;; Witespace mode key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-key global-map "\C-c_w"   'whitespace-mode                 )
