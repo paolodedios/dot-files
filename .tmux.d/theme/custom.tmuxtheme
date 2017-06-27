@@ -660,13 +660,7 @@ function tmux_wrapper_apply_bindings()
     fi
 
     if tmux -q -L swap-pane-test -f /dev/null new-session -d \; new-window \; new-window \; swap-pane -t :1 \; kill-session; then
-        # Use the built-in 'resize-pane' option for pane zooming instead of the
-        # custom implementation tmux_wrapper_maximize_pane
-        #
-        # tmux bind + run 'cat ${TMUX_THEME_FILE} | sh -s tmux_wrapper_maximize_pane #{session_name} #D'
         tmux bind + resize-pane -Z
-    else
-        tmux bind + display 'your tmux version has a buggy swap-pane command - see ticket #108, fixed in upstream commit 78e783e'
     fi
 
     tmux_conf_copy_to_os_clipboard=${tmux_conf_copy_to_os_clipboard:-false}
@@ -934,19 +928,10 @@ tmux_wrapper_apply_theme()
 $tmux_conf_theme_status_left
 EOF
                    )
-        #
-        # Check if we are running a tmux in between v1.9 and v2.0
-        if [ x"$(tmux -q -L tmux_theme_status_left_test -f /dev/null new-session -d \; show -g -v status-left \; kill-session)" = x"[#S] " ];
-        then
-           case "$status_left" in
-                *\ )
-                ;;
-                *)
-                    status_left="$status_left "
-                    ;;
-            esac
-        fi
     fi
+
+    status_left="$status_left "
+
     #
     # Set right status line style
     #
