@@ -13,17 +13,17 @@
 ;;
 ;; Emacs @2560x1600:
 ;; - frame-height:  94
-;; - frame-width : 158
+;; - frame-width : 160
 ;;
 ;; Emacs @1440x900:
 ;; - frame-height:  50
-;; - frame-width : 158
+;; - frame-width : 160
 ;;
 ;; @see preference file "frame-positions.el"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (set-frame-height (selected-frame)           94)
-(set-frame-width  (selected-frame)          158)
+(set-frame-width  (selected-frame)          160)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the title displayed in the title-bar "filename (path)"
