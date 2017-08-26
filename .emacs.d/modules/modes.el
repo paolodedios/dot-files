@@ -50,6 +50,7 @@
 (load "modules/config-scala-mode")
 (load "modules/config-clojure-mode")
 (load "modules/config-groovy-mode")
+(load "modules/config-antlr-mode")
 (load "modules/config-jflex-mode")
 
 (load "modules/config-python-mode")
