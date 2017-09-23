@@ -185,6 +185,10 @@ function set_python_environment_vars()
     # Python virtual environment
     if [ -e $(type -p virtualenvwrapper.sh) ]; then
 
+        # Set default virtualenv python version
+        export VIRTUALENV_PYTHON_PATH="/opt/local/bin"
+        export VIRTUALENV_PYTHON_VERSION="2.7"
+
         # Set virtualenv working directory
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
 

@@ -214,11 +214,13 @@ py_virtualenv_check()
         PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
         PYTHON_VIRTUALENV_VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
-            echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
-            echo "Using python version : ${PYTHON_VIRTUALENV_VERSION}"
+            echo "Starting virtualenv                 : ${PYTHON_VIRTUALENV_SELECTION}"
+            echo "Current python version              : ${PYTHON_VIRTUALENV_VERSION}"
+            echo "Preferred virtualenv python version : ${VIRTUALENV_PYTHON_VERSION}"
 
             if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
-                mkvirtualenv $PYTHON_VIRTUALENV_SELECTION
+                echo "Creating virtualenv using Python ${VIRTUALENV_PYTHON_VERSION}"
+                mkvirtualenv --python="${VIRTUALENV_PYTHON_PATH}/python${VIRTUALENV_PYTHON_VERSION}" $PYTHON_VIRTUALENV_SELECTION
             else
                 workon $PYTHON_VIRTUALENV_SELECTION
             fi
