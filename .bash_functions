@@ -213,9 +213,7 @@ py_virtualenv_check()
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
-            PYTHON_CURRENT_VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
-            echo "Starting virtualenv     : ${PYTHON_VIRTUALENV_SELECTION}"
-            echo "Current python version  : ${PYTHON_CURRENT_VERSION}"
+            echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
 
             if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
                 echo "Creating virtualenv using Python ${VIRTUALENV_PYTHON_VERSION}"
