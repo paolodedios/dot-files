@@ -204,8 +204,8 @@ function set_python_environment_vars()
 
         # Ensure that the MacPorts versions of Python and virtualenv are used
         # for all virtualenv sessions.
-        export VIRTUALENVWRAPPER_PYTHON=/opt/local/bin/python
-        export VIRTUALENVWRAPPER_VIRTUALENV=/opt/local/bin/virtualenv
+        export VIRTUALENVWRAPPER_PYTHON=$VIRTUALENV_PYTHON_PATH/python
+        export VIRTUALENVWRAPPER_VIRTUALENV=$VIRTUALENV_PYTHON_PATH/virtualenv
 
         # Ensure that all new environments are isolated from the system
         # site-packages directory by passing "no-site-packages" as the default
@@ -279,7 +279,12 @@ function set_cuda_environment_vars()
     # @see http://docs.nvidia.com/cuda/index.html
     #
     if [ "$OS" = "darwin" ]; then
-        export LOCAL_CUDA_HOME=/Developer/NVIDIA/CUDA-7.0
+        #
+        # The macOS CUDA installer places the library in /Developer/NVIDIA/CUDA-X.X.
+        # The following path, /opt/local/cuda should symlink to the real path in
+        # /Developer.
+        #
+        export LOCAL_CUDA_HOME=/opt/local/cuda
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib
 
@@ -289,7 +294,7 @@ function set_cuda_environment_vars()
         fi
 
     else
-        export LOCAL_CUDA_HOME=/usr/local/cuda-7.0
+        export LOCAL_CUDA_HOME=/usr/local/cuda
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib64
 
@@ -406,13 +411,13 @@ else
     fi
 
     # Local packages take precedence
-    export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH:/shared/bin
+    export PATH=$HOME/.local/bin:$HOME/bin:/shared/bin:/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
     # Local machine-specific binaries
-    export LOCAL_APP_HOME=~/.bin.local
+    export LOCAL_APP_HOME=$HOME/.bin.local
 
     # Shared machine-agnostic binaries
-    export SHARED_APP_HOME=~/.bin.shared
+    export SHARED_APP_HOME=$HOME/.bin.shared
 
     # Project directory
     export LOCAL_PROJECTS=~/Projects
