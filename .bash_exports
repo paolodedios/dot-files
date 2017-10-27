@@ -331,7 +331,7 @@ if [ "$OS" = "darwin" ]; then
         export SYSTEM_PATH=$PATH
     else
         # TMUX session active, preserve paths
-        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
+        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/MacGPG2/bin
     fi
 
     # MacPorts versions take precedence
@@ -402,11 +402,11 @@ else
     if ! { [ -n "$TMUX" ]; } then
         export SYSTEM_PATH=$PATH
     else
-        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin
     fi
 
     # Local packages take precedence
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH:/shared/bin
 
     # Local machine-specific binaries
     export LOCAL_APP_HOME=~/.bin.local
