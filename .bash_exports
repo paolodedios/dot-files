@@ -36,7 +36,7 @@ export EDITOR="vim"
 # Host file env variables
 ########################################################################################
 
-# Put list of remote hosts in ~/.hosts
+# Put list of remote hosts in $HOME/.hosts
 export SYS_HOSTFILE=/etc/hosts
 export MY_HOSTFILE=$HOME/.hosts
 
@@ -343,13 +343,13 @@ if [ "$OS" = "darwin" ]; then
     export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
     # Local machine-specific binaries
-    export LOCAL_APP_HOME=~/.bin.local
+    export LOCAL_APP_HOME=$HOME/.bin.local
 
     # Shared machine-agnostic binaries
-    export SHARED_APP_HOME=~/.bin.shared
+    export SHARED_APP_HOME=$HOME/.bin.shared
 
     # Project directory
-    export LOCAL_PROJECTS=~/Projects
+    export LOCAL_PROJECTS=$HOME/Projects
 
     # Create command alias for lsregister
     export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
@@ -414,13 +414,13 @@ else
     export PATH=$HOME/.local/bin:$HOME/bin:/shared/bin:/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
     # Local machine-specific binaries
-    export LOCAL_APP_HOME=$HOME/.bin.local
+    export LOCAL_APP_HOME=$HOME/.local
 
     # Shared machine-agnostic binaries
-    export SHARED_APP_HOME=$HOME/.bin.shared
+    export SHARED_APP_HOME=$HOME/.shared
 
     # Project directory
-    export LOCAL_PROJECTS=~/Projects
+    export LOCAL_PROJECTS=$HOME/Projects
 fi
 
 
