@@ -44,7 +44,7 @@ export MY_HOSTFILE=$HOME/.hosts
 # Command history customization
 ########################################################################################
 
-export HISTSIZE=262144
+export HISTSIZE=1048576
 export HISTFILESIZE=$HISTSIZE
 
 # Avoid succesive duplicates in the bash command history
@@ -223,14 +223,14 @@ function set_python_environment_vars()
     # to install corpora, models, and tokenizers
     #
     # @see http://www.nltk.org/data.html for details
-    export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
+    export NLTK_DATA=$HOME/.bin.local/var/data/nltk
 
 
     # SpaCy data location used by the command
     #
     #    $ python -m spacy.en.download all --force
     #
-    export SPACY_DATA="$HOME/.bin.local/var/data/spacy"
+    export SPACY_DATA=$HOME/.bin.local/var/data/spacy
 }
 
 function set_c_environment_vars()
@@ -407,11 +407,11 @@ else
     if ! { [ -n "$TMUX" ]; } then
         export SYSTEM_PATH=$PATH
     else
-        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin
+        export SYSTEM_PATH=/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
     fi
 
     # Local packages take precedence
-    export PATH=$HOME/.local/bin:$HOME/bin:/shared/bin:/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
+    export PATH=$SYSTEM_PATH::/shared/bin:$HOME/.local/bin:$HOME/bin
 
     # Local machine-specific binaries
     export LOCAL_APP_HOME=$HOME/.local
