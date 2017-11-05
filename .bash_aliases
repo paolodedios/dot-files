@@ -120,7 +120,7 @@ alias cp-folder="cp -Rpv"
 ########################################################################################
 
 alias du="du -kh"
-alias df="df -kTh"
+alias df="df -h"
 alias ducks="du -cksh * | sort -rn | head -11"
 alias du1="du -h -d 1"
 
