@@ -183,7 +183,7 @@ function set_local_dev_environment_vars()
 function set_python_environment_vars()
 {
     # Python virtual environment
-    if [ -e $(type -p virtualenvwrapper.sh) ]; then
+    if [ $(type -p virtualenvwrapper.sh) ]; then
 
         # Set default virtualenv python version
         export VIRTUALENV_PYTHON_PATH="/opt/local/bin"
