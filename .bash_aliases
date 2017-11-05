@@ -218,7 +218,7 @@ alias py36mkenv="mkvirtualenv --python=/opt/local/bin/python3.6"
 alias pystartenv="workon"
 
 # Stop using the current virtual environment
-alias pystopenv="deactivate"
+alias pystopenv="deactivate && export PYTHON_VIRTUALENV_TOPLEVEL="
 
 # List virtual environments
 alias pylsenv="lsvirtualenv -b | sort"
