@@ -209,7 +209,7 @@ function select_python36()
 # http://virtualenvwrapper.readthedocs.org/en/latest/tips.html#automatically-run-workon-when-entering-a-directory
 py_virtualenv_check()
 {
-    if [ -e .venv ]; then
+    if [[ $(type -p virtualenvwrapper.sh) && -e .venv ]]; then
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
