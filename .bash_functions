@@ -713,14 +713,14 @@ if [ "$OS" = "darwin" ]; then
     }
 
     # Reprioritize Time Machine
-    function lower-tms-pri()
+    function lower_tms_pri()
     {
         echo "Reducing Time Machine priority..."
         sudo renice +5 -p $(ps -axc | grep backupd | awk '{ print \$1 }')
     }
 
     # Flush Directory Service cache
-    function flush-ds()
+    function flush_ds()
     {
         dscacheutil -flushcache && killall -HUP mDNSResponder
     }
