@@ -65,23 +65,23 @@ call Tabstyle_spaces()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Smart indentation
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set ai " Automatically set the indent of a new line (local to buffer)
-set si " smartindent	(local to buffer)
+set ai                              " Automatically set the indent of a new line (local to buffer)
+set si                              " smartindent  (local to buffer)
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Searching
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set hlsearch  " highlight search
-set incsearch  " incremental search, search as you type
-set ignorecase " Ignore case when searching
-set smartcase " Ignore case when searching lowercase
+set hlsearch                        " highlight search
+set incsearch                       " incremental search, search as you type
+set ignorecase                      " Ignore case when searching
+set smartcase                       " Ignore case when searching lowercase
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Colors
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"set t_Co=256 " 256 colors
+"set t_Co=256                       " 256 colors
 set background=dark
-syntax on " syntax highlighting
+syntax on                           " syntax highlighting
 colorscheme ir_black
 
 
@@ -89,39 +89,38 @@ colorscheme ir_black
 " Status Line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set showcmd
-set ruler " Show ruler
-"set ch=2 " Make command line two lines high
+set ruler                           " Show ruler
+"set ch=2                           " Make command line two lines high
 
+set laststatus=2                    " always show window info
+set statusline+=%m                  " modified
+set statusline+=%r                  " readonly
+set statusline+=%h                  " helpstatus
+set statusline+=%w                  " preview
+set statusline+=\ %l,%c             " line,col
+set statusline+=\ (%p%%)            " percent
+set statusline+=%=                  " left/right sep
+set statusline+=%f                  " relative filepath
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Line Wrapping
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nowrap
-set linebreak  " Wrap at word
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Mappings
-" Professor VIM says '87% of users prefer jj over esc', jj abrams disagrees
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-imap jj <Esc>
-imap uu _
-imap hh =>
-imap aa @
+set linebreak                       " Wrap at word
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Insert New Line
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <S-Enter> O<ESC> " awesome, inserts new line without going into insert mode
+map <S-Enter> O<ESC>                " awesome, inserts new line without going into insert mode
 map <Enter> o<ESC>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Miscellany
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set backspace=indent,eol,start
-set number " Show line numbers
+set number                          " Show line numbers
 set matchpairs+=<:>
-set vb t_vb= " Turn off bell, this could be more annoying, but I'm not sure how
+set vb t_vb=                        " Turn off bell, this could be more annoying, but I'm not sure how
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Omni Completion
@@ -141,7 +140,7 @@ autocmd FileType c set omnifunc=ccomplete#Complete
 "let g:snip_start_tag = "_\."
 "let g:snip_end_tag = "\._"
 "let g:snip_elem_delim = ":"
-"let g:snip_set_textmate_cp = '1'  " Tab to expand snippets, not automatically.
+"let g:snip_set_textmate_cp = '1'   " Tab to expand snippets, not automatically.
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fuzzyfinder_textmate
