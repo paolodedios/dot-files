@@ -91,7 +91,6 @@ colorscheme ir_black
 set showmode
 set showcmd
 set ruler                           " Show ruler
-set ch=2                            " Make command line two lines high
 
 set laststatus=2                    " always show window info
 set statusline+=%m                  " modified
