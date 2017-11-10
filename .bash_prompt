@@ -45,23 +45,23 @@ function showcolors()
 
 if tput setaf 1 &> /dev/null; then
 
-	tput sgr0
+    tput sgr0
 
-	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+    if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
         MAGENTA=$(tput setaf 9)
         ORANGE=$(tput setaf 172)
         YELLOW=$(tput setaf 11)
         GREEN=$(tput setaf 82)
         PURPLE=$(tput setaf 165)
         WHITE=$(tput setaf 256)
-	else
+    else
         MAGENTA=$(tput setaf 5)
         ORANGE=$(tput setaf 4)
         YELLOW=$(tput setaf 11)
         GREEN=$(tput setaf 2)
         PURPLE=$(tput setaf 1)
         WHITE=$(tput setaf 7)
-	fi
+    fi
 
     BOLD=$(tput bold)
     RESET=$(tput sgr0)
