@@ -67,16 +67,21 @@ alias whichpath="type -p"
 # Directory navigation; @see .bash_marks
 ########################################################################################
 
+# Alias the builtin cd command
+alias bcd="builtin cd"
+
+# Alias the nave environment check command
+alias ncd="nodejs_virtualenv_cd"
+
 # Override the builtin cd with a py virtualenv facade
 alias cd="py_virtualenv_cd"
+
+# Directory navigation helpers
 alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-
-# Alias the builtin cd command
-alias bcd="builtin cd"
 
 # Tail system log
 alias systail="tail -f /var/log/system.log"
@@ -249,6 +254,17 @@ alias pyupdate='pip install -U'
 
 # Check and activate an environment specified in the current directory
 alias pycheckenv="py_virtualenv_check"
+
+########################################################################################
+# NodeJS virtualenv aliases
+########################################################################################
+
+alias nodestartenv="exec nave use"
+
+alias nodestopenv="exec nave exit"
+
+alias nodecheckenv="nodejs_virtualenv_check"
+
 
 ########################################################################################
 # Java related aliases

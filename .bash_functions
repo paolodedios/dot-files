@@ -251,6 +251,30 @@ py_virtualenv_cd()
 
 }
 
+
+########################################################################################
+# NodeJS environment utilities
+########################################################################################
+
+# Call nave's auto activate function if .naverc exists.
+#
+# @see https://github.com/isaacs/nave
+#
+nodejs_virtualenv_check()
+{
+    if [[ $(type -p nave) && -e .naverc ]]; then
+        NODEJS_VIRTUALENV_SELECTION=$(cat .naverc)
+        echo "Starting virtualenv  : ${NODEJS_VIRTUALENV_SELECTION}"
+        exec nave auto
+    fi
+}
+
+
+nodejs_virtualenv_cd()
+{
+    builtin cd "$@" && nodejs_virtualenv_check
+}
+
 ########################################################################################
 # Java Switcher
 ########################################################################################

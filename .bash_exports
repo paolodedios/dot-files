@@ -321,6 +321,13 @@ function set_go_lang_environment_vars()
     export PATH=$GOPATH/bin:$PATH
 }
 
+
+function set_nodejs_nave_environment_vars()
+{
+    # Set virtualenv working directory, defaults to $HOME/.nave otherwise
+    export NAVE_DIR=$LOCAL_APP_HOME/bin/nodejs/virtualenvs
+}
+
 ########################################################################################
 # Export OS specific variables
 ########################################################################################
@@ -464,3 +471,6 @@ set_cuda_environment_vars
 
 # Set local Go language environment variables
 set_go_lang_environment_vars
+
+# Set local NodeJS/nave environment variables
+set_nodejs_nave_environment_vars

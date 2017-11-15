@@ -77,22 +77,32 @@ else
 fi
 
 
-function emacs-prompt()
+function emacs_prompt()
 {
     export PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name) \n$ '
 }
 
-function def-prompt()
+function nodejs_prompt()
+{
+    # Update the prompt with the virtualenv name
+    export PS1='\n\[\033[1;32m\](nodemode: ${NAVENAME})\[\033[0m\] '`
+              `'\[\033[1;31m\]\u\[\033[0m\]@\[\033[1;35m\]\h\[\033[0m\]:\[\033[1;33m\]\w\[\033[0m\] '`
+              `'\[\033[1;32m\]$(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name)\[\033[0m\] \n$ '
+}
+
+function def_prompt()
 {
     export PS1='\n\[$MAGENTA\]\u\[\033[0m\]@\[$PURPLE\]\h\[\033[0m\]:\[$YELLOW\]\w\[\033[0m\] '`
               `'\[\033[$GREEN\]$(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name)\[$RESET\] \n$ '
 }
 
 
-if [ -z "$INSIDE_EMACS" ]; then
-    def-prompt
+if [ ! -z "$INSIDE_EMACS" ]; then
+    emacs_prompt
+elif [ ! -z "$NAVE" ]; then
+    nodejs_prompt
 else
-    emacs-prompt
+    def_prompt
 fi
 
 ########################################################################################
