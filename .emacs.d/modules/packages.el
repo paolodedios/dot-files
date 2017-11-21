@@ -7,10 +7,6 @@
 
 (require 'package)
 
-;; Initialize packages immediately and not after init.el is read post startup
-(setq package-enable-at-startup  nil)
-(package-initialize)
-
 ;; Declare package archive repositories
 (setq package-archives
       '(("gnu"          . "http://elpa.gnu.org/packages/"      )
@@ -32,7 +28,7 @@
     (epc                             . "melpa-stable")
     (git-gutter+                     . "melpa"       )
     (git-gutter-fringe+              . "melpa"       )
-    (highlight-current-line          . "melpa"       )
+    (highlight-current-line          . "marmalade"   )
     (linum-off                       . "melpa"       )
     (lorem-ipsum                     . "melpa"       )
     (paradox                         . "melpa-stable")
