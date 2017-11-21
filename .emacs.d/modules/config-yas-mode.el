@@ -14,10 +14,11 @@
 
 (require 'yasnippet)
 
+;; Add preferred snippet directories to search path
 (setq yas-snippet-dirs
       (append yas-snippet-dirs
-              '("~/.snippets"           ;; private snippets
-                "~/.emacs.d/snippets"   ;; public contrib snippets
+              '("~/.emacs.d/snippets"                  ;; private developer snippets
+                "~/.emacs.d/config/vendor/yasnippet"   ;; public contrib snippets
                 )
               )
       )

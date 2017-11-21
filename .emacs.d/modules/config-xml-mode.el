@@ -18,7 +18,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq sgml-validate-command                "nsgmls -s %s %s"
-      sgml-catalog-files                   (list "catalog" "CATALOG" "~/.emacs.d/vendor/dtd/catalog")
+      sgml-catalog-files                   (list "catalog" "CATALOG" "~/.emacs.d/config/vendor/dtd/catalog")
       sgml-trace-entity-lookup             t
       sgml-set-face                        t
       sgml-auto-insert-required-elements   t
