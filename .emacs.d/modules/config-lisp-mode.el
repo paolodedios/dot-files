@@ -54,6 +54,11 @@
 ;; Using local-set-key in a mode-hook is a better idea.
 (global-set-key (kbd "RET") 'electrify-return-if-match)
 
+;; Disable emacs lisp checkdoc
+;; @see https://stackoverflow.com/a/15556197
+(with-eval-after-load 'flycheck
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Lisp hook section, called on entry of Lisp/Elisp mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
