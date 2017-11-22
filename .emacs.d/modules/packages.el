@@ -26,6 +26,8 @@
     (deferred                        . "melpa-stable")
     (dropdown-list                   . "melpa"       )
     (epc                             . "melpa-stable")
+    (exec-path-from-shell            . "melpa"       )
+    (flycheck                        . "melpa-stable")
     (git-gutter+                     . "melpa"       )
     (git-gutter-fringe+              . "melpa"       )
     (highlight-current-line          . "marmalade"   )
