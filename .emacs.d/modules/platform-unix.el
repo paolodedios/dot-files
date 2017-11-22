@@ -21,7 +21,7 @@
 
 ;; Inherit the $PATH environment variable from shell configuration
 ;;
-;; Due to the special way Gnome starts GUI programs a windowed Emacs instance
+;; Due to the special way X-Windows starts GUI programs a windowed Emacs instance
 ;; such as Aquamacs does not inherit the environment variables from the shell
 ;; configuration. As a result, Emacs will lack some important entries specified
 ;; in the $PATH, most notably /usr/local/bin/, where Homebrew, NPM and many
