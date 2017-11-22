@@ -72,6 +72,37 @@
 ;; Turn on font-lock
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defvar hexcolor-keywords
+  '(("#[abcdef[:digit:]]\\{3,6\\}"
+     (0 (let ((colour (match-string-no-properties 0)))
+          (if (or (= (length colour) 4)
+                  (= (length colour) 7))
+              (put-text-property
+               (match-beginning 0)
+               (match-end 0)
+               'face (list :background (match-string-no-properties 0)
+                           :foreground (if (>= (apply '+ (x-color-values
+                                                          (match-string-no-properties 0)))
+                                               (* (apply '+ (x-color-values "white")) .6))
+                                           "black" ;; light bg, dark text
+                                         "white" ;; dark bg, light text
+                                         )
+                           )
+               )
+            )
+          )
+        append)
+     )
+    )
+  )
+
+
+
+(defun hexcolor-add-to-font-lock ()
+  (interactive)
+  (font-lock-add-keywords nil hexcolor-keywords t)
+  )
+
 ;; Add CSS colorization to relevant major/minor modes
 (add-hook 'html-mode-hook     'hexcolor-add-to-font-lock)
 (add-hook 'psgml-mode-hook    'hexcolor-add-to-font-lock)
@@ -134,7 +165,9 @@
 ;; File associations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq auto-mode-alist (append '(("\\.vrml$"     . sgml-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.htm$"      . html-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.html$"     . html-mode         )) auto-mode-alist))
+
 (setq auto-mode-alist (append '(("\\.st$"       . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.incl$"     . sgml-mode         )) auto-mode-alist))
 
