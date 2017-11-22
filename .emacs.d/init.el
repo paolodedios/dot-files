@@ -4,8 +4,14 @@
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;
-;; M-x load-file RET .emacs RET
+;; M-x load-file RET init.el RET
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Require common lisp package
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'cl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Initialize packages immediately and not after init.el is read post startup
@@ -21,24 +27,11 @@
 (message "Loading Emacs customization files via init.el.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set the correct environment for bash commands
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq shell-file-name          "bash")
-(setq shell-command-switch     "-ic" )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set language constants
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setenv "LANG"   "en_US.UTF-8")
 (setenv "LC_ALL" "en_US.UTF-8")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Require common lisp package
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'cl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the load path for emacs lisp customization packages
@@ -104,17 +97,17 @@
 
   ;; Load platform specific configuration files
   (when (string-equal system-type "darwin")
-    (message "Loading Mac OS X specific settings")
+    (message "Loading macOS specific settings...")
     (load "modules/platform-mac")
     )
 
   (when (string-equal system-type "gnu/linux")
-    (message "Loading GNU/Linux specific settings")
+    (message "Loading GNU/Linux specific settings...")
     (load "modules/platform-unix")
     )
 
   (when (string-equal system-type "windows-nt")
-    (message "Loading Windows specific settings")
+    (message "Loading Windows specific settings...")
     (load "modules/platform-win")
     )
 
