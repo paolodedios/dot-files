@@ -69,13 +69,15 @@
             (show-paren-mode                        t)
             (paredit-mode                           t)
             (turn-on-eldoc-mode)
-            (eldoc-add-command
-             'paredit-backward-delete
-             'paredit-close-round)
+            (eldoc-add-command 'paredit-backward-delete 'paredit-close-round)
             (eldoc-add-command 'electrify-return-if-match)
             (local-set-key (kbd "RET") 'electrify-return-if-match)
             )
           )
+
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs lisp mode key bindings
