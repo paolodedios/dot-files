@@ -134,8 +134,6 @@
 ;; File associations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq auto-mode-alist (append '(("\\.htm$"      . sgml-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.html$"     . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.vrml$"     . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.st$"       . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.incl$"     . sgml-mode         )) auto-mode-alist))
