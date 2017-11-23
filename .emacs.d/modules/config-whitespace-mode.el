@@ -60,7 +60,7 @@
 ;; Witespace mode key bindings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map (kbd "C-c_w")    'whitespace-mode                 )
-(define-key global-map (kbd "C-c_t")    'whitespace-toggle-options       )
-(define-key global-map (kbd "C-c=w")    'global-whitespace-mode          )
-(define-key global-map (kbd "C-c=t")    'global-whitespace-toggle-options)
+(define-key global-map (kbd "C-c _ w")    'whitespace-mode                 )
+(define-key global-map (kbd "C-c _ t")    'whitespace-toggle-options       )
+(define-key global-map (kbd "C-c = w")    'global-whitespace-mode          )
+(define-key global-map (kbd "C-c = t")    'global-whitespace-toggle-options)
