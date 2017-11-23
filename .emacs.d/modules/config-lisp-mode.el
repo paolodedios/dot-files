@@ -56,8 +56,8 @@
 
 ;; Disable emacs lisp checkdoc
 ;; @see https://stackoverflow.com/a/15556197
-(with-eval-after-load 'flycheck
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+;; (with-eval-after-load 'flycheck
+;;  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Lisp hook section, called on entry of Lisp/Elisp mode
@@ -68,7 +68,7 @@
             (setq tab-width                         4)
             (show-paren-mode                        t)
             (paredit-mode                           t)
-            (turn-on-eldoc-mode)
+            (eldoc-mode)
             (eldoc-add-command 'paredit-backward-delete 'paredit-close-round)
             (eldoc-add-command 'electrify-return-if-match)
             (local-set-key (kbd "RET") 'electrify-return-if-match)
