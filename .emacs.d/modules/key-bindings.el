@@ -270,7 +270,7 @@
 ;; Electric Buffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map "\C-x\C-b"         'electric-buffer-list            )
+(define-key global-map (kbd "C-x C-b")    'electric-buffer-list            )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Here is some Emacs Lisp that will make the % key show the matching
@@ -284,8 +284,8 @@
 ;; Make C-v, M-v maintain the mark
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map "\C-v"             'scroll-up                       )
-(define-key global-map "\M-v"             'scroll-down                     )
+(define-key global-map (kbd "C-v")        'scroll-up                       )
+(define-key global-map (kbd "M-v")        'scroll-down                     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Disable printing
@@ -302,4 +302,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (global-unset-key  (kbd "C-x m")       )
-(global-unset-key  "\C-z"              )
+(global-unset-key  (kbd "C-z")         )

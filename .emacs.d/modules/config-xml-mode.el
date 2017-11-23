@@ -159,7 +159,7 @@
 ;; need to close.  This means, if you have: "<foo><bar></foo>|" and press "C-c /",
 ;; it will still enter "</foo>" although your XML is obviously invalid.
 
-(define-key global-map "\C-c/" 'xml-close-tag)
+(define-key global-map (kbd "C-c /")  'xml-close-tag)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File associations

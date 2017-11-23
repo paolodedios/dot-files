@@ -18,7 +18,7 @@
 
 (add-hook 'yaml-mode-hook
       '(lambda ()
-        (define-key yaml-mode-map "\C-m" 'newline-and-indent)
+        (define-key yaml-mode-map (kbd "C-m") 'newline-and-indent)
         )
       )
 

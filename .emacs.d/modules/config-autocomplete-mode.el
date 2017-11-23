@@ -74,14 +74,14 @@
 ;; will enter a newline with the autocomplete bindings of RET intact. Also
 ;; C-j can be used instead of RET when entering a newline. C-j is not bound to
 ;; to ac-complete by default.
-(ac-set-trigger-key               "TAB"       )
+(ac-set-trigger-key                   "TAB"       )
 
 ;; Automatically show completion menu
-(setq ac-use-menu-map             t           )
+(setq ac-use-menu-map                 t           )
 
 ;; Case sensitivity is important when finding matches
-(setq ac-ignore-case              nil         )
+(setq ac-ignore-case                  nil         )
 
 ;; Map C-n and C-p to navigate the completion menu
-(define-key ac-menu-map  "\C-n"   'ac-next    )
-(define-key ac-menu-map  "\C-p"   'ac-previous)
+(define-key ac-menu-map  (kbd "C-n")  'ac-next    )
+(define-key ac-menu-map  (kbd "C-p")  'ac-previous)
