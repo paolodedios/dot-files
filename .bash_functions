@@ -265,7 +265,9 @@ nodejs_virtualenv_check()
     if [[ $(type -p nave) && -e .naverc ]]; then
         NODEJS_VIRTUALENV_SELECTION=$(cat .naverc)
         echo "Starting virtualenv  : ${NODEJS_VIRTUALENV_SELECTION}"
-        exec nave auto
+        # Use 'exec' for subshell free environments
+        # exec nave auto
+        nave auto
     fi
 }
 
