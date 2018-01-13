@@ -22,8 +22,10 @@
 ;; @see preference file "frame-positions.el"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(set-frame-height (selected-frame)           94)
-(set-frame-width  (selected-frame)          160)
+(when (display-graphic-p)
+  (set-frame-height (selected-frame)           94)
+  (set-frame-width  (selected-frame)          160)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the title displayed in the title-bar "filename (path)"
