@@ -187,7 +187,7 @@ function set_python_environment_vars()
 
         # Set default virtualenv python version
         export VIRTUALENV_PYTHON_PATH="/opt/local/bin"
-        export VIRTUALENV_PYTHON_VERSION="2.7"
+        export VIRTUALENV_PYTHON_VERSION="3.6"
 
         # Set virtualenv working directory
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
