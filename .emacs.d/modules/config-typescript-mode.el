@@ -15,10 +15,11 @@
 (require 'ts-comint)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Turn on font-lock
+;; Setup helper functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun setup-tide-mode ()
+  "TypeScript Interactive Development Environment for Emacs"
   (interactive)
   (tide-setup                    )
   (eldoc-mode                  +1)
@@ -30,17 +31,37 @@
   ;; Company is an optional dependency. You have to
   ;; install it separately via package-install
   ;; `M-x package-install [ret] company`
-  (company-mode               +1)
+  (company-mode                +1)
   )
 
 ;; Align annotation to the right hand side
 (setq company-tooltip-align-annotations  t)
 
-;; Format the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Typescript hook section, called on entry of typescript mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Setup tide-mode using the above initializer fun
-(add-hook 'typescript-mode-hook  #'setup-tide-mode)
+(add-hook 'typescript-mode-hook
+          (lambda ()
+            (turn-on-font-lock                       )
+            (c-toggle-auto-state                    1)
+            (c-toggle-hungry-state                  1)
+            (show-paren-mode                        t)
+            (subword-mode                           1)
+
+            (setq fill-column                     100)
+            (setq c-basic-offset                    4)
+            (setq tab-width                         4)
+            (setq indent-tabs-mode                nil)
+            (auto-fill-mode                         1)
+            ;; Setup tide-mode
+            (setup-tide-mode                         )
+            )
+          )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Typescript mode key bindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Add ts-comint key bindings for sending things to the Typescript
 ;; interpreter inside of typescript-mode
@@ -54,11 +75,9 @@
             )
           )
 
-
-(add-hook 'typescript-mode-hook  'turn-on-font-lock)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File associations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq auto-mode-alist (append '(("\\.ts$"        . typescript-mode           )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.ts$"         . typescript-mode     )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.typescript$" . typescript-mode     )) auto-mode-alist))

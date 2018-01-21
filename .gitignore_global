@@ -17,6 +17,14 @@ Icon
 # Thumbnails
 ._*
 
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
@@ -187,6 +195,10 @@ DerivedData
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
 
+.extra
+.gitconfig
+.gnupg
+!.gnupg/gpg*.conf
 
 ########################################################################################
 # Matlab editor files

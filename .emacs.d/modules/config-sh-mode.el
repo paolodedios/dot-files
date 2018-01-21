@@ -14,10 +14,10 @@
 
 (eval-after-load 'shell
   '(progn
-     (define-key shell-mode-map [up]    'comint-previous-input)
-     (define-key shell-mode-map [down]  'comint-next-input    )
-     (define-key shell-mode-map "\C-p"  'comint-previous-input)
-     (define-key shell-mode-map "\C-n"  'comint-next-input    )
+     (define-key shell-mode-map [up]        'comint-previous-input)
+     (define-key shell-mode-map [down]      'comint-next-input    )
+     (define-key shell-mode-map (kbd "C-p") 'comint-previous-input)
+     (define-key shell-mode-map (kbd "C-n") 'comint-next-input    )
      )
   )
 

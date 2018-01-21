@@ -63,25 +63,25 @@ function check_deps()
 # Update emacs configuration files
 function update_emacs_environment()
 {
-    if [ -e ~/.snippets ]; then
+    if [ -e ~/.emacs.d/snippets ]; then
         check_list "Private Emacs YASnippet files already installed"
     else
         check_list "Sym-linking shared Emacs YASnippet files to home directory"
-        ln -s ~/.bin.shared/etc/snippets ~/.snippets
+        ln -s ~/.bin.shared/etc/snippets ~/.emacs.d/snippets
     fi
 
     # Delete files that do not exist in the source repo
     check_list "Synchronizing Emacs configuration directory [~/.emacs.d]"
-    rsync --exclude ".git/"        \
-          --exclude ".hg/"         \
-          --exclude ".DS_Store"    \
-          --delete-after           \
-          -av .emacs.d ~
+    rsync --exclude ".git/"              \
+          --exclude ".hg/"               \
+          --exclude ".DS_Store"          \
+          --delete-after                 \
+          -av .emacs.d/ ~/.emacs.d/config
 
     if [ "$OS" = "darwin" ]; then
-        check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/init.el => ~/.emacs]"
+        check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/config/init.el => ~/.emacs]"
         rm ~/.emacs
-        ln -s ~/.emacs.d/init.el ~/.emacs
+        ln -s ~/.emacs.d/config/init.el ~/.emacs
     fi
 }
 

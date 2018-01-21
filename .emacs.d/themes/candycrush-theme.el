@@ -92,6 +92,14 @@
    ;; autocomplete-mode
    `(ac-completion-face ((,class (:underline t :foreground ,keyword))))
 
+   ;; company-mode
+   '(company-preview ((t (:foreground "darkgray" :underline t))))
+   '(company-preview-common ((t (:inherit company-preview))))
+   '(company-tooltip ((t (:background "lightgray" :foreground "black"))))
+   '(company-tooltip-selection ((t (:background "steelblue" :foreground "white"))))
+   '(company-tooltip-common ((((type x)) (:inherit company-tooltip :weight bold)) (t (:inherit company-tooltip))))
+   '(company-tooltip-common-selection ((((type x)) (:inherit company-tooltip-selection :weight bold)) (t (:inherit company-tooltip-selection))))
+
    ;; ido-mode
    `(ido-only-match ((,class (:foreground ,warning))))
    `(ido-first-match ((,class (:foreground ,keyword :bold t))))
@@ -269,6 +277,12 @@
    `(web-mode-html-attr-value-face ((,class (:foreground ,keyword))))
    `(web-mode-warning-face ((,class (:inherit ,font-lock-warning-face))))
    `(web-mode-html-tag-face ((,class (:foreground ,builtin))))
+
+   ;; markdown-mode
+   `(markdown-code-face ((,class (:background ,bg3))))
+   `(markdown-pre-face ((,class (:foreground unspecified))))
+   `(markdown-language-keyword-face ((,class (:weight bold))))
+   `(markdown-comment-face ((,class (:strike-through nil))))
 
    ;; Java JDE
    `(jde-java-font-lock-package-face ((t (:foreground ,var))))

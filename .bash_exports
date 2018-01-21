@@ -36,7 +36,7 @@ export EDITOR="vim"
 # Host file env variables
 ########################################################################################
 
-# Put list of remote hosts in ~/.hosts
+# Put list of remote hosts in $HOME/.hosts
 export SYS_HOSTFILE=/etc/hosts
 export MY_HOSTFILE=$HOME/.hosts
 
@@ -44,7 +44,7 @@ export MY_HOSTFILE=$HOME/.hosts
 # Command history customization
 ########################################################################################
 
-export HISTSIZE=262144
+export HISTSIZE=1048576
 export HISTFILESIZE=$HISTSIZE
 
 # Avoid succesive duplicates in the bash command history
@@ -183,7 +183,11 @@ function set_local_dev_environment_vars()
 function set_python_environment_vars()
 {
     # Python virtual environment
-    if [ -e $(type -p virtualenvwrapper.sh) ]; then
+    if [ $(type -p virtualenvwrapper.sh) ]; then
+
+        # Set default virtualenv python version
+        export VIRTUALENV_PYTHON_PATH="/opt/local/bin"
+        export VIRTUALENV_PYTHON_VERSION="3.6"
 
         # Set virtualenv working directory
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
@@ -200,8 +204,8 @@ function set_python_environment_vars()
 
         # Ensure that the MacPorts versions of Python and virtualenv are used
         # for all virtualenv sessions.
-        export VIRTUALENVWRAPPER_PYTHON=/opt/local/bin/python
-        export VIRTUALENVWRAPPER_VIRTUALENV=/opt/local/bin/virtualenv
+        export VIRTUALENVWRAPPER_PYTHON=$VIRTUALENV_PYTHON_PATH/python
+        export VIRTUALENVWRAPPER_VIRTUALENV=$VIRTUALENV_PYTHON_PATH/virtualenv
 
         # Ensure that all new environments are isolated from the system
         # site-packages directory by passing "no-site-packages" as the default
@@ -219,14 +223,14 @@ function set_python_environment_vars()
     # to install corpora, models, and tokenizers
     #
     # @see http://www.nltk.org/data.html for details
-    export NLTK_DATA="$HOME/.bin.local/var/data/nltk"
+    export NLTK_DATA=$HOME/.bin.local/var/data/nltk
 
 
     # SpaCy data location used by the command
     #
     #    $ python -m spacy.en.download all --force
     #
-    export SPACY_DATA="$HOME/.bin.local/var/data/spacy"
+    export SPACY_DATA=$HOME/.bin.local/var/data/spacy
 }
 
 function set_c_environment_vars()
@@ -275,7 +279,12 @@ function set_cuda_environment_vars()
     # @see http://docs.nvidia.com/cuda/index.html
     #
     if [ "$OS" = "darwin" ]; then
-        export LOCAL_CUDA_HOME=/Developer/NVIDIA/CUDA-7.0
+        #
+        # The macOS CUDA installer places the library in /Developer/NVIDIA/CUDA-X.X.
+        # The following path, /opt/local/cuda should symlink to the real path in
+        # /Developer.
+        #
+        export LOCAL_CUDA_HOME=/opt/local/cuda
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib
 
@@ -285,7 +294,7 @@ function set_cuda_environment_vars()
         fi
 
     else
-        export LOCAL_CUDA_HOME=/usr/local/cuda-7.0
+        export LOCAL_CUDA_HOME=/usr/local/cuda
         export LOCAL_CUDA_PATH=$LOCAL_CUDA_HOME/bin
         export LOCAL_CUDA_LIBRARY_PATH=$LOCAL_CUDA_HOME/lib64
 
@@ -312,6 +321,13 @@ function set_go_lang_environment_vars()
     export PATH=$GOPATH/bin:$PATH
 }
 
+
+function set_nodejs_nave_environment_vars()
+{
+    # Set virtualenv working directory, defaults to $HOME/.nave otherwise
+    export NAVE_DIR=$LOCAL_APP_HOME/bin/nodejs/virtualenvs
+}
+
 ########################################################################################
 # Export OS specific variables
 ########################################################################################
@@ -327,20 +343,20 @@ if [ "$OS" = "darwin" ]; then
         export SYSTEM_PATH=$PATH
     else
         # TMUX session active, preserve paths
-        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/MacGPG2/bin
+        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/local/MacGPG2/bin
     fi
 
     # MacPorts versions take precedence
     export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
     # Local machine-specific binaries
-    export LOCAL_APP_HOME=~/.bin.local
+    export LOCAL_APP_HOME=$HOME/.bin.local
 
     # Shared machine-agnostic binaries
-    export SHARED_APP_HOME=~/.bin.shared
+    export SHARED_APP_HOME=$HOME/.bin.shared
 
     # Project directory
-    export LOCAL_PROJECTS=~/Projects
+    export LOCAL_PROJECTS=$HOME/Projects
 
     # Create command alias for lsregister
     export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
@@ -398,20 +414,20 @@ else
     if ! { [ -n "$TMUX" ]; } then
         export SYSTEM_PATH=$PATH
     else
-        export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+        export SYSTEM_PATH=/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
     fi
 
     # Local packages take precedence
-    export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    export PATH=$SYSTEM_PATH::/shared/bin:$HOME/.local/bin:$HOME/bin
 
     # Local machine-specific binaries
-    export LOCAL_APP_HOME=~/.bin.local
+    export LOCAL_APP_HOME=$HOME/.local
 
     # Shared machine-agnostic binaries
-    export SHARED_APP_HOME=~/.bin.shared
+    export SHARED_APP_HOME=$HOME/.shared
 
     # Project directory
-    export LOCAL_PROJECTS=~/Projects
+    export LOCAL_PROJECTS=$HOME/Projects
 fi
 
 
@@ -455,3 +471,6 @@ set_cuda_environment_vars
 
 # Set local Go language environment variables
 set_go_lang_environment_vars
+
+# Set local NodeJS/nave environment variables
+set_nodejs_nave_environment_vars

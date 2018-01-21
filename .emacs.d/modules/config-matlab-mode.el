@@ -22,10 +22,10 @@
 
 (add-hook 'matlab-mode-hook
           (lambda ()
-            (setq matlab-indent-level                      4)
-            (setq fill-column                            100)
-            (auto-fill-mode                                1)
-            (define-key matlab-mode-map "\M-;" 'comment-dwim)
+            (setq matlab-indent-level                           4)
+            (setq fill-column                                 100)
+            (auto-fill-mode                                     1)
+            (define-key matlab-mode-map (kbd "M-;") 'comment-dwim)
             )
           )
 

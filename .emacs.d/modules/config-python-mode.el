@@ -17,7 +17,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Enable auto complete via the auto-complete module
-(setq py-load-pymacs-p  t)
+(setq py-load-pymacs-p         t)
+(setq py-company-pycomplete-p  t)
 
 (add-hook 'python-mode-hook
           '(lambda ()

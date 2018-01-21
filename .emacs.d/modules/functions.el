@@ -12,7 +12,7 @@
 
 (defun load-vendor (library)
   (let* ((file (symbol-name library))
-         (normal (concat "~/.emacs.d/vendor/" file))
+         (normal (concat "~/.emacs.d/config/vendor/" file))
          (suffix (concat normal ".el"))
          )
     (cond
@@ -25,7 +25,7 @@
 
 (defun load-module (library)
   (let* ((file (symbol-name library))
-         (custom (concat "~/.emacs.d/modules/" file)))
+         (custom (concat "~/.emacs.d/config/modules/" file)))
     (when (file-exists-p (concat custom ".el"))
       (load custom)
       )
@@ -37,15 +37,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun reload-dot-emacs ()
-  "Reload the .emacs.d/init.el file."
+  "Reload the .emacs.d/config/init.el file."
   (interactive)
-  (load "~/.emacs.d/init.el"))
+  (load "~/.emacs.d/config/init.el"))
 
 
 (defun edit-dot-emacs ()
-  "Edit the .emacs.d/init.el file."
+  "Edit the .emacs.d/config/init.el file."
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (find-file "~/.emacs.d/config/init.el"))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

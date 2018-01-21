@@ -1,12 +1,12 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
-;; Mac OS X specific settings
+;; macOS specific settings
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Mac specific encoding system configuration
+;; macOS specific encoding system configuration
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (set-selection-coding-system      'utf-8)
@@ -30,13 +30,33 @@
 ;; Platform Tweaks
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Set the correct environment for bash commands
+(setq shell-file-name             "bash")
+(setq shell-command-switch        "-ic" )
+
+;; Inherit the $PATH environment variable from shell configuration
+;;
+;; Due to the special way macOS starts GUI programs a windowed Emacs instance
+;; such as Aquamacs does not inherit the environment variables from the shell
+;; configuration. As a result, Emacs will lack some important entries specified
+;; in the $PATH, most notably /usr/local/bin/, where Homebrew, NPM and many
+;; other package managers put binaries in.
+;;
+;; The exec-path-from-shell works around this issue by extracting environment
+;; variables from a shell session and injecting them into the environment of
+;; the running Emacs instance.
+;;
+;; @see https://github.com/purcell/exec-path-from-shell
+;;
+(exec-path-from-shell-initialize)
+
 ;; Menu bar is not annoying in OSX
 (menu-bar-mode 1)
 
 ;; Make ido-mode ignore .DS_Store files
 (add-to-list 'ido-ignore-files "\\.DS_Store")
 
-;; Make the browser the OS X default
+;; Make the browser the macOS default
 (setq browse-url-browser-function 'browse-url-default-macosx-browser)
 
 ;; In dired, move deletions to trash
@@ -53,7 +73,7 @@
     )
   )
 
-;; DISABLED. Configured through Mac OS X Keyboard Preferences
+;; DISABLED. Configured through macOS Keyboard Preferences
 ;;
 ;; Set the mac keyboard up for sane emacs usage.
 ;; [Ctrl][Option][Command/Alt]

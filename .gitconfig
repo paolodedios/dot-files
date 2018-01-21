@@ -15,6 +15,20 @@
     logallrefupdates = true
     excludesfile     = /Users/paolodedios/.gitignore_global
 
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error
+	# [default] trailing-space   : looks for spaces at the end of a line
+	# [default] space-before-tab : looks for spaces before tabs at the beginning of a line
+	whitespace       = space-before-tab,-indent-with-non-tab,trailing-space
+
+	# Make `git rebase` safer on OS X
+	# @see http://www.git-tower.com/blog/make-git-rebase-safe-on-osx
+	trustctime       = false
+	editor           = vim
+
+[apply]
+    # Detect whitespace errors when applying a patch
+    whitespace       = fix
+
 [color]
    branch            = auto
    diff              = auto
@@ -22,4 +36,13 @@
    status            = auto
 
 [push]
+    # Change to match those with older versions of git 1.x.x
     default          = simple
+
+[merge]
+	# Include summaries of merged commits in newly created merge commit messages
+	log              = true
+
+[diff]
+	# Detect copies as well as renames
+	renames          = copies

@@ -67,16 +67,21 @@ alias whichpath="type -p"
 # Directory navigation; @see .bash_marks
 ########################################################################################
 
+# Alias the builtin cd command
+alias bcd="builtin cd"
+
+# Alias the nave environment check command
+alias ncd="nodejs_virtualenv_cd"
+
 # Override the builtin cd with a py virtualenv facade
 alias cd="py_virtualenv_cd"
+
+# Directory navigation helpers
 alias cd..="cd .."
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
-
-# Alias the builtin cd command
-alias bcd="builtin cd"
 
 # Tail system log
 alias systail="tail -f /var/log/system.log"
@@ -120,7 +125,7 @@ alias cp-folder="cp -Rpv"
 ########################################################################################
 
 alias du="du -kh"
-alias df="df -kTh"
+alias df="df -h"
 alias ducks="du -cksh * | sort -rn | head -11"
 alias du1="du -h -d 1"
 
@@ -218,7 +223,7 @@ alias py36mkenv="mkvirtualenv --python=/opt/local/bin/python3.6"
 alias pystartenv="workon"
 
 # Stop using the current virtual environment
-alias pystopenv="deactivate"
+alias pystopenv="deactivate && export PYTHON_VIRTUALENV_TOPLEVEL="
 
 # List virtual environments
 alias pylsenv="lsvirtualenv -b | sort"
@@ -249,6 +254,17 @@ alias pyupdate='pip install -U'
 
 # Check and activate an environment specified in the current directory
 alias pycheckenv="py_virtualenv_check"
+
+########################################################################################
+# NodeJS virtualenv aliases
+########################################################################################
+
+alias nodestartenv="exec nave use"
+
+alias nodestopenv="exec nave exit"
+
+alias nodecheckenv="nodejs_virtualenv_check"
+
 
 ########################################################################################
 # Java related aliases
@@ -288,6 +304,9 @@ if [ "$OS" = "darwin" ]; then
 
     # Open file in the current Aquamacs window
     alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"
+
+    # Use the emacs binary bundled with Aquamacs for terminal use
+    alias eamcs="/Applications/Aquamacs.app/Contents/MacOS/bin/emacs"
 
     # ROT13-encode text. Works for decoding also
     alias rot13="tr a-zA-Z n-za-mN-ZA-M"

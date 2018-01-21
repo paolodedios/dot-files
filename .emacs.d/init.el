@@ -4,17 +4,27 @@
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;
-;; M-x load-file RET .emacs RET
+;; M-x load-file RET init.el RET
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Require common lisp package
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'cl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Initialize packages immediately and not after init.el is read post startup
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq package-enable-at-startup  nil)
+(package-initialize)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Log configuration loading
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (message "Loading Emacs customization files via init.el.")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set the correct environment for bash commands
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq shell-file-name          "bash")
-(setq shell-command-switch     "-ic" )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set language constants
@@ -24,38 +34,28 @@
 (setenv "LC_ALL" "en_US.UTF-8")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Require common lisp package
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'cl)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set the load path for emacs lisp customization packages
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq load-path (cons (expand-file-name "~/.emacs.d") load-path))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Set the load path for custom themes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(setq custom-theme-directory "~/.emacs.d/themes/")
-
-;; Always trust custom themes (and don't prompt)
-(setq custom-safe-themes t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
 ;; Ensure subdirectories are scanned, since Emacs doesn't include subdirectories
 ;; of a directory in the load-path by default.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
         (let*
-            ((my-elisp-dir "~/.emacs.d") (default-directory my-elisp-dir))
+            ((my-elisp-dir "~/.emacs.d/config") (default-directory my-elisp-dir))
           (setq load-path (cons my-elisp-dir load-path))
           (normal-top-level-add-subdirs-to-load-path)
           )
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Set the load path for custom themes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq custom-theme-directory "~/.emacs.d/config/themes/")
+
+;; Always trust custom themes (and don't prompt)
+(setq custom-safe-themes t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Suppress function redefinition warnings from `defadvice` usage by customized
@@ -84,6 +84,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun configure-emacs ()
+  (interactive)
   ;; Load package configuration files
   (load "modules/functions")
   (load "modules/key-bindings")
@@ -96,17 +97,17 @@
 
   ;; Load platform specific configuration files
   (when (string-equal system-type "darwin")
-    (message "Loading Mac OS X specific settings")
+    (message "Loading macOS specific settings...")
     (load "modules/platform-mac")
     )
 
   (when (string-equal system-type "gnu/linux")
-    (message "Loading GNU/Linux specific settings")
+    (message "Loading GNU/Linux specific settings...")
     (load "modules/platform-unix")
     )
 
   (when (string-equal system-type "windows-nt")
-    (message "Loading Windows specific settings")
+    (message "Loading Windows specific settings...")
     (load "modules/platform-win")
     )
 
@@ -115,5 +116,11 @@
   (enable-theme 'candycrush   )
   )
 
-;; Load custom package configurations after packages and init.el load
+;; Load custom package configurations after packages and init.el load. The
+;; after-init-hook runs only once, when emacs starts, so in order to do a
+;; hot reload of configuration files, the configure-emacs function will
+;; need to be executed from a REPL session via:
+;;
+;;  M-x: configure-emacs
+;;
 (add-hook 'after-init-hook 'configure-emacs)

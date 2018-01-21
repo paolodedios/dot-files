@@ -27,6 +27,10 @@
              (local-set-key "^C-^t"   'ispell-complete-word))
           )
 
+
+;; Enable native syntax highlighting of code blocks
+(setq markdown-fontify-code-blocks-natively  t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File associations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

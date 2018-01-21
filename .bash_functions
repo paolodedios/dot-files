@@ -209,16 +209,14 @@ function select_python36()
 # http://virtualenvwrapper.readthedocs.org/en/latest/tips.html#automatically-run-workon-when-entering-a-directory
 py_virtualenv_check()
 {
-    if [ -e .venv ]; then
+    if [[ $(type -p virtualenvwrapper.sh) && -e .venv ]]; then
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
-        PYTHON_VIRTUALENV_VERSION=$(python -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
             echo "Starting virtualenv  : ${PYTHON_VIRTUALENV_SELECTION}"
-            echo "Using python version : ${PYTHON_VIRTUALENV_VERSION}"
 
             if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
-                mkvirtualenv $PYTHON_VIRTUALENV_SELECTION
+                mkvirtualenv --python="${VIRTUALENV_PYTHON_PATH}/python${VIRTUALENV_PYTHON_VERSION}" $PYTHON_VIRTUALENV_SELECTION
             else
                 workon $PYTHON_VIRTUALENV_SELECTION
             fi
@@ -251,6 +249,32 @@ py_virtualenv_cd()
         builtin cd "$@" && py_virtualenv_check
     fi
 
+}
+
+
+########################################################################################
+# NodeJS environment utilities
+########################################################################################
+
+# Call nave's auto activate function if .naverc exists.
+#
+# @see https://github.com/isaacs/nave
+#
+nodejs_virtualenv_check()
+{
+    if [[ $(type -p nave) && -e .naverc ]]; then
+        NODEJS_VIRTUALENV_SELECTION=$(cat .naverc)
+        echo "Starting virtualenv  : ${NODEJS_VIRTUALENV_SELECTION}"
+        # Use 'exec' for subshell free environments
+        # exec nave auto
+        nave auto
+    fi
+}
+
+
+nodejs_virtualenv_cd()
+{
+    builtin cd "$@" && nodejs_virtualenv_check
 }
 
 ########################################################################################
@@ -715,14 +739,14 @@ if [ "$OS" = "darwin" ]; then
     }
 
     # Reprioritize Time Machine
-    function lower-tms-pri()
+    function lower_tms_pri()
     {
         echo "Reducing Time Machine priority..."
         sudo renice +5 -p $(ps -axc | grep backupd | awk '{ print \$1 }')
     }
 
     # Flush Directory Service cache
-    function flush-ds()
+    function flush_ds()
     {
         dscacheutil -flushcache && killall -HUP mDNSResponder
     }

@@ -18,7 +18,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq sgml-validate-command                "nsgmls -s %s %s"
-      sgml-catalog-files                   (list "catalog" "CATALOG" "~/.emacs.d/vendor/dtd/catalog")
+      sgml-catalog-files                   (list "catalog" "CATALOG" "~/.emacs.d/config/vendor/dtd/catalog")
       sgml-trace-entity-lookup             t
       sgml-set-face                        t
       sgml-auto-insert-required-elements   t
@@ -31,6 +31,8 @@
       sgml-warn-about-undefined-entities   nil
       sgml-warn-about-undefined-elements   nil
       sgml-trace-entity-lookup             nil
+      nxml-child-indent                    2
+      nxml-attribute-indent                2
       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -66,10 +68,51 @@
              )
           )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Turn on font-lock
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar hexcolor-keywords
+  '(("#[abcdef[:digit:]]\\{3,6\\}"
+     (0 (let ((colour (match-string-no-properties 0)))
+          (if (or (= (length colour) 4)
+                  (= (length colour) 7))
+              (put-text-property
+               (match-beginning 0)
+               (match-end 0)
+               'face (list :background (match-string-no-properties 0)
+                           :foreground (if (>= (apply '+ (x-color-values
+                                                          (match-string-no-properties 0)))
+                                               (* (apply '+ (x-color-values "white")) .6))
+                                           "black" ;; light bg, dark text
+                                         "white" ;; dark bg, light text
+                                         )
+                           )
+               )
+            )
+          )
+        append)
+     )
+    )
+  )
+
+
+
+(defun hexcolor-add-to-font-lock ()
+  (interactive)
+  (font-lock-add-keywords nil hexcolor-keywords t)
+  )
+
 ;; Add CSS colorization to relevant major/minor modes
 (add-hook 'html-mode-hook     'hexcolor-add-to-font-lock)
 (add-hook 'psgml-mode-hook    'hexcolor-add-to-font-lock)
+(add-hook 'sgml-mode-hook     'hexcolor-add-to-font-lock)
 (add-hook 'xml-mode-hook      'hexcolor-add-to-font-lock)
+
+(add-hook 'html-mode-hook     'turn-on-font-lock)
+(add-hook 'psgml-mode-hook    'turn-on-font-lock)
+(add-hook 'sgml-mode-hook     'turn-on-font-lock)
+(add-hook 'xml-mode-hook      'turn-on-font-lock)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Close XML tag function
@@ -106,30 +149,25 @@
     )
   )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; XML mode key bindings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; To close a tag, press "C-c /".  It will look for the closest opened tag and
 ;; it will close it.  The above function is not bullet-proof. It just counts
 ;; closing tags and discards as many open tags, before finding the one that you
 ;; need to close.  This means, if you have: "<foo><bar></foo>|" and press "C-c /",
 ;; it will still enter "</foo>" although your XML is obviously invalid.
 
-(define-key global-map [(control c) (/)] 'xml-close-tag)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Turn on font-lock
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'html-mode-hook         'turn-on-font-lock)
-(add-hook 'psgml-mode-hook        'turn-on-font-lock)
-(add-hook 'sgml-mode-hook         'turn-on-font-lock)
-(add-hook 'xml-mode-hook          'turn-on-font-lock)
+(define-key global-map (kbd "C-c /")  'xml-close-tag)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File associations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq auto-mode-alist (append '(("\\.htm$"      . sgml-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.html$"     . sgml-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.vrml$"     . sgml-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.htm$"      . html-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.html$"     . html-mode         )) auto-mode-alist))
+
 (setq auto-mode-alist (append '(("\\.st$"       . sgml-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.incl$"     . sgml-mode         )) auto-mode-alist))
 

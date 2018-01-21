@@ -32,10 +32,10 @@
 
 (add-hook 'web-mode-hook
           (lambda ()
-            (setq web-mode-markup-indent-offset             4)
+            (setq web-mode-markup-indent-offset             2)
             (setq web-mode-css-indent-offset                4)
             (setq web-mode-code-indent-offset               4)
-            (setq web-mode-indent-style                     2)
+            (setq web-mode-indent-style                     4)
             (setq web-mode-style-paddding                   1)
             (setq web-mode-script-paddding                  1)
             (setq web-mode-block-paddding                   0)
@@ -48,21 +48,26 @@
           )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; web-mode key bindings
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'web-mode-hook          'turn-on-font-lock)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Remove HTML from the magic-mode-alist so that it can be bound to web-mode
+;; @see https://stackoverflow.com/a/14059524
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'magic-mode-alist
+    '("\\(?:<\\?xml\\s +[^>]*>\\)?\\s *<\\(?:!--\\(?:[^-]\\|-[^-]\\)*-->\\s *<\\)*\\(?:!DOCTYPE\\s +[^>]*>\\s *<\\s *\\(?:!--\\(?:[^-]\\|-[^-]\\)*-->\\s *\<\\)*\\)?[Hh][Tt][Mm][Ll]"
+        . web-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File associations
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq auto-mode-alist (append '(("\\.htm$"      . web-mode         )) auto-mode-alist))
-(setq auto-mode-alist (append '(("\\.html$"     . web-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.htm?\\'"   . web-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.html?\\'"  . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.st$"       . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.phtml$"    . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.phps$"     . web-mode         )) auto-mode-alist))

@@ -14,13 +14,16 @@
 (require 'linum-off)
 
 (if (equal linum-mode nil)
+    ;; Enable linum for all modes
     (global-linum-mode  1)
-    ;; Enable linum for all modes except those on this list
     (linum-on)
   )
 
-(column-number-mode                           t)
-(fringe-mode                                  0)
+;; Enable display of current column number
+(column-number-mode          t)
+
+;; Set the left and right fringe to 0 pixels wide
+(fringe-mode          '(0 . 0))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
