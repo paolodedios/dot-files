@@ -507,36 +507,19 @@ function tmux_wrapper_maximize_pane()
 
 function tmux_wrapper_toggle_mouse()
 {
-    if tmux show -g -w | grep -q mode-mouse; then
-        # Set mouse option for tmux < 2.4
-        old=$(tmux show -g -w | grep mode-mouse | cut -d' ' -f2)
-        new=""
+    # Set mouse option for tmux >= 2.4
+    old=$(tmux show -g | grep mouse | head -n 1 | cut -d' ' -f2)
+    new=""
 
-        if [ "$old" = "on" ]; then
-            new="off"
-        else
-            new="on"
-        fi
-
-        tmux set -g mode-mouse $new \;\
-             set -g mouse-resize-pane $new \;\
-             set -g mouse-select-pane $new \;\
-             set -g mouse-select-window $new \;\
-             display "Mouse: $new"
+    if [ "$old" = "on" ]; then
+        new="OFF"
     else
-        # Set mouse option for tmux >= 2.4
-        old=$(tmux show -g | grep mouse | head -n 1 | cut -d' ' -f2)
-        new=""
-
-        if [ "$old" = "on" ]; then
-            new="OFF"
-        else
-            new="ON"
-        fi
-
-        tmux set -g mouse $new \;\
-             display "Mouse: $new"
+        new="ON"
     fi
+
+    tmux set -g mouse $new \;\
+         display "Mouse: $new"
+
 }
 
 ###############################################################################
