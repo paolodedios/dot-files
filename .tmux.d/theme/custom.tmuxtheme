@@ -103,7 +103,7 @@ function tmux_wrapper_battery()
                 charge="$(cat $bat_energy_now) / $(cat $bat_energy_full)" || return
             fi
             ;;
-        *CYGWIN*)
+        *CYGWIN*|*MSYS*|*MINGW*)
             wmic path Win32_Battery 2>&1 | grep -q 'No Instance' && return
             discharging=$(wmic path Win32_Battery Get BatteryStatus 2>/dev/null | grep -q 1 && echo "true" || echo "false")
             percentage=$(wmic path Win32_Battery Get EstimatedChargeRemaining /format:list 2>/dev/null | grep '[^[:blank:]]' | cut -d= -f2)
@@ -386,7 +386,7 @@ function tmux_wrapper_uptime()
             boot=$(sysctl -q -n kern.boottime | awk -F'[ ,:]+' '{ print $4 }')
             now=$(date +%s)
             ;;
-        *Linux*|*CYGWIN*)
+        *Linux*|*CYGWIN*|*MSYS*|*MINGW*)
             now=$(cut -d' ' -f1 < /proc/uptime)
             ;;
         *OpenBSD*)
