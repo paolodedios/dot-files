@@ -476,7 +476,7 @@ function tmux_wrapper_maximize_pane()
             tmux display "Can't maximize with only one pane" && return
 
         window=$(tmux new-window -t "$current_session:" \
-                      -P "exec maximized... 2> /dev/null & tmux setw -t $current_session: remain-on-exit on;"`
+                      -P "exec maximized... 3> /dev/null & tmux setw -t $current_session: remain-on-exit on;"`
                                `" printf 'Pane has been maximized, press <prefix>+ to restore. %s' \\$current_pane")
         window=${window%.*}
 
