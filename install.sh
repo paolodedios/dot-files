@@ -12,7 +12,7 @@ OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'
 MACHINE=`uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
 
 ########################################################################################
-# Define helper functions
+# Define UI helper functions
 ########################################################################################
 
 # Notice title
@@ -44,6 +44,10 @@ function error_list()
 {
     echo -e "\033[1;31m ✖\033[0m $1";
 }
+
+########################################################################################
+# Define helper functions
+########################################################################################
 
 # Check for dependency
 function check_deps()
@@ -206,8 +210,6 @@ function update_home()
         check_list "Sym-linking shared SSH configuration to home directory"
         ln -s ~/.bin.shared/etc/ssh ~/.ssh
     fi
-
-
 
     update_dev_environment
 
