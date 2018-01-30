@@ -219,7 +219,7 @@ function update_home()
 }
 
 # Update home directory
-function backup_home()
+function update_backups()
 {
     notice "Backing up configuration files"
     check_list "Backup complete"
@@ -293,15 +293,98 @@ fi
 # Install scripts
 ########################################################################################
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
+function show_usage()
+{
+    notice "Configuration File Installer Usage"
+    notice "$0 [arguments] \n"
+
+    echo "Arguments:"
+    echo "--help   (-h): Display this help message"
+    echo "--force  (-f): Force install of all settings without confirmation"
+    echo "--dev    (-d): Install development environment files only"
+    echo "--emacs  (-e): Install emacs config files only"
+    echo "--backup (-b): Backup current settings"
+    exit 0
+}
+
+# Process long form options
+for param in "$@"; do
+    shift
+    case "$param" in
+        "--help")
+            set -- "$@" "-h"
+            ;;
+        "--force")
+            set -- "$@" "-f"
+            ;;
+        "--dev")
+            set -- "$@" "-d"
+            ;;
+        "--emacs")
+            set -- "$@" "-e"
+            ;;
+        "--backups")
+            set -- "$@" "-b"
+            ;;
+        *)
+            set -- "$@" "$param"
+            ;;
+    esac
+done
+
+OPTIND=1
+while getopts "hfdeb?" opt; do
+    case "$opt" in
+        "h")
+            show_usage
+            exit 0
+            ;;
+        "f")
+            force_install=true
+            ;;
+        "d")
+            dev_install=true
+            ;;
+        "e")
+            emacs_install=true
+            ;;
+        "b")
+            create_backups=true
+            ;;
+        "?")
+            show_usage >&2
+            exit 1
+            ;;
+    esac
+done
+shift $(expr $OPTIND - 1)
+
+
+if [ $force_install ]; then
+    #
+    # Force update home directory
+    #
     update_home
-elif [ "$1" == "--dev" -o "$1" == "-d" ]; then
+
+elif [ $dev_install ]; then
+    #
+    # Update development environment files
+    #
     update_dev_environment
     update_deployment_environment
-elif [ "$1" == "--emacs" -o "$1" == "-e" ]; then
+
+elif [ $emacs_install ]; then
+    #
+    # Update emacs configuration
+    #
     update_emacs_environment
-elif [ "$1" == "--backup" -o "$1" == "-b" ]; then
-    backup_home
+
+elif [ $create_backups ]; then
+    #
+    # Create new backup
+    #
+    update_backups
+
 else
 	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
 	echo
@@ -313,7 +396,7 @@ else
     fi
 fi
 
-unset backup_home
+unset update_backups
 unset update_home
 unset update_dev_environment
 unset update_deployment_environment
