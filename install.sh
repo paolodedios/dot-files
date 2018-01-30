@@ -73,11 +73,11 @@ function check_deps()
 # Update emacs configuration files
 function update_emacs_environment()
 {
-    if [ -e ~/.emacs.d/snippets ]; then
+    if [ -e $HOME/.emacs.d/snippets ]; then
         check_list "Private Emacs YASnippet files already installed"
     else
         check_list "Sym-linking shared Emacs YASnippet files to home directory"
-        ln -s ~/.bin.shared/etc/snippets ~/.emacs.d/snippets
+        ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
     fi
 
     # Delete files that do not exist in the source repo
@@ -86,39 +86,39 @@ function update_emacs_environment()
           --exclude ".hg/"               \
           --exclude ".DS_Store"          \
           --delete-after                 \
-          -av .emacs.d/ ~/.emacs.d/config
+          -av .emacs.d/ $HOME/.emacs.d/config
 
     if [ "$OS" = "darwin" ]; then
         check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/config/init.el => ~/.emacs]"
-        rm ~/.emacs
-        ln -s ~/.emacs.d/config/init.el ~/.emacs
+        rm $HOME/.emacs
+        ln -s $HOME/.emacs.d/config/init.el $HOME/.emacs
     fi
 }
 
 # Update Python configuration files
 function update_python_environment()
 {
-    if [ -e ~/.pip/pip.conf ]; then
+    if [ -e $HOME/.pip/pip.conf ]; then
         check_list "Private pip configuration already installed"
     else
         check_list "Sym-linking shared pip.conf to home directory"
-        mkdir -p ~/.pip
-        ln -s ~/.bin.shared/etc/python/pip.conf ~/.pip/pip.conf
+        mkdir -p $HOME/.pip
+        ln -s $HOME/$SHARED_FOLDER/etc/python/pip.conf $HOME/.pip/pip.conf
     fi
 
-    if [ -e ~/.pydistutils.cfg ]; then
+    if [ -e $HOME/.pydistutils.cfg ]; then
         check_list "Private setup_tools configuration already installed"
     else
         check_list "Sym-linking shared pydistutils.cfg to home directory"
-        ln -s ~/.bin.shared/etc/python/pydistutils.conf ~/.pydistutils.cfg
+        ln -s $HOME/$SHARED_FOLDER/etc/python/pydistutils.conf $HOME/.pydistutils.cfg
     fi
 
-    if [ -e ~/.buildout/default.cfg ]; then
+    if [ -e $HOME/.buildout/default.cfg ]; then
         check_list "Private zc.buildout configuration already installed"
     else
         check_list "Sym-linking shared buildout.cfg to home directory"
-        mkdir -p ~/.buildout
-        ln -s ~/.bin.shared/etc/python/buildout.conf ~/.buildout/default.cfg
+        mkdir -p $HOME/.buildout
+        ln -s $HOME/$SHARED_FOLDER/etc/python/buildout.conf $HOME/.buildout/default.cfg
     fi
 }
 
@@ -128,34 +128,34 @@ function update_deployment_environment()
 {
     # AWS credential files is the standard mechanism for sharing credentials
     # between AWS SDKs, including non-Amazon ones like Boto
-    if [ -e ~/.aws/credentials ]; then
+    if [ -e $HOME/.aws/credentials ]; then
         check_list "Private AWS credentials already installed"
     else
         check_list "Sym-linking shared AWS credentials to home directory"
-        mkdir -p ~/.aws
-        ln -s ~/.bin.shared/etc/aws/credentials.conf ~/.aws/credentials
+        mkdir -p $HOME/.aws
+        ln -s $HOME/$SHARED_FOLDER/etc/aws/credentials.conf $HOME/.aws/credentials
     fi
 
-    if [ -e ~/.boto ]; then
+    if [ -e $HOME/.boto ]; then
         check_list "Private Boto configuration already installed"
     else
         check_list "Sym-linking shared Boto configuration to home directory"
-        ln -s ~/.bin.shared/etc/aws/boto.conf ~/.boto
+        ln -s $HOME/$SHARED_FOLDER/etc/aws/boto.conf $HOME/.boto
     fi
 
-    if [ -e ~/.ansible.cfg ]; then
+    if [ -e $HOME/.ansible.cfg ]; then
         check_list "Private ansible configuration already installed"
     else
         check_list "Sym-linking shared ansible configuration to home directory"
-        ln -s ~/.bin.shared/etc/ansible/ansible.conf ~/.ansible.cfg
+        ln -s $HOME/$SHARED_FOLDER/etc/ansible/ansible.conf $HOME/.ansible.cfg
     fi
 
-    if [ -e ~/.vagrant.d/Vagrantfile ]; then
+    if [ -e $HOME/.vagrant.d/Vagrantfile ]; then
         check_list "Private Vagrantfile configuration already installed"
     else
         check_list "Sym-linking shared Vagrantfile to home directory"
-        mkdir -p ~/.vagrant.d
-        ln -s ~/.bin.shared/etc/vagrant/Vagrantfile ~/.vagrant.d/Vagrantfile
+        mkdir -p $HOME/.vagrant.d
+        ln -s $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile $HOME/.vagrant.d/Vagrantfile
     fi
 }
 
@@ -181,34 +181,34 @@ function update_home()
           --exclude "README.md"    \
           --exclude "LICENSE"      \
           --exclude ".emacs*"      \
-          -av . ~
+          -av . $HOME
 
     echo
 
-    if [ -f ~/.profile ]; then
+    if [ -f $HOME/.profile ]; then
         check_list "Removing obsolete file [.profile]"
-        rm -f ~/.profile
+        rm -f $HOME/.profile
     fi
 
-    if [ -e ~/.bash_extras ]; then
+    if [ -e $HOME/.bash_extras ]; then
         check_list "Private shell variable file already installed"
     else
         check_list "Sym-linking private shell variable file to home directory"
-        ln -s ~/.bin.shared/etc/bash/.bash_extras ~/.bash_extras
+        ln -s $HOME/$SHARED_FOLDER/etc/bash/.bash_extras $HOME/.bash_extras
     fi
 
-    if [ -e ~/.bash_completion.d ]; then
+    if [ -e $HOME/.bash_completion.d ]; then
         check_list "Private bash completion scripts already installed"
     else
         check_list "Sym-linking shared bash completion scripts to home directory"
-        ln -s ~/.bin.shared/etc/bash/bash_completion.d ~/.bash_completion.d
+        ln -s $HOME/$SHARED_FOLDER/etc/bash/bash_completion.d $HOME/.bash_completion.d
        fi
 
-    if [ -e ~/.ssh ]; then
+    if [ -e $HOME/.ssh ]; then
         check_list "Private SSH configuration already installed"
     else
         check_list "Sym-linking shared SSH configuration to home directory"
-        ln -s ~/.bin.shared/etc/ssh ~/.ssh
+        ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
     fi
 
     update_dev_environment
@@ -259,34 +259,50 @@ else
     check_list "Dependencies found"
 fi
 
-if [ -d ~/Dropbox ]; then
-    check_list  "Dropbox folder found"
+# Check for local binaries and config files
+if [ -d $HOME/.bin.local ]; then
+    check_list "Local folder found"
+    LOCAL_FOLDER=".bin.local"
+elif [ -d $HOME/.local ]; then
+    check_list "Local folder found"
+    LOCAL_FOLDER=".local"
 else
-    error_list  "Drobox folder missing"
+    error_list "Local folder missing"
 fi
 
-if [ -d ~/.bin.shared/bin ]; then
+if [ -d $HOME/$LOCAL_FOLDER/bin ]; then
+    check_list "Local bin folder found"
+else
+    error_list "Local bin folder missing"
+fi
+
+if [ -d $HOME/$LOCAL_FOLDER/etc ]; then
+    check_list "Local etc folder found"
+else
+    error_list "Local etc folder missing"
+fi
+
+# Check for shared binaries and config files
+if [ -d $HOME/.bin.shared ]; then
+    check_list "Shared folder found"
+    SHARED_FOLDER=".bin.shared"
+elif [ -d $HOME/.shared ]; then
+    check_list "Shared folder found"
+    SHARED_FOLDER=".shared"
+else
+    error_list "Shared folder missing"
+fi
+
+if [ -d $HOME/$SHARED_FOLDER/bin ]; then
     check_list "Shared bin folder found"
 else
     error_list "Shared bin folder missing"
 fi
 
-if [ -d ~/.bin.shared/etc ]; then
+if [ -d $HOME/$SHARED_FOLDER/etc ]; then
     check_list "Shared etc folder found"
 else
     error_list "Shared etc folder missing"
-fi
-
-if [ -d ~/.bin.shared/include ]; then
-    check_list "Shared include folder found"
-else
-    error_list "Shared include folder missing"
-fi
-
-if [ -d ~/.bin.shared/lib ]; then
-    check_list "Shared lib folder found"
-else
-    error_list "Shared lib folder missing"
 fi
 
 ########################################################################################
@@ -396,6 +412,7 @@ else
     fi
 fi
 
+# Cleanup environment
 unset update_backups
 unset update_home
 unset update_dev_environment
