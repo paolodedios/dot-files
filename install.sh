@@ -225,6 +225,29 @@ function update_backups()
     check_list "Backup complete"
 }
 
+# Update Bash-It configuration
+function update_shell()
+{
+    echo
+    notice "Updating Bash-It Configuration"
+
+    BASH_IT=$HOME/.bash.d
+
+    # Load dependencies for enabling Bash-It components
+    source "$BASH_IT/lib/composure.bash"
+    cite _about _param _example _group _author _version
+    source "$BASH_IT/lib/helpers.bash"
+
+    check_list "$(_enable-completion bash-it)"
+    check_list "$(_enable-completion system)"
+    check_list "$(_enable-plugin base)"
+    check_list "$(_enable-plugin alias-completion)"
+    check_list "$(_enable-alias general)"
+
+    echo
+    check_list "Bash-It setup complete"
+}
+
 ########################################################################################
 # Initialize bootstrap
 ########################################################################################
@@ -342,6 +365,9 @@ for param in "$@"; do
         "--backups")
             set -- "$@" "-b"
             ;;
+        "--shell")
+            set -- "$@" "-s"
+            ;;
         *)
             set -- "$@" "$param"
             ;;
@@ -349,7 +375,7 @@ for param in "$@"; do
 done
 
 OPTIND=1
-while getopts "hfdeb?" opt; do
+while getopts "hfdebs?" opt; do
     case "$opt" in
         "h")
             show_usage
@@ -366,6 +392,9 @@ while getopts "hfdeb?" opt; do
             ;;
         "b")
             create_backups=true
+            ;;
+        "s")
+            bashit_install=true
             ;;
         "?")
             show_usage >&2
@@ -401,6 +430,12 @@ elif [ $create_backups ]; then
     #
     update_backups
 
+elif [ $bashit_install ]; then
+    #
+    # Update/install Bash-It files
+    #
+    update_shell
+
 else
     #
     # Confirm home directory update
@@ -409,6 +444,7 @@ else
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
         update_home
+        update_shell
     else
         error "Aborted"
         exit 1
@@ -416,11 +452,12 @@ else
 fi
 
 # Cleanup environment
+unset update_shell
 unset update_backups
-unset update_home
 unset update_dev_environment
 unset update_deployment_environment
 unset update_emacs_environment
+unset update_home
 
 cd $current_pwd
 
