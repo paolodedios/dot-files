@@ -83,28 +83,22 @@ function emacs_prompt()
     PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name) \n$ '
 }
 
-function nodejs_prompt()
+function prompt_command()
 {
+    NODEJS_ENV_NAME=$([[ ! -z $NAVE ]] && echo $NAVENAME || echo "")
     PYTHON_ENV_NAME=$([[ ! -z $VIRTUAL_ENV ]] && echo $(basename $VIRTUAL_ENV) || echo "")
 
     # Update the prompt with the virtualenv name
-    PS1="\n\[$GREEN\](nodemode: ${NAVENAME})\[$RESET\] "`
-       `"$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo \"\[$GREEN\](pymode: ${PYTHON_ENV_NAME})\[$RESET\]\" || echo\"\") "`
-       `"\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$WHITE\]"`
+    PS1="\n"`
+       `""$([[ ! -z ${NODEJS_ENV_NAME} ]] && echo "\[$GREEN\](nodemode: ${NAVENAME})\[$RESET\] " || echo "")""`
+       `""$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo "\[$GREEN\](pymode: ${PYTHON_ENV_NAME})\[$RESET\] " || echo "")""`
+       `"\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$WHITE\] "`
        `"\[$GREEN\]\$(git_in_repo)$(git_branch_name)\[$RESET\] \n\$ "
-}
-
-function def_prompt()
-{
-    PS1="\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$WHITE\]"`
-        `"\[$GREEN\]\$(git_in_repo)$(git_branch_name)\[$RESET\] \n\$ "
 }
 
 
 if [ ! -z "$INSIDE_EMACS" ]; then
     safe_append_prompt_command emacs_prompt
-elif [ ! -z "$NAVE" ]; then
-    safe_append_prompt_command nodejs_prompt
 else
-    safe_append_prompt_command def_prompt
+    safe_append_prompt_command prompt_command
 fi
