@@ -2,6 +2,21 @@
 #
 # Main Bash-It Entry Point
 #
+# Loads the frameworks individual components in the following order:
+#
+#   1. `lib/composure.bash`
+#   2. Remaining files in `lib`
+#   3. Enabled `aliases`
+#   4. Enabled `plugins`
+#   5. Enabled `completions`
+#   6. `themes/colors.theme.bash`
+#   7. `themes/base.theme.bash`
+#   8. Custom `aliases`
+#   9. Custom `plugins`
+#  10. Custom `completions`
+#  11. Additional custom files from either `$BASH_IT/custom` or `$BASH_IT_CUSTOM`
+#  12. `main/appearance.bash`, which loads the theme selected via `$BASH_IT_THEME`
+#
 ########################################################################################
 
 ########################################################################################
@@ -14,23 +29,23 @@ alias reload="source ~/.bashrc"
 # Bash-It loader
 ########################################################################################
 
-# Load composure first, so we support function metadata
+COMPOSURE_LIBRARY="${BASH_IT}/lib/composure.bash"
 
+# Load the composure library first to enable metadata keywords
 # shellcheck source=./lib/composure.bash
-source "${BASH_IT}/lib/composure.bash"
+source $COMPOSURE_LIBRARY
 
-# support 'plumbing' metadata
+# Declare metadata keywords for 'plumbing' functions
 cite _about _param _example _group _author _version
 
-# libraries, but skip appearance (themes) for now
-LIBRARIES="${BASH_IT}/lib/*.bash"
-APPEARANCE_LIBRARY="${BASH_IT}/lib/appearance.bash"
+BASH_IT_LIBRARIES="${BASH_IT}/lib/*.bash"
 
-for config_file in $LIBRARIES; do
-  if [ $config_file != $APPEARANCE_LIBRARY ]; then
-    # shellcheck disable=SC1090
-    source $config_file
-  fi
+# Load remaining library files
+for config_file in $BASH_IT_LIBRARIES; do
+    if [ $config_file != $COMPOSURE_LIBRARY ]; then
+        # shellcheck disable=SC1090
+        source $config_file
+    fi
 done
 
 ########################################################################################
@@ -61,13 +76,6 @@ source "${BASH_IT}/themes/githelpers.theme.bash"
 source "${BASH_IT}/themes/base.theme.bash"
 
 ########################################################################################
-# Load appearance (themes) now, after all dependencies
-########################################################################################
-
-# shellcheck source=./lib/appearance.bash
-source $APPEARANCE_LIBRARY
-
-########################################################################################
 # Load custom aliases, completion, plugins
 ########################################################################################
 
@@ -82,8 +90,8 @@ done
 # Load global custom configurations and overrides
 ########################################################################################
 
-CUSTOM_FILES="${BASH_IT_CUSTOM:=${BASH_IT}/custom}/*.bash ${BASH_IT_CUSTOM:=${BASH_IT}/custom}/**/*.bash"
-for config_file in $CUSTOM_FILES; do
+BASH_IT_CUSTOM_FILES="${BASH_IT_CUSTOM:=${BASH_IT}/custom}/*.bash ${BASH_IT_CUSTOM:=${BASH_IT}/custom}/**/*.bash"
+for config_file in $BASH_IT_CUSTOM_FILES; do
     if [ -e "${config_file}" ]; then
         # shellcheck disable=SC1090
         source $config_file
@@ -91,6 +99,13 @@ for config_file in $CUSTOM_FILES; do
 done
 
 unset config_file
+
+########################################################################################
+# Load appearance (themes), after all other dependencies
+########################################################################################
+
+# shellcheck source=./main/appearance.bash
+source "${BASH_IT}/main/appearance.bash"
 
 ########################################################################################
 # Set override for PS1 prompt via PROMPT environment variable
