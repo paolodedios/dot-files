@@ -21,7 +21,9 @@
 cite about-plugin
 about-plugin 'Automatic completion of aliases'
 
-# Automatically add completion for all aliases to commands having completion functions
+#
+# Automatically adds completion for all aliases to commands having completion functions
+#
 function alias_completion()
 {
     local namespace="alias_completion"
@@ -88,4 +90,9 @@ function alias_completion()
         echo "$new_completion" >> "$tmp_file"
     done < <(alias -p | sed -Ene "s/$alias_regex/\2 '\3' '\4'/p")
     source "$tmp_file" && rm -f "$tmp_file"
-}; alias_completion
+}
+
+#
+# Load alias_completion plugin
+#
+alias_completion
