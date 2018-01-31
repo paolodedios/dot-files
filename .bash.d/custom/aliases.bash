@@ -8,24 +8,6 @@
 ########################################################################################
 
 ########################################################################################
-# Enable aliases to be sudo’ed
-########################################################################################
-
-alias sudo="sudo "
-
-########################################################################################
-# Shortcut to reload all bash configurations
-########################################################################################
-
-alias reload-bash="source ~/.bash_profile"
-
-########################################################################################
-# Always use VIM
-########################################################################################
-
-alias vi="vim"
-
-########################################################################################
 # Host file editing aliases
 ########################################################################################
 
@@ -49,21 +31,6 @@ alias gitreset="git_reset_branch"
 alias gitdiscard="git_discard_changes"
 
 ########################################################################################
-# Basic command aliases
-########################################################################################
-
-alias jj="jobs -l"
-
-alias hh="history"
-
-########################################################################################
-# Location shortcuts
-########################################################################################
-
-alias which="type -a"
-alias whichpath="type -p"
-
-########################################################################################
 # Directory navigation; @see .bash_marks
 ########################################################################################
 
@@ -76,93 +43,18 @@ alias ncd="nodejs_virtualenv_cd"
 # Override the builtin cd with a py virtualenv facade
 alias cd="py_virtualenv_cd"
 
-# Directory navigation helpers
-alias cd..="cd .."
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-
-# Tail system log
-alias systail="tail -f /var/log/system.log"
-
-# Dump binary to console
-alias objectdump="od"
-
 ########################################################################################
 # Compress/uncompress helpers
 ########################################################################################
 
-# Uncompress a .tar.gz file
-alias untar="tar xvzf"
-
 # Gzip-enabled `curl`
 alias gurl="curl --compressed"
-
-########################################################################################
-# Intuitive map function
-# For example, to list all directories that contain a certain file:
-# find . -name .gitattributes | map dirname
-########################################################################################
-
-alias map="xargs -n1"
-
-########################################################################################
-# Copies folder and all sub files and folders, preserving security and dates
-########################################################################################
-
-alias cp-folder="cp -Rpv"
-
-########################################################################################
-# Lists folders and files sizes in the current folder
-########################################################################################
-
-alias du="du -kh"
-alias df="df -h"
-alias ducks="du -cksh * | sort -rn | head -11"
-alias du1="du -h -d 1"
 
 ########################################################################################
 # tailoring 'less'
 ########################################################################################
 
 alias less="less.sh"
-
-########################################################################################
-# Prevents accidentally clobbering files.
-########################################################################################
-
-alias rm="rm -i"
-alias cp="cp -i"
-alias mv="mv -i"
-
-alias mkdir="mkdir -p"
-
-########################################################################################
-# The 'ls' family (this assumes you use a recent GNU ls)
-########################################################################################
-
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then
-	colorflag="--color"                     # GNU `ls`
-else
-	colorflag="-G"                          # OS X `ls`
-fi
-
-
-alias ls="command ls ${colorflag}"          # Always use color output for `ls`
-alias la="ls -l -Axh"                       # show all, including hidden files
-alias ll="ls -l"                            # show all, exclude hidden files
-
-alias lx="ls -l -xB"                        # sort by extension
-alias lk="ls -l -Sr"                        # sort by size, biggest last
-alias lc="ls -l -tcr"                       # sort by and show change time, most recent last
-alias lu="ls -l -tur"                       # sort by and show access time, most recent last
-alias lt="ls -l -tr"                        # sort by date, most recent last
-alias lm="ls -al | more"                    # pipe through "more"
-alias lr="ls -lR"                           # recursive ls
-
-alias lsd='ll | grep "^d"'                  # List only directories
 
 ########################################################################################
 # Networking related aliases

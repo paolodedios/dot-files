@@ -7,35 +7,74 @@ cite about-alias
 about-alias 'general aliases'
 
 ########################################################################################
+# Bash-It Aliases
+########################################################################################
+
+# Common misspellings of bash-it
+alias shit='bash-it'
+alias batshit='bash-it'
+alias bashit='bash-it'
+alias batbsh='bash-it'
+alias babsh='bash-it'
+alias bash_it='bash-it'
+alias bash_ti='bash-it'
+
+# Additional bash-it aliases for help/show
+alias bshsa='bash-it show aliases'
+alias bshsc='bash-it show completions'
+alias bshsp='bash-it show plugins'
+alias bshha='bash-it help aliases'
+alias bshhc='bash-it help completions'
+alias bshhp='bash-it help plugins'
+alias bshsch="bash-it search"
+alias bshenp="bash-it enable plugin"
+alias bshena="bash-it enable alias"
+alias bshenc="bash-it enable completion"
+
+########################################################################################
 # Directory listing aliases
 ########################################################################################
 
 if ls --color -d . &> /dev/null; then
-  alias ls="ls --color=auto"
+  alias ls="ls --color=auto"   # GNU 'ls'
 
 elif ls -G -d . &> /dev/null; then
-  alias ls='ls -G'        # Compact view, show colors
+  alias ls='ls -G'             # macOS 'ls'; Compact view, show colors
 
 fi
 
 alias sl=ls
-alias la='ls -AF'         # Compact view, show hidden
-alias ll='ls -al'
 alias l='ls -a'
 alias l1='ls -1'
+
+alias la='ls -l -Ah'           # show all, including hidden files
+alias ll='ls -l'               # show all, exclude hidden files
+
+alias lx='ls -l -xB'           # sort by extension
+alias lk='ls -l -Sr'           # sort by size, biggest last
+alias lc='ls -l -tcr'          # sort by and show change time, most recent last
+alias lu='ls -l -tur'          # sort by and show access time, most recent last
+alias lt='ls -l -tr'           # sort by date, most recent last
+alias lm='ls -al | more'       # pipe through 'more'
+alias lr='ls -lR'              # recursive ls
+
+alias lsd='ll | grep "^d"'     # List only directories
+
+########################################################################################
+# Lists folders and files sizes in the current folder
+########################################################################################
+
+alias du='du -kh'
+alias df='df -h'
+alias ducks='du -cksh * | sort -rn | head -11'
+alias du1='du -h -d 1'
+
 
 ########################################################################################
 # Sudo alias
 ########################################################################################
 
-alias _="sudo"
-
-########################################################################################
-# Shortcuts to edit startup files
-########################################################################################
-
-alias vbrc="vim ~/.bashrc"
-alias vbpf="vim ~/.bash_profile"
+alias _='sudo'
 
 ########################################################################################
 # Colorized Grep
@@ -56,14 +95,58 @@ if which gshuf &> /dev/null; then
     alias shuf=gshuf
 fi
 
+alias edit="$EDITOR"
+alias pager="$PAGER"
+
+# Shorten clear
 alias c='clear'
 alias k='clear'
 alias cls='clear'
 
-alias edit="$EDITOR"
-alias pager="$PAGER"
-
+# Shorten exit
 alias q='exit'
+
+# Shorten extract
+alias xt='extract'
+
+# Uncompress a .tar.gz file
+alias untar='tar xvzf'
+
+# Shorten vim
+alias vi='vim'
+
+# sudo vim
+alias svim='sudo vim'
+
+# Dump binary to console
+alias objectdump='od'
+
+# Display whatever file is regular file or folder
+function catt()
+{
+    for i in "$@"; do
+        if [ -d "$i" ]; then
+            ls "$i"
+        else
+            cat "$i"
+        fi
+    done
+}
+
+########################################################################################
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+########################################################################################
+
+alias map='xargs -n1'
+
+########################################################################################
+# Shortcuts to edit startup files
+########################################################################################
+
+alias vbrc="vim ~/.bashrc"
+alias vbpf="vim ~/.bash_profile"
 
 ########################################################################################
 # Console IRC client
@@ -90,11 +173,12 @@ alias piano='pianobar'
 # Directory navigation
 ########################################################################################
 
-alias ..='cd ..'         # Go up one directory
-alias cd..='cd ..'       # Common misspelling for going up one directory
-alias ...='cd ../..'     # Go up two directories
-alias ....='cd ../../..' # Go up three directories
-alias -- -='cd -'        # Go back
+alias cd..='cd ..'             # Common misspelling for going up one directory
+alias ..='cd ..'               # Go up one directory
+alias ...='cd ../..'           # Go up two directories
+alias ....='cd ../../..'       # Go up three directories
+alias .....='cd ../../../..'   # Go up four directories
+alias -- -='cd -'              # Go back
 
 ########################################################################################
 # Shell History
@@ -102,6 +186,9 @@ alias -- -='cd -'        # Go back
 
 # Shell History
 alias h='history'
+
+# Job listing
+alias j='jobs -l'
 
 ########################################################################################
 # Tree
@@ -119,48 +206,24 @@ alias md='mkdir -p'
 alias rd='rmdir'
 
 ########################################################################################
-# Bash-It Aliases
+# Prevents accidentally clobbering files.
 ########################################################################################
 
-# Common misspellings of bash-it
-alias shit='bash-it'
-alias batshit='bash-it'
-alias bashit='bash-it'
-alias batbsh='bash-it'
-alias babsh='bash-it'
-alias bash_it='bash-it'
-alias bash_ti='bash-it'
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
 
-# Additional bash-it aliases for help/show
-alias bshsa='bash-it show aliases'
-alias bshsc='bash-it show completions'
-alias bshsp='bash-it show plugins'
-alias bshha='bash-it help aliases'
-alias bshhc='bash-it help completions'
-alias bshhp='bash-it help plugins'
-alias bshsch="bash-it search"
-alias bshenp="bash-it enable plugin"
-alias bshena="bash-it enable alias"
-alias bshenc="bash-it enable completion"
+alias mkdir="mkdir -p"
 
 ########################################################################################
-# More Miscellaneous
+# Copies folder and all sub files and folders, preserving security and dates
 ########################################################################################
 
-# Shorten extract
-alias xt='extract'
+alias cp-folder='cp -Rpv'
 
-# sudo vim
-alias svim='sudo vim'
+########################################################################################
+# Location shortcuts
+########################################################################################
 
-# Display whatever file is regular file or folder
-function catt()
-{
-    for i in "$@"; do
-        if [ -d "$i" ]; then
-            ls "$i"
-        else
-            cat "$i"
-        fi
-    done
-}
+alias which='type -a'
+alias whichpath='type -p'
