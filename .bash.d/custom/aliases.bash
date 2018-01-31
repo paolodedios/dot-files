@@ -191,7 +191,7 @@ if [ "$OS" = "darwin" ]; then
     alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"
 
     # Use the emacs binary bundled with Aquamacs for terminal use
-    alias eamcs="/Applications/Aquamacs.app/Contents/MacOS/bin/emacs"
+    alias emacs="/Applications/Aquamacs.app/Contents/MacOS/bin/emacs"
 
     # ROT13-encode text. Works for decoding also
     alias rot13="tr a-zA-Z n-za-mN-ZA-M"
