@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 #
-# composure - by erichs
+# composure
 # light-hearted functions for intuitive shell programming
 #
-# install: source this script in your ~/.profile or ~/.${SHELL}rc script
-#
-# latest source available at http://git.io/composure
-# known to work on bash, zsh, and ksh93
+# @see https://github.com/erichs/composure
 #
 ########################################################################################
 
