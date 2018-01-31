@@ -92,7 +92,7 @@ function prompt_command()
     PS1="\n"`
        `""$([[ ! -z ${NODEJS_ENV_NAME} ]] && echo "\[$GREEN\](nodemode: ${NAVENAME})\[$RESET\] " || echo "")""`
        `""$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo "\[$GREEN\](pymode: ${PYTHON_ENV_NAME})\[$RESET\] " || echo "")""`
-       `"\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$WHITE\] "`
+       `"\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$RESET\] "`
        `"\[$GREEN\]\$(git_in_repo)$(git_branch_name)\[$RESET\] \n\$ "
 }
 
