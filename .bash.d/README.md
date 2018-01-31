@@ -339,20 +339,20 @@ Run `glossary proxy` to show the available proxy functions with a short descript
 
 ### General Load Order
 
-The main `bash_it.sh` script loads the frameworks individual components in the following order:
+The main `bash_it.bash` script loads the frameworks individual components in the following order:
 
 * `lib/composure.bash`
-* Files in `lib` with the exception of `appearance.bash` - this means that `composure.bash` is loaded again here (possible improvement?)
+* Remaining files in `lib`
 * Enabled `aliases`
 * Enabled `plugins`
 * Enabled `completions`
 * `themes/colors.theme.bash`
 * `themes/base.theme.bash`
-* `lib/appearance.bash`, which loads the selected theme
 * Custom `aliases`
 * Custom `plugins`
 * Custom `completions`
 * Additional custom files from either `$BASH_IT/custom` or `$BASH_IT_CUSTOM`
+* `main/appearance.bash`, which loads the selected theme
 
 This order is subject to change.
 
