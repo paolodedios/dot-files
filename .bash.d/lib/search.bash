@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Search by Konstantin Gredeskoul <github.com/kigster>
-#———————————————————————————————————————————————————————————————————————————————
+# ———————————————————————————————————————————————————————————————————————————————
 # This function returns list of aliases, plugins and completions in bash-it,
 # whose name or description matches one of the search terms provided as arguments.
 #
@@ -52,10 +52,11 @@ function _bash-it-search()
     done
 }
 
-#———————————————————————————————————————————————————————————————————————————————
+########################################################################################
 # array=("something to search for" "a string" "test2000")
 # _bash-it-array-contains-element "a string" "${array[@]}"
 # ( prints "true" or "false" )
+########################################################################################
 
 function _bash-it-array-contains-element()
 {
