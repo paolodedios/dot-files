@@ -7,6 +7,11 @@
 #
 ########################################################################################
 
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
 ########################################################################################
 # Don’t source .bash_profile when PS1 is not set (for non-interactive shells
 #
@@ -41,10 +46,5 @@
 #     ssh localhost 'echo "PS1: >$PS1<"'
 #
 ########################################################################################
-
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
 
 [ -n "$PS1" ] && source ~/.bash_profile
