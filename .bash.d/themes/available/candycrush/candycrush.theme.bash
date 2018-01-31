@@ -7,6 +7,33 @@
 #
 ########################################################################################
 
+########################################################################################
+# Set theme variables
+########################################################################################
+
+THEME_USER_HOST_SEP="@"
+THEME_HOST_PATH_SEP=":"
+
+SCM_CHAR_PREFIX="${bold_white}on ${bold_green}("
+SCM_CHAR_SUFFIX=" ${green}⎇  "
+
+SCM_GIT_CHAR="${SCM_CHAR_PREFIX}${bold_green}git${SCM_CHAR_SUFFIX}"
+SCM_HG_CHAR="${SCM_CHAR_PREFIX}${bold_green}hg${SCM_CHAR_SUFFIX}"
+SCM_SVN_CHAR="${SCM_CHAR_PREFIX}${bold_green}svn${SCM_CHAR_SUFFIX}"
+SCM_NONE_CHAR=""
+
+SCM_GIT_AHEAD_CHAR="${bold_green}↑"
+SCM_GIT_BEHIND_CHAR="${bold_red}↓"
+SCM_GIT_UNTRACKED_CHAR="${bold_red}⌀"
+SCM_GIT_STAGED_CHAR="${bold_yellow}+"
+SCM_GIT_UNSTAGED_CHAR="${bold_blue}•"
+
+SCM_THEME_PROMPT_DIRTY=""
+SCM_THEME_PROMPT_CLEAN=""
+
+SCM_THEME_PROMPT_PREFIX="${bold_green}"
+SCM_THEME_PROMPT_SUFFIX="${bold_green})${reset_color}"
+
 
 ########################################################################################
 # Set terminal variable
@@ -19,43 +46,8 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 fi
 
 ########################################################################################
-# Set color constants
+# Prompt Generators
 ########################################################################################
-
-if tput setaf 1 &> /dev/null; then
-
-    tput sgr0
-
-    if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-        MAGENTA=$(tput setaf 9)
-        ORANGE=$(tput setaf 172)
-        YELLOW=$(tput setaf 11)
-        GREEN=$(tput setaf 82)
-        PURPLE=$(tput setaf 165)
-        WHITE=$(tput setaf 256)
-    else
-        MAGENTA=$(tput setaf 5)
-        ORANGE=$(tput setaf 4)
-        YELLOW=$(tput setaf 11)
-        GREEN=$(tput setaf 2)
-        PURPLE=$(tput setaf 1)
-        WHITE=$(tput setaf 7)
-    fi
-
-    BOLD=$(tput bold)
-    RESET=$(tput sgr0)
-
-else
-    MAGENTA="\033[1;31m"
-    YELLOW="\033[1;33m"
-    GREEN="\033[1;32m"
-    PURPLE="\033[1;35m"
-    WHITE="\033[1;37m"
-    ORANGE="\033[1;91m"
-    BOLD=""
-    RESET="\033[m"
-fi
-
 
 function emacs_prompt()
 {
@@ -69,12 +61,15 @@ function prompt_command()
 
     # Update the prompt with the virtualenv name
     PS1="\n"`
-       `""$([[ ! -z ${NODEJS_ENV_NAME} ]] && echo "\[$GREEN\](nodemode: ${NAVENAME})\[$RESET\] " || echo "")""`
-       `""$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo "\[$GREEN\](pymode: ${PYTHON_ENV_NAME})\[$RESET\] " || echo "")""`
-       `"\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$RESET\] "`
-       `"\[$GREEN\]\$(git_in_repo)$(git_branch_name)\[$RESET\] \n\$ "
+       `""$([[ ! -z ${NODEJS_ENV_NAME} ]] && echo "${bold_blue}(jsenv: ${NODEJS_ENV_NAME})${reset_color} " || echo "")""`
+       `""$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo "${bold_cyan}(pyenv: ${PYTHON_ENV_NAME})${reset_color} " || echo "")""`
+       `"${bold_red}\u${bold_white}${THEME_USER_HOST_SEP}${bold_purple}\h${bold_white}${THEME_HOST_PATH_SEP}${bold_yellow}\w${reset_color} "`
+       `"$(scm_prompt_char_info)${reset_color} \n\$ "
 }
 
+########################################################################################
+# Load Prompt
+########################################################################################
 
 if [ ! -z "$INSIDE_EMACS" ]; then
     safe_append_prompt_command emacs_prompt
