@@ -68,10 +68,11 @@ if tput setaf 1 &> /dev/null; then
 
 else
     MAGENTA="\033[1;31m"
-    ORANGE="\033[0;33m"
+    YELLOW="\033[1;33m"
     GREEN="\033[1;32m"
     PURPLE="\033[1;35m"
     WHITE="\033[1;37m"
+    ORANGE="\033[1;91m"
     BOLD=""
     RESET="\033[m"
 fi
@@ -79,7 +80,7 @@ fi
 
 function emacs_prompt()
 {
-    export PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name) \n$ '
+    PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name) \n$ '
 }
 
 function nodejs_prompt()
@@ -87,21 +88,21 @@ function nodejs_prompt()
     PYTHON_ENV_NAME=$([[ ! -z $VIRTUAL_ENV ]] && echo $(basename $VIRTUAL_ENV) || echo "")
 
     # Update the prompt with the virtualenv name
-    export PS1='\n\[\033[1;32m\](nodemode: ${NAVENAME})\[\033[0m\] '`
-              `'$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo "\[\033[1;32m\](pymode: ${PYTHON_ENV_NAME})\[\033[0m\]" || echo"") '`
-              `'\[\033[1;31m\]\u\[\033[0m\]@\[\033[1;35m\]\h\[\033[0m\]:\[\033[1;33m\]\w\[\033[0m\] '`
-              `'\[\033[1;32m\]$(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name)\[\033[0m\] \n$ '
+    PS1="\n\[$GREEN\](nodemode: ${NAVENAME})\[$RESET\] "`
+       `"$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo \"\[$GREEN\](pymode: ${PYTHON_ENV_NAME})\[$RESET\]\" || echo\"\") "`
+       `"\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$WHITE\]"`
+       `"\[$GREEN\]\$(git_in_repo)$(git_branch_name)\[$RESET\] \n\$ "
 }
 
 function def_prompt()
 {
-    export PS1='\n\[$MAGENTA\]\u\[\033[0m\]@\[$PURPLE\]\h\[\033[0m\]:\[$YELLOW\]\w\[\033[0m\] '`
-              `'\[\033[$GREEN\]$(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name)\[$RESET\] \n$ '
+    PS1="\[${BOLD}${MAGENTA}\]\u\[$WHITE\]@\[$PURPLE\]\h\[$WHITE\]:\[$YELLOW\]\w\[$WHITE\]"`
+        `"\[$GREEN\]\$(git_in_repo)$(git_branch_name)\[$RESET\] \n\$ "
 }
 
 
 if [ ! -z "$INSIDE_EMACS" ]; then
-    emacs_prompt
+    safe_append_prompt_command emacs_prompt
 elif [ ! -z "$NAVE" ]; then
     safe_append_prompt_command nodejs_prompt
 else

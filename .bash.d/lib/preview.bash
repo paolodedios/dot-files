@@ -16,7 +16,7 @@ if [[ $BASH_PREVIEW ]]; then
         BASH_IT_THEME=${theme%.theme.bash}
         BASH_IT_THEME=${BASH_IT_THEME##*/}
         echo "
-    $BASH_IT_THEME"
+  $BASH_IT_THEME"
         echo "" | bash --init-file "${BASH_IT}/main/bash_it.bash" -i
     done
 fi
