@@ -148,10 +148,10 @@ alias bshenc="bash-it enable completion"
 ########################################################################################
 
 # Shorten extract
-alias xt="extract"
+alias xt='extract'
 
 # sudo vim
-alias svim="sudo vim"
+alias svim='sudo vim'
 
 # Display whatever file is regular file or folder
 function catt()
