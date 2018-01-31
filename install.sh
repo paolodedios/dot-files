@@ -185,25 +185,6 @@ function update_home()
 
     echo
 
-    if [ -f $HOME/.profile ]; then
-        check_list "Removing obsolete file [.profile]"
-        rm -f $HOME/.profile
-    fi
-
-    if [ -e $HOME/.bash_extras ]; then
-        check_list "Private shell variable file already installed"
-    else
-        check_list "Sym-linking private shell variable file to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/bash/.bash_extras $HOME/.bash_extras
-    fi
-
-    if [ -e $HOME/.bash_completion.d ]; then
-        check_list "Private bash completion scripts already installed"
-    else
-        check_list "Sym-linking shared bash completion scripts to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/bash/bash_completion.d $HOME/.bash_completion.d
-       fi
-
     if [ -e $HOME/.ssh ]; then
         check_list "Private SSH configuration already installed"
     else
@@ -225,6 +206,65 @@ function update_backups()
     check_list "Backup complete"
 }
 
+function cleanup_shell()
+{
+    echo
+    notice "Cleaning up migrated and orphaned files"
+
+    if [ -f $HOME/.profile ]; then
+        check_list "Removing obsolete file [.profile]"
+        rm -f $HOME/.profile
+    fi
+
+    if [ -e $HOME/.git_completion ]; then
+        check_list "Removing old git completion file [.git_compeltion]"
+        rm -f $HOME/.git_completion
+    fi
+
+    if [ -e $HOME/.docker_completion ]; then
+        check_list "Removing old docker completion file [.docker_completion]"
+        rm -f $HOME/.docker_completion
+    fi
+
+    if [ -e $HOME/.bash_aliases ]; then
+        check_list "Removing old bash aliases file [.bash_aliases]"
+        rm -f $HOME/.bash_aliases
+    fi
+
+    if [ -e $HOME/.bash_exports ]; then
+        check_list "Removing old bash exports file [.bash_exports]"
+        rm -f $HOME/.bash_exports
+    fi
+
+    if [ -e $HOME/.bash_functions ]; then
+        check_list "Removing old bash functions file [.bash_functions]"
+        rm -f $HOME/.bash_functions
+    fi
+
+    if [ -e $HOME/.bash_marks ]; then
+        check_list "Removing old bash marks file [.bash_marks]"
+        rm -f $HOME/.bash_marks
+    fi
+
+    if [ -e $HOME/.bash_prompt ]; then
+        check_list "Removing old bash prompt file [.bash_prompt]"
+        rm -f $HOME/.bash_prompt
+    fi
+
+    if [ -e $HOME/.bash_extras ]; then
+        check_list "Removing old bash extras private variables file [.bash_extras]"
+        rm -f $HOME/.bash_extras
+    fi
+
+    if [ -e $HOME/.bash_completion.d ]; then
+        check_list "Removing obsolete private bash completion scripts [.bash_completion.d/]"
+        rm -f $HOME/.bash_completion.d
+    fi
+
+
+    check_list "File cleanup complete"
+}
+
 # Update Bash-It configuration
 function update_shell()
 {
@@ -238,14 +278,27 @@ function update_shell()
     cite _about _param _example _group _author _version
     source "$BASH_IT/lib/helpers.bash"
 
+    check_list "$(_enable-alias general)"
     check_list "$(_enable-completion bash-it)"
     check_list "$(_enable-completion system)"
     check_list "$(_enable-plugin base)"
     check_list "$(_enable-plugin alias-completion)"
-    check_list "$(_enable-alias general)"
 
     echo
+
     check_list "Bash-It setup complete"
+
+    echo
+    notice "Installing private shell variables"
+
+    if [ -e $BASH_IT/custom/extras.bash ]; then
+        check_list "Private shell variable file already installed in Bash-It custom"
+    else
+        check_list "Sym-linking private shell variable file to Bash-It custom directory"
+        ln -s $HOME/$SHARED_FOLDER/etc/bash/.bash_extras $BASH_IT/custom/extras.bash
+    fi
+
+    check_list "Private variable installation complete"
 }
 
 ########################################################################################
