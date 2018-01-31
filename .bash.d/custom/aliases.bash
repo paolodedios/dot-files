@@ -100,13 +100,6 @@ alias untar="tar xvzf"
 alias gurl="curl --compressed"
 
 ########################################################################################
-# Make grep more user friendly by highlighting matches and exclude grepping
-# through git folders.
-########################################################################################
-
-alias grep="grep --color=auto"
-
-########################################################################################
 # Intuitive map function
 # For example, to list all directories that contain a certain file:
 # find . -name .gitattributes | map dirname
