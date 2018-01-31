@@ -11,7 +11,7 @@ if [[ $BASH_PREVIEW ]]; then
   -------------------------
     "
 
-    THEMES="$BASH_IT/themes/*/*.theme.bash"
+    THEMES="$BASH_IT/themes/available/*/*.theme.bash"
     for theme in $THEMES; do
         BASH_IT_THEME=${theme%.theme.bash}
         BASH_IT_THEME=${BASH_IT_THEME##*/}
