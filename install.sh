@@ -179,9 +179,9 @@ function update_deployment_environment()
 # Update development environment
 function update_dev_environment()
 {
-    update_python_environment
-
     update_emacs_environment
+
+    update_python_environment
 }
 
 
@@ -202,6 +202,10 @@ function update_home()
 
     echo
 
+    update_dev_environment
+
+    update_deployment_environment
+
     if [ ! -z $SHARED_FOLDER ]; then
         if [ -e $HOME/.ssh ]; then
             check_list "Private SSH configuration already installed"
@@ -213,9 +217,7 @@ function update_home()
         alert "Shared folder not found. Skipping ssh configuration installation."
     fi
 
-    update_dev_environment
-
-    update_deployment_environment
+    update_shell
 
     check_list "Synchronize complete"
 }
@@ -538,7 +540,6 @@ else
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
         update_home
-        update_shell
     else
         error "Aborted"
         exit 1
