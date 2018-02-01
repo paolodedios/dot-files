@@ -4,15 +4,6 @@
 #
 ########################################################################################
 
-########################################################################################
-# Load all shell configuration items in the following order
-# 1. bash_extra (private configuration)
-# 2. bash_local (local configuration)
-########################################################################################
-
-for file in ~/.{bash_extras,bash_local}; do
-	[ -r "$file" ] && source "$file"
-done
 
 ########################################################################################
 # Run OS specific shell initializations
