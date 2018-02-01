@@ -42,14 +42,21 @@ alias bshenc="bash-it enable completion"
 ########################################################################################
 
 if ls --color -d . &> /dev/null; then
-  alias ls="ls --color=auto"   # GNU 'ls'
-
+    #
+    # GNU 'ls'
+    #
+    # Use --quoting-style=literal or set LC_ALL='C' to prevent
+    # multi-word file names from being wrapped in single quotes.
+    #
+    alias ls="LC_ALL='C' command ls --color=auto -N"
 elif ls -G -d . &> /dev/null; then
-  alias ls='ls -G'             # macOS 'ls'; Compact view, show colors
-
+    #
+    # macOS 'ls'; Compact view, show colors
+    #
+    alias ls='ls -G'
 fi
 
-alias sl=ls
+alias sl=ls                    # common mis-spelling
 alias l='ls -a'
 alias l1='ls -1'
 
