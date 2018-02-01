@@ -81,7 +81,7 @@ function update_emacs_environment()
           --delete-after                 \
           -av .emacs.d/ $HOME/.emacs.d/config
 
-    if [ -e $HOME/$SHARED_FOLDER ]; then
+    if [ ! -z $SHARED_FOLDER ]; then
 
         if [ -e $HOME/.emacs.d/snippets ]; then
             check_list "Private Emacs YASnippet files already installed"
@@ -102,7 +102,7 @@ function update_emacs_environment()
 # Update Python configuration files
 function update_python_environment()
 {
-    if [ ! -e $HOME/$SHARED_FOLDER ]; then
+    if [ ! -z $SHARED_FOLDER ]; then
         return
     fi
 
@@ -134,7 +134,7 @@ function update_python_environment()
 # Update deployment environment tooling related files
 function update_deployment_environment()
 {
-    if [ ! -e $HOME/$SHARED_FOLDER ]; then
+    if [ ! -z $SHARED_FOLDER ]; then
         return
     fi
 
@@ -198,7 +198,7 @@ function update_home()
 
     echo
 
-    if [ -e $HOME/$SHARED_FOLDER ]; then
+    if [ ! -z $SHARED_FOLDER ]; then
         if [ -e $HOME/.ssh ]; then
             check_list "Private SSH configuration already installed"
         else
@@ -314,7 +314,7 @@ function update_shell()
     echo
     notice "Installing private shell variables"
 
-    if [ -e $HOME/$SHARED_FOLDER ]; then
+    if [ ! -z $SHARED_FOLDER ]; then
 
         if [ -e $BASH_IT/custom/extras.bash ]; then
             check_list "Private shell variable file already installed in Bash-It custom"
