@@ -102,7 +102,7 @@ function update_emacs_environment()
 # Update Python configuration files
 function update_python_environment()
 {
-    if [ ! -z $SHARED_FOLDER ]; then
+    if [ -z $SHARED_FOLDER ]; then
         return
     fi
 
@@ -134,7 +134,7 @@ function update_python_environment()
 # Update deployment environment tooling related files
 function update_deployment_environment()
 {
-    if [ ! -z $SHARED_FOLDER ]; then
+    if [ -z $SHARED_FOLDER ]; then
         return
     fi
 
