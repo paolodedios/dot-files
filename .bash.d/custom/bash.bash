@@ -292,6 +292,11 @@ fi
 # Add project directory
 export LOCAL_PROJECTS=$HOME/Projects
 
+# Declare personal projects directory
+if [ -d $LOCAL_PROJECTS ]; then
+    export PROJECT_HOME=$LOCAL_PROJECTS
+fi
+
 ########################################################################################
 # Print system information
 ########################################################################################
