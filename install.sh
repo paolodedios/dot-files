@@ -81,11 +81,15 @@ function update_emacs_environment()
           --delete-after                 \
           -av .emacs.d/ $HOME/.emacs.d/config
 
-    if [ -e $HOME/.emacs.d/snippets ]; then
-        check_list "Private Emacs YASnippet files already installed"
-    else
-        check_list "Sym-linking shared Emacs YASnippet files to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
+    if [ -e $HOME/$SHARED_FOLDER ]; then
+
+        if [ -e $HOME/.emacs.d/snippets ]; then
+            check_list "Private Emacs YASnippet files already installed"
+        else
+            check_list "Sym-linking shared Emacs YASnippet files to home directory"
+            ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
+        fi
+
     fi
 
     if [ "$OS" = "darwin" ]; then
@@ -98,6 +102,10 @@ function update_emacs_environment()
 # Update Python configuration files
 function update_python_environment()
 {
+    if [ ! -e $HOME/$SHARED_FOLDER ]; then
+        return
+    fi
+
     if [ -e $HOME/.pip/pip.conf ]; then
         check_list "Private pip configuration already installed"
     else
@@ -126,6 +134,10 @@ function update_python_environment()
 # Update deployment environment tooling related files
 function update_deployment_environment()
 {
+    if [ ! -e $HOME/$SHARED_FOLDER ]; then
+        return
+    fi
+
     # AWS credential files is the standard mechanism for sharing credentials
     # between AWS SDKs, including non-Amazon ones like Boto
     if [ -e $HOME/.aws/credentials ]; then
@@ -186,11 +198,13 @@ function update_home()
 
     echo
 
-    if [ -e $HOME/.ssh ]; then
-        check_list "Private SSH configuration already installed"
-    else
-        check_list "Sym-linking shared SSH configuration to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
+    if [ -e $HOME/$SHARED_FOLDER ]; then
+        if [ -e $HOME/.ssh ]; then
+            check_list "Private SSH configuration already installed"
+        else
+            check_list "Sym-linking shared SSH configuration to home directory"
+            ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
+        fi
     fi
 
     update_dev_environment
@@ -300,11 +314,14 @@ function update_shell()
     echo
     notice "Installing private shell variables"
 
-    if [ -e $BASH_IT/custom/extras.bash ]; then
-        check_list "Private shell variable file already installed in Bash-It custom"
-    else
-        check_list "Sym-linking private shell variable file to Bash-It custom directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
+    if [ -e $HOME/$SHARED_FOLDER ]; then
+
+        if [ -e $BASH_IT/custom/extras.bash ]; then
+            check_list "Private shell variable file already installed in Bash-It custom"
+        else
+            check_list "Sym-linking private shell variable file to Bash-It custom directory"
+            ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
+        fi
     fi
 
     check_list "Private variable installation complete"
