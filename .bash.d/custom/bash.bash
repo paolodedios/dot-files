@@ -14,17 +14,6 @@ export MACHINE=$(uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcde
 export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 ########################################################################################
-# Quick system information
-########################################################################################
-
-function sysinfo()
-{
-    echo -e  "Kernel: " $(uname -smr)
-    echo -ne "Uptime:  "; uptime
-    echo -ne "Time  :  "; date
-}
-
-########################################################################################
 # Run OS indepenedent shell initializations
 ########################################################################################
 
@@ -306,5 +295,12 @@ export LOCAL_PROJECTS=$HOME/Projects
 ########################################################################################
 # Print system information
 ########################################################################################
+
+function sysinfo()
+{
+    echo -e  "Kernel: " $(uname -smr)
+    echo -ne "Uptime:  "; uptime
+    echo -ne "Time  :  "; date
+}
 
 sysinfo
