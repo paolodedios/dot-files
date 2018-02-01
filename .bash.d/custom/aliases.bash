@@ -15,16 +15,9 @@ alias hostedit="sudo vim ${SYS_HOSTFILE}"
 alias myhostedit="vim ${MY_HOSTFILE}"
 
 ########################################################################################
-# Mercurial aliases
-########################################################################################
-
-alias hgstat="hg status"
-
-########################################################################################
 # Git/GitHub aliases
 ########################################################################################
 
-alias gitstat="git status"
 alias gitaddup="git_add_upstream"
 alias gitpullup="git_pull_upstream"
 alias gitreset="git_reset_branch"
@@ -42,19 +35,6 @@ alias ncd="nodejs_virtualenv_cd"
 
 # Override the builtin cd with a py virtualenv facade
 alias cd="py_virtualenv_cd"
-
-########################################################################################
-# Compress/uncompress helpers
-########################################################################################
-
-# Gzip-enabled `curl`
-alias gurl="curl --compressed"
-
-########################################################################################
-# tailoring 'less'
-########################################################################################
-
-alias less="less.sh"
 
 ########################################################################################
 # Networking related aliases
@@ -82,12 +62,8 @@ alias gcc_select="sudo port select --set gcc"
 alias python_list="sudo port select --list python"
 alias python_select="sudo port select --set python"
 
-########################################################################################
-# Python virtualenvwrapper aliases
-########################################################################################
-
-# Create a new virtual environment
-alias pymkenv="mkvirtualenv"
+# Check and activate an environment specified in the current directory
+alias pycheckenv="py_virtualenv_check"
 
 # Create a new python 2.6 virtual environment
 alias py26mkenv="mkvirtualenv --python=/opt/local/bin/python2.6"
@@ -104,67 +80,6 @@ alias py35mkenv="mkvirtualenv --python=/opt/local/bin/python3.5"
 # Create a new python 3.6 virtual environment
 alias py36mkenv="mkvirtualenv --python=/opt/local/bin/python3.6"
 
-# Switch to a specific virtual environment
-alias pystartenv="workon"
-
-# Stop using the current virtual environment
-alias pystopenv="deactivate && export PYTHON_VIRTUALENV_TOPLEVEL="
-
-# List virtual environments
-alias pylsenv="lsvirtualenv -b | sort"
-
-# Remove virtual environment
-alias pyrmenv="rmvirtualenv"
-
-# Copy virtual environment
-alias pycpenv="cpvirtualenv"
-
-# Change dir to top level of current virtual environment
-alias pycdenv="cdvirtualenv"
-
-# List site-packages for current virtual environment
-alias pylsenvpkgs="lssitepackages"
-
-# Update site-packages via pip
-alias pyupdatepkgs='pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs pip install -U'
-
-# Generate python package list
-alias pyfreezepkgs="pip freeze --local | grep -v '^\-e' > requirements.txt"
-
-# Install python packages from list
-alias pyinstallpkgs="pip install -r"
-
-# Upgrade specific package
-alias pyupdate='pip install -U'
-
-# Check and activate an environment specified in the current directory
-alias pycheckenv="py_virtualenv_check"
-
-########################################################################################
-# NodeJS virtualenv aliases
-########################################################################################
-
-alias nodestartenv="exec nave use"
-
-alias nodestopenv="exec nave exit"
-
-alias nodecheckenv="nodejs_virtualenv_check"
-
-
-########################################################################################
-# Java related aliases
-########################################################################################
-
-alias maven="mvn3"
-alias m2="mvn2"
-alias m3="mvn3"
-
-########################################################################################
-# Grunt related aliases
-########################################################################################
-
-# Make Grunt print stack traces by default
-command -v grunt > /dev/null && alias grunt="grunt --stack"
 
 ########################################################################################
 # Declare OS specific aliases
@@ -186,12 +101,6 @@ if [ "$OS" = "darwin" ]; then
 
     # Flush Directory Service cache
     alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
-
-    # Open file in the current Aquamacs window
-    alias openwithaquamacs="open -a /Applications/Aquamacs.app $1"
-
-    # Use the emacs binary bundled with Aquamacs for terminal use
-    alias emacs="/Applications/Aquamacs.app/Contents/MacOS/bin/emacs"
 
     # ROT13-encode text. Works for decoding also
     alias rot13="tr a-zA-Z n-za-mN-ZA-M"
