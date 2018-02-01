@@ -66,6 +66,13 @@ alias dkre='docker-runtime-environment'
 alias dkelc='docker exec -it `dklcid` bash'
 
 ########################################################################################
+# Docker container and volume listing aliases
+########################################################################################
+
+alias dkpsl='docker ps -l'
+alias dkvol='docker volume ls'
+
+########################################################################################
 # Docker Compose specific shortcuts
 ########################################################################################
 
