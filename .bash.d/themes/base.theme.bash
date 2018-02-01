@@ -160,9 +160,11 @@ function git_prompt_minimal_info()
 
 function git_prompt_vars()
 {
+    SCM_CHANGE=$(_git-short-sha 2>/dev/null || echo "")
+
     if _git-branch &> /dev/null; then
         SCM_GIT_DETACHED="false"
-        SCM_BRANCH="${SCM_THEME_BRANCH_PREFIX}\$(_git-friendly-ref)$(_git-remote-info)"
+        SCM_BRANCH="${SCM_THEME_BRANCH_PREFIX}\$(_git-friendly-ref)$(_git-remote-info):${SCM_CHANGE}"
     else
         SCM_GIT_DETACHED="true"
 
@@ -172,7 +174,7 @@ function git_prompt_vars()
         else
             detached_prefix=${SCM_THEME_DETACHED_PREFIX}
         fi
-        SCM_BRANCH="${detached_prefix}\$(_git-friendly-ref)"
+        SCM_BRANCH="${detached_prefix}\$(_git-friendly-ref):${SCM_CHANGE}"
     fi
 
     IFS=$'\t' read -r commits_behind commits_ahead <<< "$(_git-upstream-behind-ahead)"
@@ -201,8 +203,6 @@ function git_prompt_vars()
 
     SCM_PREFIX=${GIT_THEME_PROMPT_PREFIX:-$SCM_THEME_PROMPT_PREFIX}
     SCM_SUFFIX=${GIT_THEME_PROMPT_SUFFIX:-$SCM_THEME_PROMPT_SUFFIX}
-
-    SCM_CHANGE=$(_git-short-sha 2>/dev/null || echo "")
 }
 
 function svn_prompt_vars()
