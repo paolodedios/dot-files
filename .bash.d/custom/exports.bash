@@ -63,6 +63,9 @@ export MANPAGER="less -X"
 # Highlight section titles in manual pages
 export LESS_TERMCAP_md="$ORANGE"
 
+# Disable less history file $HOME/.lesshst
+export LESSHISTFILE=/dev/null
+
 ########################################################################################
 # Declare platform specific applications
 ########################################################################################
@@ -412,22 +415,36 @@ else
     # easily tell if you're running screen inside tmux or tmux inside screen),
     # but it should be good enough in practice.
     if ! { [ -n "$TMUX" ]; } then
-        export SYSTEM_PATH=$PATH
+       export SYSTEM_PATH=$PATH
     else
-        export SYSTEM_PATH=/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+       export SYSTEM_PATH=/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
     fi
 
-    # Local packages take precedence
-    export PATH=$SYSTEM_PATH::/shared/bin:$HOME/.local/bin:$HOME/bin
+       export PATH=$SYSTEM_PATH:/shared/bin
 
-    # Local machine-specific binaries
-    export LOCAL_APP_HOME=$HOME/.local
+       # User local binaries
+       export LOCAL_APP_HOME=$HOME/.local
 
-    # Shared machine-agnostic binaries
-    export SHARED_APP_HOME=$HOME/.shared
+       # Add shared data and log folder to the path, if you have it.
+       if [ -d $LOCAL_APP_HOME/var ]; then
+           # Create shared data PATH variable
+           export LOCAL_LOG_PATH=$LOCAL_APP_HOME/var/log
+           export LOCAL_DATA_PATH=$LOCAL_APP_HOME/var/data
+       fi
 
-    # Project directory
-    export LOCAL_PROJECTS=$HOME/Projects
+       # User shared (syncd) binaries
+       export SHARED_APP_HOME=$HOME/.shared
+
+       # Add shared data and log folder to the path, if you have it.
+       if [ -d $SHARED_APP_HOME/var ]; then
+
+           # Create shared data PATH variable
+           export SHARED_LOG_PATH=$SHARED_APP_HOME/var/log
+           export SHARED_DATA_PATH=$SHARED_APP_HOME/var/data
+       fi
+
+       # Project directory
+       export LOCAL_PROJECTS=$HOME/Projects
 fi
 
 
