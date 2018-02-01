@@ -295,7 +295,7 @@ function update_shell()
         check_list "Private shell variable file already installed in Bash-It custom"
     else
         check_list "Sym-linking private shell variable file to Bash-It custom directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/bash/.bash_extras $BASH_IT/custom/extras.bash
+        ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
     fi
 
     check_list "Private variable installation complete"
