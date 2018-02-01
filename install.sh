@@ -75,6 +75,7 @@ function update_emacs_environment()
 {
     # Delete files that do not exist in the source repo
     check_list "Synchronizing Emacs configuration directory [~/.emacs.d]"
+    mkdir -p $HOME/.emacs.d/config
     rsync --exclude ".git/"              \
           --exclude ".hg/"               \
           --exclude ".DS_Store"          \
