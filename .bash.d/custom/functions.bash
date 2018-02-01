@@ -9,60 +9,8 @@
 
 
 ########################################################################################
-# Quick system information
-########################################################################################
-
-function sysinfo()
-{
-    echo -e  "Kernel: " $(uname -smr)
-    echo -ne "Uptime:  "; uptime
-    echo -ne "Time  :  "; date
-}
-
-########################################################################################
-# Mercurial Functions
-########################################################################################
-
-function hg_dirty()
-{
-    hg status 2> /dev/null | \
-      awk '$1 == "?" { unknown = 1 }
-           $1 != "?" { changed = 1 }
-           END {
-             if (changed) printf "*"
-             else if (unknown) printf "?"
-           }'
-}
-
-function hg_in_repo()
-{
-    [[ $(hg branch 2> /dev/null) ]] && echo "on hg:"
-}
-
-function hg_branch()
-{
-    hg branch 2> /dev/null
-}
-
-
-########################################################################################
 # Git Functions
 ########################################################################################
-
-function git_dirty()
-{
-    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working tree clean" ]] && echo "*"
-}
-
-function git_in_repo()
-{
-    [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null) ]] && echo "on git:"
-}
-
-function git_branch_name()
-{
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(git_dirty)/"
-}
 
 # Take repo in $pwd and copy it to the specified location, minus the .git specific files.
 function git_export()
