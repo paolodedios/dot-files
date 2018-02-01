@@ -220,6 +220,63 @@ function update_home()
     check_list "Synchronize complete"
 }
 
+
+# Update Bash-It configuration
+function update_shell()
+{
+    # Delete files that do not exist in the source repo
+    check_list "Synchronizing Bash-It configuration directory [~/.bash.d]"
+    rsync --exclude ".git/"              \
+          --exclude ".hg/"               \
+          --exclude ".DS_Store"          \
+          --delete-after                 \
+          -av .bash.d $HOME
+
+    echo
+    notice "Updating Bash-It Configuration"
+
+    BASH_IT=$HOME/.bash.d
+
+    # Load dependencies for enabling Bash-It components
+    source "$BASH_IT/lib/composure.bash"
+    cite _about _param _example _group _author _version
+    source "$BASH_IT/lib/helpers.bash"
+
+    check_list "$(_enable-alias general)"
+    check_list "$(_enable-completion bash-it)"
+    check_list "$(_enable-completion system)"
+    check_list "$(_enable-plugin base)"
+    check_list "$(_enable-plugin alias-completion)"
+
+    echo
+
+    check_list "Bash-It setup complete"
+
+    echo
+    notice "Installing private shell variables"
+
+    if [ ! -z $SHARED_FOLDER ]; then
+
+        if [ -e $BASH_IT/custom/extras.bash ]; then
+            check_list "Private shell variable file already installed in Bash-It custom"
+        else
+            check_list "Sym-linking private shell variable file to Bash-It custom directory"
+            ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
+        fi
+
+        check_list "Private variable installation complete"
+    else
+        alert "Shared folder not found. Skipping private shell variable installation."
+    fi
+
+    # Initiate post install cleanup
+    cleanup_shell
+}
+
+########################################################################################
+# Post-installation functions
+########################################################################################
+
 # Update home directory
 function update_backups()
 {
@@ -284,55 +341,6 @@ function cleanup_shell()
 
 
     check_list "File cleanup complete"
-}
-
-# Update Bash-It configuration
-function update_shell()
-{
-    # Delete files that do not exist in the source repo
-    check_list "Synchronizing Bash-It configuration directory [~/.bash.d]"
-    rsync --exclude ".git/"              \
-          --exclude ".hg/"               \
-          --exclude ".DS_Store"          \
-          --delete-after                 \
-          -av .bash.d $HOME
-
-    echo
-    notice "Updating Bash-It Configuration"
-
-    BASH_IT=$HOME/.bash.d
-
-    # Load dependencies for enabling Bash-It components
-    source "$BASH_IT/lib/composure.bash"
-    cite _about _param _example _group _author _version
-    source "$BASH_IT/lib/helpers.bash"
-
-    check_list "$(_enable-alias general)"
-    check_list "$(_enable-completion bash-it)"
-    check_list "$(_enable-completion system)"
-    check_list "$(_enable-plugin base)"
-    check_list "$(_enable-plugin alias-completion)"
-
-    echo
-
-    check_list "Bash-It setup complete"
-
-    echo
-    notice "Installing private shell variables"
-
-    if [ ! -z $SHARED_FOLDER ]; then
-
-        if [ -e $BASH_IT/custom/extras.bash ]; then
-            check_list "Private shell variable file already installed in Bash-It custom"
-        else
-            check_list "Sym-linking private shell variable file to Bash-It custom directory"
-            ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
-        fi
-    else
-        alert "Shared folder not found. Skipping private shell variable installation."
-    fi
-
-    check_list "Private variable installation complete"
 }
 
 ########################################################################################
