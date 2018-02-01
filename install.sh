@@ -248,8 +248,6 @@ function update_shell()
     check_list "$(_enable-plugin base)"
     check_list "$(_enable-plugin alias-completion)"
 
-    echo
-
     check_list "Bash-It setup complete"
 
     echo
@@ -338,7 +336,6 @@ function cleanup_shell()
         check_list "Removing obsolete private bash completion scripts [.bash_completion.d/]"
         rm -f $HOME/.bash_completion.d
     fi
-
 
     check_list "File cleanup complete"
 }
