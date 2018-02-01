@@ -4,20 +4,16 @@
 #
 ########################################################################################
 
-
 ########################################################################################
-# Run OS specific shell initializations
+# Quick system information
 ########################################################################################
 
-if [ "$OS" = "darwin" ]; then
-
-    # Increase the maximum number of open file descriptors to the Mac OS limit
-    ulimit -n 2048
-
-    # Add tab completion for `defaults read|write NSGlobalDomain`
-    # You could just use `-g` instead, but I like being explicit
-    complete -W "NSGlobalDomain" defaults
-fi
+function sysinfo()
+{
+    echo -e  "Kernel: " $(uname -smr)
+    echo -ne "Uptime:  "; uptime
+    echo -ne "Time  :  "; date
+}
 
 ########################################################################################
 # Run OS indepenedent shell initializations
@@ -52,6 +48,23 @@ elif [ -f /opt/local/etc/bash_completion.d ]; then
 else
     complete -W "$(echo $(grep '^ssh ' ${HOME}/.bash_history | sort -u | sed 's/^ssh //'))" ssh
 fi
+
+########################################################################################
+# Run OS specific shell initializations
+########################################################################################
+
+case $OSTYPE in
+    darwin*)
+        # Increase the maximum number of open file descriptors to the Mac OS limit
+        ulimit -n 2048
+
+        # Add tab completion for `defaults read|write NSGlobalDomain`
+        # You could just use `-g` instead, but I like being explicit
+        complete -W "NSGlobalDomain" defaults
+        ;;
+    linux*)
+        ;;
+esac
 
 ########################################################################################
 # Check if entering a python virtual environment
