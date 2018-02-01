@@ -14,8 +14,8 @@
 THEME_USER_HOST_SEP="@"
 THEME_HOST_PATH_SEP=":"
 
-SCM_CHAR_PREFIX="${bold_white}on ${bold_green}("
-SCM_CHAR_SUFFIX=" ${green}⎇  "
+SCM_CHAR_PREFIX="${bold_white}on "
+SCM_CHAR_SUFFIX=" ${green}⎇  ${bold_green}["
 
 SCM_GIT_CHAR="${SCM_CHAR_PREFIX}${bold_green}git${SCM_CHAR_SUFFIX}"
 SCM_HG_CHAR="${SCM_CHAR_PREFIX}${bold_green}hg${SCM_CHAR_SUFFIX}"
@@ -32,7 +32,7 @@ SCM_THEME_PROMPT_DIRTY=""
 SCM_THEME_PROMPT_CLEAN=""
 
 SCM_THEME_PROMPT_PREFIX="${bold_green}"
-SCM_THEME_PROMPT_SUFFIX="${bold_green})${reset_color}"
+SCM_THEME_PROMPT_SUFFIX="${bold_green}]${reset_color}"
 
 
 ########################################################################################
