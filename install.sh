@@ -73,13 +73,6 @@ function check_deps()
 # Update emacs configuration files
 function update_emacs_environment()
 {
-    if [ -e $HOME/.emacs.d/snippets ]; then
-        check_list "Private Emacs YASnippet files already installed"
-    else
-        check_list "Sym-linking shared Emacs YASnippet files to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
-    fi
-
     # Delete files that do not exist in the source repo
     check_list "Synchronizing Emacs configuration directory [~/.emacs.d]"
     rsync --exclude ".git/"              \
@@ -87,6 +80,13 @@ function update_emacs_environment()
           --exclude ".DS_Store"          \
           --delete-after                 \
           -av .emacs.d/ $HOME/.emacs.d/config
+
+    if [ -e $HOME/.emacs.d/snippets ]; then
+        check_list "Private Emacs YASnippet files already installed"
+    else
+        check_list "Sym-linking shared Emacs YASnippet files to home directory"
+        ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
+    fi
 
     if [ "$OS" = "darwin" ]; then
         check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/config/init.el => ~/.emacs]"
@@ -181,6 +181,7 @@ function update_home()
           --exclude "README.md"    \
           --exclude "LICENSE"      \
           --exclude ".emacs*"      \
+          --exclude ".bash.d"      \
           -av . $HOME
 
     echo
@@ -268,6 +269,14 @@ function cleanup_shell()
 # Update Bash-It configuration
 function update_shell()
 {
+    # Delete files that do not exist in the source repo
+    check_list "Synchronizing Bash-It configuration directory [~/.bash.d]"
+    rsync --exclude ".git/"              \
+          --exclude ".hg/"               \
+          --exclude ".DS_Store"          \
+          --delete-after                 \
+          -av .bash.d $HOME
+
     echo
     notice "Updating Bash-It Configuration"
 
@@ -344,6 +353,7 @@ elif [ -d $HOME/.local ]; then
     LOCAL_FOLDER=".local"
 else
     error_list "Local folder missing"
+    LOCAL_FOLDER=
 fi
 
 if [ -d $HOME/$LOCAL_FOLDER/bin ]; then
@@ -367,6 +377,7 @@ elif [ -d $HOME/.shared ]; then
     SHARED_FOLDER=".shared"
 else
     error_list "Shared folder missing"
+    SHARED_FOLDER=
 fi
 
 if [ -d $HOME/$SHARED_FOLDER/bin ]; then
