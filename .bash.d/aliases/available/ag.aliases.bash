@@ -13,3 +13,15 @@ cite 'about-alias'
 about-alias 'the silver searcher (ag) abbreviations'
 
 alias ag='ag --smart-case --pager="less -MIRFX"'
+
+case $OSTYPE in
+    linux*)
+        #
+        # If the 'ack' command is not found on the PATH then alias
+        # the ack command to the silver searcher
+        #
+        if [ ! -x $(which ack) ]; then
+            alias ack="ag"
+        fi
+    ;;
+esac
