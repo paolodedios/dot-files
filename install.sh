@@ -90,7 +90,8 @@ function update_emacs_environment()
             check_list "Sym-linking shared Emacs YASnippet files to home directory"
             ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
         fi
-
+    else
+        alert "Shared folder not found. Skipping shared snippet folder installation."
     fi
 
     if [ "$OS" = "darwin" ]; then
@@ -104,6 +105,7 @@ function update_emacs_environment()
 function update_python_environment()
 {
     if [ -z $SHARED_FOLDER ]; then
+        alert "Shared folder not found. Skipping python environment installation."
         return
     fi
 
@@ -136,6 +138,7 @@ function update_python_environment()
 function update_deployment_environment()
 {
     if [ -z $SHARED_FOLDER ]; then
+        alert "Shared folder not found. Skipping deployment environment installation."
         return
     fi
 
@@ -206,6 +209,8 @@ function update_home()
             check_list "Sym-linking shared SSH configuration to home directory"
             ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
         fi
+    else
+        alert "Shared folder not found. Skipping ssh configuration installation."
     fi
 
     update_dev_environment
@@ -323,6 +328,8 @@ function update_shell()
             check_list "Sym-linking private shell variable file to Bash-It custom directory"
             ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
         fi
+    else
+        alert "Shared folder not found. Skipping private shell variable installation."
     fi
 
     check_list "Private variable installation complete"
