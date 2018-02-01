@@ -24,9 +24,9 @@ SCM_NONE_CHAR=""
 
 SCM_GIT_AHEAD_CHAR="${bold_green}↑"
 SCM_GIT_BEHIND_CHAR="${bold_red}↓"
-SCM_GIT_UNTRACKED_CHAR="${bold_red}⌀"
 SCM_GIT_STAGED_CHAR="${bold_yellow}+"
-SCM_GIT_UNSTAGED_CHAR="${bold_blue}•"
+SCM_GIT_UNSTAGED_CHAR="${bold_purple}⟐"
+SCM_GIT_UNTRACKED_CHAR="${bold_red}◎"
 
 SCM_THEME_PROMPT_DIRTY=""
 SCM_THEME_PROMPT_CLEAN=""
