@@ -94,11 +94,13 @@ function update_emacs_environment()
         alert "Shared folder not found. Skipping shared snippet folder installation."
     fi
 
-    if [ "$OS" = "darwin" ]; then
-        check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/config/init.el => ~/.emacs]"
-        rm $HOME/.emacs
-        [ -e $HOME/.emacs.d/config/init.el ] && ln -s $HOME/.emacs.d/config/init.el $HOME/.emacs
-    fi
+    case $OSTYPE in
+        darwin*)
+            check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/config/init.el => ~/.emacs]"
+            rm $HOME/.emacs
+            [ -e $HOME/.emacs.d/config/init.el ] && ln -s $HOME/.emacs.d/config/init.el $HOME/.emacs
+        ;;
+    esac
 }
 
 # Update Python configuration files
