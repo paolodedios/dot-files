@@ -4,7 +4,7 @@
 ########################################################################################
 
 [ui]
-username                       = Paolo de Dios <paolodedios@appliedtheory.io>
+username                       = Paolo de Dios <paolodedios@gmail.com>
 ignore                         = /Users/paolodedios/.hgignore_global
 verbose                        = true
 
