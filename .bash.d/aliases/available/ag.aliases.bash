@@ -20,7 +20,7 @@ case $OSTYPE in
         # If the 'ack' command is not found on the PATH then alias
         # the ack command to the silver searcher
         #
-        if [ ! -x $(which ack) ]; then
+        if [ ! $(type -p ack) ]; then
             alias ack="ag"
         fi
     ;;
