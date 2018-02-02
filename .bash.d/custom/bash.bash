@@ -102,13 +102,6 @@ export LESSHISTFILE=/dev/null
 
 case $OSTYPE in
     darwin*)
-        # Increase the maximum number of open file descriptors to the Mac OS limit
-        ulimit -n 2048
-
-        # Add tab completion for `defaults read|write NSGlobalDomain`
-        # You could just use `-g` instead, but I like being explicit
-        complete -W "NSGlobalDomain" defaults
-
         # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
         # to screen. This isn't a 100% reliable indicator (for example, you can't
         # easily tell if you're running screen inside tmux or tmux inside screen),
@@ -146,22 +139,6 @@ case $OSTYPE in
             export DYLD_FALLBACK_LIBRARY_PATH=$SHARED_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
         fi
 
-        # Create command alias for lsregister
-        export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
-        export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
-        export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
-
-        # Add the VMware ovftool to the PATH
-        export VMWARE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library/
-        export VMWARE_OVFTOOL_PATH=/Applications/VMware\ OVF\ Tool/
-        export PATH=$PATH:$VMWARE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
-
-        # Add the Matlab command line utils to the PATH
-        export MATLAB_COMMAND_PATH=/Applications/MATLAB_R2014b.app/bin/
-        if [ -e $MATLAB_COMMAND_PATH ] ; then
-            export PATH=$PATH:$MATLAB_COMMAND_PATH
-        fi
-
         # Mac OS X search path for shared libraries (from 'man dyld')
         #
         # DYLD_LIBRARY_PATH
@@ -192,7 +169,6 @@ case $OSTYPE in
         # it is always first set to the default paths.
         #
         export DYLD_FALLBACK_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/lib:/usr/lib
-
         ;;
 
     linux*)

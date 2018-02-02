@@ -421,6 +421,22 @@ alias httpdump="sudo tcpdump -i $NETIF -n -s 0 -w - | grep -a -o -E \"Host\: .*|
 
 case $OSTYPE in
     darwin*)
+        # Create command alias for lsregister
+        export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
+        export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
+        export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
+
+        # Add the VMware ovftool to the PATH
+        export VMWARE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library/
+        export VMWARE_OVFTOOL_PATH=/Applications/VMware\ OVF\ Tool/
+        export PATH=$PATH:$VMWARE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
+
+        # Add the Matlab command line utils to the PATH
+        export MATLAB_COMMAND_PATH=/Applications/MATLAB_R2014b.app/bin/
+        if [ -e $MATLAB_COMMAND_PATH ] ; then
+            export PATH=$PATH:$MATLAB_COMMAND_PATH
+        fi
+
         # Macports shortcut functions
         function update_macports()
         {
@@ -442,8 +458,43 @@ case $OSTYPE in
         {
             dscacheutil -flushcache && killall -HUP mDNSResponder
         }
+
+        # Increase the maximum number of open file descriptors to the Mac OS limit
+        ulimit -n 2048
+
+        # Add tab completion for `defaults read|write NSGlobalDomain`
+        # You could just use `-g` instead, but I like being explicit
+        complete -W "NSGlobalDomain" defaults
         ;;
 
     linux*)
+
+        # Fedora DNF shortcut functions
+        function dnf_update()
+        {
+            sudo dnf update
+        }
+
+        function dnf_installed()
+        {
+            sudo dnf list installed
+        }
+
+        function dnf_dbg_install()
+        {
+            sudo dnf install --enablerepo=fedora-debuginfo --enablerepo= updates-debuginfo
+        }
+
+        # Regenerate GRUB
+        function rebuild_grub()
+        {
+            sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+        }
+
+        # Rebuild initial ramdisk filesystem
+        function rebuild_initramfs
+        {
+            sudo dracut -f --kver `uname -r`
+        }
         ;;
 esac
