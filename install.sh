@@ -237,7 +237,10 @@ function update_shell()
     echo
     notice "Updating Bash-It Configuration"
 
-    BASH_IT=$HOME/.bash.d
+    if [ -z $BASH_IT ]; then
+        # Define BASH_IT
+        BASH_IT=$HOME/.bash.d
+    fi
 
     # Load dependencies for enabling Bash-It components
     source "$BASH_IT/lib/composure.bash"
@@ -249,6 +252,47 @@ function update_shell()
     check_list "$(_enable-completion system)"
     check_list "$(_enable-plugin base)"
     check_list "$(_enable-plugin alias-completion)"
+
+    check_list "$(_enable-alias ag)"
+    check_list "$(_enable-alias ansible)"
+    check_list "$(_enable-alias clipboard)"
+    check_list "$(_enable-alias curl)"
+    check_list "$(_enable-alias docker)"
+    check_list "$(_enable-alias emacs)"
+    check_list "$(_enable-alias git)"
+    check_list "$(_enable-alias hg)"
+    check_list "$(_enable-alias macos)"
+    check_list "$(_enable-alias maven)"
+    check_list "$(_enable-alias npm)"
+    check_list "$(_enable-alias python)"
+    check_list "$(_enable-alias systemd)"
+    check_list "$(_enable-alias tmux)"
+    check_list "$(_enable-alias vagrant)"
+    check_list "$(_enable-alias vault)"
+    check_list "$(_enable-alias vim)"
+
+    check_list "$(_enable-completion docker)"
+    check_list "$(_enable-completion docker-machine)"
+    check_list "$(_enable-completion docker-compose)"
+    check_list "$(_enable-completion git)"
+    check_list "$(_enable-completion go)"
+    check_list "$(_enable-completion gradle)"
+    check_list "$(_enable-completion hub)"
+    check_list "$(_enable-completion kubectl)"
+    check_list "$(_enable-completion makefile)"
+    check_list "$(_enable-completion maven)"
+    check_list "$(_enable-completion ng)"
+    check_list "$(_enable-completion npm)"
+    check_list "$(_enable-completion packer)"
+    check_list "$(_enable-completion pip)"
+    check_list "$(_enable-completion pip3)"
+    check_list "$(_enable-completion sdkman)"
+    check_list "$(_enable-completion ssh)"
+    check_list "$(_enable-completion terraform)"
+    check_list "$(_enable-completion tmux)"
+    check_list "$(_enable-completion vagrant)"
+    check_list "$(_enable-completion vault)"
+    check_list "$(_enable-completion virsh)"
 
     check_list "Bash-It setup complete"
 

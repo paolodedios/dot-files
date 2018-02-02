@@ -52,10 +52,12 @@ export BASH_IT_THEME="candycrush"
 export BASH_IT_CUSTOM_THEME_DIR=$BASH_IT/themes/available
 
 ########################################################################################
-# Require Bash-It to reload itself automatically after enabling or disabling components
+# Instruct Bash-It to reload itself automatically after enabling or disabling components
+#
+# Note: Enabling this breaks the github.com/paolodedios/dot-files/install.sh script
+#
+# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 ########################################################################################
-
-export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
 
 ########################################################################################
 # Plug-in specific configuration environment variables
