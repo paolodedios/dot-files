@@ -88,7 +88,7 @@ function update_emacs_environment()
             check_list "Private Emacs YASnippet files already installed"
         else
             check_list "Sym-linking shared Emacs YASnippet files to home directory"
-            ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
+            [ -e $HOME/$SHARED_FOLDER/etc/snippets ] && ln -s $HOME/$SHARED_FOLDER/etc/snippets $HOME/.emacs.d/snippets
         fi
     else
         alert "Shared folder not found. Skipping shared snippet folder installation."
@@ -97,7 +97,7 @@ function update_emacs_environment()
     if [ "$OS" = "darwin" ]; then
         check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/config/init.el => ~/.emacs]"
         rm $HOME/.emacs
-        ln -s $HOME/.emacs.d/config/init.el $HOME/.emacs
+        [ -e $HOME/.emacs.d/config/init.el ] && ln -s $HOME/.emacs.d/config/init.el $HOME/.emacs
     fi
 }
 
@@ -114,14 +114,14 @@ function update_python_environment()
     else
         check_list "Sym-linking shared pip.conf to home directory"
         mkdir -p $HOME/.pip
-        ln -s $HOME/$SHARED_FOLDER/etc/python/pip.conf $HOME/.pip/pip.conf
+        [ -e $HOME/$SHARED_FOLDER/etc/python.pip.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/python/pip.conf $HOME/.pip/pip.conf
     fi
 
     if [ -e $HOME/.pydistutils.cfg ]; then
         check_list "Private setup_tools configuration already installed"
     else
         check_list "Sym-linking shared pydistutils.cfg to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/python/pydistutils.conf $HOME/.pydistutils.cfg
+        [ -e $HOME/$SHARED_FOLDER/etc/python/pydistutils.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/python/pydistutils.conf $HOME/.pydistutils.cfg
     fi
 
     if [ -e $HOME/.buildout/default.cfg ]; then
@@ -129,7 +129,7 @@ function update_python_environment()
     else
         check_list "Sym-linking shared buildout.cfg to home directory"
         mkdir -p $HOME/.buildout
-        ln -s $HOME/$SHARED_FOLDER/etc/python/buildout.conf $HOME/.buildout/default.cfg
+        [ -e $HOME/$SHARED_FOLDER/etc/python/buildout.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/python/buildout.conf $HOME/.buildout/default.cfg
     fi
 }
 
@@ -149,21 +149,21 @@ function update_deployment_environment()
     else
         check_list "Sym-linking shared AWS credentials to home directory"
         mkdir -p $HOME/.aws
-        ln -s $HOME/$SHARED_FOLDER/etc/aws/credentials.conf $HOME/.aws/credentials
+        [ -e $HOME/$SHARED_FOLDER/etc/aws/credentials.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/aws/credentials.conf $HOME/.aws/credentials
     fi
 
     if [ -e $HOME/.boto ]; then
         check_list "Private Boto configuration already installed"
     else
         check_list "Sym-linking shared Boto configuration to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/aws/boto.conf $HOME/.boto
+        [ -e $HOME/$SHARED_FOLDER/etc/aws/boto.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/aws/boto.conf $HOME/.boto
     fi
 
     if [ -e $HOME/.ansible.cfg ]; then
         check_list "Private ansible configuration already installed"
     else
         check_list "Sym-linking shared ansible configuration to home directory"
-        ln -s $HOME/$SHARED_FOLDER/etc/ansible/ansible.conf $HOME/.ansible.cfg
+        [ -e $HOME/$SHARED_FOLDER/etc/ansible/ansible.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/ansible/ansible.conf $HOME/.ansible.cfg
     fi
 
     if [ -e $HOME/.vagrant.d/Vagrantfile ]; then
@@ -171,7 +171,7 @@ function update_deployment_environment()
     else
         check_list "Sym-linking shared Vagrantfile to home directory"
         mkdir -p $HOME/.vagrant.d
-        ln -s $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile $HOME/.vagrant.d/Vagrantfile
+        [ -e $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile ] && ln -s $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile $HOME/.vagrant.d/Vagrantfile
     fi
 }
 
@@ -318,14 +318,14 @@ function update_shell()
             check_list "Private shell variable file already installed in Bash-It custom"
         else
             check_list "Sym-linking private shell variable file to Bash-It custom directory"
-            ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
+            [ -e $HOME/$SHARED_FOLDER/etc/bash/extras.bash ] && ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
         fi
 
         if [ -e $HOME/.ssh ]; then
             check_list "Private SSH configuration already installed"
         else
             check_list "Sym-linking shared SSH configuration to home directory"
-            ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
+            [ -e $HOME/$SHARED_FOLDER/etc/ssh ] && ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
         fi
 
         check_list "Private variable installation complete"
