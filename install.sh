@@ -247,12 +247,14 @@ function update_shell()
     cite _about _param _example _group _author _version
     source "$BASH_IT/lib/helpers.bash"
 
+    # Install default aliases, completions, and plugins
     check_list "$(_enable-alias general)"
     check_list "$(_enable-completion bash-it)"
     check_list "$(_enable-completion system)"
     check_list "$(_enable-plugin base)"
     check_list "$(_enable-plugin alias-completion)"
 
+    # Install optional default aliases, completions, and plugins
     check_list "$(_enable-alias ag)"
     check_list "$(_enable-alias ansible)"
     check_list "$(_enable-alias clipboard)"
@@ -293,6 +295,28 @@ function update_shell()
     check_list "$(_enable-completion vagrant)"
     check_list "$(_enable-completion vault)"
     check_list "$(_enable-completion virsh)"
+
+    check_list "$(_enable-plugin autoenv)"
+    check_list "$(_enable-plugin aws)"
+    check_list "$(_enable-plugin docker-compose)"
+    check_list "$(_enable-plugin docker-machine)"
+    check_list "$(_enable-plugin docker)"
+    check_list "$(_enable-plugin explain)"
+    check_list "$(_enable-plugin extract)"
+    check_list "$(_enable-plugin git)"
+    check_list "$(_enable-plugin gradle)"
+    check_list "$(_enable-plugin hg)"
+    check_list "$(_enable-plugin history)"
+    check_list "$(_enable-plugin hub)"
+    check_list "$(_enable-plugin java)"
+    check_list "$(_enable-plugin jenv)"
+    check_list "$(_enable-plugin nginx)"
+    check_list "$(_enable-plugin percol)"
+    check_list "$(_enable-plugin pipsi)"
+    check_list "$(_enable-plugin pygmetize)"
+    check_list "$(_enable-plugin sdkman)"
+    check_list "$(_enable-plugin sshagent)"
+    check_list "$(_enable-plugin virtualenv)"
 
     check_list "Bash-It setup complete"
 
