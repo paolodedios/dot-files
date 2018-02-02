@@ -123,36 +123,52 @@ if [ $(type -p virtualenvwrapper.sh) ]; then
     export PYTHON_VIRTUALENV3_VERSION=3.6
     export PYTHON_VIRTUALENV2_VERSION=2.7
 
-    # Ensure that the system version of python is not used to run virtualenv
-    # if another one is installed in $PYTHON_ALTINSTALL_HOME.
-    #
-    # Prefer altinstall Python 3.X over altinstall Python 2.X over system
-    # python.
-    #
-    if [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION ]; then
-        export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION
-
-        if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION ]; then
-            export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION
-        else
+    case $OSTYPE in
+        darwin*)
+            #
+            # Use the default MacPorts versions of Python and virtualenv are for
+            # the virtualenv wrapper.  The default python version should be
+            # changed via the MacPorts 'port select' mechanism.
+            #
+            # @see select_python() functions defined for macOS above
+            #
+            export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python
             export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
-        fi
+            ;;
+        linux*)
+            #
+            # Ensure that the system version of python is not used to run virtualenv
+            # if another one is installed in $PYTHON_ALTINSTALL_HOME.
+            #
+            # Prefer altinstall Python 3.X over altinstall Python 2.X over system
+            # python.
+            #
+            if [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION ]; then
+                export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION
 
-    elif [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV2_VERSION ]; then
-        export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV2_VERSION
+                if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION ]; then
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION
+                else
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
+                fi
 
-        if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION ]; then
-            export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION
-        else
-            export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
-        fi
-    else
-        # Use the system python as a last resort if virtualenv is installed in
-        # the system.
-        export VIRTUALENVWRAPPER_PYTHON=$PYTHON_SYSTEM_HOME/python
-        export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_SYSTEM_HOME/virtualenv
+            elif [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV2_VERSION ]; then
+                export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV2_VERSION
 
-    fi
+                if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION ]; then
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION
+                else
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
+                fi
+            else
+                # Use the system python as a last resort if virtualenv is installed in
+                # the system.
+                export VIRTUALENVWRAPPER_PYTHON=$PYTHON_SYSTEM_HOME/python
+                export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_SYSTEM_HOME/virtualenv
+            fi
+
+        ;;
+    esac
 
     # Ensure that all new environments are isolated from the system
     # site-packages directory by passing "no-site-packages" as the default
