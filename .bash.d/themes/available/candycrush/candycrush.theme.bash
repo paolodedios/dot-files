@@ -34,17 +34,6 @@ SCM_THEME_PROMPT_CLEAN=""
 SCM_THEME_PROMPT_PREFIX="${bold_green}"
 SCM_THEME_PROMPT_SUFFIX="${bold_green}]${reset_color}"
 
-
-########################################################################################
-# Set terminal variable
-########################################################################################
-
-if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-	export TERM=gnome-256color
-elif infocmp xterm-256color >/dev/null 2>&1; then
-	export TERM=xterm-256color
-fi
-
 ########################################################################################
 # Prompt Generators
 ########################################################################################
