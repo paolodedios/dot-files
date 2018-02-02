@@ -444,86 +444,14 @@ function cleanup_shell()
 # Initialize bootstrap
 ########################################################################################
 
+# Save current directory
 current_pwd=$(pwd)
-missing=()
-
-########################################################################################
-# Validate dependencies
-########################################################################################
 
 # Change to the executable's directory
 cd "$(dirname "$0")"
 
-notice "Checking dependencies"
-
-check_deps "git"   "1.7"
-check_deps "rsync" "3.0"
-
-if [ "${#missing[*]}" -gt "0" ]; then
-
-  error "Missing dependencies"
-
-  arr=("${missing[*]}")
-  for need in ${!arr[*]}
-  do
-      error_list "${arr[$need]}"
-  done
-
-  exit 1
-else
-    check_list "Dependencies found"
-fi
-
-# Check for local binaries and config files
-if [ -d $HOME/.bin.local ]; then
-    check_list "Local folder found"
-    LOCAL_FOLDER=".bin.local"
-elif [ -d $HOME/.local ]; then
-    check_list "Local folder found"
-    LOCAL_FOLDER=".local"
-else
-    error_list "Local folder missing"
-    LOCAL_FOLDER=
-fi
-
-if [ -d $HOME/$LOCAL_FOLDER/bin ]; then
-    check_list "Local bin folder found"
-else
-    error_list "Local bin folder missing"
-fi
-
-if [ -d $HOME/$LOCAL_FOLDER/etc ]; then
-    check_list "Local etc folder found"
-else
-    error_list "Local etc folder missing"
-fi
-
-# Check for shared binaries and config files
-if [ -d $HOME/.bin.shared ]; then
-    check_list "Shared folder found"
-    SHARED_FOLDER=".bin.shared"
-elif [ -d $HOME/.shared ]; then
-    check_list "Shared folder found"
-    SHARED_FOLDER=".shared"
-else
-    error_list "Shared folder missing"
-    SHARED_FOLDER=
-fi
-
-if [ -d $HOME/$SHARED_FOLDER/bin ]; then
-    check_list "Shared bin folder found"
-else
-    error_list "Shared bin folder missing"
-fi
-
-if [ -d $HOME/$SHARED_FOLDER/etc ]; then
-    check_list "Shared etc folder found"
-else
-    error_list "Shared etc folder missing"
-fi
-
 ########################################################################################
-# Install scripts
+# Process install options
 ########################################################################################
 
 function show_usage()
@@ -607,16 +535,98 @@ done
 shift $(expr $OPTIND - 1)
 
 
+########################################################################################
+# Validate dependencies
+########################################################################################
+
+function validate_dependencies()
+{
+    notice "Checking dependencies"
+
+    missing=()
+
+    check_deps "git"   "1.7"
+    check_deps "rsync" "3.0"
+
+    if [ "${#missing[*]}" -gt "0" ]; then
+
+        error "Missing dependencies"
+
+        arr=("${missing[*]}")
+        for need in ${!arr[*]}
+        do
+            error_list "${arr[$need]}"
+        done
+
+        exit 1
+    else
+        check_list "Dependencies found"
+    fi
+
+    # Check for local binaries and config files
+    if [ -d $HOME/.bin.local ]; then
+        check_list "Local folder found"
+        LOCAL_FOLDER=".bin.local"
+    elif [ -d $HOME/.local ]; then
+        check_list "Local folder found"
+        LOCAL_FOLDER=".local"
+    else
+        error_list "Local folder missing"
+        LOCAL_FOLDER=
+    fi
+
+    if [ -d $HOME/$LOCAL_FOLDER/bin ]; then
+        check_list "Local bin folder found"
+    else
+        error_list "Local bin folder missing"
+    fi
+
+    if [ -d $HOME/$LOCAL_FOLDER/etc ]; then
+        check_list "Local etc folder found"
+    else
+        error_list "Local etc folder missing"
+    fi
+
+    # Check for shared binaries and config files
+    if [ -d $HOME/.bin.shared ]; then
+        check_list "Shared folder found"
+        SHARED_FOLDER=".bin.shared"
+    elif [ -d $HOME/.shared ]; then
+        check_list "Shared folder found"
+        SHARED_FOLDER=".shared"
+    else
+        error_list "Shared folder missing"
+        SHARED_FOLDER=
+    fi
+
+    if [ -d $HOME/$SHARED_FOLDER/bin ]; then
+        check_list "Shared bin folder found"
+    else
+        error_list "Shared bin folder missing"
+    fi
+
+    if [ -d $HOME/$SHARED_FOLDER/etc ]; then
+        check_list "Shared etc folder found"
+    else
+        error_list "Shared etc folder missing"
+    fi
+}
+
+
 if [ $force_install ]; then
     #
     # Force update home directory
     #
+    validate_dependencies
+
     update_home
 
 elif [ $dev_install ]; then
     #
     # Update development environment files
     #
+    validate_dependencies
+
     update_dev_environment
     update_deployment_environment
 
@@ -624,6 +634,8 @@ elif [ $emacs_install ]; then
     #
     # Update emacs configuration
     #
+    validate_dependencies
+
     update_emacs_environment
 
 elif [ $create_backups ]; then
@@ -636,6 +648,8 @@ elif [ $bashit_install ]; then
     #
     # Update/install Bash-It files
     #
+    validate_dependencies
+
     update_shell
 
 elif [ $font_install ]; then
@@ -651,6 +665,9 @@ else
 	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
 	echo
 	if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+        validate_dependencies
+
         update_home
     else
         error "Aborted"
