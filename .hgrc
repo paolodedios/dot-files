@@ -8,9 +8,6 @@ username                       = Paolo de Dios <paolodedios@gmail.com>
 ignore                         = /Users/paolodedios/.hgignore_global
 verbose                        = true
 
-[hostfingerprints]
-appliedtheory.kilnhg.com       = f1:01:76:c2:31:e9:cd:a4:8c:a1:22:45:af:f2:0c:c1:59:61:7a:dd
-
 [extensions]
 hgext.extdiff                  =
 
