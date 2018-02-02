@@ -99,7 +99,7 @@ function update_emacs_environment()
             check_list "Sym-linking init.el to classic .emacs file [~/.emacs.d/config/init.el => ~/.emacs]"
             rm $HOME/.emacs
             [ -e $HOME/.emacs.d/config/init.el ] && ln -s $HOME/.emacs.d/config/init.el $HOME/.emacs
-        ;;
+            ;;
     esac
 }
 
@@ -349,6 +349,28 @@ function update_shell()
     cleanup_shell
 }
 
+function update_fonts()
+{
+    notice "Installing fonts"
+
+    case $OSTYPE in
+        darwin*)
+            LOCAL_FONTS_DIR="$HOME/Library/Fonts"
+            ;;
+        linux*)
+            LOCAL_FONTS_DIR="$HOME/.local/share/fonts"
+            ;;
+    esac
+
+    find .fonts \( -name "*.[ot]tf" -or -name "*.pcf.gz" \) -type f -print0 | xargs -0 -n1 -I % cp "%" "$LOCAL_FONTS_DIR/"
+
+    # Reset font cache on Linux
+    if $(type -p fc-cache); then
+        check_list "Resetting font cache."
+        fc-cache -f "$LOCAL_FONTS_DIR"
+    fi
+}
+
 ########################################################################################
 # Post-installation functions
 ########################################################################################
@@ -513,7 +535,9 @@ function show_usage()
     echo "--help   (-h): Display this help message"
     echo "--force  (-f): Force install of all settings without confirmation"
     echo "--dev    (-d): Install development environment files only"
-    echo "--emacs  (-e): Install emacs config files only"
+    echo "--emacs  (-e): Install emacs configuration files only"
+    echo "--shell  (-s): Install shell configuration files only"
+    echo "--fonts  (-t): Install font files only"
     echo "--backup (-b): Backup current settings"
     exit 0
 }
@@ -539,6 +563,9 @@ for param in "$@"; do
             ;;
         "--shell")
             set -- "$@" "-s"
+            ;;
+        "--fonts")
+            set -- "$@" "-t"
             ;;
         *)
             set -- "$@" "$param"
@@ -567,6 +594,9 @@ while getopts "hfdebs?" opt; do
             ;;
         "s")
             bashit_install=true
+            ;;
+        "t")
+            font_install=true
             ;;
         "?")
             show_usage >&2
@@ -607,6 +637,12 @@ elif [ $bashit_install ]; then
     # Update/install Bash-It files
     #
     update_shell
+
+elif [ $font_install ]; then
+    #
+    # Update/install font files
+    #
+    update_fonts
 
 else
     #
