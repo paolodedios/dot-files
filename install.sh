@@ -206,17 +206,6 @@ function update_home()
 
     update_deployment_environment
 
-    if [ ! -z $SHARED_FOLDER ]; then
-        if [ -e $HOME/.ssh ]; then
-            check_list "Private SSH configuration already installed"
-        else
-            check_list "Sym-linking shared SSH configuration to home directory"
-            ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
-        fi
-    else
-        alert "Shared folder not found. Skipping ssh configuration installation."
-    fi
-
     update_shell
 
     check_list "Synchronize complete"
@@ -322,6 +311,7 @@ function update_shell()
     echo
     notice "Installing private shell variables"
 
+    # Install private environment variables and settings
     if [ ! -z $SHARED_FOLDER ]; then
 
         if [ -e $BASH_IT/custom/extras.bash ]; then
@@ -331,9 +321,26 @@ function update_shell()
             ln -s $HOME/$SHARED_FOLDER/etc/bash/extras.bash $BASH_IT/custom/extras.bash
         fi
 
+        if [ -e $HOME/.ssh ]; then
+            check_list "Private SSH configuration already installed"
+        else
+            check_list "Sym-linking shared SSH configuration to home directory"
+            ln -s $HOME/$SHARED_FOLDER/etc/ssh $HOME/.ssh
+        fi
+
         check_list "Private variable installation complete"
     else
         alert "Shared folder not found. Skipping private shell variable installation."
+    fi
+
+    # Ensure proper permissions on .ssh directory
+    if [ -e $HOME/.ssh ]; then
+        check_list "Setting proper permissions for SSH configuration files [~/.ssh]"
+        chmod g-w $HOME
+        chmod 700 $HOME/.ssh
+        chmod 600 $HOME/.ssh/authorized_keys
+    else
+        alert "SSH configurations not found."
     fi
 
     # Initiate post install cleanup
