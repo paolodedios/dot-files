@@ -316,7 +316,6 @@ function update_shell()
     check_list "$(_enable-plugin pygmetize)"
     check_list "$(_enable-plugin sdkman)"
     check_list "$(_enable-plugin sshagent)"
-    check_list "$(_enable-plugin virtualenv)"
 
     check_list "Bash-It setup complete"
 
