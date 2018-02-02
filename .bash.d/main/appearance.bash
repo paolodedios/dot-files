@@ -6,7 +6,7 @@
 # Colored ls
 ########################################################################################
 
-export LSCOLORS='Gxfxcxdxdxegedabagacad'
+export LSCOLORS="ExGxBxDxCxEgEdxbxgxcxd"
 
 ########################################################################################
 # Set custom theme directory
