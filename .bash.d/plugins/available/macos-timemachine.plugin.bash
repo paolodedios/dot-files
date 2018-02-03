@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'OS X Time Machine functions'
+about-plugin 'macOS Time Machine functions'
 
 function time-machine-destination() {
   group "osx-timemachine"
