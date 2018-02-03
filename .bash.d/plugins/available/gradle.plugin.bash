@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'Add a gw command to use gradle wrapper if present, else use system gradle'
+about-plugin 'Gradle helper functions'
 
 function gw() {
   local file="gradlew"
