@@ -15,10 +15,7 @@ Bynens's dotfile repo](https://github.com/mathiasbynens/dotfiles/).
 #### shell environement
 * `.bashrc`
 * `.bash_profile`
-* `.bash_exports`
-* `.bash_functions`
-* `.bash_aliases`
-* `.bash_prompt`
+* `.bash.d/`
 
 #### git
 * `.gitconfig`
