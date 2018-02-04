@@ -34,6 +34,7 @@ SCM_GIT_SHOW_REMOTE_INFO=${SCM_GIT_SHOW_REMOTE_INFO:=auto}
 SCM_GIT_IGNORE_UNTRACKED=${SCM_GIT_IGNORE_UNTRACKED:=false}
 SCM_GIT_SHOW_CURRENT_USER=${SCM_GIT_SHOW_CURRENT_USER:=false}
 SCM_GIT_SHOW_MINIMAL_INFO=${SCM_GIT_SHOW_MINIMAL_INFO:=false}
+SCM_GIT_ALWAYS_SHOW_SHA_REF=${SCM_GIT_ALWAYS_SHOW_SHA_REF:=false}
 
 SCM_GIT='git'
 SCM_GIT_CHAR='±'
@@ -164,7 +165,7 @@ function git_prompt_vars()
 
     if _git-branch &> /dev/null; then
         SCM_GIT_DETACHED="false"
-        SCM_BRANCH="${SCM_THEME_BRANCH_PREFIX}\$(_git-friendly-ref)$(_git-remote-info):${SCM_CHANGE}"
+        SCM_BRANCH="${SCM_THEME_BRANCH_PREFIX}\$(_git-friendly-ref)$(_git-remote-info)"
     else
         SCM_GIT_DETACHED="true"
 
@@ -174,7 +175,7 @@ function git_prompt_vars()
         else
             detached_prefix=${SCM_THEME_DETACHED_PREFIX}
         fi
-        SCM_BRANCH="${detached_prefix}\$(_git-friendly-ref):${SCM_CHANGE}"
+        SCM_BRANCH="${detached_prefix}\$(_git-friendly-ref)"
     fi
 
     IFS=$'\t' read -r commits_behind commits_ahead <<< "$(_git-upstream-behind-ahead)"

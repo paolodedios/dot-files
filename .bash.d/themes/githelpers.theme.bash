@@ -36,7 +36,23 @@ function _git-short-sha()
 # Try the checked-out branch first to avoid collision with branches pointing to the same ref.
 function _git-friendly-ref()
 {
-    _git-branch || _git-tag || _git-commit-description || _git-short-sha
+    # _git-branch || _git-tag || _git-commit-description || _git-short-sha
+    #
+    # Show friendly ref with an option to always show sha1 ref using the
+    # environment variable SCM_GIT_ALWAYS_SHOW_SHA_REF
+    #
+    # @see base.theme.bash
+    #
+    friendly_ref=$(_git-branch || _git-tag || _git-commit-description)
+    if [ ! -z $friendly_ref ]; then
+        if [ $SCM_GIT_ALWAYS_SHOW_SHA_REF = true ] ; then
+            echo "${friendly_ref}:$(_git-short-sha)"
+        else
+            echo "${friendly_ref}"
+        fi
+    else
+        _git-short-sha
+    fi
 }
 
 function _git-num-remotes()
@@ -69,7 +85,8 @@ function _git-upstream-branch()
     # git versions < 2.13.0 do not support "strip" for upstream format
     # regex replacement gives the wrong result for any remotes with slashes in the name,
     # so only use when the strip format fails.
-    git for-each-ref --format="%(upstream:strip=3)" "${ref}" 2> /dev/null || git for-each-ref --format="%(upstream)" "${ref}" | sed -e "s/.*\/.*\/.*\///"
+    git for-each-ref --format="%(upstream:strip=3)" "${ref}" 2> /dev/null || \
+        git for-each-ref --format="%(upstream)" "${ref}" | sed -e "s/.*\/.*\/.*\///"
 }
 
 function _git-upstream-behind-ahead()
