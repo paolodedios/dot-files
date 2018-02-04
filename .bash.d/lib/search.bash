@@ -95,7 +95,8 @@ function _bash-it-search-component()
         fi
     done
 
-    local _grep=$((which --skip-alias grep 2> /dev/null || which grep) | tail -n 1)
+    # Use an absolute path to 'which' to ensure an alias (e.g to 'type -a') is not used.
+    local _grep=$((/usr/bin/which --skip-alias grep 2> /dev/null || /usr/bin/which grep) | tail -n 1)
 
     declare -a terms=($@)           # passed on the command line
     declare -a matches=()           # results that we found
