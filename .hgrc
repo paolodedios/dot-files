@@ -3,15 +3,10 @@
 #
 ########################################################################################
 
-# Always use Fogbugz/KilnHG user ID
 [ui]
-username                       = Paolo de Dios <paolodedios@appliedtheory.io>
+username                       = Paolo de Dios <paolodedios@gmail.com>
 ignore                         = /Users/paolodedios/.hgignore_global
 verbose                        = true
-
-[hostfingerprints]
-developers.kilnhg.com          = f1:01:76:c2:31:e9:cd:a4:8c:a1:22:45:af:f2:0c:c1:59:61:7a:dd
-appliedtheory.kilnhg.com       = f1:01:76:c2:31:e9:cd:a4:8c:a1:22:45:af:f2:0c:c1:59:61:7a:dd
 
 [extensions]
 hgext.extdiff                  =
@@ -22,15 +17,3 @@ opts.ksdiff                    = hg
 
 cmd.sourcetreediff             = opendiff
 opts.sourcetreediff            =
-
-[merge-tools]
-sourcetreemerge.gui            = False
-sourcetreebulkmerge.gui        = False
-sourcetreemerge.binary         = False
-sourcetreebulkmerge.executable = /Applications/SourceTree.app/Contents/Resources/hg-merge.sh
-sourcetreemerge.args           = $local $other -ancestor $base -merge $output
-sourcetreemerge.checkconflicts = True
-sourcetreemerge.premerge       = True
-sourcetreemerge.executable     = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh
-sourcetreebulkmerge.premerge   = False
-sourcetreebulkmerge.binary     = True

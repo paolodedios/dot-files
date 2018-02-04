@@ -59,5 +59,7 @@
 (setq auto-mode-alist (append '(("\\.bashrc$"   . sh-mode           )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.profile$"  . sh-mode           )) auto-mode-alist))
 
+(setq auto-mode-alist (append '(("\\.bats$"     . sh-mode           )) auto-mode-alist))
+
 (setq auto-mode-alist (append '(("\\.conf$"     . conf-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.ini$"      . conf-mode         )) auto-mode-alist))

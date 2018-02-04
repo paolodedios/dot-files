@@ -7,6 +7,11 @@
 #
 ########################################################################################
 
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
 ########################################################################################
 # Don’t source .bash_profile when PS1 is not set (for non-interactive shells
 #
@@ -15,9 +20,10 @@
 #
 # This might seem backwards when you look at the "Bash startup files" reference
 # <http://www.gnu.org/software/bash/manual/bashref.html#Bash-Startup-Files> or
-# the "INVOCATION" section in the man page. However, my workflow typically is:
+# the "INVOCATION" section in the man page. However, a developer workflow
+# typically is something like:
 #
-# * Open a terminal with four shells in tabs
+# * Open a terminal with shells in tabs
 # * Edit code in Vim, and shell out using ":sh"
 #
 # The initial four shells are login shells, so they source ~/.bash_profile.
