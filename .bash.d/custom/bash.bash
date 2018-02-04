@@ -44,7 +44,7 @@ if [ -f /etc/bash_completion.d ]; then
 elif [ -f /opt/local/etc/bash_completion.d ]; then
     source /opt/local/etc/bash_completion.d > /dev/null 2>&1
 else
-    complete -W "$(echo $(grep '^ssh ' ${HOME}/.bash_history | sort -u | sed 's/^ssh //'))" ssh
+    [ -f $HOME/.bash_history ] && complete -W "$(echo $(grep '^ssh ' ${HOME}/.bash_history | sort -u | sed 's/^ssh //'))" ssh
 fi
 
 ########################################################################################
