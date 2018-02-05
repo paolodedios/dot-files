@@ -36,15 +36,27 @@ for option in autocd globstar; do
 done
 
 ########################################################################################
-# Load in bash_completion package
+# Setup bash completion
 ########################################################################################
 
 if [ -f /etc/bash_completion.d ]; then
     source /etc/bash_completion.d > /dev/null 2>&1
 elif [ -f /opt/local/etc/bash_completion.d ]; then
     source /opt/local/etc/bash_completion.d > /dev/null 2>&1
-else
-    [ -f $HOME/.bash_history ] && complete -W "$(echo $(grep '^ssh ' ${HOME}/.bash_history | sort -u | sed 's/^ssh //'))" ssh
+fi
+
+# Add tab completion for SSH hostnames tried in .bash_history
+if [ -f $HOME/.bash_history ]; then
+    complete -W "$(echo $(grep '^ssh ' ${HOME}/.bash_history | sort -u | sed 's/^ssh //'))" ssh
+    complete -W "$(echo $(grep '^scp ' ${HOME}/.bash_history | sort -u | sed 's/^scp //'))" scp
+    complete -W "$(echo $(grep '^sftp ' ${HOME}/.bash_history | sort -u | sed 's/^sftp //'))" sftp
+fi
+
+# Add tab completion for SSH hostnames based on ~/.ssh/config ignoring wildcards
+if [ -e $HOME/.ssh/config ]; then
+    complete -o "default"      \
+	         -o "nospace"      \
+	         -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
 fi
 
 ########################################################################################
