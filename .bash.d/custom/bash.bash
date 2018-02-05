@@ -19,6 +19,9 @@ export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 unset file
 
+# Check the window size after each command and update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 
