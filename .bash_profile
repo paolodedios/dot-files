@@ -29,7 +29,7 @@
 # 2. $HOME/.bashrc
 #
 # On macOS, this file is configured to be loaded by the bash resource file even for
-# non-login shells. An explanation is provided in $HOME/.bashrc
+# non-login shells.
 #
 ########################################################################################
 
