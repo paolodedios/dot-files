@@ -23,7 +23,14 @@
 # Bash-It reload alias
 ########################################################################################
 
-alias reload="source ~/.bashrc"
+case $OSTYPE in
+    darwin*)
+        alias reload='source ~/.bashrc'
+        ;;
+    linux*)
+        alias reload='source ~/.bash_profile'
+        ;;
+esac
 
 ########################################################################################
 # Bash-It loader
