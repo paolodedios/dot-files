@@ -1143,6 +1143,9 @@ function tmux_wrapper_apply_configuration()
                 tmux set -g default-command "exec $default_shell... 2> /dev/null & reattach-to-user-namespace -l $default_shell"
                 ;;
         esac
+    else
+        default_shell="$(tmux show -gv default-shell) -l"
+        tmux set -g default-command "$default_shell"
     fi
 
     tmux_wrapper_apply_overrides
