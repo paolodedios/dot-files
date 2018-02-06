@@ -469,6 +469,9 @@ case $OSTYPE in
 
     linux*)
 
+        # Relocate wget-hsts file
+        alias wget='wget --hsts-file ~/.config/wget/wget-hsts'
+
         # Fedora DNF shortcut functions
         function dnf_update()
         {
