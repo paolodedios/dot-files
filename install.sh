@@ -8,7 +8,7 @@
 
 
 OS=$(uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
-OSVERSION=$(uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)')
+OSVERSION=$(uname -r); OSVERSION=$(expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)')
 MACHINE=$(uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
 
 ########################################################################################
