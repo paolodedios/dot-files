@@ -13,7 +13,7 @@
 
 ########################################################################################
 # When an interactive login shell is started (log in, open terminal or iTerm
-# in OS X, or create a new tab in iTerm) the following files are read
+# in macOS, or create a new tab in iTerm) the following files are read
 # and run, in this order:
 #
 # 1. /etc/profile
@@ -28,10 +28,18 @@
 # 1. /etc/bashrc
 # 2. $HOME/.bashrc
 #
-# This file is configured to be loaded by the bash resource file even for
+# On macOS, this file is configured to be loaded by the bash resource file even for
 # non-login shells. An explanation is provided in $HOME/.bashrc
 #
 ########################################################################################
+
+case $OSTYPE in
+    linux*)
+        # Get the default aliases and functions defined in /etc, as
+        # sourced by .bashrc
+        source ~/.bashrc
+        ;;
+esac
 
 ########################################################################################
 # Set BASH_IT environment variable to the top level path for Bash-It

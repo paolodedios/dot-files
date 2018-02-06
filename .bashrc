@@ -13,7 +13,8 @@ if [ -f /etc/bashrc ]; then
 fi
 
 ########################################################################################
-# Don’t source .bash_profile when PS1 is not set (for non-interactive shells
+# On macOS, source .bash_profile even on non-login shells, except when PS1 is
+# not set (for non-interactive shells)
 #
 # From:
 # https://github.com/mathiasbynens/dotfiles/commit/3d791926a65118c9119f1f0506e79351dff5dbb7
@@ -47,4 +48,8 @@ fi
 #
 ########################################################################################
 
-[ -n "$PS1" ] && source ~/.bash_profile
+case $OSTYPE in
+    darwin*)
+        [ -n "$PS1" ] && source ~/.bash_profile
+        ;;
+esac
