@@ -199,6 +199,7 @@ function update_home()
           --exclude "README.md"    \
           --exclude "LICENSE"      \
           --exclude ".emacs*"      \
+          --exclude ".config"      \
           --exclude ".bash.d"      \
           -av . $HOME
 
