@@ -4,6 +4,12 @@
 #
 ########################################################################################
 
+# Get current branch name
+function git_branch_name()
+{
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1/"
+}
+
 # Take repo in $pwd and copy it to the specified location, minus the .git specific files.
 function git_export()
 {
