@@ -20,12 +20,19 @@ case $OSTYPE in
         alias gcc_list="sudo port select --list gcc"
         alias gcc_select="sudo port select --set gcc"
 
+        # Set pkgconfig search path
+        export LOCAL_PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$HOME/.local/lib64/pkgconfig:
+        export PKG_CONFIG_PATH=$LOCAL_PKG_CONFIG_PATH:/opt/local/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/lib/pkgconfig
         ;;
 
     linux*)
         # Build only x86_64 architecture
-        export CFLAGS="-v -Wall -m64"
+        export CFLAGS="-v -Wall -m64 -fPIC"
         export CC="gcc"
         export CXX="g++"
+
+        # Set pkgconfig search path
+        export LOCAL_PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig:$HOME/.local/lib64/pkgconfig:
+        export PKG_CONFIG_PATH=$LOCAL_PKG_CONFIG_PATH:/usr/local/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/share/pkgconfig
         ;;
 esac
