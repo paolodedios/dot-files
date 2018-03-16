@@ -533,7 +533,7 @@ while getopts "hfdebs?" opt; do
             ;;
     esac
 done
-shift $(expr $OPTIND - 1)
+shift "$(expr $OPTIND - 1)"
 
 
 ########################################################################################
