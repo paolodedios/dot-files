@@ -471,7 +471,7 @@ function show_usage()
     exit 0
 }
 
-# Process long form options
+# Process long form options by converting to short form
 for param in "$@"; do
     shift
     case "$param" in
