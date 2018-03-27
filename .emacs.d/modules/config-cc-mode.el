@@ -109,6 +109,7 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              (auto-fill-mode                         1)
+             (company-mode                          +1)
              ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
@@ -135,6 +136,7 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              (auto-fill-mode                         1)
+             (company-mode                          +1)
              ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
@@ -161,6 +163,7 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              (auto-fill-mode                         1)
+             (company-mode                          +1)
              ;; bind buffer local keys
              (local-set-key (quote [C-f12]) (quote compile))
              (local-set-key "" (quote compile))
