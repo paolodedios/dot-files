@@ -290,6 +290,7 @@
              (setq tab-width                         4)
              (setq indent-tabs-mode                nil)
              (auto-fill-mode                         1)
+             (company-mode                          +1)
              ;; set programming style
              (c-add-style "sourcery" my-java-mode-programming-style        t)
              (c-add-style "knr13"    my-knr13-java-mode-programming-style  t)
