@@ -26,15 +26,20 @@
 (setq-default ac-sources (push 'ac-source-yasnippet ac-sources))
 
 ;; Enable specifc modes for auto-complete
+;;
+;; 3/24/2018: Disabled cc-mode derived configurations due to keyboard
+;; response time slow downs and higher than normal cpu utilization.
+;; Verified on MacOS 10.12.
+;;
 (setq ac-modes '(emacs-lisp-mode
                  lisp-mode
                  lisp-interaction-mode
-                 c-mode
-                 cc-mode
-                 c++-mode
+                 ;; c-mode
+                 ;; cc-mode
+                 ;; c++-mode
+                 ;; objc-mode
+                 ;; java-mode
                  go-mode
-                 objc-mode
-                 java-mode
                  scala-mode
                  clojure-mode
                  clojurescript-mode
