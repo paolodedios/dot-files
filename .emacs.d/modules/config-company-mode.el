@@ -20,7 +20,6 @@
 ;; selection and completion. There's a few tweaks you can do to make the switch
 ;; less jarring. First of all, to make TAB complete first, then cycle, rebind it
 ;; to company-complete-common-or-cycle
-
 (eval-after-load 'company
   '(progn
      ;; Map tab to cycle through the completion options
@@ -36,7 +35,6 @@
 ;; When using (company-ac-setup), the color of faces of the completions
 ;; (company-preview and company-preview-common) might be different. If this is
 ;; not preferred, to get matching colors, this is an option:
-
 (eval-after-load 'company
   (lambda ()
     (set-face-attribute
@@ -49,7 +47,6 @@
 ;; The current candidate isn't displayed inline except when there's only one
 ;; left. You can rectify this by switching out company-preview-if-just-one-frontend
 ;; for company-preview-frontend:
-
 (setq company-frontends
       '(company-pseudo-tooltip-unless-just-one-frontend
         company-preview-frontend
@@ -59,9 +56,15 @@
 
 ;; Finally, to cancel selections by typing non-matching characters, customize
 ;; company-require-match:
-
 (setq company-require-match 'never)
 
+
+;; Set up the idle delay in seconds until completion starts automatically
+(setq company-idle-delay          0.25)
+
+;; Set up the idle delay in seconds until tooltip is shown when using
+;; company-pseudo-tooltip-unless-just-one-frontend-with-delay frontend
+(setq company-tooltip-idle-delay  0.25)
 
 ;; Set up similar popup behavior to autocompelte
 ;; @see https://github.com/company-mode/company-mode/pull/524
