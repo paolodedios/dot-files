@@ -13,11 +13,14 @@ export PYTHON_SYSTEM_HOME=/usr/bin
 
 case $OSTYPE in
     darwin*)
-        # Non-system python installation directory.
         export PYTHON_ALTINSTALL_HOME=/opt/local
 
         # Add non-system python to PATH at higher precedence
-        export PATH=$PYTHON_ALTINSTALL_HOME/bin:$PATH
+        #
+        # Disabled: /opt/local/bin is already on the PATH at the proper precedence
+        # @see .bash.d/custom/bash.bash
+        #
+        # export PATH=$PYTHON_ALTINSTALL_HOME/bin:$PATH
 
         # Set virtualenv working directory to be rooted at $LOCAL_APP_HOME
         export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
