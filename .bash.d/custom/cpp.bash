@@ -10,11 +10,11 @@ case $OSTYPE in
         export ARCHFLAGS="-arch x86_64"
 
         # Default compiler flags that are safe to use with python and numpy extensions
-        export CFLAGS="-arch i386 -arch x86_64"
-        export FFLAGS="-m32 -m64 -ff2c"
-        export LDFLAGS="-Wall -undefined dynamic_lookup -bundle -arch i386 -arch x86_64"
+        export CFLAGS="-v -Wall ${ARCHFLAGS}"
+        export FFLAGS="-m64 -ff2c"
+        export LDFLAGS="-undefined dynamic_lookup ${ARCHFLAGS}"
         export CC="gcc"
-        export CXX="g++ -arch i386 -arch x86_64"
+        export CXX="g++ ${ARCHFLAGS}"
 
         # Aliases for gcc version selection via MacPorts
         alias gcc_list="sudo port select --list gcc"
