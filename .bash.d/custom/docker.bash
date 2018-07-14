@@ -7,16 +7,33 @@
 
 ################################################################################
 #
-# AWS Account Information
+# AWS Environment Settings
 #
 ################################################################################
 
+#
+# AWS_ACCOUNT_NUMBER is an AWS CLI and SDK environment variable and it MUST be
+# set before executing 'dockerh'
+#
 export AWS_ACCOUNT_NUMBER=${AWS_ACCOUNT_NUMBER:-"8XXXXXXXXXXX"}
-
-export AWS_IAM_ADMIN_ROLE_PREFIX=${AWS_IAM_ADMIN_ROLE_PREFIX:-"admin"}
-export AWS_IAM_PROD_ROLE_PREFIX=${AWS_IAM_PROD_ROLE_PREFIX:-"production"}
-export AWS_IAM_STAGE_ROLE_PREFIX=${AWS_IAM_STAGE_ROLE_PREFIX:-"staging"}
-export AWS_IAM_TEST_ROLE_PREFIX=${AWS_IAM_TEST_ROLE_PREFIX:-"test"}
+#
+# AWS_PROFILE is an AWS CLI and SDK environment variable and it CAN be set as an
+# override to profile specification on the command line, otherwise it can be
+# provided as a parameter to most 'dockerh' commands.
+#
+export AWS_PROFILE=${AWS_PROFILE:-""}
+#
+# AWS_SERVICE_REGION environment variable is a 'dockerh' specific variable that
+# CAN be set to use the AWS CLI and SDK environment variable AWS_DEFAULT_REGION
+# (AWS_DEFAULT_REGION  superscedes user profile settings). Defaults to 'us-east-1'
+#
+export AWS_SERVICE_REGION=${AWS_DEFAULT_REGION:-"us-east-1"}
+#
+# AWS_IAM_ROLE environment variable is a 'dockerh' specific variable that MUST
+# be used to specify which role to assume when executing commands given the
+# credentials stored in the user specified profile.
+#
+export AWS_IAM_ROLE=${AWS_IAM_ROLE:-""}
 
 ################################################################################
 #
@@ -94,8 +111,10 @@ function ensure_aws_sts_credentials()
     if [ -d $HOME/.aws ]; then
         notice "Using AWS ECR credentials : $HOME/.aws/credentials"
         notice "Using AWS ECR config      : $HOME/.aws/config"
+        echo ""
     else
         error "Missing AWS credentials and config file."
+        echo ""
         return 1
     fi
 
@@ -169,11 +188,12 @@ function aws_get_temporary_credentials()
 
 function aws_get_ecr_access_credentials()
 {
-    local AWS_STS_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_NUMBER:role/$1"
-    local AWS_STS_SESSION_NAME="$1-Session-$(/bin/date +%Y%m%dT%H%M%S)"
+    local AWS_STS_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_NUMBER:role/$2"
+    local AWS_STS_SESSION_NAME="$2-Session-$(/bin/date +%Y%m%dT%H%M%S)"
+    local AWS_REGION_NAME=$(aws configure get region --profile $AWS_USER_PROFILE)
 
-    export AWS_USER_PROFILE="$2"
-    export AWS_SERVICE_REGION=$(aws configure get region --profile $AWS_USER_PROFILE)
+    export AWS_USER_PROFILE="$1"
+    export AWS_SERVICE_REGION=${AWS_REGION_NAME:-"$AWS_SERVICE_REGION"}
 
     aws_get_temporary_credentials $AWS_STS_ROLE_ARN      \
                                   $AWS_STS_SESSION_NAME  \
@@ -189,41 +209,42 @@ function aws_get_ecr_access_credentials()
 
 function load_aws_ecr_credentials()
 {
-    local ECR_ACCESS_ROLE="none"
-    local STS_ACCESS_PROFILE="none"
+    # Load user profile from ~/.aws/credentials
+    local AWS_CLI_PROFILE=${1:-"$AWS_PROFILE"}
 
-    # ECR credentials are formatted as follows:
-    #  <IAM role>.<domain>.<tld>
-    #
-    # e.g :
-    #  admin.example.com
-    #  production.example.com
-    #  staging.example.com
-    #  test.example.com
-    case "$1" in
-        "${AWS_IAM_ADMIN_ROLE_PREFIX}"*)
-            ECR_ACCESS_ROLE="AdminRoleECRAccess"
-            STS_ACCESS_PROFILE="admin"
-            ;;
-        "${AWS_IAM_PROD_ROLE_PREFIX}"*)
-            ECR_ACCESS_ROLE="ProdRoleECRAccess"
-            STS_ACCESS_PROFILE="production"
-            ;;
-        "${AWS_IAM_STAGE_ROLE_PREFIX}"*)
-            ECR_ACCESS_ROLE="StagingRoleECRAccess"
-            STS_ACCESS_PROFILE="staging"
-            ;;
-        "${AWS_IAM_TEST_ROLE_PREFIX}"*)
-            ECR_ACCESS_ROLE="TestRoleECRAccess"
-            STS_ACCESS_PROFILE="test"
-            ;;
-        *)
-            error "Unknown AWS IAM user"
-            return 1
-            ;;
-    esac
+    # Override the AWS_PROFILE if the caller specified an override
+    export AWS_PROFILE=$AWS_CLI_PROFILE
 
-    aws_get_ecr_access_credentials $ECR_ACCESS_ROLE $STS_ACCESS_PROFILE
+    if [ ! -z "$AWS_IAM_ROLE" ]; then
+        # Load user profile from ~/.aws/credentials to obtain temporary
+        # credentials for the role specified by the environment variable
+        # AWS_IAM_ROLE
+        #
+        echo "AWS IAM Role"
+        echo "------------"
+        echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
+        echo "AWS_IAM_ROLE          : $AWS_IAM_ROLE"
+
+        local STS_ACCESS_PROFILE=${1:-"$AWS_CLI_PROFILE"}
+        local ECR_ACCESS_ROLE=$AWS_IAM_ROLE
+
+        aws_get_ecr_access_credentials $STS_ACCESS_PROFILE $ECR_ACCESS_ROLE
+
+    else
+        # When using AWS_PROFILE, both AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+        # must be unset in the environment in order for AWS_PROFILE to be used.
+        #
+        # @see https://github.com/aws/aws-cli/issues/3304
+        #
+        unset AWS_ACCESS_KEY_ID
+        unset AWS_SECRET_ACCESS_KEY
+
+        echo "AWS IAM User"
+        echo "------------"
+        echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
+        echo "AWS_ACCESS_KEY_ID     : $(aws configure get aws_access_key_id --profile ${AWS_CLI_PROFILE})"
+        echo "AWS_SECRET_ACCESS_KEY : $(aws configure get aws_secret_access_key --profile ${AWS_CLI_PROFILE})"
+    fi
 
     return $?
 }
@@ -279,7 +300,7 @@ function batch_delete_untagged_aws_ecr_images()
         echo $ECR_IMAGE_LIST | jq '.imageIds | .[] | select(.imageTag==null)'
         echo
 
-        confirm && aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ECR_UNTAGGED_IMAGES ]"
+        aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ECR_UNTAGGED_IMAGES ]"
 
         echo
         echo "Remaining images for repository $1"
@@ -323,7 +344,7 @@ function batch_regex_delete_aws_ecr_images()
         echo $ECR_TAGGED_IMAGES
         echo
 
-        confirm && aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ECR_TAGGED_IMAGES ]"
+        aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ECR_TAGGED_IMAGES ]"
 
         echo
         echo "Remaining images for repository $1"
@@ -341,7 +362,7 @@ function delete_aws_ecr_image()
     echo "Deleting image from AWS ECR :  $1:$2"
     echo
 
-    confirm && aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids imageTag=$2
+    aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids imageTag=$2
 
     echo
     echo "Remaining images for repository $1"
@@ -415,11 +436,25 @@ function pull_image_from_aws_ecr()
 }
 
 
-
 function create_ecr_repository()
 {
     echo
     echo "Creating repository : ${1}"
+
+    aws ecr create-repository --region $AWS_SERVICE_REGION --repository-name $1
+
+    if (($? > 0)); then
+        error "Failed to create repository : ${1}"
+        return 1
+    fi
+
+    return 0
+}
+
+
+function set_ecr_repository_policy()
+{
+    echo
     echo "Using policy text   :"
     echo "$(cat $2)"
 
@@ -427,8 +462,6 @@ function create_ecr_repository()
         error "Repository policy file not found : ${2}"
         return 1
     fi
-
-    confirm && aws ecr create-repository --region $AWS_SERVICE_REGION --repository-name $1
 
     echo "Setting repository policy for ${1}"
 
@@ -439,7 +472,35 @@ function create_ecr_repository()
 
 
     if (($? > 0)); then
-        error "Failed to create repository : ${1} using policy in ${2}"
+        error "Failed to set repository policy with ${2}"
+        return 1
+    fi
+
+    return 0
+}
+
+
+function put_ecr_lifecycle_policy()
+{
+    echo
+    echo "Using policy text   :"
+    echo "$(cat $2)"
+
+    if [ ! -f $2 ]; then
+        error "Lifecycle policy file not found : ${2}"
+        return 1
+    fi
+
+    echo "Putting lifecycle policy for ${1}"
+
+    aws ecr put-lifecycle-policy --region $AWS_SERVICE_REGION          \
+                                 --registry-id $AWS_ACCOUNT_NUMBER     \
+                                 --repository-name $1                  \
+                                 --lifecycle-policy-text file://$2
+
+
+    if (($? > 0)); then
+        error "Failed to put lifecycle policy with ${2}"
         return 1
     fi
 
@@ -485,7 +546,7 @@ function dockerh()
             DANGLING_VOLUMES=$(docker volume ls --filter "dangling=true" -q)
 
             if [ ! -z "$DANGLING_VOLUMES" ]; then
-                confirm && docker volume rm $(docker volume ls --filter "dangling=true" -q)
+                docker volume rm $(docker volume ls --filter "dangling=true" -q)
 
                 docker volume ls
             else
@@ -506,7 +567,7 @@ function dockerh()
             DANGLING_IMAGES=$(docker images --filter "dangling=true" -q --no-trunc)
 
             if [ ! -z "$DANGLING_IMAGES" ]; then
-                confirm && docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)
+                docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)
 
                 docker images
             else
@@ -527,7 +588,7 @@ function dockerh()
 
             if [ ! -z "$STOPPED_CONTAINERS" ]; then
                 # Remove stopped containers and associated links
-                confirm && docker rm -f $STOPPED_CONTAINERS
+                docker rm -f $STOPPED_CONTAINERS
             else
                 error "No stopped containers found."
             fi
@@ -538,7 +599,7 @@ function dockerh()
             if [ ! -z "$RUNNING_CONTAINERS" ]; then
                 # Stop all running containers
                 echo "Stop all running containers?"
-                confirm && docker stop $(docker ps -q)
+                docker stop $(docker ps -q)
             fi
 
             STOPPED_CONTAINERS=$(docker ps -a -q)
@@ -546,14 +607,14 @@ function dockerh()
             if [ ! -z "$STOPPED_CONTAINERS" ]; then
                 # Remove stopped containers and associated links
                 echo "Remove all stopped containers?"
-                confirm && docker rm -f $STOPPED_CONTAINERS
+                docker rm -f $STOPPED_CONTAINERS
             fi
 
             ALL_IMAGES=$(docker images -q)
             if [ ! -z "$ALL_IMAGES" ]; then
                 # Remove stopped containers and associated links
                 echo "Remove all cached images?"
-                confirm && docker rmi -f $ALL_IMAGES
+                docker rmi -f $ALL_IMAGES
             fi
             ;;
 
@@ -567,7 +628,7 @@ function dockerh()
                     return 1
                 fi
             else
-                error "AWS IAM user not specified."
+                error "AWS profile not specified."
             fi
             ;;
 
@@ -576,23 +637,73 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 4 ]; then
+            if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh create-ecr-repository <aws_iam_user> <repository_name> <policy-file-path>"
+                notice "Usage: dockerh create-ecr-repository <aws_profile> <repository_name>"
                 echo
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 -a -n $4 ]; then
-                clear
+            if [ -n $2 -a -n $3 ]; then
 
                 if ! load_aws_ecr_credentials $2; then
                     return 1
                 fi
 
-                create_ecr_repository $3 $4
+                create_ecr_repository $3
+
             else
-                error "AWS IAM user, repository and policy file not specified correctly."
+                error "AWS profile, repository and policy file not specified correctly."
+            fi
+            ;;
+
+        set-ecr-repository-policy)
+            if ! verify_aws_setup; then
+                return 1
+            fi
+
+            if [ "$#" -ne 4 ]; then
+                error  "Wrong number of parameters specified"
+                notice "Usage: dockerh set-ecr-repository-policy <aws_profile> <repository_name> <policy-file-path>"
+                echo
+                return 1
+            fi
+
+            if [ -n $2 -a -n $3 -a -n $4 ]; then
+
+                if ! load_aws_ecr_credentials $2; then
+                    return 1
+                fi
+
+                set_ecr_repository_policy $3 $4
+
+            else
+                error "AWS profile, repository and policy file not specified correctly."
+            fi
+            ;;
+
+        put-ecr-lifecycle-policy)
+            if ! verify_aws_setup; then
+                return 1
+            fi
+
+            if [ "$#" -ne 4 ]; then
+                error  "Wrong number of parameters specified"
+                notice "Usage: dockerh put-ecr-lifecycle-policy <aws_profile> <repository_name> <policy-file-path>"
+                echo
+                return 1
+            fi
+
+            if [ -n $2 -a -n $3 -a -n $4 ]; then
+
+                if ! load_aws_ecr_credentials $2; then
+                    return 1
+                fi
+
+                put_ecr_lifecycle_policy $3 $4
+
+            else
+                error "AWS profile, repository and policy file not specified correctly."
             fi
             ;;
 
@@ -603,13 +714,12 @@ function dockerh()
 
             if [ "$#" -ne 3 ]; then
                 error  "ERROR. Wrong number of parameters specified"
-                notice "Usage: dockerh list-ecr-images <aws_iam_user> <repository_name>"
+                notice "Usage: dockerh list-ecr-images <aws_profile> <repository_name>"
                 echo
                 return 1
             fi
 
             if [ -n $2 -a -n $3 ]; then
-                clear
 
                 if ! load_aws_ecr_credentials $2; then
                     return 1
@@ -617,7 +727,7 @@ function dockerh()
 
                 list_images_on_aws_ecr $3
             else
-                error "AWS IAM user and docker repository name not specified correctly."
+                error "AWS profile and docker repository name not specified correctly."
             fi
             ;;
 
@@ -628,13 +738,12 @@ function dockerh()
 
             if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh delete-untagged-ecr-images <aws_iam_user> <repository_name>"
+                notice "Usage: dockerh delete-untagged-ecr-images <aws_profile> <repository_name>"
                 echo
                 return 1
             fi
 
             if [ -n $2 -a -n $3 ]; then
-                clear
 
                 if ! load_aws_ecr_credentials $2; then
                     return 1
@@ -642,7 +751,7 @@ function dockerh()
 
                 batch_delete_untagged_aws_ecr_images $3
             else
-                error "ERROR. AWS IAM user and docker repository name not specified correctly."
+                error "ERROR. AWS profile and docker repository name not specified correctly."
             fi
             ;;
 
@@ -653,13 +762,12 @@ function dockerh()
 
             if [ "$#" -ne 4 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh regex-delete-ecr-images <aws_iam_user> <repository_name> <regex_pattern>"
+                notice "Usage: dockerh regex-delete-ecr-images <aws_profile> <repository_name> <regex_pattern>"
                 echo
                 return 1
             fi
 
             if [ -n $2 -a -n $3 -a -n $4 ]; then
-                clear
 
                 if ! load_aws_ecr_credentials $2; then
                     return 1
@@ -667,7 +775,7 @@ function dockerh()
 
                 batch_regex_delete_aws_ecr_images $3 $4
             else
-                error "AWS IAM user and docker repository name not specified correctly."
+                error "AWS profile and docker repository name not specified correctly."
             fi
             ;;
 
@@ -678,13 +786,12 @@ function dockerh()
 
             if [ "$#" -ne 4 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh delete-ecr-image <aws_iam_user> <repository_name> <image_tag>"
+                notice "Usage: dockerh delete-ecr-image <aws_profile> <repository_name> <image_tag>"
                 echo
                 return 1
             fi
 
             if [ -n $2 -a -n $3 -a -n $4 ]; then
-                clear
 
                 if ! load_aws_ecr_credentials $2; then
                     return 1
@@ -692,13 +799,12 @@ function dockerh()
 
                 delete_aws_ecr_image $3 $4
             else
-                error "AWS IAM user and docker repository name not specified correctly."
+                error "AWS profile and docker repository name not specified correctly."
             fi
             ;;
 
         pull-public-image)
             if [ ! -z $2 ]; then
-                clear
 
                 docker logout 2>&1 > /dev/null
 
@@ -717,13 +823,12 @@ function dockerh()
 
             if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh push-image-to-ecr <aws_iam_user> <repository_name>:<tag>"
+                notice "Usage: dockerh push-image-to-ecr <aws_profile> <repository_name>:<tag>"
                 echo
                 return 1
             fi
 
             if [ -n $2 -a -n $3 ]; then
-                clear
 
                 if ! load_aws_ecr_credentials $2; then
                     return 1
@@ -731,7 +836,7 @@ function dockerh()
 
                 push_image_to_aws_ecr $3
             else
-                error "AWS IAM user and docker image not specified correctly."
+                error "AWS profile and docker image not specified correctly."
             fi
             ;;
 
@@ -742,13 +847,12 @@ function dockerh()
 
             if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh pull-image-from-ecr <aws_iam_user> <repository_name>:<tag>"
+                notice "Usage: dockerh pull-image-from-ecr <aws_profile> <repository_name>:<tag>"
                 echo
                 return 1
             fi
 
             if [ -n $2 -a -n $3 ]; then
-                clear
 
                 if ! load_aws_ecr_credentials $2; then
                     return 1
@@ -756,7 +860,7 @@ function dockerh()
 
                 pull_image_from_aws_ecr $3
             else
-                error "AWS IAM user and docker image not specified correctly."
+                error "AWS profile and docker image not specified correctly."
             fi
             ;;
 
@@ -767,13 +871,12 @@ function dockerh()
 
             if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh clone-to-ecr <aws_iam_user> <repository_name>:<tag>"
+                notice "Usage: dockerh clone-to-ecr <aws_profile> <repository_name>:<tag>"
                 echo
                 return 1
             fi
 
             if [ -n $2 -a -n $3 ]; then
-                clear
 
                 docker logout 2>&1 > /dev/null
 
@@ -787,7 +890,7 @@ function dockerh()
 
                 push_image_to_aws_ecr $3
             else
-                error "AWS IAM user and docker image not specified correctly."
+                error "AWS profile and docker image not specified correctly."
             fi
             ;;
 
@@ -851,6 +954,8 @@ function dockerh()
             echo "  remove-all                      : Remove all containers, images, and cache"
             echo "  load-ecr-credentials            : Get AWS ECR Credentials"
             echo "  create-ecr-repository           : Create new ECR repository"
+            echo "  set-ecr-repository-policy       : Set/Update ECR repository policy"
+            echo "  put-ecr-lifecycle-policy        : Add ECR lifecycle policy"
             echo "  list-ecr-images                 : List AWS ECR images for a given repository"
             echo "  delete-untagged-ecr-images      : Delete untagged AWS ECR images for a given repository"
             echo "  regex-delete-ecr-images         : Delete tagged AWS ECR images for a given repository using a PCRE regex"
