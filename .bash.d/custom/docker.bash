@@ -190,7 +190,7 @@ function aws_get_ecr_access_credentials()
 {
     local AWS_STS_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_NUMBER:role/$2"
     local AWS_STS_SESSION_NAME="$2-Session-$(/bin/date +%Y%m%dT%H%M%S)"
-    local AWS_REGION_NAME=$(aws configure get region --profile $AWS_USER_PROFILE)
+    local AWS_REGION_NAME=$(aws configure get region --profile $1)
 
     export AWS_USER_PROFILE="$1"
     export AWS_SERVICE_REGION=${AWS_REGION_NAME:-"$AWS_SERVICE_REGION"}
@@ -225,7 +225,7 @@ function load_aws_ecr_credentials()
         echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
         echo "AWS_IAM_ROLE          : $AWS_IAM_ROLE"
 
-        local STS_ACCESS_PROFILE=${1:-"$AWS_CLI_PROFILE"}
+        local STS_ACCESS_PROFILE=$AWS_CLI_PROFILE
         local ECR_ACCESS_ROLE=$AWS_IAM_ROLE
 
         aws_get_ecr_access_credentials $STS_ACCESS_PROFILE $ECR_ACCESS_ROLE
