@@ -484,7 +484,7 @@ function dockerh()
         delete-orphaned-volumes)
             DANGLING_VOLUMES=$(docker volume ls --filter "dangling=true" -q)
 
-            if [ ! -z $DANGLING_VOLUMES ]; then
+            if [ ! -z "$DANGLING_VOLUMES" ]; then
                 confirm && docker volume rm $(docker volume ls --filter "dangling=true" -q)
 
                 docker volume ls
@@ -505,7 +505,7 @@ function dockerh()
         delete-untagged-images)
             DANGLING_IMAGES=$(docker images --filter "dangling=true" -q --no-trunc)
 
-            if [ ! -z $DANGLING_IMAGES ]; then
+            if [ ! -z "$DANGLING_IMAGES" ]; then
                 confirm && docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)
 
                 docker images
@@ -578,7 +578,7 @@ function dockerh()
 
             if [ "$#" -ne 4 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: $0 create-ecr-repository <aws_iam_user> <repository_name> <policy-file-path>"
+                notice "Usage: dockerh create-ecr-repository <aws_iam_user> <repository_name> <policy-file-path>"
                 echo
                 return 1
             fi
