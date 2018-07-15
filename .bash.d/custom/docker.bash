@@ -212,8 +212,26 @@ function load_aws_ecr_credentials()
     # Load user profile from ~/.aws/credentials
     local AWS_CLI_PROFILE=${1:-"$AWS_PROFILE"}
 
+    if [ -z "$AWS_CLI_PROFILE" ]; then
+        error "AWS profile not specified."
+        return 1
+    fi
+
     # Override the AWS_PROFILE if the caller specified an override
     export AWS_PROFILE=$AWS_CLI_PROFILE
+
+    # Use profile to check for access and secret keys
+    local ACCESS_KEY_ID=$(aws configure get aws_access_key_id --profile ${AWS_CLI_PROFILE} 2> /dev/null)
+    if [ -z $ACCESS_KEY_ID ]; then
+        error "Invalid AWS profile. Access Key ID not found in profile '${AWS_CLI_PROFILE}'."
+        return 1
+    fi
+
+    local SECRET_KEY=$(aws configure get aws_secret_access_key --profile ${AWS_CLI_PROFILE} 2> /dev/null)
+    if [ -z $SECRET_KEY ]; then
+        error "Invalid AWS profile. Secret Access Key not found in profile '${AWS_CLI_PROFILE}'."
+        return 1
+    fi
 
     if [ ! -z "$AWS_IAM_ROLE" ]; then
         # Load user profile from ~/.aws/credentials to obtain temporary
@@ -242,8 +260,8 @@ function load_aws_ecr_credentials()
         echo "AWS IAM User"
         echo "------------"
         echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
-        echo "AWS_ACCESS_KEY_ID     : $(aws configure get aws_access_key_id --profile ${AWS_CLI_PROFILE})"
-        echo "AWS_SECRET_ACCESS_KEY : $(aws configure get aws_secret_access_key --profile ${AWS_CLI_PROFILE})"
+        echo "AWS_ACCESS_KEY_ID     : $ACCESS_KEY_ID"
+        echo "AWS_SECRET_ACCESS_KEY : $SECRET_KEY"
     fi
 
     return $?
@@ -623,12 +641,8 @@ function dockerh()
                 return 1
             fi
 
-            if [ ! -z $2 ]; then
-                if ! load_aws_ecr_credentials $2; then
-                    return 1
-                fi
-            else
-                error "AWS profile not specified."
+            if ! load_aws_ecr_credentials $2; then
+                return 1
             fi
             ;;
 
