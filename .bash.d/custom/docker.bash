@@ -244,6 +244,7 @@ function load_aws_ecr_credentials()
         #
         echo "AWS IAM Role"
         echo "------------"
+        echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT NUMBER"
         echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
         echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_IAM_ROLE          : $AWS_IAM_ROLE"
@@ -264,6 +265,7 @@ function load_aws_ecr_credentials()
 
         echo "AWS IAM User"
         echo "------------"
+        echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT NUMBER"
         echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
         echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_ACCESS_KEY_ID     : $ACCESS_KEY_ID"
