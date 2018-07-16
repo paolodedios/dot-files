@@ -190,10 +190,8 @@ function aws_get_ecr_access_credentials()
 {
     local AWS_STS_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_NUMBER:role/$2"
     local AWS_STS_SESSION_NAME="$2-Session-$(/bin/date +%Y%m%dT%H%M%S)"
-    local AWS_REGION_NAME=$(aws configure get region --profile $1)
 
     export AWS_USER_PROFILE="$1"
-    export AWS_SERVICE_REGION=${AWS_REGION_NAME:-"$AWS_SERVICE_REGION"}
 
     aws_get_temporary_credentials $AWS_STS_ROLE_ARN      \
                                   $AWS_STS_SESSION_NAME  \
@@ -233,6 +231,12 @@ function load_aws_ecr_credentials()
         return 1
     fi
 
+    # Obtain the region information from the profile
+    local REGION_NAME=$(aws configure get region --profile ${AWS_CLI_PROFILE})
+
+    # If the profile does not define a region use the default AWS_SERVICE_REGION setting
+    export AWS_SERVICE_REGION=${REGION_NAME:-"$AWS_SERVICE_REGION"}
+
     if [ ! -z "$AWS_IAM_ROLE" ]; then
         # Load user profile from ~/.aws/credentials to obtain temporary
         # credentials for the role specified by the environment variable
@@ -241,6 +245,7 @@ function load_aws_ecr_credentials()
         echo "AWS IAM Role"
         echo "------------"
         echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
+        echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_IAM_ROLE          : $AWS_IAM_ROLE"
 
         local STS_ACCESS_PROFILE=$AWS_CLI_PROFILE
@@ -260,6 +265,7 @@ function load_aws_ecr_credentials()
         echo "AWS IAM User"
         echo "------------"
         echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
+        echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_ACCESS_KEY_ID     : $ACCESS_KEY_ID"
         echo "AWS_SECRET_ACCESS_KEY : $SECRET_KEY"
     fi
