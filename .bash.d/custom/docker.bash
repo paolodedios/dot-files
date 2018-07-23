@@ -328,6 +328,11 @@ function put_ecr_lifecycle_policy()
 #
 function process_command_line()
 {
+    # Clear optionals and positionals global variables.
+    unset optionals
+    unset positionals
+
+    # Set/Re-set optionals and positionals array and hashtable.
     declare -g -A optionals
     declare -g -a positionals
 
@@ -406,7 +411,7 @@ function process_command_line()
 
     if [ $print_arguments = true ]; then
         echo
-        echo "> '$0 ${positionals[@]}'"
+        echo "> 'dockerh ${positionals[@]}'"
         echo
         echo "Argument           |  Value            "
         echo "-------------------+-------------------"
