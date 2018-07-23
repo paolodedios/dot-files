@@ -55,26 +55,26 @@ function ensure_cli_tools()
 
 function build_centos7_vagrant_vmware_vm()
 {
-    export VAGRANT_INSECURE_KEY=$(eval echo ~/.ssh/vagrant_insecure_key.pem)
-    export VAGRANT_SECURE_KEY=$(eval echo ~/.ssh/vagrant_local.pem)
+    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
+    export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
+    export PACKER_LOG=0
 
     # Build a Vagrant VM based on the configuration specified by the
     # PACKER_VAGRANT_CONFIG file. Replace the user defined variables defined in
     # the PACKER_VAGRANT_CONFIG file with those specified in the
     # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
     # specified in the command line
-    PACKER_VAGRANT_VARIABLES="centos-7-x86_64-template-build-config-vagrant.json"
-    PACKER_VAGRANT_CONFIG="centos-7-x86_64-minimal-docker-vagrant.json"
-    PACKER_VAGRANT_VM_BUILD_TYPE="vmware-iso"
-    PACKER_LOG=0
+    local packer_vagrant_variables="centos-7-x86_64-template-build-config-vagrant.json"
+    local packer_vagrant_config="centos-7-x86_64-minimal-docker-vagrant.json"
+    local packer_vagrant_vm_build_type="vmware-iso"
 
     echo "Using packer var-files located at : [ ${PACKER_BUILDER_HOME} ]"
 
-    if [ -f $PACKER_VAGRANT_CONFIG ]; then
-        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$PACKER_VAGRANT_VARIABLES                   \
+    if [ -f $packer_vagrant_config ]; then
+        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$packer_vagrant_variables                   \
                      -var-file=$1                                                                         \
-                     -only=$PACKER_VAGRANT_VM_BUILD_TYPE                                                  \
-                     $PACKER_VAGRANT_CONFIG
+                     -only=$packer_vagrant_vm_build_type                                                  \
+                     $packer_vagrant_config
     else
         echo "ERROR. The command 'atl new-vagrant-vm' must be run from the root of the packer config directory."
     fi
@@ -83,8 +83,9 @@ function build_centos7_vagrant_vmware_vm()
 
 function build_centos7_vagrant_uefi_vm()
 {
-    export VAGRANT_INSECURE_KEY=$(eval echo ~/.ssh/vagrant_insecure_key.pem)
-    export VAGRANT_SECURE_KEY=$(eval echo ~/.ssh/vagrant_local.pem)
+    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
+    export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
+    export PACKER_LOG=0
 
     if [ ! -d $PACKER_CACHE_DIR/qemu/nvram ]; then
         mkdir -p $PACKER_CACHE_DIR/qemu/nvram
@@ -101,33 +102,31 @@ function build_centos7_vagrant_uefi_vm()
     echo "Using KVM_QEMU_GPU_AUDIO_PCI_ID   : ${KVM_QEMU_GPU_AUDIO_PCI_ID}"
 
     # Make a copy of the nvram storage base image for packer
-    KVM_QEMU_OVMF_VARS_BASE_FILE=/usr/share/edk2/ovmf/OVMF_VARS.fd
+    local kvm_qemu_ovmf_vars_base_file=/usr/share/edk2/ovmf/OVMF_VARS.fd
 
-    cp -f $KVM_QEMU_OVMF_VARS_BASE_FILE $KVM_QEMU_NVRAM_STORAGE_FILE
+    cp -f $kvm_qemu_ovmf_vars_base_file $KVM_QEMU_NVRAM_STORAGE_FILE
 
     # Build a Vagrant VM based on the configuration specified by the
     # PACKER_VAGRANT_CONFIG file. Replace the user defined variables defined in
     # the PACKER_VAGRANT_CONFIG file with those specified in the
     # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
     # specified in the command line
-    PACKER_VAGRANT_VARIABLES="centos-7-x86_64-template-build-config-qemu-vagrant.json"
+    local packer_vagrant_variables="centos-7-x86_64-template-build-config-qemu-vagrant.json"
+    local packer_vagrant_vm_build_type="qemu"
 
     if [ ! -z "$KVM_QEMU_GPU_PCI_ID" -a ! -z "$KVM_QEMU_GPU_AUDIO_PCI_ID" ]; then
-        PACKER_VAGRANT_CONFIG="centos-7-x86_64-minimal-docker-uefi-gpu-vagrant.json"
+        packer_vagrant_config="centos-7-x86_64-minimal-docker-uefi-gpu-vagrant.json"
     else
-        PACKER_VAGRANT_CONFIG="centos-7-x86_64-minimal-docker-uefi-vagrant.json"
+        packer_vagrant_config="centos-7-x86_64-minimal-docker-uefi-vagrant.json"
     fi
-
-    PACKER_VAGRANT_VM_BUILD_TYPE="qemu"
-    PACKER_LOG=0
 
     echo "Using packer var-files located at : [ ${PACKER_BUILDER_HOME} ]"
 
-    if [ -f $PACKER_VAGRANT_CONFIG ]; then
-        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$PACKER_VAGRANT_VARIABLES                   \
+    if [ -f $packer_vagrant_config ]; then
+        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$packer_vagrant_variables                   \
                      -var-file=$1                                                                         \
-                     -only=$PACKER_VAGRANT_VM_BUILD_TYPE                                                  \
-                     $PACKER_VAGRANT_CONFIG
+                     -only=$packer_vagrant_vm_build_type                                                  \
+                     $packer_vagrant_config
     else
         echo "ERROR. This command must be run from the root of the packer config directory."
     fi
@@ -136,9 +135,9 @@ function build_centos7_vagrant_uefi_vm()
 
 function build_centos7_vagrant_qemu_vm()
 {
-    export VAGRANT_INSECURE_KEY=$(eval echo ~/.ssh/vagrant_insecure_key.pem)
-    export VAGRANT_SECURE_KEY=$(eval echo ~/.ssh/vagrant_local.pem)
-
+    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
+    export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
+    export PACKER_LOG=0
 
     echo "Using PACKER_CACHE_DIR            : ${PACKER_CACHE_DIR}"
     echo "Using PACKER_BUILD_DIR            : ${PACKER_BUILD_DIR}"
@@ -148,19 +147,17 @@ function build_centos7_vagrant_qemu_vm()
     # the PACKER_VAGRANT_CONFIG file with those specified in the
     # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
     # specified in the command line
-    PACKER_VAGRANT_VARIABLES="centos-7-x86_64-template-build-config-qemu-vagrant.json"
-    PACKER_VAGRANT_CONFIG="centos-7-x86_64-minimal-docker-vagrant.json"
+    local packer_vagrant_variables="centos-7-x86_64-template-build-config-qemu-vagrant.json"
+    local packer_vagrant_config="centos-7-x86_64-minimal-docker-vagrant.json"
+    local packer_vagrant_vm_build_type="qemu"
 
-    PACKER_VAGRANT_VM_BUILD_TYPE="qemu"
-    PACKER_LOG=0
+    echo "using packer var-files located at : [ ${packer_builder_home} ]"
 
-    echo "Using packer var-files located at : [ ${PACKER_BUILDER_HOME} ]"
-
-    if [ -f $PACKER_VAGRANT_CONFIG ]; then
-        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$PACKER_VAGRANT_VARIABLES                   \
+    if [ -f $packer_vagrant_config ]; then
+        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$packer_vagrant_variables                   \
                      -var-file=$1                                                                         \
-                     -only=$PACKER_VAGRANT_VM_BUILD_TYPE                                                  \
-                     $PACKER_VAGRANT_CONFIG
+                     -only=$packer_vagrant_vm_build_type                                                  \
+                     $packer_vagrant_config
     else
         echo "ERROR. This command must be run from the root of the packer config directory."
     fi
@@ -169,9 +166,9 @@ function build_centos7_vagrant_qemu_vm()
 
 function build_fedora26_vagrant_qemu_vm()
 {
-    export VAGRANT_INSECURE_KEY=$(eval echo ~/.ssh/vagrant_insecure_key.pem)
-    export VAGRANT_SECURE_KEY=$(eval echo ~/.ssh/vagrant_local.pem)
-
+    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
+    export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
+    export PACKER_LOG=0
 
     echo "Using PACKER_CACHE_DIR            : ${PACKER_CACHE_DIR}"
     echo "Using PACKER_BUILD_DIR            : ${PACKER_BUILD_DIR}"
@@ -181,19 +178,17 @@ function build_fedora26_vagrant_qemu_vm()
     # the PACKER_VAGRANT_CONFIG file with those specified in the
     # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
     # specified in the command line
-    PACKER_VAGRANT_VARIABLES="fedora-26-x86_64-template-build-config-qemu-vagrant.json"
-    PACKER_VAGRANT_CONFIG="fedora-26-x86_64-minimal-docker-vagrant.json"
-
-    PACKER_VAGRANT_VM_BUILD_TYPE="qemu"
-    PACKER_LOG=0
+    local packer_vagrant_variables="fedora-26-x86_64-template-build-config-qemu-vagrant.json"
+    local packer_vagrant_config="fedora-26-x86_64-minimal-docker-vagrant.json"
+    local packer_vagrant_vm_build_type="qemu"
 
     echo "Using packer var-files located at : [ ${PACKER_BUILDER_HOME} ]"
 
-    if [ -f $PACKER_VAGRANT_CONFIG ]; then
-        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$PACKER_VAGRANT_VARIABLES                   \
+    if [ -f $packer_vagrant_config ]; then
+        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$packer_vagrant_variables                   \
                      -var-file=$1                                                                         \
-                     -only=$PACKER_VAGRANT_VM_BUILD_TYPE                                                  \
-                     $PACKER_VAGRANT_CONFIG
+                     -only=$packer_vagrant_vm_build_type                                                  \
+                     $packer_vagrant_config
     else
         echo "ERROR. This command must be run from the root of the packer config directory."
     fi
@@ -213,29 +208,29 @@ function packerh()
 
     case "$1" in
         new-centos7-vagrant-vmw-vm)
-            if [ ! -z $2 ]; then
-                build_centos7_vagrant_vmware_vm $2
+            if [ ! -z "$2" ]; then
+                build_centos7_vagrant_vmware_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
             fi
             ;;
         new-centos7-vagrant-uefi-vm)
-            if [ ! -z $2 ]; then
-                build_centos7_vagrant_uefi_vm $2
+            if [ ! -z "$2" ]; then
+                build_centos7_vagrant_uefi_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
             fi
             ;;
         new-centos7-vagrant-qemu-vm)
-            if [ ! -z $2 ]; then
-                build_centos7_vagrant_qemu_vm $2
+            if [ ! -z "$2" ]; then
+                build_centos7_vagrant_qemu_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
             fi
             ;;
         new-fedora26-vagrant-qemu-vm)
-            if [ ! -z $2 ]; then
-                build_fedora26_vagrant_qemu_vm $2
+            if [ ! -z "$2" ]; then
+                build_fedora26_vagrant_qemu_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
             fi
