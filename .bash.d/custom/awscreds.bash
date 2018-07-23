@@ -90,25 +90,25 @@ function error_list()
 
 function aws_get_temporary_credentials()
 {
-    local AWS_CREDS_VALIDITY_PERIOD=3600
+    local aws_creds_validity_period=3600
 
-    local AWS_STS_ASSUMEROLE_RESULTS=$(aws sts assume-role                               \
-                                           --duration-seconds $AWS_CREDS_VALIDITY_PERIOD \
+    local aws_sts_assumerole_results=$(aws sts assume-role                               \
+                                           --duration-seconds $aws_creds_validity_period \
                                            --role-arn $1                                 \
                                            --role-session-name $2                        \
                                            --profile $3  )
 
-    if [ -z "$AWS_STS_ASSUMEROLE_RESULTS" ]; then
+    if [ -z "$aws_sts_assumerole_results" ]; then
         error "AWS assume-role command returned no results"
         return 1
     fi
 
-    local AWS_STS_ROLE_INFO=$(echo $AWS_STS_ASSUMEROLE_RESULTS   | jq .AssumedRoleUser)
-    local AWS_STS_CREDENTIALS=$(echo $AWS_STS_ASSUMEROLE_RESULTS | jq .Credentials)
+    local aws_sts_role_info=$(echo $aws_sts_assumerole_results   | jq .AssumedRoleUser)
+    local aws_sts_credentials=$(echo $aws_sts_assumerole_results | jq .Credentials)
 
-    export AWS_ACCESS_KEY_ID=$(echo $AWS_STS_CREDENTIALS     | jq -r .AccessKeyId)
-    export AWS_SECRET_ACCESS_KEY=$(echo $AWS_STS_CREDENTIALS | jq -r .SecretAccessKey)
-    export AWS_SESSION_TOKEN=$(echo $AWS_STS_CREDENTIALS     | jq -r .SessionToken)
+    export AWS_ACCESS_KEY_ID=$(echo $aws_sts_credentials     | jq -r .AccessKeyId)
+    export AWS_SECRET_ACCESS_KEY=$(echo $aws_sts_credentials | jq -r .SecretAccessKey)
+    export AWS_SESSION_TOKEN=$(echo $aws_sts_credentials     | jq -r .SessionToken)
 
     echo "AWS Temporary Access Credentials"
     echo "--------------------------------"
@@ -130,16 +130,16 @@ function aws_get_temporary_credentials()
 
 function aws_get_access_credentials()
 {
-    local AWS_STS_ROLE_ARN="arn:aws:iam::$AWS_ACCOUNT_NUMBER:role/$2"
-    local AWS_STS_SESSION_NAME="$2-Session-$(/bin/date +%Y%m%dT%H%M%S)"
+    local aws_sts_role_arn="arn:aws:iam::$AWS_ACCOUNT_NUMBER:role/$2"
+    local aws_sts_session_name="$2-Session-$(/bin/date +%Y%m%dT%H%M%S)"
 
     export AWS_USER_PROFILE="$1"
 
-    aws_get_temporary_credentials $AWS_STS_ROLE_ARN      \
-                                  $AWS_STS_SESSION_NAME  \
+    aws_get_temporary_credentials $aws_sts_role_arn      \
+                                  $aws_sts_session_name  \
                                   $AWS_USER_PROFILE
 
-    if (($? > 0)); then
+    if [ $? -ne 0 ]; then
         return 1
     fi
 
@@ -150,68 +150,66 @@ function aws_get_access_credentials()
 function load_aws_credentials()
 {
     # Load user profile from ~/.aws/credentials
-    local AWS_CLI_PROFILE=${1:-"$AWS_PROFILE"}
+    local aws_profile_override=${1:-"$AWS_PROFILE"}
 
-    if [ -z "$AWS_CLI_PROFILE" ]; then
+    if [ -z "$aws_profile_override" ]; then
         error "AWS profile not specified."
         return 1
     fi
 
     # Override the AWS_PROFILE if the caller specified an override
-    export AWS_PROFILE=$AWS_CLI_PROFILE
+    export AWS_PROFILE=$aws_profile_override
 
     # Use profile to check for access and secret keys
-    local ACCESS_KEY_ID=$(aws configure get aws_access_key_id --profile ${AWS_CLI_PROFILE} 2> /dev/null)
-    if [ -z $ACCESS_KEY_ID ]; then
-        error "Invalid AWS profile. Access Key ID not found in profile '${AWS_CLI_PROFILE}'."
+    local access_key_id=$(aws configure get aws_access_key_id --profile ${aws_profile_override} 2> /dev/null)
+    if [ -z $access_key_id ]; then
+        error "Invalid AWS profile. Access Key ID not found in profile '${aws_profile_override}'."
         return 1
     fi
 
-    local SECRET_KEY=$(aws configure get aws_secret_access_key --profile ${AWS_CLI_PROFILE} 2> /dev/null)
-    if [ -z $SECRET_KEY ]; then
-        error "Invalid AWS profile. Secret Access Key not found in profile '${AWS_CLI_PROFILE}'."
+    local secret_key=$(aws configure get aws_secret_access_key --profile ${aws_profile_override} 2> /dev/null)
+    if [ -z $secret_key ]; then
+        error "Invalid AWS profile. Secret Access Key not found in profile '${aws_profile_override}'."
         return 1
     fi
 
     # Obtain the region information from the profile
-    local REGION_NAME=$(aws configure get region --profile ${AWS_CLI_PROFILE})
+    local region_name=$(aws configure get region --profile ${aws_profile_override})
 
     # If the profile does not define a region use the default AWS_SERVICE_REGION setting
-    export AWS_SERVICE_REGION=${REGION_NAME:-"$AWS_SERVICE_REGION"}
+    export AWS_SERVICE_REGION=${region_name:-"$AWS_SERVICE_REGION"}
 
-    if [ ! -z "$AWS_IAM_ROLE" ]; then
+    # Check if user specified a role that overrides the environment setting
+    local aws_iam_role_override=${2:-"$AWS_IAM_ROLE"}
+
+    if [ ! -z "$aws_iam_role_override" ]; then
         # Load user profile from ~/.aws/credentials to obtain temporary
-        # credentials for the role specified by the environment variable
-        # AWS_IAM_ROLE
-        #
+        # credentials for the role specified by the caller or the environment
+        # variable AWS_IAM_ROLE.
         echo "AWS IAM Role"
         echo "------------"
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
-        echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
+        echo "AWS_PROFILE           : $aws_profile_override"
         echo "AWS_REGION            : $AWS_SERVICE_REGION"
-        echo "AWS_IAM_ROLE          : $AWS_IAM_ROLE"
+        echo "AWS_IAM_ROLE          : $aws_iam_role_override"
 
-        local STS_ACCESS_PROFILE=$AWS_CLI_PROFILE
-        local IAM_ACCESS_ROLE=$AWS_IAM_ROLE
-
-        aws_get_access_credentials $STS_ACCESS_PROFILE $IAM_ACCESS_ROLE
+        aws_get_access_credentials $aws_profile_override $aws_iam_role_override
 
     else
         # When using AWS_PROFILE, both AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
         # must be unset in the environment in order for AWS_PROFILE to be used.
         #
         # @see https://github.com/aws/aws-cli/issues/3304
-        #
         unset AWS_ACCESS_KEY_ID
         unset AWS_SECRET_ACCESS_KEY
 
         echo "AWS IAM User"
         echo "------------"
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
-        echo "AWS_PROFILE           : $AWS_CLI_PROFILE"
+        echo "AWS_PROFILE           : $aws_profile_override"
         echo "AWS_REGION            : $AWS_SERVICE_REGION"
-        echo "AWS_ACCESS_KEY_ID     : $ACCESS_KEY_ID"
-        echo "AWS_SECRET_ACCESS_KEY : $SECRET_KEY"
+        echo "AWS_ACCESS_KEY_ID     : $access_key_id"
+        echo "AWS_SECRET_ACCESS_KEY : $secret_key"
     fi
 
     return $?
