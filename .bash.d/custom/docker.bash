@@ -75,7 +75,6 @@ function ensure_aws_cli_tools()
     fi
 }
 
-
 function ensure_aws_sts_credentials()
 {
     if [ -d $HOME/.aws ]; then
@@ -123,7 +122,7 @@ function list_images_on_aws_ecr()
 
 function batch_delete_untagged_aws_ecr_images()
 {
-    local ECR_IMAGE_LIST=$(aws ecr list-images --repository-name $1)
+    local ecr_image_list=$(aws ecr list-images --repository-name $1)
 
     # Generate AWS CLI shorthand syntax. Currently not supported since
     # the image-ids list is a nested structure consisting of a list
@@ -134,7 +133,7 @@ function batch_delete_untagged_aws_ecr_images()
     # For information on the cross platform sed invocation,
     # @see http://stackoverflow.com/questions/1251999/how-can-i-replace-a-newline-n-using-sed
     #
-    # local ECR_UNTAGGED_IMAGES=$(echo $ECR_IMAGE_LIST |
+    # local ecr_untagged_images=$(echo $ecr_image_list |
     #                            jq '.imageIds | .[] | select(.imageTag==null) | .imageDigest' |
     #                            sed -e 's/\"//g' |
     #                            sed -e 's/sha256/imageDigest=sha256/g' |
@@ -142,25 +141,25 @@ function batch_delete_untagged_aws_ecr_images()
 
     # Generate AWS CLI JSON syntax
     #
-    # 1. Parse ECR_IMAGE_LIST result set via JQ
+    # 1. Parse $ecr_image_list result set via JQ
     # 2. Execute JQ filter that returns list of elements in the imageId structure
     #    and select all results where the imageTag attribute is null.
     # 3. Collapse newlines from final JQ result by replacing newlines with a space.
     # 4. Insert comma between result boundaries '} {' => '}, {'
     #
-    local ECR_UNTAGGED_IMAGES=$(echo $ECR_IMAGE_LIST |
+    local ecr_untagged_images=$(echo $ecr_image_list |
                                 jq '.imageIds | .[] | select(.imageTag==null)' |
                                 sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g' |
                                 sed -e 's/} {/}, {/g' )
 
-    if [ ! -z "$ECR_UNTAGGED_IMAGES" ]; then
+    if [ ! -z "$ecr_untagged_images" ]; then
 
         echo "Found untagged images to delete : "
 
-        echo $ECR_IMAGE_LIST | jq '.imageIds | .[] | select(.imageTag==null)'
+        echo $ecr_image_list | jq '.imageIds | .[] | select(.imageTag==null)'
         echo
 
-        aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ECR_UNTAGGED_IMAGES ]"
+        aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ecr_untagged_images ]"
 
         echo
         echo "Remaining images for repository $1"
@@ -175,11 +174,11 @@ function batch_delete_untagged_aws_ecr_images()
 
 function batch_regex_delete_aws_ecr_images()
 {
-    local ECR_IMAGE_LIST=$(aws ecr list-images --region $AWS_SERVICE_REGION --repository-name $1)
+    local ecr_image_list=$(aws ecr list-images --region $AWS_SERVICE_REGION --repository-name $1)
 
     # Generate AWS CLI JSON syntax
     #
-    # 1. Parse ECR_IMAGE_LIST result set via JQ
+    # 1. Parse ecr_image_list result set via JQ
     # 2. Execute JQ filter that returns list of elements in the imageId structure
     #    and for each result item pass the value of the imageTag attribute to
     #    the select test filter. Then select the imageTag attribute if it passes
@@ -190,21 +189,21 @@ function batch_regex_delete_aws_ecr_images()
     # 5. Collapse newlines from final JQ result by replacing newlines with a space.
     # 6. Insert comma between result boundaries '} {' => '}, {'
     #
-    local ECR_TAGGED_IMAGES=$(echo $ECR_IMAGE_LIST |
+    local ecr_tagged_images=$(echo $ecr_image_list |
                               jq ".imageIds | .[] | .imageTag | select(test(\"$2\")) | \"{ 'imageTag' : '\(.)' }\"" |
                               sed -e 's/"//g' |
                               sed -e "s/'/\"/g" |
                               sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g' |
                               sed -e 's/} {/}, {/g' )
 
-    if [ ! -z "$ECR_TAGGED_IMAGES" ]; then
+    if [ ! -z "$ecr_tagged_images" ]; then
 
         echo "Found tagged images to delete : "
 
-        echo $ECR_TAGGED_IMAGES
+        echo $ecr_tagged_images
         echo
 
-        aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ECR_TAGGED_IMAGES ]"
+        aws ecr batch-delete-image --region $AWS_SERVICE_REGION --repository-name $1 --image-ids "[ $ecr_tagged_images ]"
 
         echo
         echo "Remaining images for repository $1"
@@ -238,22 +237,22 @@ function push_image_to_aws_ecr()
     #
     # The following command assumes that the proper default AWS credentials
     # are specified in ~/.aws/credentials
-    local AWS_EC2_ECR_DOCKER_LOGIN=$(aws ecr get-login --region $AWS_SERVICE_REGION --no-include-email)
+    local aws_ec2_ecr_docker_login=$(aws ecr get-login --region $AWS_SERVICE_REGION --no-include-email)
 
-    if [ -z "$AWS_EC2_ECR_DOCKER_LOGIN" ]; then
+    if [ -z "$aws_ec2_ecr_docker_login" ]; then
         error "'aws ecr get-login' returned no results."
         return 1
     fi
 
     # Extract the registry hostname from the url
-    local REGISTRY_URL=$(echo $AWS_EC2_ECR_DOCKER_LOGIN | awk '{ print $7 }')
-    local PROTOCOL_STRING=$(echo $REGISTRY_URL | grep :// | sed -e's,^\(.*://\).*,\1,g')
+    local registry_url=$(echo $aws_ec2_ecr_docker_login | awk '{ print $7 }')
+    local protocol_string=$(echo $registry_url | grep :// | sed -e's,^\(.*://\).*,\1,g')
 
-    export AWS_EC2_ECR_DOCKER_REGISTRY_HOST=$(echo ${REGISTRY_URL/$PROTOCOL_STRING/})
+    export AWS_EC2_ECR_DOCKER_REGISTRY_HOST=$(echo ${registry_url/$protocol_string/})
 
-    echo "Using AWS Elastic Container Registry : $REGISTRY_URL"
+    echo "Using AWS Elastic Container Registry : $registry_url"
 
-    eval $AWS_EC2_ECR_DOCKER_LOGIN
+    eval $aws_ec2_ecr_docker_login
 
     # Tag the image with a fully qualified repository
     docker tag $1 $AWS_EC2_ECR_DOCKER_REGISTRY_HOST/$1
@@ -272,22 +271,22 @@ function pull_image_from_aws_ecr()
     #
     # The following command assumes that the proper default AWS credentials
     # are specified in ~/.aws/credentials
-    local AWS_EC2_ECR_DOCKER_LOGIN=$(aws ecr get-login --region $AWS_SERVICE_REGION --no-include-email)
+    local aws_ec2_ecr_docker_login=$(aws ecr get-login --region $AWS_SERVICE_REGION --no-include-email)
 
-    if [ -z "$AWS_EC2_ECR_DOCKER_LOGIN" ]; then
+    if [ -z "$aws_ec2_ecr_docker_login" ]; then
         error "'aws ecr get-login' returned no results."
         return 1
     fi
 
     # Extract the registry hostname from the url
-    local REGISTRY_URL=$(echo $AWS_EC2_ECR_DOCKER_LOGIN | awk '{ print $7 }')
-    local PROTOCOL_STRING=$(echo $REGISTRY_URL | grep :// | sed -e's,^\(.*://\).*,\1,g')
+    local registry_url=$(echo $aws_ec2_ecr_docker_login | awk '{ print $7 }')
+    local protocol_string=$(echo $registry_url | grep :// | sed -e's,^\(.*://\).*,\1,g')
 
-    export AWS_EC2_ECR_DOCKER_REGISTRY_HOST=$(echo ${REGISTRY_URL/$PROTOCOL_STRING/})
+    export AWS_EC2_ECR_DOCKER_REGISTRY_HOST=$(echo ${registry_url/$protocol_string/})
 
-    echo "Using AWS Elastic Container Registry : $REGISTRY_URL"
+    echo "Using AWS Elastic Container Registry : $registry_url"
 
-    eval $AWS_EC2_ECR_DOCKER_LOGIN
+    eval $aws_ec2_ecr_docker_login
 
     # Pull image from ECR
     docker pull $AWS_EC2_ECR_DOCKER_REGISTRY_HOST/$1
@@ -303,7 +302,7 @@ function create_ecr_repository()
 
     aws ecr create-repository --region $AWS_SERVICE_REGION --repository-name $1
 
-    if (($? > 0)); then
+    if [ $? -ne 0 ]; then
         error "Failed to create repository : ${1}"
         return 1
     fi
@@ -330,8 +329,7 @@ function set_ecr_repository_policy()
                                   --repository-name $1                  \
                                   --policy-text file://$2
 
-
-    if (($? > 0)); then
+    if [ $? -ne 0 ]; then
         error "Failed to set repository policy with ${2}"
         return 1
     fi
@@ -358,8 +356,7 @@ function put_ecr_lifecycle_policy()
                                  --repository-name $1                  \
                                  --lifecycle-policy-text file://$2
 
-
-    if (($? > 0)); then
+    if [ $? -ne 0 ]; then
         error "Failed to put lifecycle policy with ${2}"
         return 1
     fi
@@ -384,8 +381,8 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 ]; then
-                docker build --no-cache -t $2 $3
+            if [ -n "$2" -a -n "$3" ]; then
+                docker build --no-cache -t "$2" "$3"
 
             else
                 error "Dockerfile params not specified correctly."
@@ -394,8 +391,8 @@ function dockerh()
             ;;
 
         volumes)
-            if [ ! -z $2 ]; then
-                docker volume ls | grep $2
+            if [ ! -z "$2" ]; then
+                docker volume ls | grep "$2"
             else
                 docker volume ls
             fi
@@ -416,8 +413,8 @@ function dockerh()
             ;;
 
         images)
-            if [ ! -z $2 ]; then
-                docker images | grep $2
+            if [ ! -z "$2" ]; then
+                docker images | grep "$2"
             else
                 docker images
             fi
@@ -436,8 +433,8 @@ function dockerh()
             ;;
 
         ps)
-            if [ ! -z $2 ]; then
-                docker ps -a | grep $2
+            if [ ! -z "$2" ]; then
+                docker ps -a | grep "$2"
             else
                 docker ps -a
             fi
@@ -483,7 +480,7 @@ function dockerh()
                 return 1
             fi
 
-            if ! load_aws_credentials $2; then
+            if ! load_aws_credentials "$2"; then
                 return 1
             fi
             ;;
@@ -500,13 +497,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 ]; then
+            if [ -n "$2" -a -n "$3" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                create_ecr_repository $3
+                create_ecr_repository "$3"
 
             else
                 error "AWS profile, repository and policy file not specified correctly."
@@ -525,13 +522,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 -a -n $4 ]; then
+            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                set_ecr_repository_policy $3 $4
+                set_ecr_repository_policy "$3" "$4"
 
             else
                 error "AWS profile, repository and policy file not specified correctly."
@@ -550,13 +547,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 -a -n $4 ]; then
+            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                put_ecr_lifecycle_policy $3 $4
+                put_ecr_lifecycle_policy "$3" "$4"
 
             else
                 error "AWS profile, repository and policy file not specified correctly."
@@ -575,13 +572,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 ]; then
+            if [ -n "$2" -a -n "$3" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                list_images_on_aws_ecr $3
+                list_images_on_aws_ecr "$3"
             else
                 error "AWS profile and docker repository name not specified correctly."
             fi
@@ -599,13 +596,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 ]; then
+            if [ -n "$2" -a -n "$3" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                batch_delete_untagged_aws_ecr_images $3
+                batch_delete_untagged_aws_ecr_images "$3"
             else
                 error "ERROR. AWS profile and docker repository name not specified correctly."
             fi
@@ -623,13 +620,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 -a -n $4 ]; then
+            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                batch_regex_delete_aws_ecr_images $3 $4
+                batch_regex_delete_aws_ecr_images "$3" "$4"
             else
                 error "AWS profile and docker repository name not specified correctly."
             fi
@@ -647,24 +644,24 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 -a -n $4 ]; then
+            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                delete_aws_ecr_image $3 $4
+                delete_aws_ecr_image "$3" "$4"
             else
                 error "AWS profile and docker repository name not specified correctly."
             fi
             ;;
 
         pull-public-image)
-            if [ ! -z $2 ]; then
+            if [ ! -z "$2" ]; then
 
                 docker logout 2>&1 > /dev/null
 
-                docker pull $2
+                docker pull "$2"
 
                 docker images
             else
@@ -684,13 +681,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 ]; then
+            if [ -n "$2" -a -n "$3" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                push_image_to_aws_ecr $3
+                push_image_to_aws_ecr "$3"
             else
                 error "AWS profile and docker image not specified correctly."
             fi
@@ -708,13 +705,13 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 ]; then
+            if [ -n "$2" -a -n "$3" ]; then
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                pull_image_from_aws_ecr $3
+                pull_image_from_aws_ecr "$3"
             else
                 error "AWS profile and docker image not specified correctly."
             fi
@@ -732,19 +729,19 @@ function dockerh()
                 return 1
             fi
 
-            if [ -n $2 -a -n $3 ]; then
+            if [ -n "$2" -a -n "$3" ]; then
 
                 docker logout 2>&1 > /dev/null
 
-                docker pull $3
+                docker pull "$3"
 
                 docker images
 
-                if ! load_aws_credentials $2; then
+                if ! load_aws_credentials "$2"; then
                     return 1
                 fi
 
-                push_image_to_aws_ecr $3
+                push_image_to_aws_ecr "$3"
             else
                 error "AWS profile and docker image not specified correctly."
             fi
