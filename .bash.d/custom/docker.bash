@@ -566,9 +566,9 @@ function dockerh()
                 return 1
             fi
 
-            if ! load_aws_credentials "$2" "$3"; then
-                return 1
-            fi
+            # Positional parameters are optional overrides on AWS_PROFILE and
+            # AWS_IAM_ROLE, respectively.
+            load_aws_credentials "$2" "$3"
             ;;
 
         create-ecr-repository)
