@@ -67,9 +67,9 @@ function aws_get_temporary_credentials()
     echo "--------------------------------"
     echo "Named Profile         : $3"
     echo "Requested Role        : $1"
-    echo "Assumed Role          : $(echo $AWS_STS_ROLE_INFO   | jq -r .AssumedRoleId)"
-    echo "Assumed Role Arn      : $(echo $AWS_STS_ROLE_INFO   | jq -r .Arn)"
-    echo "Expires on            : $(echo $AWS_STS_CREDENTIALS | jq -r .Expiration)"
+    echo "Assumed Role          : $(echo $aws_sts_role_info   | jq -r .AssumedRoleId)"
+    echo "Assumed Role Arn      : $(echo $aws_sts_role_info   | jq -r .Arn)"
+    echo "Expires on            : $(echo $aws_sts_credentials | jq -r .Expiration)"
     echo "Time now              : $(/bin/date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo
 
