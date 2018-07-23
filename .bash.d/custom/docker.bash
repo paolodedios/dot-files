@@ -323,8 +323,139 @@ function put_ecr_lifecycle_policy()
 #
 ################################################################################
 
+#
+# Process command line arguments. Requires Bash 4.0
+#
+function process_command_line()
+{
+    declare -g -A optionals
+    declare -g -a positionals
+
+    local print_options=false
+    local print_arguments=false
+
+    while (( "$#" )); do
+        local key="$1"
+        case "$key" in
+            -a|--aws-profile|--aws-profile=*)
+                if [[ "${key}*" == *"="* ]]; then
+                    optionals[--aws-profile]="${key##--aws-profile=}"
+                    shift
+                else
+                    optionals[--aws-profile]="$2"
+                    shift 2
+                fi
+                ;;
+            -r|--aws-iam-role|--aws-iam-role=*)
+                if [[ "${key}*" == *"="* ]]; then
+                    optionals[--aws-iam-role]="${key##--aws-iam-role=}"
+                    shift
+                else
+                    optionals[--aws-iam-role]="$2"
+                    shift 2
+                fi
+                ;;
+            --no-print-options|--print-options)
+				if [[ "${key:0:5}" == "--no-" ]]; then
+                    print_options=false
+                else
+                    print_options=true
+                fi
+                shift
+				;;
+            --no-print-args|--print-args)
+				if [[ "${key:0:5}" == "--no-" ]]; then
+                    print_arguments=false
+                else
+                    print_arguments=true
+                fi
+                shift
+				;;
+            --)
+                # Short circuit argument parsing and add remaining arguments as
+                # positional arguments by appending to the array 'positionals'.
+                shift
+                positionals+=("$@")
+                break
+                ;;
+            -*|--*=)
+                # Abort argument processing after encoutnering an unsupported flag.
+                echo "Error: Unsupported flag '$1'" >&2
+                return 1
+                ;;
+            *)
+                # Detected positional argument. Add to list of positional
+                # arguments by appending to the array 'positionals'.
+                positionals+=("$1")
+                shift
+                ;;
+        esac
+    done
+
+    if [ $print_options = true ]; then
+        #
+        # Display optionals
+        #
+        echo
+        echo "Option             |  Value            "
+        echo "-------------------+-------------------"
+        for key in "${!optionals[@]}"; do
+            printf '%-18s | %-18s\n' $key ${optionals[$key]}
+        done
+    fi
+
+    if [ $print_arguments = true ]; then
+        echo
+        echo "> '$0 ${positionals[@]}'"
+        echo
+        echo "Argument           |  Value            "
+        echo "-------------------+-------------------"
+        for key in "${!positionals[@]}"; do
+            printf '$%-17s | %-18s\n' $(($key + 1)) ${positionals[$key]}
+        done
+    fi
+}
+
+function set_environment_variables()
+{
+    #
+    # Check for AWS_PROFILE override via the command line
+    #
+    local aws_profile=${optionals[--aws-profile]}
+    if [ ! -z  $aws_profile ]; then
+        export AWS_PROFILE=$aws_profile
+    fi
+
+    #
+    # Check for AWS_IAM_ROLE override via the command line
+    #
+    local aws_iam_role=${optionals[--aws-iam-role]}
+    if [ ! -z $aws_iam_role ]; then
+        export AWS_IAM_ROLE=$aws_iam_role
+    fi
+}
+
 function dockerh()
 {
+    #
+    # Process command line arguments. Save and index flags by long form name via the
+    # 'optionals' associative array and save positional arguments via the 'positionals'
+    # array.
+    #
+    process_command_line "$@"
+
+    #
+    # Abort if there is a problem with argument processing.
+    #
+    if [ "$?" -ne 0 ]; then
+        return 1
+    fi
+
+    #
+    # Reset the command line to just the positional arguments.
+    #
+    eval set -- "${positionals[@]}"
+
     case "$1" in
         new-from-dockerfile)
             if [ "$#" -ne 3 ]; then
@@ -353,10 +484,10 @@ function dockerh()
             ;;
 
         delete-orphaned-volumes)
-            DANGLING_VOLUMES=$(docker volume ls --filter "dangling=true" -q)
+            local dangling_volumes=$(docker volume ls --filter "dangling=true" -q)
 
-            if [ ! -z "$DANGLING_VOLUMES" ]; then
-                docker volume rm $(docker volume ls --filter "dangling=true" -q)
+            if [ ! -z "$dangling_volumes" ]; then
+                docker volume rm "$dangling_volumes"
 
                 docker volume ls
             else
@@ -374,10 +505,10 @@ function dockerh()
             ;;
 
         delete-untagged-images)
-            DANGLING_IMAGES=$(docker images --filter "dangling=true" -q --no-trunc)
+            local dangling_images=$(docker images --filter "dangling=true" -q --no-trunc)
 
-            if [ ! -z "$DANGLING_IMAGES" ]; then
-                docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc)
+            if [ ! -z "$dangling_images" ]; then
+                docker rmi -f "$dangling_images"
 
                 docker images
             else
@@ -394,37 +525,39 @@ function dockerh()
             ;;
 
         remove-stopped-containers)
-            STOPPED_CONTAINERS=$(docker ps -a -q)
+            local stopped_containers=$(docker ps -a -q)
 
-            if [ ! -z "$STOPPED_CONTAINERS" ]; then
+            if [ ! -z "$stopped_containers" ]; then
                 # Remove stopped containers and associated links
-                docker rm -f $STOPPED_CONTAINERS
+                docker rm -f "$stopped_containers"
             else
                 error "No stopped containers found."
             fi
             ;;
 
         remove-all)
-            RUNNING_CONTAINERS=$(docker ps -q)
-            if [ ! -z "$RUNNING_CONTAINERS" ]; then
+            local running_containers=$(docker ps -q)
+
+            if [ ! -z "$running_containers" ]; then
                 # Stop all running containers
                 echo "Stop all running containers?"
-                docker stop $(docker ps -q)
+                docker stop "$running_containers"
             fi
 
-            STOPPED_CONTAINERS=$(docker ps -a -q)
+            local stopped_containers=$(docker ps -a -q)
 
-            if [ ! -z "$STOPPED_CONTAINERS" ]; then
+            if [ ! -z "$stopped_containers" ]; then
                 # Remove stopped containers and associated links
                 echo "Remove all stopped containers?"
-                docker rm -f $STOPPED_CONTAINERS
+                docker rm -f "$stopped_containers"
             fi
 
-            ALL_IMAGES=$(docker images -q)
-            if [ ! -z "$ALL_IMAGES" ]; then
+            local all_images=$(docker images -q)
+
+            if [ ! -z "$all_images" ]; then
                 # Remove stopped containers and associated links
                 echo "Remove all cached images?"
-                docker rmi -f $ALL_IMAGES
+                docker rmi -f "$all_images"
             fi
             ;;
 
@@ -433,7 +566,7 @@ function dockerh()
                 return 1
             fi
 
-            if ! load_aws_credentials "$2"; then
+            if ! load_aws_credentials "$2" "$3"; then
                 return 1
             fi
             ;;
@@ -443,23 +576,18 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 3 ]; then
+            if [ "$#" -ne 2 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh create-ecr-repository <aws_profile> <repository_name>"
+                notice "Usage: dockerh create-ecr-repository <repository_name>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                create_ecr_repository "$3"
+            if [ -n "$2" ]; then
+                create_ecr_repository "$2"
 
             else
-                error "AWS profile, repository and policy file not specified correctly."
+                error "AWS repository not specified correctly."
             fi
             ;;
 
@@ -468,23 +596,18 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 4 ]; then
+            if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh set-ecr-repository-policy <aws_profile> <repository_name> <policy-file-path>"
+                notice "Usage: dockerh set-ecr-repository-policy <repository_name> <policy-file-path>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                set_ecr_repository_policy "$3" "$4"
+            if [ -n "$2" -a -n "$3" ]; then
+                set_ecr_repository_policy "$2" "$3"
 
             else
-                error "AWS profile, repository and policy file not specified correctly."
+                error "AWS repository and policy file not specified correctly."
             fi
             ;;
 
@@ -493,23 +616,18 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 4 ]; then
+            if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh put-ecr-lifecycle-policy <aws_profile> <repository_name> <policy-file-path>"
+                notice "Usage: dockerh put-ecr-lifecycle-policy <repository_name> <policy-file-path>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                put_ecr_lifecycle_policy "$3" "$4"
+            if [ -n "$2" -a -n "$3" ]; then
+                put_ecr_lifecycle_policy "$2" "$3"
 
             else
-                error "AWS profile, repository and policy file not specified correctly."
+                error "AWS repository and policy file not specified correctly."
             fi
             ;;
 
@@ -518,22 +636,17 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 3 ]; then
+            if [ "$#" -ne 2 ]; then
                 error  "ERROR. Wrong number of parameters specified"
-                notice "Usage: dockerh list-ecr-images <aws_profile> <repository_name>"
+                notice "Usage: dockerh list-ecr-images <repository_name>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                list_images_on_aws_ecr "$3"
+            if [ -n "$2" ]; then
+                list_images_on_aws_ecr "$2"
             else
-                error "AWS profile and docker repository name not specified correctly."
+                error "AWS repository name not specified correctly."
             fi
             ;;
 
@@ -542,22 +655,17 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 3 ]; then
+            if [ "$#" -ne 2 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh delete-untagged-ecr-images <aws_profile> <repository_name>"
+                notice "Usage: dockerh delete-untagged-ecr-images <repository_name>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                batch_delete_untagged_aws_ecr_images "$3"
+            if [ -n "$2" ]; then
+                batch_delete_untagged_aws_ecr_images "$2"
             else
-                error "ERROR. AWS profile and docker repository name not specified correctly."
+                error "AWS repository name not specified correctly."
             fi
             ;;
 
@@ -566,22 +674,17 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 4 ]; then
+            if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh regex-delete-ecr-images <aws_profile> <repository_name> <regex_pattern>"
+                notice "Usage: dockerh regex-delete-ecr-images <repository_name> <regex_pattern>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                batch_regex_delete_aws_ecr_images "$3" "$4"
+            if [ -n "$2" -a -n "$3" ]; then
+                batch_regex_delete_aws_ecr_images "$2" "$3"
             else
-                error "AWS profile and docker repository name not specified correctly."
+                error "AWS repository name not specified correctly."
             fi
             ;;
 
@@ -590,22 +693,17 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 4 ]; then
+            if [ "$#" -ne 3 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh delete-ecr-image <aws_profile> <repository_name> <image_tag>"
+                notice "Usage: dockerh delete-ecr-image <repository_name> <image_tag>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" -a -n "$4" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                delete_aws_ecr_image "$3" "$4"
+            if [ -n "$2" -a -n "$3" ]; then
+                delete_aws_ecr_image "$2" "$3"
             else
-                error "AWS profile and docker repository name not specified correctly."
+                error "AWS repository name not specified correctly."
             fi
             ;;
 
@@ -627,22 +725,17 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 3 ]; then
+            if [ "$#" -ne 2 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh push-image-to-ecr <aws_profile> <repository_name>:<tag>"
+                notice "Usage: dockerh push-image-to-ecr <repository_name>:<tag>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                push_image_to_aws_ecr "$3"
+            if [ -n "$2" ]; then
+                push_image_to_aws_ecr "$2"
             else
-                error "AWS profile and docker image not specified correctly."
+                error "Docker image not specified correctly."
             fi
             ;;
 
@@ -651,22 +744,17 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 3 ]; then
+            if [ "$#" -ne 2 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh pull-image-from-ecr <aws_profile> <repository_name>:<tag>"
+                notice "Usage: dockerh pull-image-from-ecr <repository_name>:<tag>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" ]; then
-
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                pull_image_from_aws_ecr "$3"
+            if [ -n "$2" ]; then
+                pull_image_from_aws_ecr "$2"
             else
-                error "AWS profile and docker image not specified correctly."
+                error "Docker image not specified correctly."
             fi
             ;;
 
@@ -675,26 +763,22 @@ function dockerh()
                 return 1
             fi
 
-            if [ "$#" -ne 3 ]; then
+            if [ "$#" -ne 2 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh clone-to-ecr <aws_profile> <repository_name>:<tag>"
+                notice "Usage: dockerh clone-to-ecr <repository_name>:<tag>"
                 echo
                 return 1
             fi
 
-            if [ -n "$2" -a -n "$3" ]; then
+            if [ -n "$2" ]; then
 
                 docker logout 2>&1 > /dev/null
 
-                docker pull "$3"
+                docker pull "$2"
 
                 docker images
 
-                if ! load_aws_credentials "$2"; then
-                    return 1
-                fi
-
-                push_image_to_aws_ecr "$3"
+                push_image_to_aws_ecr "$2"
             else
                 error "AWS profile and docker image not specified correctly."
             fi
