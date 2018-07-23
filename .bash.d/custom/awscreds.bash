@@ -40,7 +40,6 @@ export AWS_IAM_ROLE=${AWS_IAM_ROLE:-""}
 #
 ################################################################################
 
-
 function aws_get_temporary_credentials()
 {
     local aws_creds_validity_period=3600
