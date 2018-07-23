@@ -48,7 +48,7 @@ export PACKER_BUILD_DIR=$PACKER_DATA_PATH/build
 function ensure_cli_tools()
 {
     if [ ! $(type -p packer) ]; then
-        error "Missing packer builder. Please install."
+        error "Missing packer builder."
         return 1
     fi
 }
