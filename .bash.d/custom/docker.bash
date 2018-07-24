@@ -865,5 +865,5 @@ function dockerh()
             ;;
     esac
 
-    return 0
+    return $?
 }
