@@ -475,6 +475,7 @@ function dockerh()
 
             else
                 error "Dockerfile params not specified correctly."
+                return 1
             fi
 
             ;;
@@ -497,6 +498,7 @@ function dockerh()
                 docker volume ls
             else
                 error "No orphaned volumes found."
+                return 1
             fi
 
             ;;
@@ -518,6 +520,7 @@ function dockerh()
                 docker images
             else
                 error "No untagged images found in the local repository."
+                return 1
             fi
             ;;
 
@@ -537,6 +540,7 @@ function dockerh()
                 docker rm -f "$stopped_containers"
             else
                 error "No stopped containers found."
+                return 1
             fi
             ;;
 
@@ -593,6 +597,7 @@ function dockerh()
 
             else
                 error "AWS repository not specified correctly."
+                return 1
             fi
             ;;
 
@@ -613,6 +618,7 @@ function dockerh()
 
             else
                 error "AWS repository and policy file not specified correctly."
+                return 1
             fi
             ;;
 
@@ -633,6 +639,7 @@ function dockerh()
 
             else
                 error "AWS repository and policy file not specified correctly."
+                return 1
             fi
             ;;
 
@@ -652,6 +659,7 @@ function dockerh()
                 list_images_on_aws_ecr "$2"
             else
                 error "AWS repository name not specified correctly."
+                return 1
             fi
             ;;
 
@@ -671,6 +679,7 @@ function dockerh()
                 batch_delete_untagged_aws_ecr_images "$2"
             else
                 error "AWS repository name not specified correctly."
+                return 1
             fi
             ;;
 
@@ -690,6 +699,7 @@ function dockerh()
                 batch_regex_delete_aws_ecr_images "$2" "$3"
             else
                 error "AWS repository name not specified correctly."
+                return 1
             fi
             ;;
 
@@ -709,6 +719,7 @@ function dockerh()
                 delete_aws_ecr_image "$2" "$3"
             else
                 error "AWS repository name not specified correctly."
+                return 1
             fi
             ;;
 
@@ -722,6 +733,7 @@ function dockerh()
                 docker images
             else
                 error "Docker public image not specified."
+                return 1
             fi
             ;;
 
@@ -741,6 +753,7 @@ function dockerh()
                 push_image_to_aws_ecr "$2"
             else
                 error "Docker image not specified correctly."
+                return 1
             fi
             ;;
 
@@ -760,6 +773,7 @@ function dockerh()
                 pull_image_from_aws_ecr "$2"
             else
                 error "Docker image not specified correctly."
+                return 1
             fi
             ;;
 
@@ -786,6 +800,7 @@ function dockerh()
                 push_image_to_aws_ecr "$2"
             else
                 error "AWS profile and docker image not specified correctly."
+                return 1
             fi
             ;;
 
