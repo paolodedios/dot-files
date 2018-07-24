@@ -11,8 +11,8 @@
 ########################################################################################
 
 # Set PACKER_CONFIG_PATH variable
-if [ -d $PACKER_PRIVATE_BUILDER_HOME ]; then
-    export PACKER_CONFIG_PATH=$PACKER_PRIVATE_BUILDER_HOME
+if [ -d $HOME/.local/etc ]; then
+    export PACKER_CONFIG_PATH=$HOME/.local/etc/packer
 else
     export PACKER_CONFIG_PATH=/etc/packer
 fi
@@ -20,8 +20,8 @@ fi
 export PACKER_BUILDER_HOME=${PACKER_BUILDER_HOME:-"${PACKER_CONFIG_PATH}"}
 
 # Set PACKER_DATA_PATH variable
-if [ -d $LOCAL_APP_HOME/var ]; then
-    export PACKER_DATA_PATH=$LOCAL_APP_HOME/var/packer
+if [ -d $HOME/.local/var ]; then
+    export PACKER_DATA_PATH=$HOME/.local/var/packer
 else
     export PACKER_DATA_PATH=/var/lib/packer
 fi
@@ -212,6 +212,7 @@ function packerh()
                 build_centos7_vagrant_vmware_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
+                return 1
             fi
             ;;
         new-centos7-vagrant-uefi-vm)
@@ -219,6 +220,7 @@ function packerh()
                 build_centos7_vagrant_uefi_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
+                return 1
             fi
             ;;
         new-centos7-vagrant-qemu-vm)
@@ -226,6 +228,7 @@ function packerh()
                 build_centos7_vagrant_qemu_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
+                return 1
             fi
             ;;
         new-fedora26-vagrant-qemu-vm)
@@ -233,6 +236,7 @@ function packerh()
                 build_fedora26_vagrant_qemu_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
+                return 1
             fi
             ;;
         help|*)
@@ -245,4 +249,6 @@ function packerh()
             echo "  new-fedora26-vagrant-qemu-vm    : Build Fedora 26 Vagrant box on KVM-QEMU"
             ;;
     esac
+
+    return $?
 }
