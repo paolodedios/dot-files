@@ -47,6 +47,10 @@
   (interactive)
   (find-file "~/.emacs.d/config/init.el"))
 
+(defun fix-cursor ()
+  ;; Ensure default cursor color on reloads
+  (setq-default cursor-type      'box    )
+  (set-cursor-color              "yellow"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
