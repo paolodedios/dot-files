@@ -132,8 +132,8 @@ case $OSTYPE in
         # MacPorts versions take precedence
         export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
-        # User local binaries
-        export LOCAL_APP_HOME=$HOME/.bin.local
+        # User local binaries, libraries, and configuration files
+        export LOCAL_APP_HOME=$HOME/.local
 
         # Add local libraries to LIBRARY PATH
         if [ -d $LOCAL_APP_HOME/lib ]; then
@@ -143,8 +143,8 @@ case $OSTYPE in
             export DYLD_FALLBACK_LIBRARY_PATH=$LOCAL_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
         fi
 
-        # User shared (syncd) binaries
-        export SHARED_APP_HOME=$HOME/.bin.shared
+        # User shared (syncd) binaries, libraries, and configuration files
+        export SHARED_APP_HOME=$HOME/.shared
 
         # Add shared libraries to LIBRARY PATH
         if [ -d $SHARED_APP_HOME/lib ]; then
