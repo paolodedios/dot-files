@@ -11,7 +11,9 @@ else
     export GO_PROJECT_HOME=$HOME
 fi
 
-# Set the top level GOPATH environment variable
+#
+# Set the top level GOPATH environment variable.
+#
 # @see https://golang.org/doc/code.html#Workspaces
 #
 export GOPATH=$GO_PROJECT_HOME/Go
