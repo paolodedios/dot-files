@@ -261,10 +261,10 @@
 (define-key global-map [(meta f4)]        'nameses-save                    )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Reload all Emacs configuration files specified by init.el
+;; Re-run the 'configure-emacs' customization routine to load new settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map [(meta f6)]        'reload-dot-emacs                )
+(define-key global-map [(meta f6)]        'configure-emacs                 )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Electric Buffer
