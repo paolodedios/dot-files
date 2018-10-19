@@ -56,8 +56,7 @@
 
 ;; Finally, to cancel selections by typing non-matching characters, customize
 ;; company-require-match:
-(setq company-require-match 'never)
-
+(setq company-require-match     'never)
 
 ;; Set up the idle delay in seconds until completion starts automatically
 (setq company-idle-delay          0.25)
@@ -65,6 +64,16 @@
 ;; Set up the idle delay in seconds until tooltip is shown when using
 ;; company-pseudo-tooltip-unless-just-one-frontend-with-delay frontend
 (setq company-tooltip-idle-delay  0.25)
+
+;; Allow for a bigger popup window than the default
+(setq company-tooltip-limit         20)
+
+;; Remove blinking effect
+(setq company-echo-delay             0)
+
+;; Start autocompletion only after typing
+(setq company-begin-commands '(self-insert-command))
+
 
 ;; Set up similar popup behavior to autocompelte
 ;; @see https://github.com/company-mode/company-mode/pull/524
