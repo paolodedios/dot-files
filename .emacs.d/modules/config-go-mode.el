@@ -35,7 +35,6 @@
   (exec-path-from-shell-copy-env "GOPATH")
   )
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Go-mode specific hooks
 ;;
@@ -61,6 +60,7 @@
             ;; Bind godef-jump to 'M-.'
             (local-set-key (kbd "M-.") 'godef-jump)
 
+            ;; Go uses tabs for indentation and spaces for alignment.
             ;; Use 4-spaces-wide true tabs in go-mode
             (setq tab-width            4)
             (setq indent-tabs-mode     1)
