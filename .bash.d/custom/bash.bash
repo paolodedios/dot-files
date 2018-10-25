@@ -38,29 +38,6 @@ for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null
 done
 
-########################################################################################
-# Setup bash completion
-########################################################################################
-
-if [ -f /etc/bash_completion.d ]; then
-    source /etc/bash_completion.d > /dev/null 2>&1
-elif [ -f /opt/local/etc/bash_completion.d ]; then
-    source /opt/local/etc/bash_completion.d > /dev/null 2>&1
-fi
-
-# Add tab completion for SSH hostnames tried in .bash_history
-if [ -f $HOME/.bash_history ]; then
-    complete -W "$(echo $(grep '^ssh ' ${HOME}/.bash_history | sort -u | sed 's/^ssh //'))" ssh
-    complete -W "$(echo $(grep '^scp ' ${HOME}/.bash_history | sort -u | sed 's/^scp //'))" scp
-    complete -W "$(echo $(grep '^sftp ' ${HOME}/.bash_history | sort -u | sed 's/^sftp //'))" sftp
-fi
-
-# Add tab completion for SSH hostnames based on ~/.ssh/config ignoring wildcards
-if [ -e $HOME/.ssh/config ]; then
-    complete -o "default"      \
-	         -o "nospace"      \
-	         -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
-fi
 
 ########################################################################################
 # Configure language variables
@@ -117,6 +94,12 @@ export LESSHISTFILE=/dev/null
 
 case $OSTYPE in
     darwin*)
+        # Macports installs bash_completion scripts in /opt/local instead of
+        # using /etc/profile auto sourcing.
+        if [ -f /opt/local/etc/bash_completion ]; then
+            source /opt/local/etc/bash_completion > /dev/null 2>&1
+        fi
+
         # tmux sets the TMUX environment variable in tmux sessions, and sets TERM
         # to screen. This isn't a 100% reliable indicator (for example, you can't
         # easily tell if you're running screen inside tmux or tmux inside screen),
@@ -222,6 +205,24 @@ case $OSTYPE in
         fi
         ;;
 esac
+
+########################################################################################
+# Set bash completion for SSH
+########################################################################################
+
+# Add tab completion for SSH hostnames in .bash_history
+if [ -f $HOME/.bash_history ]; then
+    complete -W "$(echo $(grep '^ssh  ' ${HOME}/.bash_history | sort -u | sed 's/^ssh //'))"  ssh
+    complete -W "$(echo $(grep '^scp  ' ${HOME}/.bash_history | sort -u | sed 's/^scp //'))"  scp
+    complete -W "$(echo $(grep '^sftp ' ${HOME}/.bash_history | sort -u | sed 's/^sftp //'))" sftp
+fi
+
+# Add tab completion for SSH hostnames in ~/.ssh/config, ignoring wildcards
+if [ -e $HOME/.ssh/config ]; then
+    complete -o "default"      \
+	         -o "nospace"      \
+	         -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
+fi
 
 ########################################################################################
 # Set shared library and binary PATH information
