@@ -272,7 +272,7 @@ function packerh()
             ;;
         new-fedora27-vagrant-qemu-vm)
             if [ ! -z "$2" ]; then
-                build_fedora26_vagrant_qemu_vm "$2"
+                build_fedora27_vagrant_qemu_vm "$2"
             else
                 echo "ERROR. Vagrant build variables file not specified."
                 return 1
