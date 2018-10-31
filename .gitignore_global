@@ -308,6 +308,28 @@ project/boot/
 .vagrant/
 
 ########################################################################################
+# Terraform artifacts
+########################################################################################
+
+# Ignore local .terraform managed directories
+**/.terraform/*
+
+# Ignore terraform execution state files
+*.tfstate
+*.tfstate.*
+
+# Ignore crash log files.
+crash.log
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in.
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+
+########################################################################################
 # Python virtualenv
 ########################################################################################
 
