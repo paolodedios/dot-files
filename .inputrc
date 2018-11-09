@@ -30,6 +30,7 @@ set mark-symlinked-directories on
 # Down-Arrow : Search history forwards
 #
 # @see https://stackoverflow.com/a/791800
+# @see https://unix.stackexchange.com/a/73499
 # @see https://github.com/dvorka/hstr
 ########################################################################################
 
