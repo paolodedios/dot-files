@@ -24,6 +24,13 @@ set mark-symlinked-directories on
 ########################################################################################
 # Use the text that has already been typed as the prefix for searching through
 # commands (i.e. more intelligent Up/Down behavior)
+#
+# Ctrl-R <input>
+# Up-Arrow   : Search history backwards
+# Down-Arrow : Search history forwards
+#
+# @see https://stackoverflow.com/a/791800
+# @see https://github.com/dvorka/hstr
 ########################################################################################
 
 "\e[B": history-search-forward
