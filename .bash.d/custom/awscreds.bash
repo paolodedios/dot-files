@@ -199,6 +199,26 @@ case $OSTYPE in
 esac
 
 
+function ensure_aws_vault_tools()
+{
+    if [ ! $(type -p aws-vault) ]; then
+        error "Missing aws-vault executable."
+        return 1
+    fi
+}
+
+#
+# List all aws-vault managed profiles and sessions
+#
+function awsvl()
+{
+    if ! ensure_aws_vault_tools; then
+        return 1
+    fi
+
+    aws-vault list --debug
+}
+
 #
 # Launch aws-vault credentials metadata server
 #
@@ -209,6 +229,10 @@ esac
 #
 function awsvs()
 {
+    if ! ensure_aws_vault_tools; then
+        return 1
+    fi
+
     #
     # Default to 60 minute assume role TTLs and 12h session TTLs
     # unless specified otherwise by environment variables.
@@ -239,6 +263,10 @@ function awsvs()
 #
 function awsve()
 {
+    if ! ensure_aws_vault_tools; then
+        return 1
+    fi
+
     #
     # Default to 60 minute assume role TTLs and 12h session TTLs
     # unless specified otherwise by environment variables.
@@ -278,6 +306,10 @@ function awsve()
 #
 function chmbre()
 {
+    if ! ensure_aws_vault_tools; then
+        return 1
+    fi
+
     #
     # First argument must be the aws-vault profile name
     #
