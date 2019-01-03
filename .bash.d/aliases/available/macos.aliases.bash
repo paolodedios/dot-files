@@ -22,8 +22,12 @@ case $OSTYPE in
         alias chrome="open -a google\ chrome"
         alias chromium="open -a chromium"
 
-        # Requires growlnotify, which can be found in the Growl DMG under "Extras"
-        alias grnot='growlnotify -s -t Terminal -m "Done"'
+        # Macports /opt/local/bin/gshred should be the same as linus shred
+        alias shred="gshred"
+
+        # Public ip check
+        alias publicip="curl -s http://checkip.dyndns.com/ | sed 's/[^0-9\.]//g'"
+        alias localip="ipconfig getifaddr $NETIF"
 
         # Get rid of those pesky .DS_Store files recursively
         alias dsclean='find . -type f -name .DS_Store -delete'
@@ -63,7 +67,7 @@ case $OSTYPE in
         # Flush Directory Service cache
         alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
-        # ROT13-encode text. Works for decoding also
+        # ROT-13-encode text. Works for decoding also
         alias rot13="tr a-zA-Z n-za-mN-ZA-M"
 
         # Hide/show all desktop icons (useful when presenting)
