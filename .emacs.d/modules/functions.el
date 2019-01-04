@@ -504,7 +504,7 @@ there's a region, all lines that region covers will be duplicated."
 
 (defun toggle-margin-to-fill-column ()
   "Toggle the right margin between `fill-column' or window width.
-   This command is convenient when reading novel, documentation."
+   This command is convenient when reading long text blocks like documentation."
   (interactive)
   (if (eq (cdr (window-margins)) nil)
       (set-window-margins nil 0 (- (window-body-width) fill-column))
