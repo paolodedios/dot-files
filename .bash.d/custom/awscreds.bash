@@ -195,6 +195,10 @@ case $OSTYPE in
         # terminal and gnome desktop usage, so use terminal based prompting.
         #
         export AWS_VAULT_PROMPT=terminal
+        #
+        # Force encrypted file as the default
+        #
+        export AWS_VAULT_BACKEND=file
         ;;
 esac
 
