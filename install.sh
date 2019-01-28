@@ -81,6 +81,7 @@ function check_deps()
     fi
 }
 
+
 # Update emacs configuration files
 function update_emacs_environment()
 {
@@ -113,6 +114,7 @@ function update_emacs_environment()
             ;;
     esac
 }
+
 
 # Update Python configuration files
 function update_python_environment()
@@ -361,6 +363,7 @@ function update_shell()
     cleanup_shell
 }
 
+
 function update_fonts()
 {
     notice "Installing fonts"
@@ -395,6 +398,7 @@ function update_backups()
     notice "Backing up configuration files"
     check_list "Backup complete"
 }
+
 
 function cleanup_shell()
 {
@@ -475,71 +479,6 @@ function show_usage()
     echo "--backup (-b): Backup current settings"
     exit 0
 }
-
-# Process long form options by converting to short form
-for param in "$@"; do
-    shift
-    case "$param" in
-        "--help")
-            set -- "$@" "-h"
-            ;;
-        "--force")
-            set -- "$@" "-f"
-            ;;
-        "--dev")
-            set -- "$@" "-d"
-            ;;
-        "--emacs")
-            set -- "$@" "-e"
-            ;;
-        "--backups")
-            set -- "$@" "-b"
-            ;;
-        "--shell")
-            set -- "$@" "-s"
-            ;;
-        "--fonts")
-            set -- "$@" "-t"
-            ;;
-        *)
-            set -- "$@" "$param"
-            ;;
-    esac
-done
-
-OPTIND=1
-while getopts "hfdebs?" opt; do
-    case "$opt" in
-        "h")
-            show_usage
-            exit 0
-            ;;
-        "f")
-            force_install=true
-            ;;
-        "d")
-            dev_install=true
-            ;;
-        "e")
-            emacs_install=true
-            ;;
-        "b")
-            create_backups=true
-            ;;
-        "s")
-            bashit_install=true
-            ;;
-        "t")
-            font_install=true
-            ;;
-        "?")
-            show_usage >&2
-            exit 1
-            ;;
-    esac
-done
-shift "$(expr $OPTIND - 1)"
-
 
 ########################################################################################
 #
@@ -626,82 +565,155 @@ function validate_dependencies()
 #
 ########################################################################################
 
-# Save current directory
-current_pwd=$(pwd)
+function main()
+{
+    # Save current directory
+    current_pwd=$(pwd)
 
-# Change to the executable's directory
-cd "$(dirname "$0")"
+    # Change to the executable's directory
+    cd "$(dirname "$0")"
 
-if [ $force_install ]; then
-    #
-    # Force update home directory
-    #
-    validate_dependencies
+    # Process long form options by converting to short form
+    for param in "$@"; do
+        shift
+        case "$param" in
+            "--help")
+                set -- "$@" "-h"
+                ;;
+            "--force")
+                set -- "$@" "-f"
+                ;;
+            "--dev")
+                set -- "$@" "-d"
+                ;;
+            "--emacs")
+                set -- "$@" "-e"
+                ;;
+            "--backups")
+                set -- "$@" "-b"
+                ;;
+            "--shell")
+                set -- "$@" "-s"
+                ;;
+            "--fonts")
+                set -- "$@" "-t"
+                ;;
+            *)
+                set -- "$@" "$param"
+                ;;
+        esac
+    done
 
-    update_home
+    OPTIND=1
+    while getopts "hfdebs?" opt; do
+        case "$opt" in
+            "h")
+                show_usage
+                exit 0
+                ;;
+            "f")
+                force_install=true
+                ;;
+            "d")
+                dev_install=true
+                ;;
+            "e")
+                emacs_install=true
+                ;;
+            "b")
+                create_backups=true
+                ;;
+            "s")
+                bashit_install=true
+                ;;
+            "t")
+                font_install=true
+                ;;
+            "?")
+                show_usage >&2
+                exit 1
+                ;;
+        esac
+    done
+    shift "$(expr $OPTIND - 1)"
 
-elif [ $dev_install ]; then
-    #
-    # Update development environment files
-    #
-    validate_dependencies
-
-    update_dev_environment
-    update_deployment_environment
-
-elif [ $emacs_install ]; then
-    #
-    # Update emacs configuration
-    #
-    validate_dependencies
-
-    update_emacs_environment
-
-elif [ $create_backups ]; then
-    #
-    # Create new backup
-    #
-    update_backups
-
-elif [ $bashit_install ]; then
-    #
-    # Update/install Bash-It files
-    #
-    validate_dependencies
-
-    update_shell
-
-elif [ $font_install ]; then
-    #
-    # Update/install font files
-    #
-    update_fonts
-
-else
-    #
-    # Confirm home directory update
-    #
-	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
-	echo
-	if [[ $REPLY =~ ^[Yy]$ ]]; then
-
+    if [ $force_install ]; then
+        #
+        # Force update home directory
+        #
         validate_dependencies
 
         update_home
+
+    elif [ $dev_install ]; then
+        #
+        # Update development environment files
+        #
+        validate_dependencies
+
+        update_dev_environment
+        update_deployment_environment
+
+    elif [ $emacs_install ]; then
+        #
+        # Update emacs configuration
+        #
+        validate_dependencies
+
+        update_emacs_environment
+
+    elif [ $create_backups ]; then
+        #
+        # Create new backup
+        #
+        update_backups
+
+    elif [ $bashit_install ]; then
+        #
+        # Update/install Bash-It files
+        #
+        validate_dependencies
+
+        update_shell
+
+    elif [ $font_install ]; then
+        #
+        # Update/install font files
+        #
+        update_fonts
+
     else
-        error "Aborted"
-        exit 1
+        #
+        # Confirm home directory update
+        #
+	    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1
+	    echo
+	    if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+            validate_dependencies
+
+            update_home
+        else
+            error "Aborted"
+            exit 1
+        fi
     fi
-fi
 
-# Cleanup environment
-unset update_shell
-unset update_backups
-unset update_dev_environment
-unset update_deployment_environment
-unset update_emacs_environment
-unset update_home
+    # Cleanup environment
+    unset update_shell
+    unset update_backups
+    unset update_dev_environment
+    unset update_deployment_environment
+    unset update_emacs_environment
+    unset update_home
 
-cd $current_pwd
+    cd $current_pwd
 
-notice "Done"
+    notice "Done"
+}
+
+
+#
+# Call main entry point and pass through entire command line.
+#
+main "$@"
