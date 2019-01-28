@@ -118,92 +118,6 @@ function update_emacs_environment()
 }
 
 
-# Update Python configuration files
-function update_python_environment()
-{
-    if [ -z $SHARED_FOLDER ]; then
-        alert "Shared folder not found. Skipping python environment installation."
-        return
-    fi
-
-    if [ -e $HOME/.pip/pip.conf ]; then
-        check_list "Private pip configuration already installed"
-    else
-        check_list "Sym-linking shared pip.conf to home directory"
-        mkdir -p $HOME/.pip
-        [ -e $HOME/$SHARED_FOLDER/etc/python.pip.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/python/pip.conf $HOME/.pip/pip.conf
-    fi
-
-    if [ -e $HOME/.pydistutils.cfg ]; then
-        check_list "Private setup_tools configuration already installed"
-    else
-        check_list "Sym-linking shared pydistutils.cfg to home directory"
-        [ -e $HOME/$SHARED_FOLDER/etc/python/pydistutils.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/python/pydistutils.conf $HOME/.pydistutils.cfg
-    fi
-
-    if [ -e $HOME/.buildout/default.cfg ]; then
-        check_list "Private zc.buildout configuration already installed"
-    else
-        check_list "Sym-linking shared buildout.cfg to home directory"
-        mkdir -p $HOME/.buildout
-        [ -e $HOME/$SHARED_FOLDER/etc/python/buildout.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/python/buildout.conf $HOME/.buildout/default.cfg
-    fi
-}
-
-
-# Update deployment environment tooling related files
-function update_deployment_environment()
-{
-    if [ -z $SHARED_FOLDER ]; then
-        alert "Shared folder not found. Skipping deployment environment installation."
-        return
-    fi
-
-    # AWS credential files is the standard mechanism for sharing credentials
-    # between AWS SDKs, including non-Amazon ones like Boto
-    if [ -e $HOME/.aws/credentials ]; then
-        check_list "Private AWS credentials already installed"
-    else
-        check_list "Sym-linking shared AWS credentials to home directory"
-        mkdir -p $HOME/.aws
-        [ -e $HOME/$SHARED_FOLDER/etc/aws/credentials.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/aws/credentials.conf $HOME/.aws/credentials
-    fi
-
-    if [ -e $HOME/.boto ]; then
-        check_list "Private Boto configuration already installed"
-    else
-        check_list "Sym-linking shared Boto configuration to home directory"
-        [ -e $HOME/$SHARED_FOLDER/etc/aws/boto.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/aws/boto.conf $HOME/.boto
-    fi
-
-    if [ -e $HOME/.ansible.cfg ]; then
-        check_list "Private ansible configuration already installed"
-    else
-        check_list "Sym-linking shared ansible configuration to home directory"
-        [ -e $HOME/$SHARED_FOLDER/etc/ansible/ansible.conf ] && ln -s $HOME/$SHARED_FOLDER/etc/ansible/ansible.conf $HOME/.ansible.cfg
-    fi
-
-    if [ -e $HOME/.vagrant.d/Vagrantfile ]; then
-        check_list "Private Vagrantfile configuration already installed"
-    else
-        check_list "Sym-linking shared Vagrantfile to home directory"
-        mkdir -p $HOME/.vagrant.d
-        [ -e $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile ] && ln -s $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile $HOME/.vagrant.d/Vagrantfile
-    fi
-
-    echo
-}
-
-
-# Update development environment
-function update_dev_environment()
-{
-    update_emacs_environment
-
-    update_python_environment
-}
-
-
 # Update home directory
 function update_home()
 {
@@ -222,9 +136,7 @@ function update_home()
 
     echo
 
-    update_dev_environment
-
-    update_deployment_environment
+    update_emacs_environment
 
     update_shell
 
@@ -625,9 +537,6 @@ function main()
             "f")
                 force_install=true
                 ;;
-            "d")
-                dev_install=true
-                ;;
             "e")
                 emacs_install=true
                 ;;
@@ -655,15 +564,6 @@ function main()
         validate_dependencies
 
         update_home
-
-    elif [ $dev_install ]; then
-        #
-        # Update development environment files
-        #
-        validate_dependencies
-
-        update_dev_environment
-        update_deployment_environment
 
     elif [ $emacs_install ]; then
         #
@@ -715,8 +615,6 @@ function main()
     #
     unset update_shell
     unset update_backups
-    unset update_dev_environment
-    unset update_deployment_environment
     unset update_emacs_environment
     unset update_home
 
