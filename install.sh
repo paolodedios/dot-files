@@ -572,13 +572,19 @@ function validate_dependencies()
 
 function main()
 {
+    #
     # Save current directory
+    #
     current_pwd=$(pwd)
 
+    #
     # Change to the executable's directory
+    #
     cd "$(dirname "$0")"
 
+    #
     # Process long form options by converting to short form
+    #
     for param in "$@"; do
         shift
         case "$param" in
@@ -704,7 +710,9 @@ function main()
         fi
     fi
 
+    #
     # Cleanup environment
+    #
     unset update_shell
     unset update_backups
     unset update_dev_environment
