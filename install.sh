@@ -87,7 +87,9 @@ function update_emacs_environment()
 {
     # Delete files that do not exist in the source repo
     notice "Synchronizing Emacs configuration directory [~/.emacs.d]"
+
     mkdir -p $HOME/.emacs.d/config
+
     rsync --exclude ".git/"              \
           --exclude ".hg/"               \
           --exclude ".DS_Store"          \
@@ -188,6 +190,8 @@ function update_deployment_environment()
         mkdir -p $HOME/.vagrant.d
         [ -e $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile ] && ln -s $HOME/$SHARED_FOLDER/etc/vagrant/Vagrantfile $HOME/.vagrant.d/Vagrantfile
     fi
+
+    echo
 }
 
 
@@ -233,6 +237,7 @@ function update_shell()
 {
     # Delete files that do not exist in the source repo
     notice "Synchronizing Bash-It configuration directory [~/.bash.d]"
+
     rsync --exclude ".git/"              \
           --exclude ".hg/"               \
           --exclude ".DS_Store"          \
