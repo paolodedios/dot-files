@@ -13,8 +13,8 @@ MACHINE=$(uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijkl
 #
 # Minimum shell version check.
 #
-if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then
-    echo "Error: Bash 4.0 required to execute '$0'. Current shell is Bash '$BASH_VERSION'."
+if [ "${BASH_VERSINFO[0]:-0}" -lt 3 ] || [ "${BASH_VERSINFO[1]:-0}" -lt 2 ]; then
+    echo "Error: Bash 3.2 required to execute '$0'. Current shell is Bash '$BASH_VERSION'."
     exit 1
 fi
 
