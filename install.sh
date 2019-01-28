@@ -6,13 +6,22 @@
 #
 ########################################################################################
 
-
 OS=$(uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
 OSVERSION=$(uname -r); OSVERSION=$(expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)')
 MACHINE=$(uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/')
 
+#
+# Minimum shell version check.
+#
+if [ "${BASH_VERSINFO:-0}" -lt 4 ]; then
+    echo "Error: Bash 4.0 required to execute '$0'. Current shell is Bash '$BASH_VERSION'."
+    exit 1
+fi
+
 ########################################################################################
+#
 # Define UI helper functions
+#
 ########################################################################################
 
 # Notice title
@@ -46,7 +55,9 @@ function error_list()
 }
 
 ########################################################################################
+#
 # Define helper functions
+#
 ########################################################################################
 
 # Check for dependency
@@ -373,7 +384,9 @@ function update_fonts()
 }
 
 ########################################################################################
+#
 # Post-installation functions
+#
 ########################################################################################
 
 # Update home directory
@@ -442,17 +455,9 @@ function cleanup_shell()
 }
 
 ########################################################################################
-# Initialize bootstrap
-########################################################################################
-
-# Save current directory
-current_pwd=$(pwd)
-
-# Change to the executable's directory
-cd "$(dirname "$0")"
-
-########################################################################################
+#
 # Process install options
+#
 ########################################################################################
 
 function show_usage()
@@ -537,7 +542,9 @@ shift "$(expr $OPTIND - 1)"
 
 
 ########################################################################################
+#
 # Validate dependencies
+#
 ########################################################################################
 
 function validate_dependencies()
@@ -613,6 +620,17 @@ function validate_dependencies()
     fi
 }
 
+########################################################################################
+#
+# Initialize bootstrap
+#
+########################################################################################
+
+# Save current directory
+current_pwd=$(pwd)
+
+# Change to the executable's directory
+cd "$(dirname "$0")"
 
 if [ $force_install ]; then
     #
