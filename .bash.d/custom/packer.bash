@@ -57,7 +57,7 @@ function ensure_cli_tools()
 function build_centos7_vagrant_vmware_vm()
 {
     if [ -z "$VAGRANT_SSH_PRIVATE_KEY" ]; then
-        echo "ERROR. Secure SSH Key not specified."
+        echo "ERROR. SSH Private Key not specified."
         return 1
     fi
 
@@ -88,7 +88,7 @@ function build_centos7_vagrant_vmware_vm()
 function build_centos7_vagrant_uefi_vm()
 {
     if [ -z "$VAGRANT_SSH_PRIVATE_KEY" ]; then
-        echo "ERROR. Secure SSH Key not specified."
+        echo "ERROR. SSH Private Key not specified."
         return 1
     fi
 
@@ -143,7 +143,7 @@ function build_centos7_vagrant_uefi_vm()
 function build_centos7_vagrant_qemu_vm()
 {
     if [ -z "$VAGRANT_SSH_PRIVATE_KEY" ]; then
-        echo "ERROR. Secure SSH Key not specified."
+        echo "ERROR. SSH Private Key not specified."
         return 1
     fi
 
@@ -177,7 +177,7 @@ function build_centos7_vagrant_qemu_vm()
 function build_fedora26_vagrant_qemu_vm()
 {
     if [ -z "$VAGRANT_SSH_PRIVATE_KEY" ]; then
-        echo "ERROR. Secure SSH Key not specified."
+        echo "ERROR. SSH Private Key not specified."
         return 1
     fi
 
@@ -211,7 +211,7 @@ function build_fedora26_vagrant_qemu_vm()
 function build_fedora27_vagrant_qemu_vm()
 {
     if [ -z "$VAGRANT_SSH_PRIVATE_KEY" ]; then
-        echo "ERROR. Secure SSH Key not specified."
+        echo "ERROR. SSH Private Key not specified."
         return 1
     fi
 
