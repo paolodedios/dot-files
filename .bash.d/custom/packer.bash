@@ -53,9 +53,9 @@ function ensure_cli_tools()
     fi
 }
 
+
 function build_centos7_vagrant_vmware_vm()
 {
-    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
     export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
     export PACKER_LOG=0
 
@@ -83,7 +83,6 @@ function build_centos7_vagrant_vmware_vm()
 
 function build_centos7_vagrant_uefi_vm()
 {
-    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
     export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
     export PACKER_LOG=0
 
@@ -135,7 +134,6 @@ function build_centos7_vagrant_uefi_vm()
 
 function build_centos7_vagrant_qemu_vm()
 {
-    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
     export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
     export PACKER_LOG=0
 
@@ -166,7 +164,6 @@ function build_centos7_vagrant_qemu_vm()
 
 function build_fedora26_vagrant_qemu_vm()
 {
-    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
     export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
     export PACKER_LOG=0
 
@@ -197,7 +194,6 @@ function build_fedora26_vagrant_qemu_vm()
 
 function build_fedora27_vagrant_qemu_vm()
 {
-    export VAGRANT_INSECURE_KEY="$HOME/.ssh/vagrant_insecure_key.pem"
     export VAGRANT_SECURE_KEY="$HOME/.ssh/vagrant_local.pem"
     export PACKER_LOG=0
 
