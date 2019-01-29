@@ -56,6 +56,11 @@ function ensure_cli_tools()
 
 function build_centos7_vagrant_vmware_vm()
 {
+    if [ -z "$VAGRANT_SECURE_KEY" ]; then
+        echo "ERROR. Secure SSH Key not specified."
+        return 1
+    fi
+
     export PACKER_LOG=0
 
     # Build a Vagrant VM based on the configuration specified by the
@@ -82,6 +87,11 @@ function build_centos7_vagrant_vmware_vm()
 
 function build_centos7_vagrant_uefi_vm()
 {
+    if [ -z "$VAGRANT_SECURE_KEY" ]; then
+        echo "ERROR. Secure SSH Key not specified."
+        return 1
+    fi
+
     export PACKER_LOG=0
 
     if [ ! -d $PACKER_CACHE_DIR/qemu/nvram ]; then
@@ -132,6 +142,11 @@ function build_centos7_vagrant_uefi_vm()
 
 function build_centos7_vagrant_qemu_vm()
 {
+    if [ -z "$VAGRANT_SECURE_KEY" ]; then
+        echo "ERROR. Secure SSH Key not specified."
+        return 1
+    fi
+
     export PACKER_LOG=0
 
     echo "Using PACKER_CACHE_DIR            : ${PACKER_CACHE_DIR}"
@@ -161,6 +176,11 @@ function build_centos7_vagrant_qemu_vm()
 
 function build_fedora26_vagrant_qemu_vm()
 {
+    if [ -z "$VAGRANT_SECURE_KEY" ]; then
+        echo "ERROR. Secure SSH Key not specified."
+        return 1
+    fi
+
     export PACKER_LOG=0
 
     echo "Using PACKER_CACHE_DIR            : ${PACKER_CACHE_DIR}"
@@ -190,6 +210,11 @@ function build_fedora26_vagrant_qemu_vm()
 
 function build_fedora27_vagrant_qemu_vm()
 {
+    if [ -z "$VAGRANT_SECURE_KEY" ]; then
+        echo "ERROR. Secure SSH Key not specified."
+        return 1
+    fi
+
     export PACKER_LOG=0
 
     echo "Using PACKER_CACHE_DIR            : ${PACKER_CACHE_DIR}"
