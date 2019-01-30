@@ -118,7 +118,7 @@ function build_centos7_vagrant_uefi_vm()
     # the PACKER_VAGRANT_CONFIG file with those specified in the
     # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
     # specified in the command line
-    local packer_vagrant_variables="centos-7-x86_64-template-build-config-qemu-vagrant.json"
+    local packer_vagrant_variables="centos-7-x86_64-template-build-config-vagrant.json"
     local packer_vagrant_vm_build_type="qemu"
 
     if [ ! -z "$KVM_QEMU_GPU_PCI_ID" -a ! -z "$KVM_QEMU_GPU_AUDIO_PCI_ID" ]; then
@@ -157,45 +157,11 @@ function build_centos7_vagrant_qemu_vm()
     # the PACKER_VAGRANT_CONFIG file with those specified in the
     # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
     # specified in the command line
-    local packer_vagrant_variables="centos-7-x86_64-template-build-config-qemu-vagrant.json"
+    local packer_vagrant_variables="centos-7-x86_64-template-build-config-vagrant.json"
     local packer_vagrant_config="centos-7-x86_64-minimal-docker-vagrant.json"
     local packer_vagrant_vm_build_type="qemu"
 
     echo "using packer var-files located at : [ ${packer_builder_home} ]"
-
-    if [ -f $packer_vagrant_config ]; then
-        packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$packer_vagrant_variables                   \
-                     -var-file=$1                                                                         \
-                     -only=$packer_vagrant_vm_build_type                                                  \
-                     $packer_vagrant_config
-    else
-        echo "ERROR. This command must be run from the root of the packer config directory."
-    fi
-}
-
-
-function build_fedora26_vagrant_qemu_vm()
-{
-    if [ -z "$VAGRANT_SSH_PRIVATE_KEY" ]; then
-        echo "ERROR. SSH Private Key not specified."
-        return 1
-    fi
-
-    export PACKER_LOG=0
-
-    echo "Using PACKER_CACHE_DIR            : ${PACKER_CACHE_DIR}"
-    echo "Using PACKER_BUILD_DIR            : ${PACKER_BUILD_DIR}"
-
-    # Build a Vagrant VM based on the configuration specified by the
-    # PACKER_VAGRANT_CONFIG file. Replace the user defined variables defined in
-    # the PACKER_VAGRANT_CONFIG file with those specified in the
-    # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
-    # specified in the command line
-    local packer_vagrant_variables="fedora-26-x86_64-template-build-config-qemu-vagrant.json"
-    local packer_vagrant_config="fedora-26-x86_64-minimal-docker-vagrant.json"
-    local packer_vagrant_vm_build_type="qemu"
-
-    echo "Using packer var-files located at : [ ${PACKER_BUILDER_HOME} ]"
 
     if [ -f $packer_vagrant_config ]; then
         packer build -var-file=$PACKER_BUILDER_HOME/vars/base/$packer_vagrant_variables                   \
@@ -225,7 +191,7 @@ function build_fedora27_vagrant_qemu_vm()
     # the PACKER_VAGRANT_CONFIG file with those specified in the
     # PACKER_VAGRANT_VARIABLES file. Apply additional variables overrides
     # specified in the command line
-    local packer_vagrant_variables="fedora-27-x86_64-template-build-config-qemu-vagrant.json"
+    local packer_vagrant_variables="fedora-27-x86_64-template-build-config-vagrant.json"
     local packer_vagrant_config="fedora-27-x86_64-minimal-docker-vagrant.json"
     local packer_vagrant_vm_build_type="qemu"
 
@@ -278,14 +244,6 @@ function packerh()
                 return 1
             fi
             ;;
-        new-fedora26-vagrant-qemu-vm)
-            if [ ! -z "$2" ]; then
-                build_fedora26_vagrant_qemu_vm "$2"
-            else
-                echo "ERROR. Vagrant build variables file not specified."
-                return 1
-            fi
-            ;;
         new-fedora27-vagrant-qemu-vm)
             if [ ! -z "$2" ]; then
                 build_fedora27_vagrant_qemu_vm "$2"
@@ -301,7 +259,6 @@ function packerh()
             echo "  new-centos7-vagrant-vmw-vm      : Build CentOS 7 Vagrant box on VMware"
             echo "  new-centos7-vagrant-uefi-vm     : Build CentOS 7 Vagrant UEFI box on KVM-QEMU"
             echo "  new-centos7-vagrant-qemu-vm     : Build CentOS 7 Vagrant box on KVM-QEMU"
-            echo "  new-fedora26-vagrant-qemu-vm    : Build Fedora 26 Vagrant box on KVM-QEMU"
             echo "  new-fedora27-vagrant-qemu-vm    : Build Fedora 27 Vagrant box on KVM-QEMU"
             ;;
     esac
