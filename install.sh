@@ -229,6 +229,7 @@ function update_shell()
     check_list "$(_enable-plugin gradle)"
     check_list "$(_enable-plugin hg)"
     check_list "$(_enable-plugin history)"
+    check_list "$(_enable-plugin hstr)"
     check_list "$(_enable-plugin hub)"
     check_list "$(_enable-plugin java)"
     check_list "$(_enable-plugin jenv)"
@@ -297,7 +298,7 @@ function update_fonts()
     find .fonts \( -name "*.[ot]tf" -or -name "*.pcf.gz" \) -type f -print0 | xargs -0 -n1 -I % cp "%" "$LOCAL_FONTS_DIR/"
 
     # Reset font cache on Linux
-    if $(type -p fc-cache); then
+    if [ $(type -p fc-cache) ]; then
         check_list "Resetting font cache."
         fc-cache -f "$LOCAL_FONTS_DIR"
     fi
