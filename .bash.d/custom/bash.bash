@@ -25,9 +25,6 @@ shopt -s checkwinsize
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 
-# Append commands to the bash command history file (~/.bash_history) instead of overwriting
-shopt -s histappend
-
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 
@@ -66,6 +63,9 @@ export MY_HOSTFILE=$HOME/.hosts
 # Command history customization
 ########################################################################################
 
+# Append commands to the bash command history file (~/.bash_history) instead of overwriting
+shopt -s histappend
+
 export HISTSIZE=1048576
 export HISTFILESIZE=$HISTSIZE
 
@@ -77,7 +77,7 @@ export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 
 # Force bash to re-read the history file and then append commands to the history
 # every time a prompt is shown, instead of after closing the session.
-PROMPT_COMMAND='history -a'
+export PROMPT_COMMAND='history -a'
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
