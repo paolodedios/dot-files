@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'HSTR configuration
+about-plugin 'HSTR configuration'
 
 #
 # Configure HSTR if it is installed.
