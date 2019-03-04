@@ -12,32 +12,6 @@
 #
 ################################################################################
 
-case $OSTYPE in
-    darwin*)
-        #
-        # Under mac OS, aws-vault defaults to using the OS keychain, so default to
-        # osascript (native dialog) keychain password prompting instead of terminal
-        # based prompting on mac OS.
-        #
-        export AWS_VAULT_PROMPT=osascript
-        #
-        # Default to the login keychain for aws-vault.
-        #
-        export AWS_VAULT_KEYCHAIN_NAME=login
-        ;;
-    linux*)
-        #
-        # Under Linux, aws-vault defaults to using encrypted files to allow for
-        # terminal and gnome desktop usage, so use terminal based prompting.
-        #
-        export AWS_VAULT_PROMPT=terminal
-        #
-        # Force encrypted file as the default
-        #
-        export AWS_VAULT_BACKEND=file
-        ;;
-esac
-
 #
 # Check for 'aws-vault' binary
 #
@@ -165,3 +139,32 @@ function chmbre()
     #
     awsve $awsvault_profile -- chamber $@
 }
+
+#
+# Set platform specific environment variables
+#
+case $OSTYPE in
+    darwin*)
+        #
+        # Under mac OS, aws-vault defaults to using the OS keychain, so default to
+        # osascript (native dialog) keychain password prompting instead of terminal
+        # based prompting on mac OS.
+        #
+        export AWS_VAULT_PROMPT=osascript
+        #
+        # Default to the login keychain for aws-vault.
+        #
+        export AWS_VAULT_KEYCHAIN_NAME=login
+        ;;
+    linux*)
+        #
+        # Under Linux, aws-vault defaults to using encrypted files to allow for
+        # terminal and gnome desktop usage, so use terminal based prompting.
+        #
+        export AWS_VAULT_PROMPT=terminal
+        #
+        # Force encrypted file as the default
+        #
+        export AWS_VAULT_BACKEND=file
+        ;;
+esac
