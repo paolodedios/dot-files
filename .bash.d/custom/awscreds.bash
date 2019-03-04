@@ -119,18 +119,22 @@ function aws_get_access_credentials()
 
 function load_aws_credentials()
 {
+    #
     # Load user profile from ~/.aws/credentials
+    #
     local aws_profile_override=${1:-"$AWS_PROFILE"}
 
     if [ -z "$aws_profile_override" ]; then
         error "AWS profile not specified."
         return 1
     fi
-
+    #
     # Override the AWS_PROFILE if the caller specified an override
+    #
     export AWS_PROFILE=$aws_profile_override
-
+    #
     # Use profile to check for access and secret keys
+    #
     local access_key_id=$(aws configure get aws_access_key_id --profile ${aws_profile_override} 2> /dev/null)
     if [ -z $access_key_id ]; then
         error "Invalid AWS profile. Access Key ID not found in profile '${aws_profile_override}'."
@@ -142,20 +146,38 @@ function load_aws_credentials()
         error "Invalid AWS profile. Secret Access Key not found in profile '${aws_profile_override}'."
         return 1
     fi
-
+    #
     # Obtain the region information from the profile
+    #
     local region_name=$(aws configure get region --profile ${aws_profile_override})
-
+    #
     # If the profile does not define a region use the default AWS_SERVICE_REGION setting
+    #
     export AWS_SERVICE_REGION=${region_name:-"$AWS_SERVICE_REGION"}
-
+    #
     # Check if user specified a role that overrides the environment setting
+    #
     local aws_iam_role_override=${2:-"$AWS_IAM_ROLE"}
+    #
+    # Check if user specified role is an AWS IAM Role ARN
+    #
+    if [[ "$aws_iam_role_override" == *"aws:arn:iam"* ]]; then
+        #
+        # Override the AWS_ACCOUNT_NUMBER
+        #
+        export AWS_ACCOUNT_NUMBER=$(echo "$aws_iam_role_override" | cut -f 5 -d ':')
+        #
+        # Set the aws_iam_role_override to the expected, non ARN, value
+        #
+        aws_iam_role_override=$(echo "$aws_iam_role_override" | cut -f 2 -d '/')
+    fi
 
     if [ ! -z "$aws_iam_role_override" ]; then
+        #
         # Load user profile from ~/.aws/credentials to obtain temporary
         # credentials for the role specified by the caller or the environment
         # variable AWS_IAM_ROLE.
+        #
         echo "AWS IAM Role"
         echo "------------"
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
@@ -166,10 +188,12 @@ function load_aws_credentials()
         aws_get_access_credentials $aws_profile_override $aws_iam_role_override
 
     else
+        #
         # When using AWS_PROFILE, both AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
         # must be unset in the environment in order for AWS_PROFILE to be used.
         #
         # @see https://github.com/aws/aws-cli/issues/3304
+        #
         unset AWS_ACCESS_KEY_ID
         unset AWS_SECRET_ACCESS_KEY
 
