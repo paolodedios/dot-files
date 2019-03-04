@@ -24,7 +24,7 @@ export AWS_PROFILE=${AWS_PROFILE:-""}
 #
 # AWS_SERVICE_REGION environment variable is a 'dockerh' specific variable that
 # CAN be set to use the AWS CLI and SDK environment variable AWS_DEFAULT_REGION
-# (AWS_DEFAULT_REGION  superscedes user profile settings). Defaults to 'us-east-1'
+# (AWS_DEFAULT_REGION  superscedes user profile settings). Defaults to 'us-west-2'
 #
 export AWS_SERVICE_REGION=${AWS_DEFAULT_REGION:-"us-west-2"}
 #
