@@ -32,6 +32,10 @@ export AWS_SERVICE_REGION=${AWS_DEFAULT_REGION:-"us-west-2"}
 # be used to specify which role to assume when executing commands given the
 # credentials stored in the user specified profile.
 #
+# If the specified AWS_IAM_ROLE is an AWS IAM Role ARN, then the
+# AWS_ACCOUNT_NUMBER and AWS IAM Role Name specified in the ARN will override
+# the environment variable specified values.
+#
 export AWS_IAM_ROLE=${AWS_IAM_ROLE:-""}
 
 ################################################################################
