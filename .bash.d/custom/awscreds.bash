@@ -12,7 +12,7 @@
 
 #
 # AWS_ACCOUNT_NUMBER is an AWS CLI and SDK environment variable and it MUST be
-# set before executing 'dockerh'
+# set before executing 'awscli'
 #
 export AWS_ACCOUNT_NUMBER=${AWS_ACCOUNT_NUMBER:-"8XXXXXXXXXXX"}
 #
@@ -39,6 +39,24 @@ export AWS_IAM_ROLE=${AWS_IAM_ROLE:-""}
 # AWS Security Token Service helpers
 #
 ################################################################################
+
+function aws_get_caller_account_number()
+{
+    local aws_account_number=$(aws sts get-caller-identity --output json | jq -r .Account)
+
+    #
+    # Return an empty string if the awscli sts command resulted in a Python
+    # exception or credential provider error
+    #
+    if [[ $aws_account_number == *"Traceback (most recent call last)"* ]]; then
+        echo ""
+    elif [[ $aws_account_number == *"Unable to locate credentials."* ]]; then
+        echo ""
+    else
+        echo $aws_account_number
+    fi
+}
+
 
 function aws_get_temporary_credentials()
 {
@@ -250,10 +268,10 @@ function awsvs()
     # @see https://github.com/99designs/aws-vault/blob/master/USAGE.md
     #
     aws-vault exec                                   \
-         --server                                    \
-         --assume-role-ttl=$aws_assume_role_ttl      \
-         --session-ttl=$aws_session_ttl              \
-         $1
+        --server                                     \
+        --assume-role-ttl=$aws_assume_role_ttl       \
+        --session-ttl=$aws_session_ttl               \
+        $1
 }
 
 
@@ -284,9 +302,9 @@ function awsve()
     # @see https://github.com/99designs/aws-vault/blob/master/USAGE.md
     #
     aws-vault exec                                   \
-         --assume-role-ttl=$aws_assume_role_ttl      \
-         --session-ttl=$aws_session_ttl              \
-         $@
+        --assume-role-ttl=$aws_assume_role_ttl       \
+        --session-ttl=$aws_session_ttl               \
+        $@
 }
 
 
