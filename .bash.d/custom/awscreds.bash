@@ -135,7 +135,7 @@ function load_aws_credentials()
     # setting. The AWS CLI and SDK environment variable AWS_DEFAULT_REGION
     # superscedes user profile settings.
     #
-    local aws_service_region=${region_name:-"$AWS_DEFAULT_REGION"}
+    export AWS_SERVICE_REGION=${region_name:-"$AWS_DEFAULT_REGION"}
     #
     # Check if user specified a role that overrides the environment setting
     #
@@ -164,7 +164,7 @@ function load_aws_credentials()
         echo "------------"
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
         echo "AWS_PROFILE           : $aws_profile_override"
-        echo "AWS_REGION            : $aws_service_region"
+        echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_IAM_ROLE          : $aws_iam_role_override"
 
         aws_get_access_credentials $aws_profile_override $aws_iam_role_override
@@ -183,7 +183,7 @@ function load_aws_credentials()
         echo "------------"
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
         echo "AWS_PROFILE           : $aws_profile_override"
-        echo "AWS_REGION            : $aws_service_region"
+        echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_ACCESS_KEY_ID     : $access_key_id"
         echo "AWS_SECRET_ACCESS_KEY : $secret_key"
     fi
