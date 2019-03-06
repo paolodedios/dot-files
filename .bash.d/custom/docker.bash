@@ -436,24 +436,6 @@ function process_command_line()
     fi
 }
 
-function set_environment_variables()
-{
-    #
-    # Check for AWS_PROFILE override via the command line
-    #
-    local aws_profile=${optionals[--aws-profile]}
-    if [ ! -z  $aws_profile ]; then
-        export AWS_PROFILE=$aws_profile
-    fi
-
-    #
-    # Check for AWS_IAM_ROLE override via the command line
-    #
-    local aws_iam_role=${optionals[--aws-iam-role]}
-    if [ ! -z $aws_iam_role ]; then
-        export AWS_IAM_ROLE=$aws_iam_role
-    fi
-}
 
 function dockerh()
 {
@@ -590,8 +572,6 @@ function dockerh()
                 return 1
             fi
 
-            # Positional parameters are optional overrides on AWS_PROFILE and
-            # AWS_IAM_ROLE, respectively.
             load_aws_credentials "$2" "$3"
             ;;
 
