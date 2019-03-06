@@ -15,28 +15,6 @@
 # set before executing 'awscli'
 #
 export AWS_ACCOUNT_NUMBER=${AWS_ACCOUNT_NUMBER:-"8XXXXXXXXXXX"}
-#
-# AWS_PROFILE is an AWS CLI and SDK environment variable and it CAN be set as an
-# override to profile specification on the command line, otherwise it can be
-# provided as a parameter to most 'dockerh' commands.
-#
-export AWS_PROFILE=${AWS_PROFILE:-""}
-#
-# AWS_SERVICE_REGION environment variable is a 'dockerh' specific variable that
-# CAN be set to use the AWS CLI and SDK environment variable AWS_DEFAULT_REGION
-# (AWS_DEFAULT_REGION  superscedes user profile settings). Defaults to 'us-west-2'
-#
-export AWS_SERVICE_REGION=${AWS_DEFAULT_REGION:-"us-west-2"}
-#
-# AWS_IAM_ROLE environment variable is a 'dockerh' specific variable that MUST
-# be used to specify which role to assume when executing commands given the
-# credentials stored in the user specified profile.
-#
-# If the specified AWS_IAM_ROLE is an AWS IAM Role ARN, then the
-# AWS_ACCOUNT_NUMBER and AWS IAM Role Name specified in the ARN will override
-# the environment variable specified values.
-#
-export AWS_IAM_ROLE=${AWS_IAM_ROLE:-""}
 
 ################################################################################
 #
@@ -86,9 +64,8 @@ function aws_get_temporary_credentials()
 
     echo "AWS Temporary Access Credentials"
     echo "--------------------------------"
-    echo "Named Profile         : $3"
-    echo "Requested Role        : $1"
-    echo "Assumed Role          : $(echo $aws_sts_role_info   | jq -r .AssumedRoleId)"
+    echo "Credential Profile    : $3"
+    echo "Requested Role Arn    : $1"
     echo "Assumed Role Arn      : $(echo $aws_sts_role_info   | jq -r .Arn)"
     echo "Expires on            : $(echo $aws_sts_credentials | jq -r .Expiration)"
     echo "Time now              : $(/bin/date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -106,12 +83,11 @@ function aws_get_access_credentials()
 {
     local aws_sts_role_arn="arn:aws:iam::$AWS_ACCOUNT_NUMBER:role/$2"
     local aws_sts_session_name="$2-Session-$(/bin/date +%Y%m%dT%H%M%S)"
-
-    export AWS_USER_PROFILE="$1"
+    local aws_user_profile="$1"
 
     aws_get_temporary_credentials $aws_sts_role_arn      \
                                   $aws_sts_session_name  \
-                                  $AWS_USER_PROFILE
+                                  $aws_user_profile
 
     if [ $? -ne 0 ]; then
         return 1
@@ -126,7 +102,7 @@ function load_aws_credentials()
     #
     # Load user profile from ~/.aws/credentials
     #
-    local aws_profile_override=${1:-"$AWS_PROFILE"}
+    local aws_profile_override=${1:-"default"}
 
     if [ -z "$aws_profile_override" ]; then
         error "AWS profile not specified."
@@ -155,13 +131,15 @@ function load_aws_credentials()
     #
     local region_name=$(aws configure get region --profile ${aws_profile_override})
     #
-    # If the profile does not define a region use the default AWS_SERVICE_REGION setting
+    # If the profile does not define a region use the default AWS_DEFAULT_REGION
+    # setting. The AWS CLI and SDK environment variable AWS_DEFAULT_REGION
+    # superscedes user profile settings.
     #
-    export AWS_SERVICE_REGION=${region_name:-"$AWS_SERVICE_REGION"}
+    local aws_service_region=${region_name:-"$AWS_DEFAULT_REGION"}
     #
     # Check if user specified a role that overrides the environment setting
     #
-    local aws_iam_role_override=${2:-"$AWS_IAM_ROLE"}
+    local aws_iam_role_override=${2:-"AWSServiceRoleForTrustedAdvisor"}
     #
     # Check if user specified role is an AWS IAM Role ARN
     #
@@ -186,7 +164,7 @@ function load_aws_credentials()
         echo "------------"
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
         echo "AWS_PROFILE           : $aws_profile_override"
-        echo "AWS_REGION            : $AWS_SERVICE_REGION"
+        echo "AWS_REGION            : $aws_service_region"
         echo "AWS_IAM_ROLE          : $aws_iam_role_override"
 
         aws_get_access_credentials $aws_profile_override $aws_iam_role_override
@@ -205,7 +183,7 @@ function load_aws_credentials()
         echo "------------"
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
         echo "AWS_PROFILE           : $aws_profile_override"
-        echo "AWS_REGION            : $AWS_SERVICE_REGION"
+        echo "AWS_REGION            : $aws_service_region"
         echo "AWS_ACCESS_KEY_ID     : $access_key_id"
         echo "AWS_SECRET_ACCESS_KEY : $secret_key"
     fi
