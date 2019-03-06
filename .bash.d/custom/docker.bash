@@ -250,9 +250,9 @@ function pull_image_from_aws_ecr()
 
 function get_ecr_repository_policy()
 {
-    local repository_policy=aws ecr get-repository-policy --region $AWS_SERVICE_REGION          \
-                                                          --registry-id $AWS_ACCOUNT_NUMBER     \
-                                                          --repository-name $1
+    local repository_policy=$(aws ecr get-repository-policy --region $AWS_SERVICE_REGION          \
+                                                            --registry-id $AWS_ACCOUNT_NUMBER     \
+                                                            --repository-name $1)
     if [ $? -ne 0 ]; then
         error "Failed to get repository policy for '${1}' for registry with id '$AWS_ACCOUNT_NUMBER'"
         return 1
