@@ -76,6 +76,7 @@ function aws_get_temporary_credentials()
     echo "AWS_ACCESS_KEY_ID     : $AWS_ACCESS_KEY_ID"
     echo "AWS_SECRET_ACCESS_KEY : $AWS_SECRET_ACCESS_KEY"
     echo "AWS_SESSION_TOKEN     : $AWS_SESSION_TOKEN"
+    echo
 }
 
 
@@ -173,6 +174,7 @@ function load_aws_credentials()
         echo "AWS_ACCOUNT_NUMBER    : $AWS_ACCOUNT_NUMBER"
         echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_IAM_ROLE          : $aws_iam_role_name"
+        echo
 
         aws_get_access_credentials $aws_profile_name $aws_iam_role_name
 
@@ -193,6 +195,7 @@ function load_aws_credentials()
         echo "AWS_REGION            : $AWS_SERVICE_REGION"
         echo "AWS_ACCESS_KEY_ID     : $access_key_id"
         echo "AWS_SECRET_ACCESS_KEY : $secret_key"
+        echo
     fi
 
     return $?
