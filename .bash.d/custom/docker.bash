@@ -258,7 +258,7 @@ function get_ecr_repository_policy()
         return 1
     fi
 
-    echo "$local_repository_policy"
+    echo "$repository_policy"
     return 0
 }
 
