@@ -252,9 +252,14 @@ function describe_ecr_repository()
 {
     local repository_info=$(aws ecr describe-repositories --region $AWS_SERVICE_REGION          \
                                                           --registry-id $AWS_ACCOUNT_NUMBER     \
-                                                          --repository-names $1)
+                                                          --repository-names $1 2>&1 )
     if [ $? -ne 0 ]; then
         error "Failed to get repository info for '${1}' for registry with id '$AWS_ACCOUNT_NUMBER'"
+        return 1
+    fi
+
+     if [[ $repository_info == *"AccessDeniedException"* ]]; then
+        error "Failed to get repository info for '${1}' for registry with id '$AWS_ACCOUNT_NUMBER'. Access Denied"
         return 1
     fi
 
