@@ -268,75 +268,6 @@ function describe_ecr_repository()
 }
 
 
-function create_ecr_repository()
-{
-    echo
-    echo "Creating repository : ${1}"
-
-    aws ecr create-repository --region $AWS_SERVICE_REGION --repository-name $1
-
-    if [ $? -ne 0 ]; then
-        error "Failed to create repository : ${1}"
-        return 1
-    fi
-
-    return 0
-}
-
-
-function set_ecr_repository_policy()
-{
-    echo
-    echo "Using policy text   :"
-    echo "$(cat $2)"
-
-    if [ ! -f $2 ]; then
-        error "Repository policy file not found : ${2}"
-        return 1
-    fi
-
-    echo "Setting repository policy for ${1}"
-
-    aws ecr set-repository-policy --region $AWS_SERVICE_REGION          \
-                                  --registry-id $AWS_ACCOUNT_NUMBER     \
-                                  --repository-name $1                  \
-                                  --policy-text file://$2
-
-    if [ $? -ne 0 ]; then
-        error "Failed to set repository policy with ${2}"
-        return 1
-    fi
-
-    return 0
-}
-
-
-function put_ecr_lifecycle_policy()
-{
-    echo
-    echo "Using policy text   :"
-    echo "$(cat $2)"
-
-    if [ ! -f $2 ]; then
-        error "Lifecycle policy file not found : ${2}"
-        return 1
-    fi
-
-    echo "Putting lifecycle policy for ${1}"
-
-    aws ecr put-lifecycle-policy --region $AWS_SERVICE_REGION          \
-                                 --registry-id $AWS_ACCOUNT_NUMBER     \
-                                 --repository-name $1                  \
-                                 --lifecycle-policy-text file://$2
-
-    if [ $? -ne 0 ]; then
-        error "Failed to put lifecycle policy with ${2}"
-        return 1
-    fi
-
-    return 0
-}
-
 ################################################################################
 #
 # 'dockerh' : main entry point for the docker helper
@@ -580,65 +511,23 @@ function dockerh()
             load_aws_credentials "$2" "$3"
             ;;
 
-        create-ecr-repository)
+        describe-ecr-repository)
             if ! verify_aws_setup; then
                 return 1
             fi
 
             if [ "$#" -ne 2 ]; then
                 error  "Wrong number of parameters specified"
-                notice "Usage: dockerh create-ecr-repository <repository_name>"
+                notice "Usage: dockerh describe-ecr-repository <repository_name>"
                 echo
                 return 1
             fi
 
             if [ -n "$2" ]; then
-                create_ecr_repository "$2"
+                describe_ecr_repository "$2"
 
             else
                 error "AWS repository not specified correctly."
-                return 1
-            fi
-            ;;
-
-        set-ecr-repository-policy)
-            if ! verify_aws_setup; then
-                return 1
-            fi
-
-            if [ "$#" -ne 3 ]; then
-                error  "Wrong number of parameters specified"
-                notice "Usage: dockerh set-ecr-repository-policy <repository_name> <policy-file-path>"
-                echo
-                return 1
-            fi
-
-            if [ -n "$2" -a -n "$3" ]; then
-                set_ecr_repository_policy "$2" "$3"
-
-            else
-                error "AWS repository and policy file not specified correctly."
-                return 1
-            fi
-            ;;
-
-        put-ecr-lifecycle-policy)
-            if ! verify_aws_setup; then
-                return 1
-            fi
-
-            if [ "$#" -ne 3 ]; then
-                error  "Wrong number of parameters specified"
-                notice "Usage: dockerh put-ecr-lifecycle-policy <repository_name> <policy-file-path>"
-                echo
-                return 1
-            fi
-
-            if [ -n "$2" -a -n "$3" ]; then
-                put_ecr_lifecycle_policy "$2" "$3"
-
-            else
-                error "AWS repository and policy file not specified correctly."
                 return 1
             fi
             ;;
@@ -863,9 +752,7 @@ function dockerh()
             echo "  remove-stopped-containers       : Remove all stopped containers"
             echo "  remove-all                      : Remove all containers, images, and cache"
             echo "  load-ecr-credentials            : Get AWS ECR Credentials"
-            echo "  create-ecr-repository           : Create new ECR repository"
-            echo "  set-ecr-repository-policy       : Set/Update ECR repository policy"
-            echo "  put-ecr-lifecycle-policy        : Add ECR lifecycle policy"
+            echo "  describe-ecr-repository         : Get AWS ECR repository information"
             echo "  list-ecr-images                 : List AWS ECR images for a given repository"
             echo "  delete-untagged-ecr-images      : Delete untagged AWS ECR images for a given repository"
             echo "  regex-delete-ecr-images         : Delete tagged AWS ECR images for a given repository using a PCRE regex"
