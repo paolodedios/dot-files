@@ -254,12 +254,12 @@ function describe_ecr_repository()
                                                           --registry-id $AWS_ACCOUNT_NUMBER     \
                                                           --repository-names $1 2>&1 )
     if [ $? -ne 0 ]; then
-        error "Failed to get repository info for '${1}' for registry with id '$AWS_ACCOUNT_NUMBER'"
+        error "Failed to get repository info for '${1}' from registry with id '$AWS_ACCOUNT_NUMBER'"
         return 1
     fi
 
      if [[ $repository_info == *"AccessDeniedException"* ]]; then
-        error "Failed to get repository info for '${1}' for registry with id '$AWS_ACCOUNT_NUMBER'. Access Denied"
+        error "Failed to get repository info for '${1}' from registry with id '$AWS_ACCOUNT_NUMBER'. Access Denied"
         return 1
     fi
 
