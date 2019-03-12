@@ -205,7 +205,7 @@ function push_image_to_aws_ecr()
 
     echo "Using AWS Elastic Container Registry : $registry_url"
 
-    eval $aws_ec2_ecr_docker_login
+    eval $aws_ec2_ecr_docker_login > /dev/null 2>&1
 
     # Tag the image with a fully qualified repository
     docker tag $1 $AWS_EC2_ECR_DOCKER_REGISTRY_HOST/$1
@@ -239,7 +239,7 @@ function pull_image_from_aws_ecr()
 
     echo "Using AWS Elastic Container Registry : $registry_url"
 
-    eval $aws_ec2_ecr_docker_login
+    eval $aws_ec2_ecr_docker_login > /dev/null 2>&1
 
     # Pull image from ECR
     docker pull $AWS_EC2_ECR_DOCKER_REGISTRY_HOST/$1
