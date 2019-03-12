@@ -77,6 +77,7 @@ function batch_delete_untagged_aws_ecr_images()
 {
     local ecr_image_list=$(aws ecr list-images --repository-name $1)
 
+    #
     # Generate AWS CLI shorthand syntax. Currently not supported since
     # the image-ids list is a nested structure consisting of a list
     # of objects where they object key is either imageDigest or imageTag
@@ -91,7 +92,7 @@ function batch_delete_untagged_aws_ecr_images()
     #                            sed -e 's/\"//g' |
     #                            sed -e 's/sha256/imageDigest=sha256/g' |
     #                            sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/,/g' )
-
+    #
     # Generate AWS CLI JSON syntax
     #
     # 1. Parse $ecr_image_list result set via JQ
@@ -129,6 +130,7 @@ function batch_regex_delete_aws_ecr_images()
 {
     local ecr_image_list=$(aws ecr list-images --region $AWS_SERVICE_REGION --repository-name $1)
 
+    #
     # Generate AWS CLI JSON syntax
     #
     # 1. Parse ecr_image_list result set via JQ
@@ -185,32 +187,45 @@ function delete_aws_ecr_image()
 
 function push_image_to_aws_ecr()
 {
+    #
     # Use the AWS CLI tool to obtain AWS EC2 ECR docker login credentials that
     # produces an authorization token that is valid for 12 hours.
     #
     # The following command assumes that the proper default AWS credentials
     # are specified in ~/.aws/credentials
+    #
+    # May be better to use 'get-authorization-token' or 'aws-ecr-credentials-helper'
+    # for enhanced security of the login secret.
+    #
+    # @see https://docs.aws.amazon.com/cli/latest/reference/ecr/get-authorization-token.html
+    # @see https://github.com/awslabs/amazon-ecr-credential-helper
+    #
     local aws_ec2_ecr_docker_login=$(aws ecr get-login --region $AWS_SERVICE_REGION --no-include-email)
 
     if [ -z "$aws_ec2_ecr_docker_login" ]; then
         error "'aws ecr get-login' returned no results."
         return 1
     fi
-
+    #
     # Extract the registry hostname from the url
+    #
     local registry_url=$(echo $aws_ec2_ecr_docker_login | awk '{ print $7 }')
     local protocol_string=$(echo $registry_url | grep :// | sed -e's,^\(.*://\).*,\1,g')
 
     export AWS_EC2_ECR_DOCKER_REGISTRY_HOST=$(echo ${registry_url/$protocol_string/})
 
     echo "Using AWS Elastic Container Registry : $registry_url"
-
+    #
+    # Execute login command.
+    #
     eval $aws_ec2_ecr_docker_login > /dev/null 2>&1
-
+    #
     # Tag the image with a fully qualified repository
+    #
     docker tag $1 $AWS_EC2_ECR_DOCKER_REGISTRY_HOST/$1
-
+    #
     # Push image to ECR
+    #
     docker push $AWS_EC2_ECR_DOCKER_REGISTRY_HOST/$1
 
     return 0
@@ -219,29 +234,41 @@ function push_image_to_aws_ecr()
 
 function pull_image_from_aws_ecr()
 {
+    #
     # Use the AWS CLI tool to obtain AWS EC2 ECR docker login credentials that
     # produces an authorization token that is valid for 12 hours.
     #
     # The following command assumes that the proper default AWS credentials
     # are specified in ~/.aws/credentials
+    #
+    # May be better to use 'get-authorization-token' or 'aws-ecr-credentials-helper'
+    # for enhanced security of the login secret.
+    #
+    # @see https://docs.aws.amazon.com/cli/latest/reference/ecr/get-authorization-token.html
+    # @see https://github.com/awslabs/amazon-ecr-credential-helper
+    #
     local aws_ec2_ecr_docker_login=$(aws ecr get-login --region $AWS_SERVICE_REGION --no-include-email)
 
     if [ -z "$aws_ec2_ecr_docker_login" ]; then
         error "'aws ecr get-login' returned no results."
         return 1
     fi
-
+    #
     # Extract the registry hostname from the url
+    #
     local registry_url=$(echo $aws_ec2_ecr_docker_login | awk '{ print $7 }')
     local protocol_string=$(echo $registry_url | grep :// | sed -e's,^\(.*://\).*,\1,g')
 
     export AWS_EC2_ECR_DOCKER_REGISTRY_HOST=$(echo ${registry_url/$protocol_string/})
 
     echo "Using AWS Elastic Container Registry : $registry_url"
-
+    #
+    # Execute login command
+    #
     eval $aws_ec2_ecr_docker_login > /dev/null 2>&1
-
+    #
     # Pull image from ECR
+    #
     docker pull $AWS_EC2_ECR_DOCKER_REGISTRY_HOST/$1
 
     return 0
@@ -280,11 +307,14 @@ function describe_ecr_repository()
 #
 function process_command_line()
 {
+    #
     # Clear optionals and positionals global variables.
+    #
     unset optionals
     unset positionals
-
+    #
     # Set/Re-set optionals and positionals array and hashtable.
+    #
     declare -g -A optionals
     declare -g -a positionals
 
@@ -329,20 +359,26 @@ function process_command_line()
                 shift
 				;;
             --)
+                #
                 # Short circuit argument parsing and add remaining arguments as
                 # positional arguments by appending to the array 'positionals'.
+                #
                 shift
                 positionals+=("$@")
                 break
                 ;;
             -*|--*=)
+                #
                 # Abort argument processing after encoutnering an unsupported flag.
+                #
                 echo "Error: Unsupported flag '$1'" >&2
                 return 1
                 ;;
             *)
+                #
                 # Detected positional argument. Add to list of positional
                 # arguments by appending to the array 'positionals'.
+                #
                 positionals+=("$1")
                 shift
                 ;;
@@ -382,14 +418,12 @@ function dockerh()
     # array.
     #
     process_command_line "$@"
-
     #
     # Abort if there is a problem with argument processing.
     #
     if [ "$?" -ne 0 ]; then
         return 1
     fi
-
     #
     # Reset the command line to just the positional arguments.
     #
@@ -470,7 +504,9 @@ function dockerh()
             local stopped_containers=$(docker ps -a -q)
 
             if [ ! -z "$stopped_containers" ]; then
+                #
                 # Remove stopped containers and associated links
+                #
                 docker rm -f "$stopped_containers"
             else
                 error "No stopped containers found."
@@ -482,7 +518,9 @@ function dockerh()
             local running_containers=$(docker ps -q)
 
             if [ ! -z "$running_containers" ]; then
+                #
                 # Stop all running containers
+                #
                 echo "Stop all running containers?"
                 docker stop "$running_containers"
             fi
@@ -490,7 +528,9 @@ function dockerh()
             local stopped_containers=$(docker ps -a -q)
 
             if [ ! -z "$stopped_containers" ]; then
+                #
                 # Remove stopped containers and associated links
+                #
                 echo "Remove all stopped containers?"
                 docker rm -f "$stopped_containers"
             fi
@@ -498,7 +538,9 @@ function dockerh()
             local all_images=$(docker images -q)
 
             if [ ! -z "$all_images" ]; then
+                #
                 # Remove stopped containers and associated links
+                #
                 echo "Remove all cached images?"
                 docker rmi -f "$all_images"
             fi
@@ -697,9 +739,10 @@ function dockerh()
         gc)
 
             echo
-
+            #
             # Remove dangling images manually since docker-gc does not
             # do a good job of reaping them.
+            #
             docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1
 
             docker run --rm                                     \
@@ -716,9 +759,10 @@ function dockerh()
         gc-force)
 
             echo
-
+            #
             # Remove dangling images manually since docker-gc does not
             # do a good job of reaping them.
+            #
             docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1
 
             docker run --rm                                     \
