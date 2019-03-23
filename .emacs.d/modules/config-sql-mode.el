@@ -1,8 +1,7 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; SQL mode
-;; @see https://github.com/bsvingen/sql-indent
-;; @see https://github.com/paetzke/format-sql.el
+;; @see https://github.com/alex-hhh/emacs-sql-indent
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -12,14 +11,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'sql)
+(require 'sql-indent)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SQL hook section, called on entry of SQL mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(eval-after-load "sql" '(load-library "sql-indent"))
+(defvar my-sql-indentation-offsets-alist
+  `( ;; Put new syntactic symbols here, and add the default ones at the end.
+     ;; If there is no value specified for a syntactic symbol, the default
+     ;; will be picked up.
+    ,@sqlind-default-indentation-offsets-alist))
 
-(add-hook 'sql-mode-hook (lambda () (local-set-key "\C-cu" 'sql-to-update)))
+;; Arrange for the new indentation offset to be set up for each SQL buffer.
+(add-hook 'sqlind-minor-mode-hook
+          (lambda ()
+            (setq sqlind-indentation-offsets-alist
+                  my-sql-indentation-offsets-alist)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock

@@ -68,7 +68,7 @@
     (sass-mode                       . "melpa-stable")
     (scala-mode                      . "melpa"       )
     (scss-mode                       . "melpa-stable")
-    (sql-indent                      . "melpa"       )
+    (sql-indent                      . "gnu"         )
     (company-terraform               . "melpa"       )
     (terraform-mode                  . "melpa"       )
     (tide                            . "melpa"       )
