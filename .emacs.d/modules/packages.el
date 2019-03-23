@@ -69,6 +69,7 @@
     (scala-mode                      . "melpa"       )
     (scss-mode                       . "melpa-stable")
     (sql-indent                      . "gnu"         )
+    (sqlup-mode                      . "melpa-stable")
     (company-terraform               . "melpa"       )
     (terraform-mode                  . "melpa"       )
     (tide                            . "melpa"       )

@@ -2,6 +2,7 @@
 ;;
 ;; SQL mode
 ;; @see https://github.com/alex-hhh/emacs-sql-indent
+;; @see https://github.com/Trevoke/sqlup-mode.el
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -17,6 +18,10 @@
 ;; SQL hook section, called on entry of SQL mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; sql-indent Customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defvar my-sql-indentation-offsets-alist
   `( ;; Put new syntactic symbols here, and add the default ones at the end.
      ;; If there is no value specified for a syntactic symbol, the default
@@ -28,6 +33,20 @@
           (lambda ()
             (setq sqlind-indentation-offsets-alist
                   my-sql-indentation-offsets-alist)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; sqlup-mode Customizations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Capitalize keywords in SQL mode
+(add-hook 'sql-mode-hook               'sqlup-mode)
+
+;; Capitalize keywords in an interactive session (e.g. psql)
+(add-hook 'sql-interactive-mode-hook   'sqlup-mode)
+
+;; Set a global keyword to use sqlup on a region
+(global-set-key (kbd "C-c u")          'sqlup-capitalize-keywords-in-region)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Turn on font-lock
