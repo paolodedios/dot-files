@@ -31,9 +31,13 @@
 ;; Arrange for the new indentation offset to be set up for each SQL buffer.
 (add-hook 'sqlind-minor-mode-hook
           (lambda ()
+            ;; Set tab-width to 4 spaces
+            (setq sqlind-basic-offset           4 )
             (setq sqlind-indentation-offsets-alist
                   my-sql-indentation-offsets-alist)))
 
+;; Enable sqlind-minor-mode when sql-mode major mode is enabled
+(add-hook 'sql-mode-hook               'sqlind-minor-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; sqlup-mode Customizations
@@ -52,7 +56,7 @@
 ;; Turn on font-lock
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'sql-mode-hook          'turn-on-font-lock)
+(add-hook 'sql-mode-hook               'turn-on-font-lock)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File associations
