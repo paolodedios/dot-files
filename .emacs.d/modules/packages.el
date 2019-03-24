@@ -63,7 +63,7 @@
     (ng2-mode                        . "melpa"       )
     (php-mode                        . "melpa-stable")
     (python-mode                     . "melpa"       )
-    (psgml                           . "marmalade"   )
+    (psgml                           . "gnu"         )
     (rainbow-mode                    . "gnu"         )
     (sass-mode                       . "melpa-stable")
     (scala-mode                      . "melpa"       )
