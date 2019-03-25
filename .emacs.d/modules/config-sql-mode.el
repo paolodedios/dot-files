@@ -3,6 +3,7 @@
 ;; SQL mode
 ;; @see https://github.com/alex-hhh/emacs-sql-indent
 ;; @see https://github.com/Trevoke/sqlup-mode.el
+;; @see https://emacs.stackexchange.com/a/19805
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
