@@ -41,6 +41,7 @@
     (visual-regexp                   . "melpa"       )
     (visual-regexp-steroids          . "melpa"       )
     (wc-goal-mode                    . "melpa"       )
+    (web-completion-data             . "melpa"       )
     ;; Major and minor mode packages
     (clojure-mode                    . "melpa-stable")
     (clojure-mode-extra-font-locking . "melpa-stable")
@@ -59,6 +60,7 @@
     (magit                           . "melpa-stable")
     (markdown-mode                   . "melpa-stable")
     (matlab-mode                     . "melpa"       )
+    (emmet-mode                      . "melpa"       )
     (mmm-mode                        . "melpa-stable")
     (ng2-mode                        . "melpa"       )
     (php-mode                        . "melpa-stable")
@@ -78,6 +80,7 @@
     (typescript-mode                 . "melpa"       )
     (tuareg                          . "melpa"       )
     (web-mode                        . "melpa-stable")
+    (company-web                     . "melpa"       )
     (yaml-mode                       . "melpa-stable")
     (yasnippet                       . "melpa-stable")
     )

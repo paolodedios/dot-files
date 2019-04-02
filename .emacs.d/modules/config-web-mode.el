@@ -1,7 +1,8 @@
 ;; -*- mode: emacs-lisp -*-
 ;;
 ;; Web template mode
-;; https://github.com/fxbois/web-mode
+;; @see https://github.com/fxbois/web-mode
+;; @see https://github.com/osv/company-web/tree/master
 ;;
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -25,6 +26,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'web-mode)
+(require 'company-web-html)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; web-mode hook section, called on entry of web-mode
@@ -44,6 +46,16 @@
             (setq web-mode-enable-comment-keywords          t)
             (setq web-mode-enable-heredoc-fontification     t)
             (setq web-mode-use-tabs                         t)
+            )
+          )
+
+;; Only use company-mode with company-web-html in web-mode
+(add-hook 'web-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends)
+                 '(company-web-html company-yasnippet company-files)
+                 )
+            (company-mode t)
             )
           )
 
@@ -69,6 +81,7 @@
 (setq auto-mode-alist (append '(("\\.htm?\\'"   . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.html?\\'"  . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.st$"       . web-mode         )) auto-mode-alist))
+(setq auto-mode-alist (append '(("\\.stg$"      . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.phtml$"    . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.phps$"     . web-mode         )) auto-mode-alist))
 (setq auto-mode-alist (append '(("\\.tmpl$"     . web-mode         )) auto-mode-alist))
