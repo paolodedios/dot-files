@@ -49,6 +49,14 @@ function git_prune_branches()
     git fetch --all --prune
 }
 
+# Remove tracking branches that no longer exist on remote; requires that
+# git_prune_branches be executed beforehand.
+# @see https://stackoverflow.com/questions/13064613/how-to-prune-local-tracking-branches-that-do-not-exist-on-remote-anymore
+function git_prune_tracking_branches()
+{
+    git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d
+}
+
 # Reset last commit. If last commit was pushed upstream then a
 # git pull may be necessary before re-committing and pushing
 # changes
