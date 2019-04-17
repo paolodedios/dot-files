@@ -35,20 +35,21 @@ function jadexecv()
 
 case $OSTYPE in
     darwin*)
-
-        function select_jdk6()
+        # OpenJDK 11.x
+        # @see https://adoptopenjdk.net/
+        function select_jdk11()
         {
-            export JAVA_HOME=$(/usr/libexec/java_home -v 1.6.0)
+            export JAVA_HOME=$(/usr/libexec/java_home -v 11)
         }
-
-        function select_jdk7()
-        {
-            export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0)
-        }
-
+        # Java SE 8
         function select_jdk8()
         {
             export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0)
+        }
+        # Java SE 7
+        function select_jdk7()
+        {
+            export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0)
         }
 
         # Default to Java/JDK 8
