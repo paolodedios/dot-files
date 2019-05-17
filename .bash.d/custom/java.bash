@@ -53,7 +53,7 @@ case $OSTYPE in
         }
 
         # Default to Java/JDK 8
-        select_jdk8
+        select_jdk11
 
         # Set GRADLE_HOME
         export GRADLE_HOME=/opt/local/share/java/gradle
