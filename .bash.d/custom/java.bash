@@ -34,6 +34,9 @@ function jadexecv()
 ########################################################################################
 
 case $OSTYPE in
+    #
+    # macOS searches for the Java SDK in /Library/Java/JavaVirtualMachines/
+    #
     darwin*)
         # OpenJDK 11.x
         # @see https://adoptopenjdk.net/
@@ -52,7 +55,7 @@ case $OSTYPE in
             export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0)
         }
 
-        # Default to Java/JDK 8
+        # Default to Java 11
         select_jdk11
 
         # Set GRADLE_HOME
