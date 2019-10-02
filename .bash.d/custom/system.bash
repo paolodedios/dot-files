@@ -9,6 +9,34 @@
 # File & string-related functions
 ########################################################################################
 
+# Simulate the 'cd' command using 'pushd'
+function pd()
+{
+    if [ "$#" = "0" ];  then
+        pushd ${HOME} > /dev/null
+    elif [ -f "${1}" ]; then
+        ${EDITOR} ${1}
+    else
+        pushd "$1" > /dev/null
+    fi
+}
+
+# Creates an analogue to the 'cd' command. The 'bd' or back directory
+# command allows the caller to navigate up a directory hierarchy using
+# the 'popd' command. A numeric argument can be specified which allows
+# 'popd' to be called 'n' number times.
+function bd()
+{
+    if [ "$#" = "0" ]; then
+        popd > /dev/null
+    else
+        for i in $(seq ${1})
+        do
+            popd > /dev/null
+        done
+    fi
+}
+
 # Create a new directory and enter it
 function md()
 {
