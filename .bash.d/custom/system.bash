@@ -13,11 +13,11 @@
 function pd()
 {
     if [ "$#" = "0" ];  then
-        pushd ${HOME} > /dev/null
+        pushd ${HOME} > /dev/null 2>&1
     elif [ -f "${1}" ]; then
         ${EDITOR} ${1}
     else
-        pushd "$1" > /dev/null
+        pushd "$1" > /dev/null 2>&1
     fi
 }
 
@@ -28,11 +28,11 @@ function pd()
 function bd()
 {
     if [ "$#" = "0" ]; then
-        popd > /dev/null
+        popd > /dev/null 2>&1
     else
         for i in $(seq ${1})
         do
-            popd > /dev/null
+            popd > /dev/null 2>&1
         done
     fi
 }
