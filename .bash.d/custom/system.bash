@@ -10,6 +10,8 @@
 ########################################################################################
 
 # Simulate the 'cd' command using 'pushd'
+#
+# @see https://mhoffman.github.io/2015/05/21/how-to-navigate-directories-with-the-shell.html#pushd
 function pd()
 {
     if [ "$#" = "0" ];  then
@@ -25,6 +27,8 @@ function pd()
 # command allows the caller to navigate up a directory hierarchy using
 # the 'popd' command. A numeric argument can be specified which allows
 # 'popd' to be called 'n' number times.
+#
+# @see https://mhoffman.github.io/2015/05/21/how-to-navigate-directories-with-the-shell.html#pushd
 function bd()
 {
     if [ "$#" = "0" ]; then
