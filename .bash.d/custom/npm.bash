@@ -26,7 +26,14 @@ nodejs_virtualenv_check()
         echo "Starting virtualenv  : ${NODEJS_VIRTUALENV_SELECTION}"
         # Use 'exec' for subshell free environments
         # exec nave auto
-        nave auto
+
+        # Temporarily disable `nave auto` to prevent activation errors
+        # on .naverc environment names.
+        #
+        # @since nave@3.2.0
+        #
+        # nave auto
+        nave use $NODEJS_VIRTUALENV_SELECTION
     fi
 }
 
