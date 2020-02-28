@@ -120,7 +120,16 @@ export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 # Force bash to re-read the history file and then append commands to the history
 # every time a prompt is shown, instead of after closing the session.
 #
-export PROMPT_COMMAND='history -a'
+# * history -a appends new history lines to history file.
+# * history -n tells bash to read lines that is not read from history file to
+#   current history list of session.
+# * PROMPT_COMMAND: contents of this variable is run as regular command before
+#   bash shows a prompt. So every time after a command is executed, history -a;
+#   history -n is executed, and bash history is syncd.
+#
+# @see https://unix.stackexchange.com/a/131507
+#
+export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}history -a; history -n"
 
 #
 # Don’t clear the screen after quitting a manual page
