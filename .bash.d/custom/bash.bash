@@ -88,11 +88,22 @@ export MY_HOSTFILE=$HOME/.hosts
 ########################################################################################
 
 #
-# Append commands to the bash command history file (~/.bash_history) instead of overwriting
+# Append commands to the bash command history file (~/.bash_history) instead of
+# overwriting.
 #
 shopt -s histappend
 
+#
+# Set the number of lines of commands that are stored in MEMORY in a history
+# list while a bash session is ongoing.
+#
 export HISTSIZE=1048576
+
+#
+# Set the number of lines of commands that (a) are allowed in the history file
+# on DISK at startup time of a session, and (b) are stored in the history file
+# on DISK at the end of a bash session for use in future sessions.
+#
 export HISTFILESIZE=$HISTSIZE
 
 #
