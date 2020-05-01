@@ -64,8 +64,13 @@ function prompt_command()
 # Load Prompt
 ########################################################################################
 
-if [ ! -z "$INSIDE_EMACS" ]; then
-    safe_append_prompt_command emacs_prompt
-else
-    safe_append_prompt_command prompt_command
-fi
+function load_prompt()
+{
+    if [ ! -z "$INSIDE_EMACS" ]; then
+        safe_append_prompt_command emacs_prompt
+    else
+        safe_append_prompt_command prompt_command
+    fi
+}
+
+load_prompt

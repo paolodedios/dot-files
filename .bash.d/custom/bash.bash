@@ -130,11 +130,17 @@ export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 #
 # @see https://unix.stackexchange.com/a/131507
 #
+# @note The custom theme loading process will ensure that the $PROMPT_COMMAND
+# environment variable is appended properly to the final setting of the
+# PROMPT_COMMAND environment variable.
+#
+# @see `main/appearance.bash`
+#
 # Use history from all shell sessions by always appending new lines added to file.
-# export PROMPT_COMMAND="${PROMPT_COMMAND:+;}history -a; history -n"
+# export PROMPT_COMMAND="history -a; history -n"
 #
 # Use a terminal session's in-memory history instead of always reloading from file
-export PROMPT_COMMAND="${PROMPT_COMMAND:+;}history -a"
+export PROMPT_COMMAND="history -a"
 
 #
 # Don’t clear the screen after quitting a manual page
