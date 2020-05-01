@@ -121,15 +121,20 @@ export HISTIGNORE="ls:ls *:cd:cd -:pwd;exit:date:* --help"
 # every time a prompt is shown, instead of after closing the session.
 #
 # * history -a appends new history lines to history file.
-# * history -n tells bash to read lines that is not read from history file to
-#   current history list of session.
+# * history -n tells bash to append the history lines not already read from the
+#   history file to the current history list (aka, load history lines appended
+#   to the history file since this bash session was started).
 # * PROMPT_COMMAND: contents of this variable is run as regular command before
 #   bash shows a prompt. So every time after a command is executed, history -a;
 #   history -n is executed, and bash history is syncd.
 #
 # @see https://unix.stackexchange.com/a/131507
 #
-export PROMPT_COMMAND="${PROMPT_COMMAND}${PROMPT_COMMAND:+;}history -a; history -n"
+# Use history from all shell sessions by always appending new lines added to file.
+# export PROMPT_COMMAND="${PROMPT_COMMAND:+;}history -a; history -n"
+#
+# Use a terminal session's in-memory history instead of always reloading from file
+export PROMPT_COMMAND="${PROMPT_COMMAND:+;}history -a"
 
 #
 # Don’t clear the screen after quitting a manual page
