@@ -75,8 +75,6 @@
 ;;     C-end  end of line
 ;;     C-a    beginning of line
 ;;     C-e    end of line
-;;     C-v    page down
-;;     M-v    page up
 ;;     M-<    beginning of buffer
 ;;     M->    end of buffer
 ;;
@@ -279,13 +277,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-key global-map "%"                'match-paren                     )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Make C-v, M-v maintain the mark
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define-key global-map (kbd "C-v")        'scroll-up                       )
-(define-key global-map (kbd "M-v")        'scroll-down                     )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Disable printing
