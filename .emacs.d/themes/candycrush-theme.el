@@ -74,7 +74,7 @@
    `(trailing-whitespace ((,class :foreground nil :background ,warning)))
 
    ;; highlight-current-line
-   `(highlight-current-line-face ((t (:background ,bg5))))
+   `(hl-line ((,class (:background ,bg5))))
 
    ;; highlight-indentation
    `(highlight-indentation-current-column-face ((t (:background ,bg6))))

@@ -12,7 +12,6 @@
       '(("gnu"          . "http://elpa.gnu.org/packages/"      )
         ("melpa-stable" . "http://stable.melpa.org/packages/"  )
         ("melpa"        . "http://melpa.org/packages/"         )
-        ("marmalade"    . "http://marmalade-repo.org/packages/")
         )
       )
 
@@ -29,7 +28,6 @@
     (exec-path-from-shell            . "melpa"       )
     (git-gutter+                     . "melpa"       )
     (git-gutter-fringe+              . "melpa"       )
-    (highlight-current-line          . "marmalade"   )
     (linum-off                       . "melpa"       )
     (lorem-ipsum                     . "melpa"       )
     (paradox                         . "melpa-stable")

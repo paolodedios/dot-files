@@ -58,10 +58,9 @@
 ;; Add `:%%PROFILE_MEDIUM` to ban intermediate SHA1 certificates.
 ;; Add `--ocsp` flag to require certificate revocation check
 ;;
-;; Add `--insecure` flag as a temporary workaround for the expired certificate
-;; on marmalade.org from hanging Aquamacs.
+;; Optionally: Add `--insecure` flag as a temporary workaround for the expired certificate
 (setq tls-program
-      '("gnutls-cli -p %p --dh-bits=2048 --ocsp --x509cafile=%t --insecure \
+      '("gnutls-cli -p %p --dh-bits=2048 --ocsp --x509cafile=%t \
 --priority='SECURE192:+SECURE128:-VERS-ALL:+VERS-TLS1.2:%%PROFILE_MEDIUM' %h"))
 
 
