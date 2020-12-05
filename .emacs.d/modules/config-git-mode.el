@@ -20,10 +20,13 @@
 (setq auto-revert-verbose        nil)
 
 ;; Set file poll interval for 10 seconds
-(setq auto-revert-interval        10)
+;; (setq auto-revert-interval        10)
 
 ;; Disable polling and rely on filesystem notifications
 (setq auto-revert-avoid-polling    t)
+
+;; Enable filesystem notifications
+(setq auto-revert-use-notify       t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable git diff indicators in the gutter
