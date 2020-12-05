@@ -14,7 +14,7 @@ MACHINE=$(uname -m | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijkl
 # Minimum shell version check.
 #
 if [ $(( ${BASH_VERSINFO[0]:-0} * 10 + ${BASH_VERSINFO[1]:-0})) -lt 32 ]; then
-    echo "Error: Bash 3.2 required to execute '$0'. Current shell is Bash '$BASH_VERSION'."
+    echo "Error: Bash > 3.2 required to execute '$0'. Current shell is Bash '$BASH_VERSION'."
     exit 1
 fi
 
