@@ -10,16 +10,20 @@
 ;; Enable global-auto-revert-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-auto-revert-mode 1)
+;; @see https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Revert.html
+(global-auto-revert-mode           1)
 
 ;; Update the vcs info in the modeline when auto revert runs
-(setq auto-revert-check-vc-info t)
+(setq auto-revert-check-vc-info    t)
 
 ;; Disable the "reverting buffer ..." messages
-(setq auto-revert-verbose nil)
+(setq auto-revert-verbose        nil)
 
 ;; Set file poll interval for 10 seconds
-(setq auto-revert-interval 10)
+(setq auto-revert-interval        10)
+
+;; Disable polling and rely on filesystem notifications
+(setq auto-revert-avoid-polling    t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable git diff indicators in the gutter
