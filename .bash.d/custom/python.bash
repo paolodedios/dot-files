@@ -8,22 +8,27 @@
 # Platform specific environment variables
 ########################################################################################
 
-# System python installation directory.
+#
+# Set the default Python 2.X and 3.X versions for the system.
+#
+export PYTHON_VIRTUALENV3_VERSION=3.8
+export PYTHON_VIRTUALENV2_VERSION=2.7
+
+#
+# Set the system python installation directory.
+#
 export PYTHON_SYSTEM_HOME=/usr/bin
 
 case $OSTYPE in
     darwin*)
+        # Set non-system python (via macports) alt install home.
+        #
+        # @note non-system python is already at higher precedence in PATH
+        # @see ./bash.bash
         export PYTHON_ALTINSTALL_HOME=/opt/local
 
-        # Add non-system python to PATH at higher precedence
-        #
-        # Disabled: /opt/local/bin is already on the PATH at the proper precedence
-        # @see .bash.d/custom/bash.bash
-        #
-        # export PATH=$PYTHON_ALTINSTALL_HOME/bin:$PATH
-
         # Set virtualenv working directory to be rooted at $LOCAL_APP_HOME
-        export WORKON_HOME=$LOCAL_APP_HOME/bin/python/virtualenvs
+        export WORKON_HOME=$LOCAL_APP_HOME/python/virtualenvs
 
         function show_python_info()
         {
@@ -46,39 +51,11 @@ case $OSTYPE in
             sudo port select --set virtualenv none
         }
 
-        function select_python26()
-        {
-            sudo port select --set python python26
-            sudo port select --set pip pip26
-            sudo port select --set virtualenv virtualenv26
-        }
-
         function select_python27()
         {
             sudo port select --set python python27
             sudo port select --set pip pip27
             sudo port select --set virtualenv virtualenv27
-        }
-
-        function select_python33()
-        {
-            sudo port select --set python python33
-            sudo port select --set pip pip33
-            sudo port select --set virtualenv virtualenv33
-        }
-
-        function select_python34()
-        {
-            sudo port select --set python python34
-            sudo port select --set pip pip34
-            sudo port select --set virtualenv virtualenv34
-        }
-
-        function select_python35()
-        {
-            sudo port select --set python python35
-            sudo port select --set pip pip35
-            sudo port select --set virtualenv virtualenv35
         }
 
         function select_python36()
@@ -88,21 +65,34 @@ case $OSTYPE in
             sudo port select --set virtualenv virtualenv36
         }
 
+        function select_python38_apple()
+        {
+            sudo port select --set python python38-apple
+            sudo port select --set pip pip3-apple
+            sudo port select --set virtualenv none
+        }
+
+        function select_python38()
+        {
+            sudo port select --set python python38
+            sudo port select --set pip pip38
+            sudo port select --set virtualenv virtualenv38
+        }
+
         alias python_list="sudo port select --list python"
 
         alias python_select="sudo port select --set python"
         ;;
 
     linux*)
-        # Non-system python installation directory.
-        export PYTHON_ALTINSTALL_HOME=$HOME/.local/python
+        # Non-system python alt install home
+        export PYTHON_ALTINSTALL_HOME=$LOCAL_APP_HOME/python
 
         # Add non-system python to PATH at higher precedence
         export PATH=$PYTHON_ALTINSTALL_HOME/bin:$PATH
 
-        # Set virtualenv working directory to be rooted at $HOME/virtualenvs on
-        # multiuser systems.
-        export WORKON_HOME=$PYTHON_ALTINSTALL_HOME/virtualenvs
+        # Set virtualenv working directory to be rooted at $LOCAL_APP_HOME
+        export WORKON_HOME=$LOCAL_APP_HOME/python/virtualenvs
         ;;
 esac
 
@@ -110,7 +100,10 @@ esac
 # Python environment variables
 ########################################################################################
 
-if [ $(type -p virtualenvwrapper.sh) ]; then
+export PYTHON_VIRTUALENV3_WRAPPER=virtualenvwrapper.sh-${PYTHON_VIRTUALENV3_VERSION}
+export PYTHON_VIRTUALENV2_WRAPPER=virtualenvwrapper.sh-${PYTHON_VIRTUALENV2_VERSION}
+
+if [[ $(type -p virtualenvwrapper.sh) || $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}) || $(type -p ${PYTHON_VIRTUALENV2_WRAPPER}) ]]; then
 
     # Make pip use the same directory for virtualenvs as virtualenvwrapper.
     export PIP_VIRTUALENV_BASE=$WORKON_HOME
@@ -122,37 +115,64 @@ if [ $(type -p virtualenvwrapper.sh) ]; then
     # having to pass it the -E parameter.
     export PIP_RESPECT_VIRTUALENV=true
 
-    # Declare the two python versions allowed on the system.
-    export PYTHON_VIRTUALENV3_VERSION=3.6
-    export PYTHON_VIRTUALENV2_VERSION=2.7
+    # Ensure that all new environments are isolated from the system
+    # site-packages directory by passing "no-site-packages" as the default
+    # argument for virtualenv.
+    export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
 
     case $OSTYPE in
         darwin*)
             #
-            # Use the default MacPorts versions of Python and virtualenv are for
-            # the virtualenv wrapper.  The default python version should be
-            # changed via the MacPorts 'port select' mechanism.
+            # Use the currently selected MacPorts versions of Python and virtualenv for
+            # the virtualenv wrapper.  The default python version should be only changed
+            # via the MacPorts 'port select' mechanism.
             #
             # @see select_python() functions defined for macOS above
             #
+            # @note py38-virtualenvwrapper has the following notes:
+            #
+            #  You might need to set some variables and source the shell script. For example:
+            #
+            #  export VIRTUALENVWRAPPER_PYTHON='/opt/local/bin/python3.8'
+            #  export VIRTUALENVWRAPPER_VIRTUALENV='/opt/local/bin/virtualenv-3.8'
+            #  export VIRTUALENVWRAPPER_VIRTUALENV_CLONE='/opt/local/bin/virtualenv-clone-3.8'
+            #  source /opt/local/bin/virtualenvwrapper.sh-3.8
+            #
             export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python
             export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
+
+            if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV3_VERSION ]; then
+                export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV3_VERSION
+
+            else
+                export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV2_VERSION
+            fi
+
+            if [ $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}) ]; then
+                # Load Python 3 virtualenv wrapper functions
+                source $PYTHON_VIRTUALENV3_WRAPPER > /dev/null 2>&1
+
+            elif [ $(type -p ${PYTHON_VIRTUALENV2_WRAPPER}) ]; then
+                # Load Python 2 virtualenv wrapper functions
+                source $PYTHON_VIRTUALEN23_WRAPPER > /dev/null 2>&1
+            fi
             ;;
         linux*)
             #
             # Ensure that the system version of python is not used to run virtualenv
             # if another one is installed in $PYTHON_ALTINSTALL_HOME.
             #
-            # Prefer altinstall Python 3.X over altinstall Python 2.X over system
-            # python.
+            # Prefer altinstall Python 3.X over altinstall Python 2.X over system python.
             #
             if [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION ]; then
                 export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION
 
                 if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION ]; then
                     export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION
+                    export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV3_VERSION
                 else
                     export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
+                    export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone
                 fi
 
             elif [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV2_VERSION ]; then
@@ -160,32 +180,29 @@ if [ $(type -p virtualenvwrapper.sh) ]; then
 
                 if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION ]; then
                     export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV2_VERSION
                 else
                     export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone
                 fi
             else
-                # Use the system python as a last resort if virtualenv is installed in
-                # the system.
+                #
+                # Use the system python as a last resort if virtualenv is installed in the system.
+                #
                 export VIRTUALENVWRAPPER_PYTHON=$PYTHON_SYSTEM_HOME/python
                 export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_SYSTEM_HOME/virtualenv
             fi
 
+            # Load Python virtualenv wrapper functions
+            source virtualenvwrapper.sh > /dev/null 2>&1
         ;;
     esac
-
-    # Ensure that all new environments are isolated from the system
-    # site-packages directory by passing "no-site-packages" as the default
-    # argument for virtualenv.
-    export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
-
-    # Load Python virtualenv wrapper functions
-    source virtualenvwrapper.sh > /dev/null 2>&1
 
     # Alias to create a new python 2 virtual environment
     alias py27mkenv="mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON_VIRTUALENV2_VERSION}"
 
     # Alias to create a new python 3 virtual environment.
-    alias py36mkenv="mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON_VIRTUALENV3_VERSION}"
+    alias py38mkenv="mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON_VIRTUALENV3_VERSION}"
 fi
 
 
@@ -193,7 +210,7 @@ fi
 # Python environment utilities
 ########################################################################################
 
-# Call virtualenvwrapper's "workon" if .venv exists.  This is modified from
+# Call virtualenvwrapper's 'workon' function if .venv exists.  This is modified from
 # http://justinlilly.com/python/virtualenv_wrapper_helper.html
 #
 # Also @see
