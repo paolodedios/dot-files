@@ -25,7 +25,6 @@
 ;; be visible correctly.
 (set-face-attribute 'default nil   :height   120)
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Platform Tweaks
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -50,7 +49,7 @@
 ;;
 (exec-path-from-shell-initialize)
 
-;; Menu bar is not annoying in OSX
+;; Menu bar is not annoying in macOS
 (menu-bar-mode 1)
 
 ;; Make ido-mode ignore .DS_Store files
@@ -97,20 +96,29 @@
 (defvar aquamacs-p (boundp 'aquamacs-version))
 
 ;; Define aquamacs specific settings
+;;
+;; @seehttps://www.emacswiki.org/emacs/CustomizeAquamacs
 (when aquamacs-p
 
+  ;; Enable tab bar globally
+  ;;
+  ;; @note Emacs 27.1 will come with two built-in tab modes, tab-bar-mode (per-frame) and
+  ;; tab-line-mode (per-window). Tab-line-mode is similar to tabbar.el used by Aquamacs,
+  ;; with one buffer per tab. Tab-bar-mode is for storing one window configuration per
+  ;; tab.
+  ;;
+  ;; @see https://www.emacswiki.org/emacs/TabBarMode
+  (tabbar-mode                 t)
+
+  ;; Disable one-buffer-per-frame setting
+  (one-buffer-one-frame-mode  -1)
+
   ;; Disable mode-specific faces, use the default font for everything
-  (aquamacs-autoface-mode  -1)
+  (aquamacs-autoface-mode     -1)
 
   ;; Disable aquamacs auto-detect-wrap to allow text-mode-hook to control
   ;; line-wrapping and fill mode independently.
   (remove-hook 'text-mode-hook 'auto-detect-wrap)
-
-  ;; Enable tab bar globally
-  (tabbar-mode  t)
-
-  ;; Disable one-buffer-per-frame setting
-  (one-buffer-one-frame-mode -1)
 
   (defun transparency-set-initial-value ()
     "Set initial value of alpha parameter for the current frame"
@@ -160,7 +168,7 @@
   (define-key global-map (kbd "C-<") 'transparency-decrease)
 
   ;; Set initial frame transparency
-  (setq transparency-level   100)
+  (setq transparency-level    100)
   (transparency-set-value     transparency-level)
 
   (add-hook 'after-make-frame-functions

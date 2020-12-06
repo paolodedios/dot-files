@@ -11,6 +11,10 @@
 ;; Frame width should remain consistent across screens.  Height will vary
 ;; between monitor sizes.
 ;;
+;; Emacs @3008x1692:
+;; - frame-height:  98
+;; - frame-wideth: 160
+;;
 ;; Emacs @2560x1600:
 ;; - frame-height:  94
 ;; - frame-width : 160
@@ -23,7 +27,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (when (display-graphic-p)
-  (set-frame-height (selected-frame)           94)
+  (set-frame-height (selected-frame)           98)
   (set-frame-width  (selected-frame)          160)
   )
 
