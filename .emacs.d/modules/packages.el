@@ -5,6 +5,16 @@
 ;; Paolo de Dios <paolodedios@gmail.com>
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Require common lisp package for the cl-loop and cl-return symbols
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'cl-lib)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Require package library
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (require 'package)
 
 ;; Declare package archive repositories
@@ -100,9 +110,9 @@
 ;; Check if any package on the list is not installed. Returns t if
 ;; the entire list is installed, nil otherwise.
 (defun local-package-deps-installed-p ()
-  (loop for p in local-package-deps
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)
+  (cl-loop for p in local-package-deps
+        when (not (package-installed-p p)) do (cl-return nil)
+        finally (cl-return t)
         )
   )
 
