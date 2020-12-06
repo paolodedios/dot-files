@@ -9,7 +9,7 @@
 ########################################################################################
 
 # Set virtualenv working directory, defaults to $HOME/.nave otherwise
-export NAVE_DIR=$LOCAL_APP_HOME/bin/nodejs/virtualenvs
+export NAVE_DIR=$LOCAL_APP_HOME/nodejs/virtualenvs
 
 ########################################################################################
 # NodeJS environment utilities
