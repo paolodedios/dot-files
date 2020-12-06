@@ -1130,14 +1130,27 @@ EOF
 function tmux_wrapper_apply_configuration()
 {
     ###############################################################################
-    # On macOS, launch reattach-to-user-namespace to enable process launching
-    # and have that process be attached to the per-user bootstrap namespace
     #
-    # @see http://www.economyofeffort.com/
-    #      2013/07/29/reattach-to-user-namespace-the-fix-for-your-tmux-in-os-x-woes/
-    # @see https://superuser.com/questions/1114694/
-    #      on-macos-sierra-beta-5-using-iterm-2-and-tmux-i-have-lost-the-ability-to-copy-p
+    # On macOS, launch reattach-to-user-namespace to enable process launching
+    # and have that process be attached to the per-user bootstrap namespace.
+    #
+    # On macOS 'reattach-to-user-namespace' is provided by tmux-pasteboard, but
+    # some versions of macOS have been reported to work without it.
+    #
+    # OS X  10.8 : Mountain Lion – required
+    # OS X  10.9 : Mavericks     – required
+    # OS X  10.10: Yosemite      – not required
+    # OS X  10.11: El Capitan    – not required
+    # macOS 10.12: Sierra        – required
+    # macOS 10.14: Mojave        - required
+    # macOS 10.15: Catalina      - not required
+    # macOS 11.0 : Big Sur       = not required
+    #
+    # @see http://www.economyofeffort.com/2013/07/29/reattach-to-user-namespace-the-fix-for-your-tmux-in-os-x-woes/
+    # @see https://superuser.com/questions/1114694/on-macos-sierra-beta-5-using-iterm-2-and-tmux-i-have-lost-the-ability-to-copy-p
     # @see https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
+    # @see https://tmux-plugins.github.io/tmux-yank/
+    #
     ###############################################################################
     if command -v reattach-to-user-namespace > /dev/null 2>&1; then
         default_shell="$(tmux show -gv default-shell)"
