@@ -11,8 +11,8 @@
 #
 # Set the default Python 2.X and 3.X versions for the system.
 #
-export PYTHON_VIRTUALENV3_VERSION=3.8
-export PYTHON_VIRTUALENV2_VERSION=2.7
+export PYTHON3_DEFAULT_VERSION=3.8
+export PYTHON2_DEFAULT_VERSION=2.7
 
 #
 # Set the system python installation directory.
@@ -100,10 +100,10 @@ esac
 # Python environment variables
 ########################################################################################
 
-export PYTHON_VIRTUALENV3_WRAPPER=virtualenvwrapper.sh-${PYTHON_VIRTUALENV3_VERSION}
-export PYTHON_VIRTUALENV2_WRAPPER=virtualenvwrapper.sh-${PYTHON_VIRTUALENV2_VERSION}
+VIRTUALENV3_WRAPPER=virtualenvwrapper.sh-${PYTHON3_DEFAULT_VERSION}
+VIRTUALENV2_WRAPPER=virtualenvwrapper.sh-${PYTHON2_DEFAULT_VERSION}
 
-if [[ $(type -p virtualenvwrapper.sh) || $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}) || $(type -p ${PYTHON_VIRTUALENV2_WRAPPER}) ]]; then
+if [[ $(type -p virtualenvwrapper.sh) || $(type -p ${VIRTUALENV3_WRAPPER}) || $(type -p ${VIRTUALENV2_WRAPPER}) ]]; then
 
     # Make pip use the same directory for virtualenvs as virtualenvwrapper.
     export PIP_VIRTUALENV_BASE=$WORKON_HOME
@@ -115,10 +115,10 @@ if [[ $(type -p virtualenvwrapper.sh) || $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}
     # having to pass it the -E parameter.
     export PIP_RESPECT_VIRTUALENV=true
 
-    # Ensure that all new environments are isolated from the system
-    # site-packages directory by passing "no-site-packages" as the default
-    # argument for virtualenv.
-    export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+    # Set virtual env launch arguments.
+    #
+    # @since python3.8, '--no-site-packages' is the default.
+    export VIRTUALENVWRAPPER_VIRTUALENV_ARGS=''
 
     case $OSTYPE in
         darwin*)
@@ -141,20 +141,20 @@ if [[ $(type -p virtualenvwrapper.sh) || $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}
             export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python
             export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
 
-            if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV3_VERSION ]; then
-                export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV3_VERSION
+            if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON3_DEFAULT_VERSION ]; then
+                export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON3_DEFAULT_VERSION
 
             else
-                export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV2_VERSION
+                export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON2_DEFAULT_VERSION
             fi
 
-            if [ $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}) ]; then
+            if [ $(type -p ${VIRTUALENV3_WRAPPER}) ]; then
                 # Load Python 3 virtualenv wrapper functions
-                source $PYTHON_VIRTUALENV3_WRAPPER > /dev/null 2>&1
+                source $VIRTUALENV3_WRAPPER > /dev/null 2>&1
 
-            elif [ $(type -p ${PYTHON_VIRTUALENV2_WRAPPER}) ]; then
+            elif [ $(type -p ${VIRTUALENV2_WRAPPER}) ]; then
                 # Load Python 2 virtualenv wrapper functions
-                source $PYTHON_VIRTUALEN23_WRAPPER > /dev/null 2>&1
+                source $VIRTUALENV2_WRAPPER > /dev/null 2>&1
             fi
             ;;
         linux*)
@@ -164,23 +164,23 @@ if [[ $(type -p virtualenvwrapper.sh) || $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}
             #
             # Prefer altinstall Python 3.X over altinstall Python 2.X over system python.
             #
-            if [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION ]; then
-                export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV3_VERSION
+            if [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON3_DEFAULT_VERSION ]; then
+                export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON3_DEFAULT_VERSION
 
-                if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION ]; then
-                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV3_VERSION
-                    export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV3_VERSION
+                if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON3_DEFAULT_VERSION ]; then
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON3_DEFAULT_VERSION
+                    export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON3_DEFAULT_VERSION
                 else
                     export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
                     export VIRTUALENVWRAPPER_VIRTUALENV_CLONE=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone
                 fi
 
-            elif [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV2_VERSION ]; then
-                export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON_VIRTUALENV2_VERSION
+            elif [ -f $PYTHON_ALTINSTALL_HOME/bin/python$PYTHON2_DEFAULT_VERSION ]; then
+                export VIRTUALENVWRAPPER_PYTHON=$PYTHON_ALTINSTALL_HOME/bin/python$PYTHON2_DEFAULT_VERSION
 
-                if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION ]; then
-                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON_VIRTUALENV2_VERSION
-                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON_VIRTUALENV2_VERSION
+                if [ -f $PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON2_DEFAULT_VERSION ]; then
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-$PYTHON2_DEFAULT_VERSION
+                    export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone-$PYTHON2_DEFAULT_VERSION
                 else
                     export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv
                     export VIRTUALENVWRAPPER_VIRTUALENV=$PYTHON_ALTINSTALL_HOME/bin/virtualenv-clone
@@ -199,10 +199,10 @@ if [[ $(type -p virtualenvwrapper.sh) || $(type -p ${PYTHON_VIRTUALENV3_WRAPPER}
     esac
 
     # Alias to create a new python 2 virtual environment
-    alias py27mkenv="mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON_VIRTUALENV2_VERSION}"
+    alias py27mkenv="mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON2_DEFAULT_VERSION}"
 
     # Alias to create a new python 3 virtual environment.
-    alias py38mkenv="mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON_VIRTUALENV3_VERSION}"
+    alias py38mkenv="mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON3_DEFAULT_VERSION}"
 fi
 
 
@@ -217,7 +217,7 @@ fi
 # http://virtualenvwrapper.readthedocs.org/en/latest/tips.html#automatically-run-workon-when-entering-a-directory
 py_virtualenv_check()
 {
-    if [[ $(type -p virtualenvwrapper.sh) && -e .venv ]]; then
+    if [[ ( $(type -p virtualenvwrapper.sh) || $(type -p ${VIRTUALENV3_WRAPPER}) || $(type -p ${VIRTUALENV2_WRAPPER})  ) && -e .venv ]]; then
         PYTHON_VIRTUALENV_TOPLEVEL=$PWD
         PYTHON_VIRTUALENV_SELECTION=$(cat .venv)
         if [ "$PYTHON_VIRTUALENV_SELECTION" != "${VIRTUAL_ENV##*/}" ]; then
@@ -225,7 +225,7 @@ py_virtualenv_check()
 
             if [ ! -d "$WORKON_HOME/$PYTHON_VIRTUALENV_SELECTION" ]; then
                 # Default to Python 3 for new environments
-                mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON_VIRTUALENV3_VERSION} $PYTHON_VIRTUALENV_SELECTION
+                mkvirtualenv --python=${PYTHON_ALTINSTALL_HOME}/bin/python${PYTHON3_DEFAULT_VERSION} $PYTHON_VIRTUALENV_SELECTION
             else
                 workon $PYTHON_VIRTUALENV_SELECTION
             fi
