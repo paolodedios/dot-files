@@ -196,44 +196,6 @@ case $OSTYPE in
         export PATH=/opt/local/bin:/opt/local/sbin:$SYSTEM_PATH
 
         #
-        # User local binaries, libraries, and configuration files
-        #
-        export LOCAL_APP_HOME=$HOME/.local
-
-        #
-        # Add local libraries to LIBRARY PATH
-        #
-        if [ -d $LOCAL_APP_HOME/lib ]; then
-            #
-            # Create local LIB_PATH variable
-            #
-            export LOCAL_LIB_PATH=$LOCAL_APP_HOME/lib
-            #
-            # Prepend local libraries to LIBRARY_PATH
-            #
-            export DYLD_FALLBACK_LIBRARY_PATH=$LOCAL_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
-        fi
-
-        #
-        # User shared (syncd) binaries, libraries, and configuration files
-        #
-        export SHARED_APP_HOME=$HOME/.shared
-
-        #
-        # Add shared libraries to LIBRARY PATH
-        #
-        if [ -d $SHARED_APP_HOME/lib ]; then
-            #
-            # Create shared LIB_PATH variable
-            #
-            export SHARED_LIB_PATH=$SHARED_APP_HOME/lib
-            #
-            # Prepend shared libraries to LIBRARY_PATH
-            #
-            export DYLD_FALLBACK_LIBRARY_PATH=$SHARED_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
-        fi
-
-        #
         # macOS search path for shared libraries (from 'man dyld')
         #
         # DYLD_LIBRARY_PATH
@@ -264,6 +226,55 @@ case $OSTYPE in
         # it is always first set to the default paths.
         #
         export DYLD_FALLBACK_LIBRARY_PATH=$HOME/lib:/usr/local/lib:/lib:/usr/lib
+
+        #
+        # User local binaries, libraries, and configuration files
+        #
+        export LOCAL_APP_HOME=$HOME/.local
+
+        #
+        # Add macports libraries to the LIBRARY_PATH
+        #
+        if [ -d /opt/local/lib ]; then
+            #
+            # Prepend local libraries to LIBRARY_PATH
+            #
+            export DYLD_FALLBACK_LIBRARY_PATH=/opt/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
+        fi
+
+        #
+        # Add local libraries to LIBRARY_PATH
+        #
+        if [ -d $LOCAL_APP_HOME/lib ]; then
+            #
+            # Create local LIB_PATH variable
+            #
+            export LOCAL_LIB_PATH=$LOCAL_APP_HOME/lib
+            #
+            # Prepend local libraries to LIBRARY_PATH
+            #
+            export DYLD_FALLBACK_LIBRARY_PATH=$LOCAL_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
+        fi
+
+        #
+        # User shared (syncd) binaries, libraries, and configuration files
+        #
+        export SHARED_APP_HOME=$HOME/.shared
+
+        #
+        # Add shared libraries to LIBRARY_PATH
+        #
+        if [ -d $SHARED_APP_HOME/lib ]; then
+            #
+            # Create shared LIB_PATH variable
+            #
+            export SHARED_LIB_PATH=$SHARED_APP_HOME/lib
+            #
+            # Prepend shared libraries to LIBRARY_PATH
+            #
+            export DYLD_FALLBACK_LIBRARY_PATH=$SHARED_LIB_PATH:$DYLD_FALLBACK_LIBRARY_PATH
+        fi
+
         ;;
 
     linux*)
@@ -287,7 +298,7 @@ case $OSTYPE in
         export LOCAL_APP_HOME=$HOME/.local
 
         #
-        # Add shared libraries to LIBRARY PATH
+        # Add local libraries to LIBRARY_PATH
         #
         if [ -d $LOCAL_APP_HOME/lib ]; then
             #
@@ -305,7 +316,7 @@ case $OSTYPE in
         #
         export SHARED_APP_HOME=$HOME/.shared
         #
-        # Add shared libraries to LIBRARY PATH
+        # Add shared libraries to LIBRARY_PATH
         #
         if [ -d $SHARED_APP_HOME/lib ]; then
             #
