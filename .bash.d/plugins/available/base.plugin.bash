@@ -130,7 +130,7 @@ function banish-cookies()
 
 function usage()
 {
-    about 'disk usage per directory, in Mac OS X and Linux'
+    about 'disk usage per directory, in macOS and Linux'
     param '1: directory name'
     group 'base'
     if [ $(uname) = "Darwin" ]; then

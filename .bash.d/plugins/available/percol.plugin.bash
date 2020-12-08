@@ -2,7 +2,7 @@ cite about-plugin
 about-plugin 'Search&Select history and fasd with percol'
 
 # Notice
-## You have to upgrade bash to bash 4.x on Mac OS X.
+## You have to upgrade bash to bash 4.x on macOS.
 ## http://stackoverflow.com/questions/16416195/how-do-i-upgrade-bash-in-mac-osx-mountain-lion-and-set-it-the-correct-path
 
 # Install

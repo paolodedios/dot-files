@@ -6,7 +6,7 @@ about-plugin 'video to gif, gif to WebM helper functions'
 #  https://linustechtips.com/main/topic/343253-tutorial-convert-videogifs-to-webm/
 #  and other sources
 # Renamed gifify to v2gif to go avoid clobbering https://github.com/jclem/gifify
-# Requirements (Mac OS X using Homebrew): brew install ffmpeg giflossy imagemagick
+# Requirements (macOS using Homebrew): brew install ffmpeg giflossy imagemagick
 # Requirements on Ubuntu: sudo apt install ffmpeg imagemagick ; plus install https://github.com/pornel/giflossy
 # Optional: install mediainfo for autodetection of original video FPS.
 # Optional: if lossy is not important, Ubuntu has gifsicle packaged for apt-get, instead of giflossy

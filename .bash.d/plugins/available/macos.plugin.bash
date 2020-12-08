@@ -62,7 +62,7 @@ function dock-switch() {
             echo "dock-switch 3d."
         fi
     else
-        echo "Sorry, this only works on Mac OS X"
+        echo "Sorry, this only works on macOS"
     fi
 }
 
@@ -92,7 +92,7 @@ function prevcurl() {
 
   if [ ! $(uname) = "Darwin" ]
   then
-    echo "This function only works with Mac OS X"
+    echo "This function only works with macOS"
     return 1
   fi
   curl "$*" | open -fa $PREVIEW

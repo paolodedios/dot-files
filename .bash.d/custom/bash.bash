@@ -234,7 +234,7 @@ case $OSTYPE in
         fi
 
         #
-        # Mac OS X search path for shared libraries (from 'man dyld')
+        # macOS search path for shared libraries (from 'man dyld')
         #
         # DYLD_LIBRARY_PATH
         #   This is a colon separated list of directories that contain
