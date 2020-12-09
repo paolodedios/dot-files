@@ -10,10 +10,18 @@
 ;; Enable global-auto-revert-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; A buffer can get out of sync with respect to its visited file on disk if that
+;; file is changed by another program. To keep it up to date for all buffers, enable
+;; global-auto-revert-mode with a non-nil value
+;;
 ;; @see https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Revert.html
-(global-auto-revert-mode           1)
+;;
+(global-auto-revert-mode           t)
 
 ;; Update the vcs info in the modeline when auto revert runs
+;;
+;; @see http://doc.endlessparentheses.com/Var/auto-revert-check-vc-info.html
+;;
 (setq auto-revert-check-vc-info    t)
 
 ;; Disable the "reverting buffer ..." messages
