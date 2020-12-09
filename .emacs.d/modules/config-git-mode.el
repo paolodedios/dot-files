@@ -27,10 +27,17 @@
 ;; Disable the "reverting buffer ..." messages
 (setq auto-revert-verbose        nil)
 
+;; Helper function to generate random number to aid in the
+;; configuration of a per-process auto revert interval.
+(defun random-number-in-range (start end)
+  (+ start (random (+ 1 (- end start)))) )
+
 ;; By default, Auto Revert mode will poll files for changes periodically even when
 ;; file notifications are used. Set file poll interval for 30 seconds to reduce
 ;; CPU utilization.
-(setq auto-revert-interval        30)
+;;
+;; Validate generated interval via (describe-variable VARIABLE)
+(setq auto-revert-interval        (+ 30 (random-number-in-range 0 30)))
 
 ;; Disable polling and rely on filesystem notifications
 (setq auto-revert-avoid-polling    t)
