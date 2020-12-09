@@ -12,13 +12,13 @@
 
 ;; A buffer can get out of sync with respect to its visited file on disk if that
 ;; file is changed by another program. To keep it up to date for all buffers, enable
-;; global-auto-revert-mode with a non-nil value
+;; global-auto-revert-mode with a non-nil value.
 ;;
 ;; @see https://www.gnu.org/software/emacs/manual/html_node/emacs/Auto-Revert.html
 ;;
 (global-auto-revert-mode           t)
 
-;; Update the vcs info in the modeline when auto revert runs
+;; Update the vcs info in the modeline when auto revert runs.
 ;;
 ;; @see http://doc.endlessparentheses.com/Var/auto-revert-check-vc-info.html
 ;;
@@ -27,8 +27,10 @@
 ;; Disable the "reverting buffer ..." messages
 (setq auto-revert-verbose        nil)
 
-;; Set file poll interval for 10 seconds
-;; (setq auto-revert-interval        10)
+;; By default, Auto Revert mode will poll files for changes periodically even when
+;; file notifications are used. Set file poll interval for 30 seconds to reduce
+;; CPU utilization.
+(setq auto-revert-interval        30)
 
 ;; Disable polling and rely on filesystem notifications
 (setq auto-revert-avoid-polling    t)
