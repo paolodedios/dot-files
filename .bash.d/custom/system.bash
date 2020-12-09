@@ -455,15 +455,10 @@ case $OSTYPE in
         export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
 
         # Add the VMware ovftool to the PATH
-        export VMWARE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library/
-        export VMWARE_OVFTOOL_PATH=/Applications/VMware\ OVF\ Tool/
-        export PATH=$PATH:$VMWARE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
-
-        # Add the Matlab command line utils to the PATH
-        export MATLAB_COMMAND_PATH=/Applications/MATLAB_R2014b.app/bin/
-        if [ -e $MATLAB_COMMAND_PATH ] ; then
-            export PATH=$PATH:$MATLAB_COMMAND_PATH
-        fi
+        export VMWARE_PUBLIC_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Public
+        export VMWARE_PRIVATE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library
+        export VMWARE_OVFTOOL_PATH=$VMWARE_PRIVATE_COMMAND_PATH/VMware OVF Tool
+        export PATH=$PATH:$VMWARE_PUBLIC_COMMAND_PATH:$VMWARE_PRIVATE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
 
         # Macports shortcut functions
         function update_macports()
