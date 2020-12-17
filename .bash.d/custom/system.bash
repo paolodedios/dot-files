@@ -460,6 +460,9 @@ case $OSTYPE in
         export VMWARE_OVFTOOL_PATH=$VMWARE_PRIVATE_COMMAND_PATH/VMware OVF Tool
         export PATH=$PATH:$VMWARE_PUBLIC_COMMAND_PATH:$VMWARE_PRIVATE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
 
+        # Alias the docker command to the VMware 12+ vctl wrapper
+        alias docker="vctl"
+
         # Macports shortcut functions
         function update_macports()
         {
