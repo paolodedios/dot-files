@@ -463,6 +463,17 @@ case $OSTYPE in
         # Alias the docker command to the VMware 12+ vctl wrapper
         alias docker="vctl"
 
+        # VMware docker container engine shortcuts
+        function docker_start()
+        {
+            vctl system start
+        }
+
+        function docker_stop()
+        {
+            vctl system stop
+        }
+
         # Macports shortcut functions
         function update_macports()
         {
