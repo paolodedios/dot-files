@@ -464,6 +464,9 @@ case $OSTYPE in
         function docker_start()
         {
             vctl system start
+
+            echo "Enabling KIND..."
+            vctl kind
         }
 
         function docker_stop()
