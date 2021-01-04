@@ -57,6 +57,11 @@
       '("gnutls-cli -p %p --dh-bits=2048 --ocsp --x509cafile=%t \
 --priority='SECURE192:+SECURE128:-VERS-ALL:+VERS-TLS1.2:%%PROFILE_MEDIUM' %h"))
 
+;; Set TLS algorithm priority due to a bug in Emacs.
+;; @see https://debbugs.gnu.org/34341.
+;;
+;; Should be fixed in Emacs 26.3+
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Initialize packages immediately and not after init.el is read post startup

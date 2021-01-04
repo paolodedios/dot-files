@@ -19,12 +19,14 @@
 
 ;; Declare package archive repositories
 (setq package-archives
-      '(("gnu"          . "http://elpa.gnu.org/packages/"      )
-        ("melpa-stable" . "http://stable.melpa.org/packages/"  )
-        ("melpa"        . "http://melpa.org/packages/"         )
+      '(("gnu"          . "https://elpa.gnu.org/packages/"      )
+        ("melpa-stable" . "https://stable.melpa.org/packages/"  )
+        ("melpa"        . "https://melpa.org/packages/"         )
         )
       )
 
+;; Disable GPG signature checking
+(setq package-check-signature   nil)
 
 ;; Declare packages to install and select which repositories
 ;; to source them from.
