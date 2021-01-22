@@ -16,5 +16,5 @@ fi
 #
 # @see https://golang.org/doc/code.html#Workspaces
 #
-export GOPATH=$GO_PROJECT_HOME/Go
+export GOPATH=$GO_PROJECT_HOME/Code/Go
 export PATH=$GOPATH/bin:$PATH
