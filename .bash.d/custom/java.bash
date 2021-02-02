@@ -38,21 +38,23 @@ case $OSTYPE in
     # macOS searches for the Java SDK in /Library/Java/JavaVirtualMachines/
     #
     darwin*)
+        #
         # OpenJDK 11.x
-        # @see https://adoptopenjdk.net/
+        #
+        # @see https://ports.macports.org/port/openjdk11/summary
+        #
         function select_jdk11()
         {
             export JAVA_HOME=$(/usr/libexec/java_home -v 11)
         }
+        #
         # Java SE 8
+        #
+        # @see https://ports.macports.org/port/openjdk8/summary
+        #
         function select_jdk8()
         {
             export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0)
-        }
-        # Java SE 7
-        function select_jdk7()
-        {
-            export JAVA_HOME=$(/usr/libexec/java_home -v 1.7.0)
         }
 
         # Default to Java 11
