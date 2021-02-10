@@ -9,15 +9,15 @@
 ;; Standard Keyboard Commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Notation:
-;;     C-x    means press the control key with for example the x key
-;;     M-x    means press the option key with for example the x key,
-;;            or press the escape key and then x.
+;; Notation
+;;     C-x             means press the control key with for example the x key
+;;     M-x             means press the alt/option key with for example the x key,
+;;                     or press the escape key and then x.
 ;;
 ;; Buffers
-;;     C-x b  changes to a different buffer
-;;     C-x k  kills the current buffer or type in the name of a buffer
-;;            that you want killed
+;;     C-x b           changes to a different buffer
+;;     C-x k           kills the current buffer or type in the name of a buffer
+;;                     that you want killed
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Emacs Windows
@@ -26,8 +26,8 @@
 ;; A window is a division of the current window
 ;;
 ;; To create a new window from the current window
-;;     C-x 2  (horizontally splits the window)
-;;     C-x 3  (vertically splits the window)
+;;     C-x 2           horizontally splits the window
+;;     C-x 3           vertically splits the window
 ;;
 ;; To destroy the window where the current point is
 ;;     C-x 0
@@ -65,34 +65,38 @@
 ;; To move about the current buffer in emacs use the cursor keys.  In emacs
 ;; the cursor is called the "point"
 ;;
-;;     C-p    previous line
-;;     C-n    next line
-;;     C-b    back one character
-;;     M-b    back one word
-;;     C-f    forward one character
-;;     M-f    forward one word
-;;     C-home beginning of line
-;;     C-end  end of line
-;;     C-a    beginning of line
-;;     C-e    end of line
-;;     M-<    beginning of buffer
-;;     M->    end of buffer
+;;     C-p             previous line
+;;     C-n             next line
+;;     C-b             back one character
+;;     M-b             back one word
+;;     C-f             forward one character
+;;     M-f             forward one word
+;;     C-home          beginning of line
+;;     C-end           end of line
+;;     C-a             beginning of line
+;;     C-e             end of line
+;;     M-<             beginning of buffer
+;;     M->             end of buffer
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Other commands
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;     C-s    locate (search within file)
-;;     C-r    search backwards
-;;     C-u    undo
-;;     C-y    yank from kill buffer
+;;     C-s             locate (search within file)
+;;     C-r             search backwards
+;;     C-_             undo
+;;     C-d             delete the character after point (delete-char).
+;;     M-d             kill forward to the end of the next word (kill-word).
+;;     M-BACKSPACE     kill back to the beginning of the previous word (backward-kill-word).
+;;     C-k             kill line from point and place on kill buffer (kill-line)
+;;     C-S-BACKSPACE   kill line from beginning to end (kill-whole-line)
+;;     C-y             yank from kill buffer
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Go to a specific line number
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;;     M-g M-g
-;;       Type in the line number and press return.
+;;     M-g M-g         Type in the line number and press return.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Selecting and Copying Text
@@ -107,7 +111,7 @@
 ;;     C-spacebar
 ;;
 ;; To jump back to where the mark was set from wherever the point may be
-;;     C-x C-x   (Works best when transient-mark-mode is nil)
+;;     C-x C-x         (Works best when transient-mark-mode is nil)
 ;;
 ;; To select a block of text:
 ;;     Go to the start of the block
@@ -166,15 +170,22 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Go to the section of the document where you want the search and replace to start
-;;     Press the escape key and then...
-;;     Type in the text you wish to search for and press return
-;;     Type in the text that should replace the match and press return
+;;     Press M-%
+;; You will then be prompted for your search and replace strings. Emacs will find
+;; and display each occurrence of the search string and ask for further instructions.
+;; You can respond with any of the following options:
 ;;
-;; EMACS now goes through the document looking for matches
+;;     SPACEBAR        replace text and find the next occurrence
+;;     DEL             leave text as is and find the next occurrence
+;;     . (period)      replace text, then stop looking for occurrences
+;;     ! (exclamation) replace all occurrences without asking
+;;     ^ (caret)       return the cursor to previously replaced text
+;;
+;; Emacs now goes through the document looking for matches
 ;;     Press Y to replace each time a match is made,
 ;;     Press N to ingore that match and,
 ;;     Press ! to go through the rest of the document, changing all matches
-;;     without asking you.
+;;     without asking.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell Checking
