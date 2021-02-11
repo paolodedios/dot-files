@@ -18,11 +18,12 @@
 ;;
 (global-auto-revert-mode           t)
 
-;; Update the vcs info in the modeline when auto revert runs.
+;; Update the vcs info in the modeline when auto revert runs. Running this with
+;; any frequency is not good for performance.
 ;;
 ;; @see http://doc.endlessparentheses.com/Var/auto-revert-check-vc-info.html
 ;;
-(setq auto-revert-check-vc-info    t)
+(setq auto-revert-check-vc-info  nil)
 
 ;; Disable the "reverting buffer ..." messages
 (setq auto-revert-verbose        nil)
@@ -62,6 +63,15 @@
 ;; Magit mode hook section, called on entry of magit mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Magit no longer provides a hook that is run in each buffer that visits a
+;; file that is being tracked in the current repository whenever it refreshes
+;; the current Magit buffer. It used to provide such a hook and made use of
+;; it itself, but that was highly inefficient and so it was removed.
+;;
+;; Such a hook could be implemented as follows.
+;;
+;; @see https://github.com/magit/magit/issues/2687
+;; @see https://github.com/magit/magit/wiki/Code-snippets#magit-update-uncommitted-buffer-hook
 (defvar magit--modified-files nil)
 
 (defun magit-maybe-cache-modified-files ()
@@ -72,8 +82,8 @@
   (when (memq 'magit-update-uncommitted-buffers magit-post-refresh-hook)
     (setq magit--modified-files (magit-modified-files t))))
 
-(add-hook 'magit-pre-refresh-hook #'magit-maybe-cache-modified-files)
-(add-hook 'magit-pre-call-git-hook #'magit-maybe-cache-modified-files)
+(add-hook 'magit-pre-refresh-hook   #'magit-maybe-cache-modified-files)
+(add-hook 'magit-pre-call-git-hook  #'magit-maybe-cache-modified-files)
 (add-hook 'magit-pre-start-git-hook #'magit-maybe-cache-modified-files)
 
 (defun magit-update-uncommitted-buffers ()
@@ -91,15 +101,32 @@
         (with-current-buffer it
           (run-hooks 'magit-update-uncommitted-buffer-hook))))))
 
-(add-hook 'magit-post-refresh-hook #'magit-update-uncommitted-buffers)
+(add-hook 'magit-post-refresh-hook  #'magit-update-uncommitted-buffers)
 
-;; Use the magit-update-uncommitted-buffer-hook to update the powerline
-;; git informatiom provided by vc-mode. Cheaper to execute than using the
-;; default vc-mode option
-;;   (setq auto-revert-check-vc-info t)
+;; Magit is not responsible for the version control information that is being
+;; displayed in the mode-line. Emacs' own Version Control package, also known
+;; as VC, displays something like Git-master in the mode-line. When using Magit
+;; (and perhaps when using VC) this information is not always up to date, but
+;; can be told to do so more often:
 ;;
-;; @see https://github.com/magit/magit/issues/2687
-;; @see https://github.com/magit/magit/wiki/magit-update-uncommitted-buffer-hook
+;;  (setq auto-revert-check-vc-info t)
+;;
+;; But doing so isn’t good for performance so consider simply not displaying it in
+;; the mode-line via:
+;;
+;;  (setq-default mode-line-format
+;;              (delete '(vc-mode vc-mode) mode-line-format))
+;;
+;; If up-to-date VC mode-line information is important, but the VC setting
+;; (setq auto-revert-check-vc-info t) is considered too expensive, then add the
+;; above `magit-update-uncommitted-buffer-hook` instead and refresh the VC state
+;; via the the 'magit-update-uncommitted-buffer-hook.
+;;
+;; This approach has the advantage that it doesn't create a constant load on the
+;; cpu. Instead you will likely get a noticeable spike every time you run a Magit
+;; command.
+;;
+;; @see https://github.com/magit/magit/wiki/Code-snippets#updating-vcs-mode-line-information
 ;;
 (add-hook 'magit-update-uncommitted-buffer-hook 'vc-refresh-state)
 
