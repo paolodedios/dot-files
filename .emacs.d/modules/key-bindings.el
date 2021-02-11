@@ -133,16 +133,20 @@
 ;;
 ;; Insert or realign comment on current line; alternatively, comment or uncomment
 ;; the region (comment-dwim).
-;;     M-
+;;     M-;
+;;
+;; Comment or uncomment the current line (comment-line). If the region is active,
+;; comment or uncomment the lines in the region instead.
+;;     C-x C-;
+;;
 ;; Kill comment on current line (comment-kill).
-;;     C-u M-
+;;     C-u M-;
 ;;
 ;; Set comment column (comment-set-column).
 ;;     C-x
 ;;
 ;; Like <RET> followed by inserting and aligning a comment (comment-indent-new-line).
 ;; See Multi-Line Comments.
-;;     C-M-j
 ;;     M-j
 ;;
 ;; Add or remove comment delimiters on all the lines in the region.
@@ -155,11 +159,14 @@
 ;;
 ;; To save the current buffer:
 ;;     C-x and C-s
+;;
 ;; To save the current buffer, but under a new name:
 ;;     C-x C-w
 ;;     Type in the name of the file and press return.
+;;
 ;; To open or create a new buffer:
 ;;     Press C-x and C-f;
+;;
 ;; To insert another file into the current buffer:
 ;;     Go to where you wish the file to be inserted
 ;;     Press C-x and i
@@ -171,10 +178,10 @@
 ;;
 ;; Go to the section of the document where you want the search and replace to start
 ;;     Press M-%
+;;
 ;; You will then be prompted for your search and replace strings. Emacs will find
 ;; and display each occurrence of the search string and ask for further instructions.
 ;; You can respond with any of the following options:
-;;
 ;;     SPACEBAR        replace text and find the next occurrence
 ;;     DEL             leave text as is and find the next occurrence
 ;;     . (period)      replace text, then stop looking for occurrences
