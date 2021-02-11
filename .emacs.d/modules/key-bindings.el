@@ -71,8 +71,6 @@
 ;;     M-b             back one word
 ;;     C-f             forward one character
 ;;     M-f             forward one word
-;;     C-home          beginning of line
-;;     C-end           end of line
 ;;     C-a             beginning of line
 ;;     C-e             end of line
 ;;     M-<             beginning of buffer
@@ -234,17 +232,10 @@
 (define-key global-map [f12]              'goto-line                       )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Home End and Delete keys
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(define-key global-map [(control home)]   'beginning-of-line               )
-(define-key global-map [(control end)]    'end-of-line                     )
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Buffer cleanup, indentation and vertical alignment functions
 ;;
-;; Ctrl-[f1 to f5]  are not mapped since those are mostly mapped by the OS
-;; Ctrl-[f6 to f12] are mapped to functions
+;; Ctrl-[f1 to f5]  are not mapped since those are mostly mapped by the OS.
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-key global-map [(control f5)]     'toggle-margin-to-fill-column    )
@@ -259,8 +250,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Paste c-file-style overrides and copyright notice text
 ;;
-;; Alt-[f1 to f5]  are not mapped since those may be mapped by the OS
-;; Alt-[f6 to f12] are mapped to functions
+;; Alt-[f1 to f5]  are not mapped since those may be mapped by the OS.
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define-key global-map [(alt f6)]         'paste-default-c-file-style      )
