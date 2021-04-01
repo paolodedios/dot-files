@@ -21,9 +21,12 @@
 ;; Update the vcs info in the modeline when auto revert runs. Running this with
 ;; any frequency is not good for performance.
 ;;
+;; Consider only using with the auto-revert-some-buffers-advice function attached
+;; to auto-revert-buffers
+;;
 ;; @see http://doc.endlessparentheses.com/Var/auto-revert-check-vc-info.html
 ;;
-(setq auto-revert-check-vc-info  nil)
+(setq auto-revert-check-vc-info    t)
 
 ;; Disable the "reverting buffer ..." messages
 (setq auto-revert-verbose        nil)
@@ -70,23 +73,23 @@ This filter de-installs itself after this call."
   "Filter the buffers to be auto-reverted through `auto-revert-some-buffers-filter' (which see)."
   (let (ret)
     (if global-auto-revert-mode
-    (unwind-protect
-        (progn
-          (advice-add #'buffer-list :filter-return #'auto-revert-some-buffers-advice--buffer-list)
-          (setq ret (apply oldfun args)))
-      (advice-remove #'buffer-list #'auto-revert-some-buffers-advice--buffer-list) ;; being over-protective
-      )
+        (unwind-protect
+            (progn
+              (advice-add #'buffer-list :filter-return #'auto-revert-some-buffers-advice--buffer-list)
+              (setq ret (apply oldfun args)))
+          (advice-remove #'buffer-list #'auto-revert-some-buffers-advice--buffer-list) ;; being over-protective
+          )
       (let ((old-auto-revert-buffer-list (cl-remove-if-not auto-revert-some-buffers-filter auto-revert-buffer-list))
-        ;; Note: We interpret `auto-revert-remaining-buffers' as transient effect and don't filter this list.
-        deleted-buffers)
-    (let ((auto-revert-buffer-list old-auto-revert-buffer-list))
-      (setq ret (apply oldfun args))
-      (setq deleted-buffers (cl-set-difference old-auto-revert-buffer-list auto-revert-buffer-list)))
-    (setq auto-revert-buffer-list (cl-set-difference auto-revert-buffer-list deleted-buffers))))
-    ret))
+            ;; Note: We interpret `auto-revert-remaining-buffers' as transient effect and don't filter this list.
+            deleted-buffers)
+        (let ((auto-revert-buffer-list old-auto-revert-buffer-list))
+          (setq ret (apply oldfun args))
+          (setq deleted-buffers (cl-set-difference old-auto-revert-buffer-list auto-revert-buffer-list)))
+        (setq auto-revert-buffer-list (cl-set-difference auto-revert-buffer-list deleted-buffers))))
+    ret)
+  )
 
 (advice-add #'auto-revert-buffers :around #'auto-revert-some-buffers-advice)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable git diff indicators in the gutter
