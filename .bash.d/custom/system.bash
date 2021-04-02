@@ -461,7 +461,8 @@ case $OSTYPE in
         export VMWARE_PUBLIC_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Public
         export VMWARE_PRIVATE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library
         export VMWARE_OVFTOOL_PATH=$VMWARE_PRIVATE_COMMAND_PATH/VMware\ OVF\ Tool
-        export PATH=$PATH:$VMWARE_VCTL_ALIASES_PATH:$VMWARE_PUBLIC_COMMAND_PATH:$VMWARE_PRIVATE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
+        export PATH=$PATH:$VMWARE_PUBLIC_COMMAND_PATH:$VMWARE_PRIVATE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
+        export PATH_EX_VCTL_ALIASES=$PATH
 
         # VMware docker container engine shortcuts
         function docker_start()
@@ -472,9 +473,16 @@ case $OSTYPE in
             vctl kind
         }
 
+        function docker_aliases()
+        {
+            export PATH=$VMWARE_VCTL_ALIASES_PATH:$PATH_EX_VCTL_ALIASES
+        }
+
         function docker_stop()
         {
             vctl system stop
+
+            export PATH=$PATH_EX_VCTL_ALIASES
         }
 
         # Macports shortcut functions
