@@ -454,13 +454,8 @@ case $OSTYPE in
         export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
         export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
 
-        # Add the VMware vctl alias to the PATH
+        # Add the VMware kind and ovftool locations to the PATH
         export VMWARE_VCTL_ALIASES_PATH=$HOME/.vctl/bin
-        alias docker="${VMWARE_VCTL_ALIASES_PATH}/docker"
-        alias kind="${VMWARE_VCTL_ALIASES_PATH}/kind"
-        alias kindctl="${VMWARE_VCTL_ALIASES_PATH}/kubectl"
-
-        # Add the VMware ovftool to the PATH
         export VMWARE_PUBLIC_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Public
         export VMWARE_PRIVATE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library
         export VMWARE_OVFTOOL_PATH=$VMWARE_PRIVATE_COMMAND_PATH/VMware\ OVF\ Tool
@@ -471,6 +466,10 @@ case $OSTYPE in
         {
             vctl system start
 
+            alias docker="${VMWARE_VCTL_ALIASES_PATH}/docker"
+            alias kind="${VMWARE_VCTL_ALIASES_PATH}/kind"
+            alias kindctl="${VMWARE_VCTL_ALIASES_PATH}/kubectl"
+
             echo "Enabling KIND..."
             vctl kind
         }
@@ -478,6 +477,10 @@ case $OSTYPE in
         function docker_stop()
         {
             vctl system stop
+
+            unalias docker
+            unalias kind
+            unalias kindctl
         }
 
         # Macports shortcut functions
