@@ -461,26 +461,40 @@ case $OSTYPE in
         export VMWARE_OVFTOOL_PATH=$VMWARE_PRIVATE_COMMAND_PATH/VMware\ OVF\ Tool
         export PATH=$PATH:$VMWARE_PUBLIC_COMMAND_PATH:$VMWARE_PRIVATE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
 
-        # VMware docker container engine shortcuts
-        function docker_start()
-        {
-            vctl system start
+        export VMWARE_CONTAINERD_PID=$(pgrep -f containerd)
 
+        if [ $? -eq 0 ]; then
             alias docker="${VMWARE_VCTL_ALIASES_PATH}/docker"
             alias kind="${VMWARE_VCTL_ALIASES_PATH}/kind"
             alias kindctl="${VMWARE_VCTL_ALIASES_PATH}/kubectl"
+        fi
 
-            echo "Enabling KIND..."
-            vctl kind
+        # VMware docker container engine shortcuts
+        function docker_start()
+        {
+            if [ -z "$VMWARE_CONTAINERD_PID" ]; then
+                vctl system start
+
+                echo "Enabling KIND..."
+                vctl kind
+            fi
         }
 
         function docker_stop()
         {
-            vctl system stop
+            if [ ! -z "$VMWARE_CONTAINERD_PID" ]; then
+                vctl system stop
 
-            unalias docker
-            unalias kind
-            unalias kindctl
+                # Unset aliases and environment variables
+                unalias docker
+                unalias kind
+                unalias kindctl
+
+                unset VMWARE_CONTAINERD_PID
+
+                # Exit shell spawned by vctl
+                exit
+            fi
         }
 
         # Macports shortcut functions
