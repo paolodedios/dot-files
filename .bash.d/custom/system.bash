@@ -449,6 +449,11 @@ alias httpdump="sudo tcpdump -i $NETIF -n -s 0 -w - | grep -a -o -E \"Host\: .*|
 
 case $OSTYPE in
     darwin*)
+        # Disable bash deprecation warning on macOS 11+
+        #
+        # @see https://support.apple.com/en-us/HT208050/
+        export BASH_SILENCE_DEPRECATION_WARNING=1
+
         # Create command alias for lsregister
         export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
         export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/

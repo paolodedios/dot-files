@@ -44,7 +44,7 @@ SCM_THEME_PROMPT_SUFFIX="${bold_green}]${reset_color}"
 
 function emacs_prompt()
 {
-    PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(hg_dirty)$(git_in_repo)$(git_branch_name) \n$ '
+    PS1='\n\u@\h\w $(hg_in_repo)$(hg_branch)$(git_in_repo)$(git_branch_name) \n$ '
 }
 
 function prompt_command()

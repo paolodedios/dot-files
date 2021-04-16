@@ -4,6 +4,11 @@
 #
 ########################################################################################
 
+function git_in_repo()
+{
+    [[ $(git rev-parse --abbrev-ref HEAD 2> /dev/null) ]] && echo "on git:"
+}
+
 # Get current branch name
 function git_branch_name()
 {
