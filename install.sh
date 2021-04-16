@@ -203,6 +203,7 @@ function update_shell()
     check_list "$(_enable-completion gradle)"
     check_list "$(_enable-completion hub)"
     check_list "$(_enable-completion kubectl)"
+    check_list "$(_enable-completion kubectx)"
     check_list "$(_enable-completion makefile)"
     check_list "$(_enable-completion maven)"
     check_list "$(_enable-completion ng)"
