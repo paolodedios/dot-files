@@ -234,6 +234,7 @@ function update_shell()
     check_list "$(_enable-plugin hub)"
     check_list "$(_enable-plugin java)"
     check_list "$(_enable-plugin jenv)"
+    check_list "$(_enable-plugin kube)"
     check_list "$(_enable-plugin nginx)"
     check_list "$(_enable-plugin percol)"
     check_list "$(_enable-plugin pipsi)"

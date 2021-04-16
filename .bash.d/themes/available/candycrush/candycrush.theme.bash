@@ -52,9 +52,11 @@ function prompt_command()
     NODEJS_ENV_NAME=$([[ ! -z $NAVE ]] && echo $NAVENAME || echo "")
     PYTHON_ENV_NAME=$([[ ! -z $VIRTUAL_ENV ]] && echo $(basename $VIRTUAL_ENV) || echo "")
     VMWARE_ENV_NAME=$([[ ! -z $VMWARE_CONTAINERD_PID ]] && echo "containerd" || echo "")
+    KUBE_ENV_INFO=$(_kube_ps1_update_cache; kube_ps1)
 
     # Update the prompt with the virtualenv name
     PS1="\n"`
+       `""$([[ ! -z ${KUBE_ENV_INFO}   ]] && echo "${KUBE_ENV_INFO}${reset_color} "                        || echo "")""`
        `""$([[ ! -z ${NODEJS_ENV_NAME} ]] && echo "${bold_blue}(jsenv: ${NODEJS_ENV_NAME})${reset_color} " || echo "")""`
        `""$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo "${bold_cyan}(pyenv: ${PYTHON_ENV_NAME})${reset_color} " || echo "")""`
        `""$([[ ! -z ${VMWARE_ENV_NAME} ]] && echo "${bold_blue}(virt: ${VMWARE_ENV_NAME})${reset_color} "  || echo "")""`
