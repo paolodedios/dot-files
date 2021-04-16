@@ -135,6 +135,30 @@
 
 (defun configure-emacs ()
   (interactive)
+
+  ;; Inherit $MANPATH, $PATH and exec-path from shell environment, but only
+  ;; when executed in a GUI frame on macOS and Linux.
+  ;;
+  ;; Due to the special way macOS and Linux starts GUI programs a windowed Emacs
+  ;; instance does not inherit the environment variables from the shell configuration.
+  ;; As a result, Emacs will lack some important entries specified in the $PATH, most
+  ;; notably /usr/local/bin/, where many other package managers put binaries in.
+  ;;
+  ;; The exec-path-from-shell works around this issue by extracting environment
+  ;; variables from a shell session and injecting them into the environment of
+  ;; the running Emacs instance.
+  ;;
+  ;; @see https://github.com/purcell/exec-path-from-shell
+  ;;
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)
+    )
+
+  ;; Set path variables when launching Emacs as a daemon from systemd, etc.
+  (when (daemonp)
+    (exec-path-from-shell-initialize)
+    )
+
   ;; Load package configuration files
   (load "modules/functions")
   (load "modules/key-bindings")
