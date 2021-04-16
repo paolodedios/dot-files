@@ -57,7 +57,7 @@ function prompt_command()
     PS1="\n"`
        `""$([[ ! -z ${NODEJS_ENV_NAME} ]] && echo "${bold_blue}(jsenv: ${NODEJS_ENV_NAME})${reset_color} " || echo "")""`
        `""$([[ ! -z ${PYTHON_ENV_NAME} ]] && echo "${bold_cyan}(pyenv: ${PYTHON_ENV_NAME})${reset_color} " || echo "")""`
-       `""$([[ ! -z ${VMWARE_ENV_NAME} ]] && echo "${bold_blue}(virt: ${VMWARE_ENV_NAME})${reset_color} " || echo "")""`
+       `""$([[ ! -z ${VMWARE_ENV_NAME} ]] && echo "${bold_blue}(virt: ${VMWARE_ENV_NAME})${reset_color} "  || echo "")""`
        `"${bold_red}\u${bold_white}${THEME_USER_HOST_SEP}${bold_purple}\h${bold_white}${THEME_HOST_PATH_SEP}${bold_yellow}\w${reset_color} "`
        `"$(scm_prompt_char_info)${reset_color} \n\$ "
 }
