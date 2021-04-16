@@ -1,7 +1,7 @@
 cite about-plugin
 about-plugin 'git helper functions'
 
-function git_remote {
+function git_remote() {
   about 'adds remote $GIT_HOSTING:$1 to current repo'
   group 'git'
 
@@ -9,7 +9,7 @@ function git_remote {
   git remote add origin $GIT_HOSTING:$1.git
 }
 
-function git_first_push {
+function git_first_push() {
   about 'push into origin refs/heads/master'
   group 'git'
 
@@ -227,7 +227,7 @@ function gitignore-reload() {
   example '$ gitignore-reload'
 
     # The .gitignore file should not be reloaded if there are uncommited changes.
-  # Firstly, require a clean work tree. The function require_clean_work_tree() 
+  # Firstly, require a clean work tree. The function require_clean_work_tree()
   # was stolen with love from https://www.spinics.net/lists/git/msg142043.html
 
   # Begin require_clean_work_tree()
@@ -273,5 +273,3 @@ function gitignore-reload() {
     echo >&2 "Files readded. Commit your new changes now."
   fi
 }
-
-
