@@ -151,11 +151,19 @@
   ;; @see https://github.com/purcell/exec-path-from-shell
   ;;
   (when (memq window-system '(mac ns x))
+    ;; Set exec-path-from-shell-arguments to nil before calling exec-path-from-shell-initialize
+    ;; so that it will start a non-interactive shell.
+    (setq exec-path-from-shell-arguments  nil)
+    ;; Execute routine to inherit shell variables
     (exec-path-from-shell-initialize)
     )
 
-  ;; Set path variables when launching Emacs as a daemon from systemd, etc.
+  ;; Set shell environment variables when launching Emacs as a daemon from systemd, etc.
   (when (daemonp)
+    ;; Set exec-path-from-shell-arguments to nil before calling exec-path-from-shell-initialize
+    ;; so that it will start a non-interactive shell.
+    (setq exec-path-from-shell-arguments  nil)
+    ;; Execute routine to inherit shell variables
     (exec-path-from-shell-initialize)
     )
 
