@@ -14,7 +14,6 @@
 #
 # @see https://github.com/jonmosco/kube-ps1
 #
-# BASH_IT_LOAD_PRIORITY: 375
 
 cite about-plugin
 about-plugin 'kubernetes related helper functions and shell customization'
