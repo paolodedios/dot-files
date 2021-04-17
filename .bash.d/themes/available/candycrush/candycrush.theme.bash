@@ -39,6 +39,16 @@ SCM_THEME_PROMPT_PREFIX="${bold_green}"
 SCM_THEME_PROMPT_SUFFIX="${bold_green}]${reset_color}"
 
 ########################################################################################
+# Set theme variables for the kube plugin
+########################################################################################
+
+KUBE_PS1_SYMBOL_DEFAULT="k8s"
+KUBE_PS1_SYMBOL_PADDING="false"
+KUBE_PS1_SEPARATOR=": "
+KUBE_PS1_DIVIDER="/"
+KUBE_PS1_CTX_COLOR="magenta"
+
+########################################################################################
 # Prompt Generators
 ########################################################################################
 
