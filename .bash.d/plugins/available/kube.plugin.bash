@@ -101,10 +101,16 @@ _kube_ps1_color_fg() {
     elif [[ "${KUBE_PS1_SHELL}" == "zsh" ]]; then
         KUBE_PS1_FG_CODE="%F{$KUBE_PS1_FG_CODE}"
     elif [[ "${KUBE_PS1_SHELL}" == "bash" ]]; then
-        if tput setaf 1 &> /dev/null; then
+        if [[ $KUBE_PS1_FG_CODE -ge 0 ]] && [[ $KUBE_PS1_FG_CODE -le 256 ]]; then
+            #
+            # Original color output causes problems with theme
+            # implementation. Modified color codes match usage.
+            #
+            # KUBE_PS1_FG_CODE="\033[38;5;${KUBE_PS1_FG_CODE}m"
+            #
+            KUBE_PS1_FG_CODE="\033[0;3${KUBE_PS1_FG_CODE}m"
+        elif tput setaf 1 &> /dev/null; then
             KUBE_PS1_FG_CODE="$(tput setaf ${KUBE_PS1_FG_CODE})"
-        elif [[ $KUBE_PS1_FG_CODE -ge 0 ]] && [[ $KUBE_PS1_FG_CODE -le 256 ]]; then
-            KUBE_PS1_FG_CODE="\033[38;5;${KUBE_PS1_FG_CODE}m"
         else
             KUBE_PS1_FG_CODE="${_KUBE_PS1_DEFAULT_FG}"
         fi
@@ -134,10 +140,10 @@ _kube_ps1_color_bg() {
     elif [[ "${KUBE_PS1_SHELL}" == "zsh" ]]; then
         KUBE_PS1_BG_CODE="%K{$KUBE_PS1_BG_CODE}"
     elif [[ "${KUBE_PS1_SHELL}" == "bash" ]]; then
-        if tput setaf 1 &> /dev/null; then
-            KUBE_PS1_BG_CODE="$(tput setab ${KUBE_PS1_BG_CODE})"
-        elif [[ $KUBE_PS1_BG_CODE -ge 0 ]] && [[ $KUBE_PS1_BG_CODE -le 256 ]]; then
+        if [[ $KUBE_PS1_BG_CODE -ge 0 ]] && [[ $KUBE_PS1_BG_CODE -le 256 ]]; then
             KUBE_PS1_BG_CODE="\033[48;5;${KUBE_PS1_BG_CODE}m"
+        elif tput setaf 1 &> /dev/null; then
+            KUBE_PS1_BG_CODE="$(tput setab ${KUBE_PS1_BG_CODE})"
         else
             KUBE_PS1_BG_CODE="${DEFAULT_BG}"
         fi
