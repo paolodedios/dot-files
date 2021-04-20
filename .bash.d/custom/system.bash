@@ -498,6 +498,7 @@ case $OSTYPE in
                 unset VMWARE_CONTAINERD_PID
 
                 # Exit shell spawned by vctl
+                echo "Exiting VMware vctl shell..."
                 exit
             fi
         }
