@@ -531,6 +531,18 @@ case $OSTYPE in
         # Add tab completion for `defaults read|write NSGlobalDomain`
         # You could just use `-g` instead, but I like being explicit
         complete -W "NSGlobalDomain" defaults
+
+        #
+        # Configure Chia blockchain comand line
+        #
+        # @see https://github.com/Chia-Network/chia-blockchain/wiki/CLI-Commands-Reference
+        #
+        CHIA_ROOT_DIRECTORY=/Applications/Chia.app/Contents/Resources/app.asar.unpacked/daemon
+
+        if [ -f "$CHIA_ROOT_DIRECTORY/chia" ]; then
+            export PATH=$PATH:$CHIA_ROOT_DIRECTORY
+        fi
+
         ;;
 
     linux*)
