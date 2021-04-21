@@ -88,8 +88,8 @@ alias du1='du -h -d 1'
 
 case $OSTYPE in
     linux*)
-        # Linux only, filter out tmpfs mounts using GNU 'df'
-        alias dfs='df -h -x tmpfs | grep -v ^none | (read header; echo "$header" ; sort -r -k 7 -i)'
+        # Linux only, filter out tmpfs and overlay mounts using GNU 'df'
+        alias dfs='df -h -x tmpfs | grep -v ^overlay | grep -v ^none | (read header; echo "$header" ; sort -k 7 -i)'
         ;;
 esac
 
