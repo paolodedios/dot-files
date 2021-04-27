@@ -97,7 +97,7 @@ done
 # Load global custom configurations and overrides
 ########################################################################################
 
-BASH_IT_CUSTOM_FILES="${BASH_IT_CUSTOM:=${BASH_IT}/custom}/*.bash ${BASH_IT_CUSTOM:=${BASH_IT}/custom}/**/*.bash"
+BASH_IT_CUSTOM_FILES="${BASH_IT_CUSTOM:=${BASH_IT}/custom}/*.bash"
 for config_file in $BASH_IT_CUSTOM_FILES; do
     if [ -e "${config_file}" ]; then
         # shellcheck disable=SC1090
