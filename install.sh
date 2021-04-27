@@ -222,7 +222,6 @@ function update_shell()
     check_list "$(_enable-plugin autoenv)"
     check_list "$(_enable-plugin aws)"
     check_list "$(_enable-plugin docker-compose)"
-    check_list "$(_enable-plugin docker-machine)"
     check_list "$(_enable-plugin docker)"
     check_list "$(_enable-plugin explain)"
     check_list "$(_enable-plugin extract)"
