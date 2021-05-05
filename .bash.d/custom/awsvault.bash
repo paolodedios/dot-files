@@ -101,6 +101,25 @@ function awsve()
         $@
 }
 
+#
+# Set the CHAMBER_KMS_KEY_ALIS to the specified string argument.
+#
+function chmbre_key()
+{
+    if ! ensure_aws_vault_tools; then
+        return 1
+    fi
+
+    if [ -z $1 ]; then
+        echo "Removing custom chamber KMS key..."
+
+        unset CHAMBER_KMS_KEY_ALIAS
+    else
+        echo "Using chamber KMS key : ${1}"
+
+        export CHAMBER_KMS_KEY_ALIAS=$1
+    fi
+}
 
 #
 # Launch chamber vis-a-vis aws-vault
