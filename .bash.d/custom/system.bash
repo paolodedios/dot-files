@@ -6,7 +6,9 @@
 
 
 ########################################################################################
+#
 # File & string-related functions
+#
 ########################################################################################
 
 # Simulate the 'cd' command using 'pushd'
@@ -212,7 +214,9 @@ function unique()
 
 
 ########################################################################################
+#
 # Text encoding helpers
+#
 ########################################################################################
 
 # Escape UTF-8 characters into their 3-byte format
@@ -238,7 +242,9 @@ function codepoint()
 
 
 ########################################################################################
+#
 # Image helpers
+#
 ########################################################################################
 
 # Image width
@@ -254,7 +260,9 @@ function height ()
 }
 
 ########################################################################################
+#
 # Internet/web helpers
+#
 ########################################################################################
 
 # Syntax-highlight JSON strings or files
@@ -336,7 +344,9 @@ function digall()
 }
 
 ########################################################################################
+#
 # Process/system related functions
+#
 ########################################################################################
 
 function pss()
@@ -383,7 +393,9 @@ function profileme()
 }
 
 ########################################################################################
+#
 # Misc utilities
+#
 ########################################################################################
 
 # Repeat command n times
@@ -403,7 +415,9 @@ function timer()
 }
 
 ########################################################################################
+#
 # Show definition of function $1
+#
 ########################################################################################
 
 function showdef()
@@ -417,21 +431,27 @@ function showfuns()
 }
 
 ########################################################################################
+#
 # Host file editing aliases
+#
 ########################################################################################
 
 alias hostedit="sudo vim ${SYS_HOSTFILE}"
 alias myhostedit="vim ${MY_HOSTFILE}"
 
 ########################################################################################
+#
 # Directory navigation; @see .bash_marks
+#
 ########################################################################################
 
 # Alias the builtin cd command
 alias bcd="builtin cd"
 
 ########################################################################################
+#
 # Networking related aliases
+#
 ########################################################################################
 
 # Ping and netstat abbreviations
@@ -444,7 +464,9 @@ alias sniff="sudo ngrep -d '$NETIF' -t '^(GET|POST) ' 'tcp and port 80'"
 alias httpdump="sudo tcpdump -i $NETIF -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 ########################################################################################
-# Define OS specific functions
+#
+# Define OS specific variables and functions
+#
 ########################################################################################
 
 case $OSTYPE in
@@ -458,50 +480,6 @@ case $OSTYPE in
         export CORE_SERVICES_PATH=/System/Library/Frameworks/CoreServices.framework
         export LAUNCH_SERVICES_PATH=Versions/A/Frameworks/LaunchServices.framework/Versions/A/Support/
         export LS_REGISTER_PATH=$CORE_SERVICES_PATH/$LAUNCH_SERVICES_PATH
-
-        # Add the VMware kind and ovftool locations to the PATH
-        export VMWARE_VCTL_ALIASES_PATH=$HOME/.vctl/bin
-        export VMWARE_PUBLIC_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Public
-        export VMWARE_PRIVATE_COMMAND_PATH=/Applications/VMware\ Fusion.app/Contents/Library
-        export VMWARE_OVFTOOL_PATH=$VMWARE_PRIVATE_COMMAND_PATH/VMware\ OVF\ Tool
-        export PATH=$PATH:$VMWARE_PUBLIC_COMMAND_PATH:$VMWARE_PRIVATE_COMMAND_PATH:$VMWARE_OVFTOOL_PATH
-
-        export VMWARE_CONTAINERD_PID=$(pgrep -f containerd)
-
-        if [ $? -eq 0 ]; then
-            alias docker="${VMWARE_VCTL_ALIASES_PATH}/docker"
-            alias kind="${VMWARE_VCTL_ALIASES_PATH}/kind"
-            alias kindctl="${VMWARE_VCTL_ALIASES_PATH}/kubectl"
-        fi
-
-        # VMware docker container engine shortcuts
-        function docker_start()
-        {
-            if [ -z "$VMWARE_CONTAINERD_PID" ]; then
-                vctl system start
-
-                echo "Enabling KIND..."
-                vctl kind
-            fi
-        }
-
-        function docker_stop()
-        {
-            if [ ! -z "$VMWARE_CONTAINERD_PID" ]; then
-                vctl system stop
-
-                # Unset aliases and environment variables
-                unalias docker
-                unalias kind
-                unalias kindctl
-
-                unset VMWARE_CONTAINERD_PID
-
-                # Exit shell spawned by vctl
-                echo "Exiting VMware vctl shell..."
-                exit
-            fi
-        }
 
         # Macports shortcut functions
         function update_macports()
@@ -531,18 +509,6 @@ case $OSTYPE in
         # Add tab completion for `defaults read|write NSGlobalDomain`
         # You could just use `-g` instead, but I like being explicit
         complete -W "NSGlobalDomain" defaults
-
-        #
-        # Configure Chia blockchain comand line
-        #
-        # @see https://github.com/Chia-Network/chia-blockchain/wiki/CLI-Commands-Reference
-        #
-        CHIA_ROOT_DIRECTORY=/Applications/Chia.app/Contents/Resources/app.asar.unpacked/daemon
-
-        if [ -f "$CHIA_ROOT_DIRECTORY/chia" ]; then
-            export PATH=$PATH:$CHIA_ROOT_DIRECTORY
-        fi
-
         ;;
 
     linux*)

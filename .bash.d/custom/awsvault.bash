@@ -18,7 +18,12 @@
 function ensure_aws_vault_tools()
 {
     if [ ! $(type -p aws-vault) ]; then
-        error "Missing aws-vault executable."
+        error "Missing executable : aws-vault"
+        return 1
+    fi
+
+    if [ ! $(type -p chamber) ]; then
+        error "Missing executable : chamber"
         return 1
     fi
 }
