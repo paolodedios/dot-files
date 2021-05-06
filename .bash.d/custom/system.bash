@@ -223,21 +223,24 @@ function unique()
 function escape()
 {
 	printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
-	echo # newline
+    # newline
+	echo
 }
 
 # Decode \x{ABCD}-style Unicode escape sequences
 function unidecode()
 {
 	perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
-	echo # newline
+    # newline
+	echo
 }
 
 # Get a character's Unicode code point
 function codepoint()
 {
 	perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
-	echo # newline
+    # newline
+	echo
 }
 
 
@@ -250,13 +253,13 @@ function codepoint()
 # Image width
 function width ()
 {
-  echo $(sips -g pixelWidth $1 | grep -oE "[[:digit:]]{1,}$")
+    echo $(sips -g pixelWidth $1 | grep -oE "[[:digit:]]{1,}$")
 }
 
 # Image height
 function height ()
 {
-  echo $(sips -g pixelHeight $1 | grep -oE "[[:digit:]]{1,}$")
+    echo $(sips -g pixelHeight $1 | grep -oE "[[:digit:]]{1,}$")
 }
 
 ########################################################################################
