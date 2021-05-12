@@ -57,3 +57,49 @@ function error_list()
 {
     echo -e "\033[1;31m ✖\033[0m $1";
 }
+
+########################################################################################
+#
+# Version check functions
+#
+# One line version check: bash_require_version_4_0 || return $?
+#
+########################################################################################
+
+function bash_require_version_4_0()
+{
+    #
+    # Bash 4.0 required for features such as 'readarray'
+    #
+    if [ $(( ${BASH_VERSINFO[0]:-0} * 10 + ${BASH_VERSINFO[1]:-0})) -lt 40 ] ; then
+        error "Bash 4.0+ required shell command. Current shell is Bash '$BASH_VERSION'."
+        return 1
+    fi
+}
+
+function bash_require_version_4_3()
+{
+    #
+    # Bash 4.3 required when declaring local variables as an array or associative array and
+    # pass to functions by reference, or when declaring local variables as a named reference
+    # of caller arguments for arrays and associative arrays.
+    #
+    # @see https://mywiki.wooledge.org/BashFAQ/048#The_problem_with_bash.27s_name_references
+    #
+    if [ $(( ${BASH_VERSINFO[0]:-0} * 10 + ${BASH_VERSINFO[1]:-0})) -lt 43 ] ; then
+        error "Bash 4.3+ required shell command. Current shell is Bash '$BASH_VERSION'."
+        return 1
+    fi
+}
+
+function bash_require_version_5_0()
+{
+    #
+    # Bash 5.0 required to for nameref name resolution loop in a function to
+    # resolve to a variable by that name in the global scope
+    #
+    if [ $(( ${BASH_VERSINFO[0]:-0} * 10 + ${BASH_VERSINFO[1]:-0})) -lt 50 ] ; then
+        error "Bash 5.0+ required shell command. Current shell is Bash '$BASH_VERSION'."
+        return 1
+    fi
+}
