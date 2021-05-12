@@ -308,6 +308,11 @@ function describe_ecr_repository()
 function process_command_line()
 {
     #
+    # Process command line arguments. Requires Bash 4.0.
+    #
+    bash_require_version_4_0 || return $?
+
+    #
     # Clear optionals and positionals global variables.
     #
     unset optionals
