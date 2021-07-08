@@ -165,6 +165,7 @@
                                       "float"
                                       "double"
                                       "void"
+                                      "var"
                                       )
                                     )
                         )
